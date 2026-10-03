@@ -53,7 +53,7 @@ impl App {
         let in_filter = self.tab > 0
             && self
                 .tile_ref(self.target_index())
-                .is_some_and(Tile::is_file_filter);
+                .is_some_and(Tile::is_filter);
         if in_filter {
             return "n/N step through matches · Tab, G: main pane back to live · ? help · q back"
                 .to_string();

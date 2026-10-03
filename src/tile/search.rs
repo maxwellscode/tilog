@@ -20,9 +20,18 @@ pub enum Find {
     Previous,
 }
 
-/// Where `step_match` landed: the entry's place in the file.
+/// Where an entry of a filter lies in the source it was made from.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum Link {
+    /// A byte offset in a file.
+    Offset(u64),
+    /// The sequence number of a line of a command's output, or of a merged timeline.
+    Seq(u64),
+}
+
+/// Where `step_match` landed: the entry's place in the source.
 pub struct MatchStep {
-    pub offset: u64,
+    pub at: Link,
     pub rows: usize,
     /// Position among the matches, and how many there are.
     pub index: usize,
@@ -86,7 +95,6 @@ impl Tile {
         Some(wrapped)
     }
 
-    /// Is this a filter over a file, whose matches `step_match` can walk through?
     /// The row the last search jumped to (it may be off screen, or from an older search).
     pub fn match_row(&self) -> Option<u64> {
         self.match_row
@@ -106,41 +114,81 @@ impl Tile {
         Some(wrapped)
     }
 
-    pub fn is_file_filter(&self) -> bool {
-        matches!(self.content, Content::Filter(_))
+    /// Is this a filter, whose entries `n` / `N` can walk through and the main tile can follow?
+    pub fn is_filter(&self) -> bool {
+        matches!(self.content, Content::Filter(_) | Content::StreamFilter(_))
     }
 
-    /// Rows to draw highlighted: the match `n` / `N` is at (in a file filter, among its rows; in
-    /// the main tile, the place the filter brought it to).
+    /// Rows to draw highlighted: the entry `n` / `N` is at (in a filter, among its rows; in the
+    /// main tile, the place the filter brought it to).
     pub fn marked_rows(&self) -> Option<Range<u64>> {
         match &self.content {
             Content::Filter(view) => view.current_rows().or_else(|| self.marked.clone()),
+            Content::StreamFilter(view) => view.current_rows().or_else(|| self.marked.clone()),
             _ => self.marked.clone(),
         }
     }
 
-    /// File filters: moves to the next (`forward`) or previous match, shows it in the filter's
-    /// own pane, and returns where it is in the file, so the main tile can show it too.
+    /// Filters: moves to the next (`forward`) or previous entry, shows it in the filter's own
+    /// pane, and returns where it is in the source, so the main tile can show it too.
     pub fn step_match(&mut self, forward: bool, height: usize) -> Option<MatchStep> {
         let anchor = self.top_seq(height);
-        let Content::Filter(view) = &mut self.content else {
-            return None;
+        let (index, wrapped, at, rows, first, total) = match &mut self.content {
+            Content::Filter(view) => {
+                let (index, wrapped) = view.step(forward, anchor)?;
+                let (offset, rows) = view.entry(index);
+                (
+                    index,
+                    wrapped,
+                    Link::Offset(offset),
+                    rows,
+                    view.first_row(index),
+                    view.len(),
+                )
+            }
+            Content::StreamFilter(view) => {
+                let (index, wrapped) = view.step(forward, anchor)?;
+                let (seq, rows) = view.entry(index);
+                (
+                    index,
+                    wrapped,
+                    Link::Seq(seq),
+                    rows,
+                    view.first_row(index),
+                    view.kept(),
+                )
+            }
+            _ => return None,
         };
-        let (index, wrapped) = view.step(forward, anchor)?;
-        let (offset, rows) = view.entry(index);
-        let (first, total) = (view.first_row(index), view.len());
         let last = first + rows as u64;
-        let top = self.view.top(&*view, height);
+        let top = self.view.top(self.content.lines(), height);
         if first < top || last > top + height as u64 {
             self.view.jump_to(first.saturating_sub(height as u64 / 3));
         }
         Some(MatchStep {
-            offset,
+            at,
             rows,
             index,
             total,
             wrapped,
         })
+    }
+
+    /// Filters: where the entry that contains the row the last search jumped to lies in the
+    /// source, and how many lines it has.
+    pub fn link_of_match_row(&self) -> Option<(Link, usize)> {
+        let row = self.match_row?;
+        match &self.content {
+            Content::Filter(view) => {
+                let (offset, rows) = view.entry(view.entry_of_row(row)?);
+                Some((Link::Offset(offset), rows))
+            }
+            Content::StreamFilter(view) => {
+                let (seq, rows) = view.entry(view.entry_of_row(row)?);
+                Some((Link::Seq(seq), rows))
+            }
+            _ => None,
+        }
     }
 }
 

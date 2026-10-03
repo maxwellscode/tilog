@@ -364,3 +364,125 @@ fn messages_fade_after_a_while_and_errors_last_longer() {
     app.expire_notice(after(6));
     assert!(app.notice.is_none(), "but not after 5 s");
 }
+
+#[test]
+fn a_session_leaves_out_standard_input_and_keeps_the_positions_right() {
+    let (dir, paths) = logs("stdinsession", 2);
+    let mut app = App::new();
+    app.add_path(&paths[0]).unwrap();
+    app.sources.push(Source::fake_stdin()); // second in the list
+    app.add_path(&paths[1]).unwrap(); // third
+    app.run_command_line("merge 1 3");
+    assert_eq!(app.sources.len(), 4);
+
+    app.tab = 3; // the log that comes after the pipe
+    app.selected = 2;
+    let session = app.snapshot();
+    let saved: Vec<&str> = session.sources.iter().map(|s| s.path.as_str()).collect();
+    assert_eq!(saved.len(), 3, "{saved:?}");
+    assert!(!saved.contains(&"-"), "the pipe is not saved");
+    assert_eq!(
+        saved[2], "merge:0,1",
+        "the members are the two logs, counted without the pipe"
+    );
+    assert_eq!(
+        session.tab, 2,
+        "tab 3 was the second log, which is now the second tab"
+    );
+    assert_eq!(session.selected, 1);
+
+    // On the pipe itself there is nothing to come back to: the overview.
+    app.tab = 2;
+    assert_eq!(app.snapshot().tab, 0);
+    std::fs::remove_dir_all(&dir).unwrap();
+}
+
+/// A source that is a command whose output is `lines`, with its main tile filled.
+fn stream_source(app: &mut App, lines: &[String]) {
+    let mut source = Source::fake_stdin();
+    source.tile_mut(0).unwrap().push_for_test(lines);
+    app.sources.push(source);
+}
+
+#[test]
+fn n_in_a_filter_of_a_stream_moves_the_main_pane_and_a_search_does_too() {
+    let mut app = App::new();
+    let lines: Vec<String> = (0..200)
+        .map(|i| match i {
+            40 => "2026-10-03 08:00:00 INFO needle alpha".to_string(),
+            150 => "2026-10-03 08:00:00 INFO needle beta".to_string(),
+            _ => format!("2026-10-03 08:00:00 INFO filler {i}"),
+        })
+        .collect();
+    stream_source(&mut app, &lines);
+    app.tab = 1;
+    app.run_command_line("filter needle");
+    let areas = app.areas(Rect::new(0, 0, 120, 30));
+    let press = |app: &mut App, ch: char| {
+        app.on_key(KeyEvent::new(KeyCode::Char(ch), KeyModifiers::NONE), &areas);
+    };
+    let main_shows = |app: &App, text: &str| {
+        app.tile_ref(0)
+            .unwrap()
+            .visible(areas.tile_height(0))
+            .iter()
+            .any(|row| row.ends_with(text))
+    };
+    assert_eq!(app.target_index(), 1, "the new filter is focused");
+
+    // Without a search, `n` steps through the filter's entries and the main pane follows.
+    press(&mut app, 'n');
+    assert!(main_shows(&app, "needle alpha"));
+    press(&mut app, 'n');
+    assert!(main_shows(&app, "needle beta"));
+    press(&mut app, 'N');
+    assert!(main_shows(&app, "needle alpha"));
+
+    // With a search on, `n` goes to the next hit in the filter pane, and the main pane follows.
+    app.highlight = Some(Highlight::literal("beta"));
+    press(&mut app, 'n');
+    assert!(main_shows(&app, "needle beta"));
+}
+
+#[test]
+fn a_search_in_a_file_filter_pane_also_moves_the_main_pane() {
+    let dir = std::env::temp_dir().join(format!("tilog-app-fsearch-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let path = dir.join("big.log").to_string_lossy().into_owned();
+    let content: String = (0..20_000)
+        .map(|i| match i {
+            100 => "WARN disk almost full on sda1\n".to_string(),
+            200 => "WARN disk almost full on sdb1\n".to_string(),
+            _ => format!("2026-10-03 08:00:00 INFO filler {i}\n"),
+        })
+        .collect();
+    std::fs::write(&path, content).unwrap();
+    let mut app = App::new();
+    app.add_path(&path).unwrap();
+    app.tab = 1;
+    app.run_command_line("filter WARN");
+    let areas = app.areas(Rect::new(0, 0, 120, 30));
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(3);
+    while app.tile_ref(1).and_then(Tile::matches) != Some(2) {
+        assert!(
+            std::time::Instant::now() < deadline,
+            "the filter found nothing"
+        );
+        app.pump_sources();
+        std::thread::sleep(std::time::Duration::from_millis(10));
+    }
+    app.highlight = Some(Highlight::literal("sdb1"));
+    app.on_key(
+        KeyEvent::new(KeyCode::Char('n'), KeyModifiers::NONE),
+        &areas,
+    );
+
+    let main = app.tile_ref(0).unwrap();
+    assert!(main.is_history_view());
+    assert!(
+        main.visible(areas.tile_height(0))
+            .iter()
+            .any(|row| row.ends_with("sdb1"))
+    );
+    std::fs::remove_dir_all(&dir).unwrap();
+}

@@ -323,7 +323,7 @@ mod tests {
     fn raw(command: &str) -> CommandSpec {
         match SourceSpec::parse(&format!("cmd:{command}")).unwrap() {
             SourceSpec::Command(spec) => spec,
-            SourceSpec::File(_) | SourceSpec::Merged => unreachable!(),
+            SourceSpec::File(_) | SourceSpec::Merged | SourceSpec::Stdin => unreachable!(),
         }
     }
 
@@ -434,7 +434,7 @@ mod tests {
         // `sh` exists, but the spec below runs a program that doesn't: use a docker-less path.
         let spec = match SourceSpec::parse("docker:x").unwrap() {
             SourceSpec::Command(spec) => spec,
-            SourceSpec::File(_) | SourceSpec::Merged => unreachable!(),
+            SourceSpec::File(_) | SourceSpec::Merged | SourceSpec::Stdin => unreachable!(),
         };
         // Only meaningful where docker is not installed; there the source must end at once.
         if std::process::Command::new("docker")

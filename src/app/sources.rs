@@ -8,6 +8,7 @@ use crate::theme::Theme;
 use anyhow::Result;
 use anyhow::bail;
 use std::collections::HashMap;
+use std::mem;
 
 impl App {
     /// Opens a source and selects it on the overview. `text` is a file, `ssh:host:/path`,
@@ -64,7 +65,12 @@ impl App {
     pub fn load_session(&mut self, name: &str) -> Result<()> {
         let session = Session::load(name)?;
 
-        let mut sources: Vec<Source> = Vec::new();
+        // Standard input can't be reopened from a session: what was piped in stays open, first.
+        let (mut sources, rest): (Vec<Source>, Vec<Source>) = mem::take(&mut self.sources)
+            .into_iter()
+            .partition(Source::is_stdin);
+        drop(rest);
+        let kept = sources.len();
         let mut problems = Vec::new();
         // Where each saved source ended up, for merged timelines to find their members. They
         // are built last, because their members must exist first.
@@ -118,8 +124,13 @@ impl App {
 
         // Assigning drops the old sources; their threads stop by themselves.
         self.sources = sources;
-        self.tab = session.tab.min(self.sources.len());
-        self.selected = session.selected.min(self.sources.len().saturating_sub(1));
+        // The saved positions count the sources of the session; the kept ones come before them.
+        self.tab = if session.tab == 0 {
+            0
+        } else {
+            (session.tab + kept).min(self.sources.len())
+        };
+        self.selected = (session.selected + kept).min(self.sources.len().saturating_sub(1));
         self.session_name = Some(name.to_string());
 
         match problems.first() {
@@ -144,8 +155,13 @@ impl App {
     }
 
     pub(super) fn snapshot(&self) -> Session {
-        let sources = self
+        // Standard input is not saved: a session can't bring the pipe back.
+        let saved: Vec<&Source> = self
             .sources
+            .iter()
+            .filter(|source| !source.is_stdin())
+            .collect();
+        let sources = saved
             .iter()
             .map(|source| {
                 let mut state = source.to_state();
@@ -155,7 +171,7 @@ impl App {
                     let positions: Vec<String> = source
                         .members()
                         .iter()
-                        .filter_map(|id| self.sources.iter().position(|s| s.id() == *id))
+                        .filter_map(|id| saved.iter().position(|s| s.id() == *id))
                         .map(|position| position.to_string())
                         .collect();
                     state.path = format!("merge:{}", positions.join(","));
@@ -163,9 +179,18 @@ impl App {
                 state
             })
             .collect();
+        // The tab and the selection are positions in the list: find them in the saved one.
+        let position_of = |index: usize| {
+            let id = self.sources.get(index)?.id();
+            saved.iter().position(|source| source.id() == id)
+        };
         Session {
-            tab: self.tab,
-            selected: self.selected,
+            tab: self
+                .tab
+                .checked_sub(1)
+                .and_then(position_of)
+                .map_or(0, |p| p + 1),
+            selected: position_of(self.selected).unwrap_or(0),
             sources,
         }
     }

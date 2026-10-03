@@ -7,6 +7,7 @@ use crate::buffer::RingBuffer;
 use crate::history;
 use crate::lines::Lines;
 
+use super::search::Link;
 use super::{Content, Tile};
 
 /// How many older lines are read from disk each time the user scrolls above the oldest one.
@@ -129,6 +130,27 @@ impl Tile {
                 ..
             }
         )
+    }
+
+    /// Main tile: shows the entry of a filter that is at `at` in this source (`rows` lines).
+    /// `false` if it can't be shown.
+    pub fn show_link(&mut self, at: Link, rows: usize, height: usize) -> bool {
+        match at {
+            Link::Offset(offset) => self.show_offset(offset, rows, height),
+            Link::Seq(seq) => self.show_seq(seq, rows, height),
+        }
+    }
+
+    /// Main tile of a command or a timeline: shows the lines that start at sequence number `seq`,
+    /// marked. `false` if they are no longer held (the buffer is bounded).
+    fn show_seq(&mut self, seq: u64, rows: usize, height: usize) -> bool {
+        let lines = self.content.lines();
+        if !(lines.first_seq()..lines.end_seq()).contains(&seq) {
+            return false;
+        }
+        self.show_row(seq, height);
+        self.marked = Some(seq..seq + rows as u64);
+        true
     }
 
     /// Main tile of a file: shows the entry starting at byte `offset` (`rows` lines), with

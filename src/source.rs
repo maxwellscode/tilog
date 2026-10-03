@@ -81,15 +81,37 @@ impl Source {
             SourceSpec::Command(command) => {
                 (Tile::stream(command.clone(), MAX_LINES), command.name())
             }
+            SourceSpec::Stdin => (Tile::stdin(MAX_LINES)?, "stdin".to_string()),
             SourceSpec::Merged => bail!("a merged timeline is made with :merge"),
         };
+        // Standard input has no path to show; the others are shown as they are typed.
+        let shown = match spec {
+            SourceSpec::Stdin => "stdin".to_string(),
+            _ => spec.describe(),
+        };
         Ok(Self::assemble(
-            spec.describe(),
+            shown,
             name.map_or(derived_name, str::to_string),
             name,
             spec,
             main,
         ))
+    }
+
+    /// A source that counts as standard input but reads nothing: tests can't use the real one.
+    #[cfg(test)]
+    pub fn fake_stdin() -> Self {
+        let SourceSpec::Command(command) = SourceSpec::parse("cmd:true").unwrap() else {
+            unreachable!()
+        };
+        let main = Tile::stream(command, MAX_LINES);
+        Self::assemble(
+            "stdin".into(),
+            "stdin".into(),
+            None,
+            SourceSpec::Stdin,
+            main,
+        )
     }
 
     /// A timeline that interleaves `sources` by timestamp, as a source of its own.
@@ -162,6 +184,12 @@ impl Source {
         Ok(identity_of_spec(&SourceSpec::parse(text)?, 0))
     }
 
+    /// Is this standard input? It can't be saved in a session or reopened: there is one pipe,
+    /// and it is read once.
+    pub fn is_stdin(&self) -> bool {
+        matches!(self.spec, SourceSpec::Stdin)
+    }
+
     pub fn is_merged(&self) -> bool {
         matches!(self.spec, SourceSpec::Merged)
     }
@@ -214,6 +242,7 @@ impl Source {
                 |absolute| absolute.to_string_lossy().into_owned(),
             ),
             SourceSpec::Command(command) => command.describe(),
+            SourceSpec::Stdin => "-".to_string(),
             SourceSpec::Merged => "merge:".to_string(), // filled in by the app, which knows positions
         };
         let filters = self
@@ -340,12 +369,15 @@ impl Source {
             // A command (or a merged timeline) has no file to scan: the filter starts from the
             // lines in memory. Rows of a merged timeline start with a source label, which is
             // shown but not searched.
-            SourceSpec::Command(_) | SourceSpec::Merged => Tile::stream_filtered(
-                filter,
-                self.group.clone(),
-                &self.tiles[0].snapshot(),
-                self.tiles[0].label_cols(),
-            ),
+            SourceSpec::Command(_) | SourceSpec::Stdin | SourceSpec::Merged => {
+                Tile::stream_filtered(
+                    filter,
+                    self.group.clone(),
+                    &self.tiles[0].snapshot(),
+                    self.tiles[0].oldest_seq(),
+                    self.tiles[0].label_cols(),
+                )
+            }
         };
         self.tiles.push(tile);
         self.focus = self.tiles.len() - 1;
@@ -410,6 +442,7 @@ fn identity_of_spec(spec: &SourceSpec, id: u64) -> String {
             |absolute| absolute.to_string_lossy().into_owned(),
         ),
         SourceSpec::Command(command) => command.describe(),
+        SourceSpec::Stdin => "stdin:".to_string(),
         SourceSpec::Merged => format!("merge:{id}"),
     }
 }

@@ -14,6 +14,7 @@ mod input;
 mod layout;
 mod lines;
 mod merge;
+mod pipe;
 mod select;
 mod session;
 mod severity;
@@ -29,7 +30,7 @@ mod viewport;
 mod when;
 
 use std::env;
-use std::io;
+use std::io::{self, IsTerminal};
 
 use anyhow::Result;
 use crossterm::event::{DisableMouseCapture, EnableMouseCapture};
@@ -68,9 +69,15 @@ fn main() -> Result<()> {
             // The config first: named sources must be known before paths are opened. A problem
             // in it is shown at the end, so the messages of the steps below don't hide it.
             let config_error = app.apply_config().err();
+            // Like `less`: with nothing else to open and something piped in, read the pipe.
+            let mut paths = paths;
+            let read_pipe = paths.is_empty() && session.is_none() && !io::stdin().is_terminal();
             // The session next, then the sources from the command line on top of it.
             if let Some(name) = session {
                 app.load_session(&name)?;
+            }
+            if read_pipe {
+                paths.push("-".to_string());
             }
             let (mut skipped, mut repeated) = (0, 0);
             for path in &paths {

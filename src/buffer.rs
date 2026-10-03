@@ -152,6 +152,13 @@ impl RingBuffer {
             .map(|(index, _)| self.first_seq + index as u64)
     }
 
+    /// The byte offset stored with the line that has sequence number `seq`. (A stream filter
+    /// stores there the sequence number its line has in the source.)
+    pub fn offset_at(&self, seq: u64) -> Option<u64> {
+        let index = usize::try_from(seq.checked_sub(self.first_seq)?).ok()?;
+        self.lines.get(index).map(|line| line.offset)
+    }
+
     /// Sequence number of line `n` (counting from 1) of the part of the file first loaded.
     pub fn seq_of_line(&self, n: u64) -> u64 {
         ORIGIN + n.saturating_sub(1)

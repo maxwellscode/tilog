@@ -3,8 +3,7 @@
 use super::Prompt;
 use crate::app::{App, H_STEP, NO_SOURCE};
 use crate::layout::rotate;
-use crate::tile::Find;
-use crate::tile::Tile;
+use crate::tile::{Find, Link, Tile};
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 
 impl App {
@@ -98,34 +97,51 @@ impl App {
         }
     }
 
-    /// `n` / `N`. In a file filter's pane: step to its next or previous match and show it in
-    /// the main pane, in its place in the file. Anywhere else: the next or previous search match.
+    /// `n` / `N`. In a filter's pane the main pane follows: with a search on, to the entry that
+    /// has the next or previous hit; without one, to the next or previous entry of the filter.
+    /// Anywhere else: the next or previous search match.
     pub(super) fn next_occurrence(&mut self, forward: bool, height: usize, main_height: usize) {
-        let in_filter =
-            self.tab > 0 && self.with_target(|tile| tile.is_file_filter()) == Some(true);
+        let in_filter = self.tab > 0 && self.with_target(|tile| tile.is_filter()) == Some(true);
+        let direction = if forward { Find::Next } else { Find::Previous };
         if !in_filter {
-            let direction = if forward { Find::Next } else { Find::Previous };
-            return self.next_match(direction, height);
+            self.next_match(direction, height);
+            return;
         }
-        let Some(step) = self
-            .with_target(|tile| tile.step_match(forward, height))
-            .flatten()
-        else {
-            return self.error("no matches yet");
+
+        // Where the entry lies in the source, and how many lines it has.
+        let (at, rows, wrapped) = if self.highlight.is_some() {
+            if !self.next_match(direction, height) {
+                return;
+            }
+            match self.with_target(|tile| tile.link_of_match_row()).flatten() {
+                Some((at, rows)) => (at, rows, None),
+                None => return,
+            }
+        } else {
+            let Some(step) = self
+                .with_target(|tile| tile.step_match(forward, height))
+                .flatten()
+            else {
+                return self.error("no matches yet");
+            };
+            let position = format!("match {}/{}", step.index + 1, step.total);
+            (step.at, step.rows, step.wrapped.then_some(position))
         };
+
         let shown = self
             .tile_mut(0)
-            .is_some_and(|main| main.show_offset(step.offset, step.rows, main_height));
+            .is_some_and(|main| main.show_link(at, rows, main_height));
         if !shown {
-            return self.error("cannot show the match: the file is not readable");
+            return self.error(match at {
+                Link::Offset(_) => "cannot show the match: the file is not readable",
+                Link::Seq(_) => "that line is no longer held: only the newest lines are kept",
+            });
         }
-        let position = format!("match {}/{}", step.index + 1, step.total);
-        if step.wrapped {
+        if let Some(position) = wrapped {
             self.info(format!("{position} (wrapped around)"));
         }
     }
 
-    /// `n` / `N`: jump to the next or previous match of the search.
     /// `]` / `[`: jump to the next or previous error line of the focused tile.
     pub(super) fn next_error(&mut self, forward: bool, height: usize) {
         match self.with_target(|tile| tile.find_error(forward, height)) {
@@ -136,16 +152,24 @@ impl App {
         }
     }
 
-    pub(super) fn next_match(&mut self, direction: Find, height: usize) {
+    /// `n` / `N`: jump to the next or previous match of the search. `true` if there was one.
+    pub(super) fn next_match(&mut self, direction: Find, height: usize) -> bool {
         let Some(highlight) = self.highlight.clone() else {
             self.error("nothing to search for: press / first");
-            return;
+            return false;
         };
         match self.with_target(|tile| tile.find_match(&highlight, height, direction)) {
-            Some(Some(false)) => {}
+            Some(Some(false)) => return true,
             Some(Some(true)) => self.info("search wrapped around"),
-            Some(None) => self.error(format!("pattern not found: {}", highlight.label())),
-            None => self.error(NO_SOURCE),
+            Some(None) => {
+                self.error(format!("pattern not found: {}", highlight.label()));
+                return false;
+            }
+            None => {
+                self.error(NO_SOURCE);
+                return false;
+            }
         }
+        true
     }
 }

@@ -1,7 +1,10 @@
+use std::collections::VecDeque;
+use std::ops::Range;
 use std::time::{Duration, Instant};
 
 use crate::buffer::RingBuffer;
 use crate::filter::{EntryMatch, Filter};
+use crate::filter_view::step_index;
 use crate::group::GroupRule;
 use crate::lines::Lines;
 
@@ -36,10 +39,19 @@ pub struct StreamFilterView {
     state: EntryMatch,
     last_line: Instant,
     entries: usize,
+    /// The sequence number the source gave to the next line that is fed. Kept with every row
+    /// (as its offset), so a match can be found again in the source.
+    next_source_seq: u64,
+    /// The row at which each kept entry begins, oldest first.
+    starts: VecDeque<u64>,
+    /// The row the entry `n` / `N` is at begins with.
+    current: Option<u64>,
 }
 
 impl StreamFilterView {
-    pub fn new(filter: Filter, rule: GroupRule, prefix_cols: usize) -> Self {
+    /// `first_source_seq` is the sequence number the source gave to the first line that will be
+    /// fed; the following lines have the numbers after it.
+    pub fn new(filter: Filter, rule: GroupRule, prefix_cols: usize, first_source_seq: u64) -> Self {
         Self {
             state: filter.start_entry(),
             filter,
@@ -49,6 +61,9 @@ impl StreamFilterView {
             entry: Vec::new(),
             last_line: Instant::now(),
             entries: 0,
+            next_source_seq: first_source_seq,
+            starts: VecDeque::new(),
+            current: None,
         }
     }
 
@@ -74,6 +89,7 @@ impl StreamFilterView {
         }
         self.state.feed(&self.filter, text.as_bytes());
         self.entry.push(line.to_string());
+        self.next_source_seq += 1;
         self.last_line = Instant::now();
     }
 
@@ -86,13 +102,82 @@ impl StreamFilterView {
 
     fn finish(&mut self) {
         if self.state.is_match() {
-            for line in self.entry.drain(..) {
-                self.rows.push(0, line);
+            // The lines of the entry are the last ones fed.
+            let first_source = self.next_source_seq - self.entry.len() as u64;
+            self.starts.push_back(self.rows.end_seq());
+            for (i, line) in self.entry.drain(..).enumerate() {
+                self.rows.push(first_source + i as u64, line);
             }
             self.entries += 1;
+            // Entries whose first row has been pushed out are gone.
+            while self
+                .starts
+                .front()
+                .is_some_and(|&row| row < self.rows.first_seq())
+            {
+                self.starts.pop_front();
+            }
         } else {
             self.entry.clear();
         }
+    }
+}
+
+impl StreamFilterView {
+    /// Moves to the next (`forward`) or previous entry: see `FilterView::step`.
+    pub fn step(&mut self, forward: bool, anchor_row: u64) -> Option<(usize, bool)> {
+        let stepped = step_index(
+            self.starts.len(),
+            self.current_index(),
+            forward,
+            anchor_row,
+            |i| self.starts[i],
+        )?;
+        self.current = Some(self.starts[stepped.0]);
+        Some(stepped)
+    }
+
+    /// The entry `n` / `N` is at, as its position among the kept ones.
+    pub fn current_index(&self) -> Option<usize> {
+        let row = self.current?;
+        self.starts.binary_search(&row).ok()
+    }
+
+    /// How many entries are kept (all of them seen, unless more than the capacity matched).
+    pub fn kept(&self) -> usize {
+        self.starts.len()
+    }
+
+    /// The first display row of entry `index`.
+    pub fn first_row(&self, index: usize) -> u64 {
+        self.starts[index]
+    }
+
+    /// Where entry `index` starts in the source (its sequence number there), and how many lines
+    /// it has.
+    pub fn entry(&self, index: usize) -> (u64, usize) {
+        let row = self.starts[index];
+        let end = self
+            .starts
+            .get(index + 1)
+            .copied()
+            .unwrap_or(self.rows.end_seq());
+        let source = self.rows.offset_at(row).unwrap_or(0);
+        (source, usize::try_from(end - row).unwrap_or(usize::MAX))
+    }
+
+    /// The entry that contains display row `row`.
+    pub fn entry_of_row(&self, row: u64) -> Option<usize> {
+        self.starts
+            .partition_point(|&start| start <= row)
+            .checked_sub(1)
+    }
+
+    /// The display rows of the entry `n` / `N` is at.
+    pub fn current_rows(&self) -> Option<Range<u64>> {
+        let index = self.current_index()?;
+        let first = self.starts[index];
+        Some(first..first + self.entry(index).1 as u64)
     }
 }
 
@@ -125,7 +210,12 @@ mod tests {
     use super::*;
 
     fn view(pattern: &str, rule: GroupRule) -> StreamFilterView {
-        StreamFilterView::new(Filter::new(None, pattern, false, false).unwrap(), rule, 0)
+        StreamFilterView::new(
+            Filter::new(None, pattern, false, false).unwrap(),
+            rule,
+            0,
+            0,
+        )
     }
 
     #[test]
@@ -134,6 +224,7 @@ mod tests {
             Filter::new(None, "web", false, false).unwrap(), // "web" is only in the label
             GroupRule::Auto,
             7, // the width of "web  │ "
+            0,
         );
         feed_all(
             &mut view,
@@ -152,6 +243,7 @@ mod tests {
             Filter::new(None, "trace", false, false).unwrap(),
             GroupRule::Auto,
             7,
+            0,
         );
         feed_all(
             &mut grouped,

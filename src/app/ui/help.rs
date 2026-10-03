@@ -64,7 +64,7 @@ const KEYS: &[(&str, &str)] = &[
     ),
     (
         "n N",
-        "next / previous search match; in a filter pane its matches, shown in the main pane",
+        "next / previous search match; in a filter pane its entries (or the search hits, if a search is on), shown in the main pane",
     ),
     (
         "] [",

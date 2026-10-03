@@ -8,6 +8,7 @@
 //! docker:api                           `docker logs -f` of a container
 //! kube:pod-7                           `kubectl logs -f` (namespace/pod, namespace/pod/container)
 //! cmd:journalctl -fu app               any command
+//! -                                    standard input (`some-command | tilog`)
 //! ```
 
 use std::time::Duration;
@@ -20,6 +21,8 @@ pub enum SourceSpec {
     Command(CommandSpec),
     /// Several other sources interleaved by time. It has no text form: it is made by `:merge`.
     Merged,
+    /// Standard input, written `-`: `kubectl logs -f pod | tilog`.
+    Stdin,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -60,6 +63,9 @@ impl SourceSpec {
     /// Anything that isn't `ssh:`, `docker:`, `kube:`/`k8s:` or `cmd:` is a file path.
     pub fn parse(text: &str) -> Result<Self> {
         let text = text.trim();
+        if text == "-" {
+            return Ok(Self::Stdin);
+        }
         if let Some((scheme, rest)) = text.split_once(':') {
             let kind = match scheme {
                 "ssh" => parse_ssh(rest)?,
@@ -81,6 +87,7 @@ impl SourceSpec {
             Self::File(path) => path.clone(),
             Self::Command(command) => command.describe(),
             Self::Merged => "merge:".to_string(),
+            Self::Stdin => "-".to_string(),
         }
     }
 }
@@ -315,7 +322,9 @@ mod tests {
     fn command(text: &str) -> CommandSpec {
         match SourceSpec::parse(text).unwrap() {
             SourceSpec::Command(command) => command,
-            SourceSpec::File(_) | SourceSpec::Merged => panic!("{text} should be a command"),
+            SourceSpec::File(_) | SourceSpec::Merged | SourceSpec::Stdin => {
+                panic!("{text} should be a command")
+            }
         }
     }
 
@@ -453,5 +462,21 @@ mod tests {
         assert!(!command("docker:api").keeps_stdin_open());
         assert_eq!(command("ssh:h:/p").restart(), Restart::Always);
         assert_eq!(command("cmd:true").restart(), Restart::OnFailure);
+    }
+
+    #[test]
+    fn a_dash_is_standard_input() {
+        assert_eq!(SourceSpec::parse("-").unwrap(), SourceSpec::Stdin);
+        assert_eq!(SourceSpec::parse(" - ").unwrap(), SourceSpec::Stdin);
+        assert_eq!(SourceSpec::Stdin.describe(), "-");
+        // Only the lone dash: a file can still have a name that starts with one.
+        assert_eq!(
+            SourceSpec::parse("-x.log").unwrap(),
+            SourceSpec::File("-x.log".into())
+        );
+        assert_eq!(
+            SourceSpec::parse("./-").unwrap(),
+            SourceSpec::File("./-".into())
+        );
     }
 }

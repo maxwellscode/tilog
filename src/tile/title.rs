@@ -54,8 +54,11 @@ impl Tile {
                 format!(" {name} · {} sources ", merger.labels().len())
             }
             Content::StreamFilter(view) => {
+                let at = view
+                    .current_index()
+                    .map_or(String::new(), |i| format!("{}/", i + 1));
                 format!(
-                    " filter: {} · {} matches · live only ",
+                    " filter: {} · {at}{} matches · live only ",
                     view.filter().label(),
                     view.len()
                 )

@@ -27,13 +27,14 @@ use crate::group::GroupRule;
 use crate::history;
 use crate::lines::Lines;
 use crate::merge::{self, MemberInit, Merger};
+use crate::pipe;
 use crate::spec::CommandSpec;
 use crate::stream;
 use crate::stream_filter::StreamFilterView;
 use crate::tail::{self, Status, TailMsg};
 use crate::viewport::Viewport;
 
-pub use search::Find;
+pub use search::{Find, Link};
 
 use content::Content;
 use window::HISTORY_MAX;
@@ -117,16 +118,33 @@ impl Tile {
         Self::new(content)
     }
 
+    /// The main tile of standard input: keeps the newest `capacity` lines. Fails if stdin is a
+    /// terminal, or is already a source.
+    pub fn stdin(capacity: usize) -> Result<Self> {
+        let content = Content::Source {
+            path: None,
+            live_capacity: capacity,
+            lines: RingBuffer::new(capacity),
+            rx: pipe::spawn()?,
+            status: Some(Status::Connected),
+            _guard: None,
+            window: None,
+        };
+        Ok(Self::new(content))
+    }
+
     /// A filter tile for a command's output. It is fed with `backfill` (the lines already in
-    /// memory) now, and with every new line later through `feed`.
+    /// memory, the first of which has sequence number `first_seq` in the source) now, and with
+    /// every new line later through `feed`.
     /// `prefix_cols` characters at the start of each line are not log text (see `label_cols`).
     pub fn stream_filtered(
         filter: Filter,
         rule: GroupRule,
         backfill: &[String],
+        first_seq: u64,
         prefix_cols: usize,
     ) -> Self {
-        let mut view = StreamFilterView::new(filter, rule, prefix_cols);
+        let mut view = StreamFilterView::new(filter, rule, prefix_cols, first_seq);
         for line in backfill {
             view.feed(line);
         }
@@ -174,6 +192,21 @@ impl Tile {
         let lines = self.content.lines();
         let count = usize::try_from(lines.end_seq() - lines.first_seq()).unwrap_or(usize::MAX);
         lines.range(lines.first_seq(), count)
+    }
+
+    /// Puts lines into the buffer of a main tile as if they had arrived from the source.
+    #[cfg(test)]
+    pub fn push_for_test(&mut self, lines: &[String]) {
+        if let Content::Source { lines: buffer, .. } = &mut self.content {
+            for line in lines {
+                buffer.push(0, line.clone());
+            }
+        }
+    }
+
+    /// Sequence number of the oldest line held (the first of `snapshot`).
+    pub fn oldest_seq(&self) -> u64 {
+        self.content.lines().first_seq()
     }
 
     /// Does this tile need to be shown each new line of the source (a stream filter)?

@@ -232,38 +232,22 @@ impl FilterView {
     /// row at the top of the view: forward finds the first match at or below it, backward the
     /// last one above it.
     pub fn step(&mut self, forward: bool, anchor_row: u64) -> Option<(usize, bool)> {
-        let count = self.entries.len();
-        if count == 0 {
-            return None;
-        }
-        let (index, wrapped) = match (self.current, forward) {
-            (Some(i), true) if i + 1 < count => (i + 1, false),
-            (Some(_), true) => (0, true),
-            (Some(i), false) if i > 0 => (i - 1, false),
-            (Some(_), false) => (count - 1, true),
-            (None, true) => {
-                match self
-                    .entries
-                    .iter()
-                    .position(|entry| entry.first_row >= anchor_row)
-                {
-                    Some(i) => (i, false),
-                    None => (0, true),
-                }
-            }
-            (None, false) => {
-                match self
-                    .entries
-                    .iter()
-                    .rposition(|entry| entry.first_row < anchor_row)
-                {
-                    Some(i) => (i, false),
-                    None => (count - 1, true),
-                }
-            }
-        };
-        self.current = Some(index);
-        Some((index, wrapped))
+        let stepped = step_index(
+            self.entries.len(),
+            self.current,
+            forward,
+            anchor_row,
+            |index| self.entries[index].first_row,
+        )?;
+        self.current = Some(stepped.0);
+        Some(stepped)
+    }
+
+    /// The match that contains display row `row`.
+    pub fn entry_of_row(&self, row: u64) -> Option<usize> {
+        self.entries
+            .partition_point(|entry| entry.first_row <= row)
+            .checked_sub(1)
     }
 
     /// Where match `index` starts in the file (a byte offset), and how many lines it has.
@@ -299,6 +283,37 @@ impl FilterView {
             .map_or(self.total_rows, |next| next.first_row);
         end - self.entries[index].first_row
     }
+}
+
+/// The next (`forward`) or previous entry among `count` entries, and whether that wrapped around
+/// the end. From entry `current`, or without one from the entry nearest `anchor_row` (the row
+/// at the top of the view): forward finds the first entry at or below it, backward the last one
+/// above it. `first_row` gives the first display row of an entry. Shared by the filters of
+/// files and of streams.
+pub fn step_index(
+    count: usize,
+    current: Option<usize>,
+    forward: bool,
+    anchor_row: u64,
+    first_row: impl Fn(usize) -> u64,
+) -> Option<(usize, bool)> {
+    if count == 0 {
+        return None;
+    }
+    Some(match (current, forward) {
+        (Some(i), true) if i + 1 < count => (i + 1, false),
+        (Some(_), true) => (0, true),
+        (Some(i), false) if i > 0 => (i - 1, false),
+        (Some(_), false) => (count - 1, true),
+        (None, true) => match (0..count).find(|&i| first_row(i) >= anchor_row) {
+            Some(i) => (i, false),
+            None => (0, true),
+        },
+        (None, false) => match (0..count).rev().find(|&i| first_row(i) < anchor_row) {
+            Some(i) => (i, false),
+            None => (count - 1, true),
+        },
+    })
 }
 
 impl Lines for FilterView {

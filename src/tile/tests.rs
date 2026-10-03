@@ -96,11 +96,11 @@ fn stepping_through_a_filter_reports_each_match_with_its_place() {
 
     let first = tile.step_match(true, 10).unwrap();
     assert_eq!(
-        (first.offset, first.index, first.total),
-        (offsets[100], 0, 2)
+        (first.at, first.index, first.total),
+        (Link::Offset(offsets[100]), 0, 2)
     );
     let second = tile.step_match(true, 10).unwrap();
-    assert_eq!(second.offset, offsets[300]);
+    assert_eq!(second.at, Link::Offset(offsets[300]));
     let wrapped = tile.step_match(true, 10).unwrap();
     assert!(wrapped.wrapped && wrapped.index == 0);
     assert!(tile.marked_rows().is_some() && tile.title("").contains("1/2"));
@@ -357,6 +357,7 @@ fn goto_time_works_in_a_filter_and_says_when_there_are_no_times() {
         GroupRule::default(),
         &["no time here x".to_string()],
         0,
+        0,
     );
     assert_eq!(
         stream.jump_to_time(&When::parse("08:00").unwrap()),
@@ -465,4 +466,57 @@ fn goto_line_marks_the_row_with_context_above_it() {
     assert!(tile.marked_rows().is_none());
     assert_eq!(tile.visible(12).last().unwrap(), "line 00099");
     std::fs::remove_file(&path).unwrap();
+}
+
+#[test]
+fn a_stream_filter_knows_where_its_entries_are_in_the_source() {
+    // A stream's main tile holds lines 1000.. (older ones were evicted); the filter is made
+    // from them and then fed more.
+    let backfill: Vec<String> = (0..6)
+        .map(|i| {
+            if i % 3 == 0 {
+                format!("hit {i}")
+            } else {
+                format!("other {i}")
+            }
+        })
+        .collect();
+    let filter = Filter::new(None, "hit", false, false).unwrap();
+    let mut tile = Tile::stream_filtered(filter, GroupRule::Off, &backfill, 1000, 0);
+    tile.feed(&["other 6".to_string(), "hit 7".to_string()]);
+    tile.pump(); // the last entry is released when nothing follows it
+    std::thread::sleep(Duration::from_millis(200));
+    tile.pump();
+    tile.visible(10);
+
+    let first = tile.step_match(true, 10).unwrap();
+    assert_eq!((first.at, first.rows, first.index), (Link::Seq(1000), 1, 0));
+    let second = tile.step_match(true, 10).unwrap();
+    assert_eq!(second.at, Link::Seq(1003));
+    let third = tile.step_match(true, 10).unwrap();
+    assert_eq!(
+        third.at,
+        Link::Seq(1007),
+        "fed after the backfill, numbered on from it"
+    );
+    assert_eq!(third.total, 3);
+    assert!(tile.step_match(true, 10).unwrap().wrapped);
+    assert!(tile.title("").contains("1/3"));
+}
+
+#[test]
+fn the_main_tile_of_a_stream_shows_a_seq_and_says_when_it_is_gone() {
+    let mut source = Tile::stream(
+        match crate::spec::SourceSpec::parse("cmd:true").unwrap() {
+            crate::spec::SourceSpec::Command(command) => command,
+            _ => unreachable!(),
+        },
+        1000,
+    );
+    // Nothing is held yet: a line that is not there can't be shown.
+    assert!(!source.show_link(Link::Seq(5), 1, 10));
+    assert!(
+        !source.show_link(Link::Offset(0), 1, 10),
+        "a command has no file to read"
+    );
 }

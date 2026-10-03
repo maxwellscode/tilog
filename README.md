@@ -13,6 +13,7 @@ tilog app.log nginx.log                      # local files
 tilog ssh:deploy@web1:/var/log/app.log       # remote file (reconnects when the link drops)
 tilog docker:api kube:prod/web-0 cmd:'journalctl -fu app'
 tilog -s deploy                              # a saved session
+kubectl logs -f web-0 | tilog                # anything piped in (or `tilog -`)
 ```
 
 Keys follow `less`: `j k Space b g G` scroll, `/` searches, `&` filters, `:` runs a command
