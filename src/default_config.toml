@@ -1,0 +1,185 @@
+# tilog configuration
+#
+# Put your own copy at ~/.config/tilog/config.toml (or $XDG_CONFIG_HOME/tilog/config.toml).
+# Press /reload inside tilog to apply changes without restarting.
+#
+# This file lists tilog's built-in color rules. It is complete on its own, hence
+# `defaults = false` below. In your own file you will usually want the opposite: leave
+# `defaults` at its default (true), and write only the rules you want to add or change.
+
+[colors]
+# Set to false to turn all coloring off.
+enabled = true
+# Keep the built-in rules and put yours after them. Later rules paint over earlier ones.
+defaults = false
+# Colors used for text you search for (type text without a leading / to highlight it).
+# highlight_fg = "black"
+# highlight_bg = "yellow"
+# Background of the entry that `n` / `N` in a filter pane brought the main pane to.
+# marked_bg = "#2f5f9f"
+
+# Each [[rule]] colors the text matched by a regular expression.
+#
+#   pattern    a regular expression (Rust regex syntax; use 'single quotes' in TOML so
+#              backslashes need no escaping)
+#   fg, bg     a color: red, green, yellow, blue, magenta, cyan, gray, darkgray, white, black,
+#              lightred, lightgreen, ... or "#rrggbb" or a number 0-255
+#   bold, italic, dim, underline    true / false
+#              To color only part of a match, name a group `(?P<v>...)`: just that part is
+#              painted, the rest of the pattern only gives it context.
+#   scope      "match" (default) colors just the matched text; "line" colors the whole line
+#              if the pattern matches anywhere in it
+#   name       optional, shows up in error messages
+#
+# Rules are applied in order, and a later rule overrides what an earlier one set.
+
+[[rule]]
+name = "timestamp"
+pattern = '^(\d{2}-\w{3}-\d{4} \d{2}:\d{2}:\d{2}[.,]\d+|\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}([.,]\d+)?(Z|[+-]\d{2}:?\d{2})?|[A-Z][a-z]{2} +\d+ \d{2}:\d{2}:\d{2})'
+fg = "darkgray"
+
+[[rule]]
+name = "thread or component in brackets"
+pattern = '\[[^\]]{1,60}\]'
+fg = "blue"
+
+[[rule]]
+name = "exception class"
+pattern = '\b[A-Za-z_][\w.$]*(Exception|Error)\b'
+fg = "lightred"
+
+[[rule]]
+name = "debug"
+pattern = '\b(DEBUG|TRACE|FINE|FINER|FINEST)\b'
+fg = "gray"
+
+[[rule]]
+name = "info"
+pattern = '\bINFO\b'
+fg = "green"
+
+[[rule]]
+name = "warning"
+pattern = '\b(WARN|WARNING)\b'
+fg = "yellow"
+bold = true
+
+[[rule]]
+name = "error"
+pattern = '\b(ERROR|SEVERE|FATAL|CRITICAL|PANIC)\b'
+fg = "red"
+bold = true
+
+# Levels written as a field (logfmt `level=error`, JSON `"level":"warn"`), in any case, and
+# nginx's `[error]`. Only the value is colored.
+[[rule]]
+name = "level field: severe"
+pattern = '(?i)\b(?:level|lvl|severity)[\x22\x27]?\s*[=:]\s*[\x22\x27]?(?P<v>fatal|crit(?:ical)?|panic|emerg|alert|err(?:or)?)\b'
+fg = "red"
+bold = true
+
+[[rule]]
+name = "level field: warning"
+pattern = '(?i)\b(?:level|lvl|severity)[\x22\x27]?\s*[=:]\s*[\x22\x27]?(?P<v>warn(?:ing)?)\b'
+fg = "yellow"
+bold = true
+
+[[rule]]
+name = "level field: info"
+pattern = '(?i)\b(?:level|lvl|severity)[\x22\x27]?\s*[=:]\s*[\x22\x27]?(?P<v>info|notice)\b'
+fg = "green"
+
+[[rule]]
+name = "level field: debug"
+pattern = '(?i)\b(?:level|lvl|severity)[\x22\x27]?\s*[=:]\s*[\x22\x27]?(?P<v>debug|trace)\b'
+fg = "gray"
+
+[[rule]]
+name = "nginx level: severe"
+pattern = '\[(?P<v>emerg|alert|crit|error)\]'
+fg = "red"
+bold = true
+
+[[rule]]
+name = "nginx level: warning"
+pattern = '\[(?P<v>warn)\]'
+fg = "yellow"
+bold = true
+
+[[rule]]
+name = "nginx level: notice"
+pattern = '\[(?P<v>notice|info)\]'
+fg = "green"
+
+# pino and bunyan write levels as numbers: 10 trace ... 30 info, 40 warn, 50 error, 60 fatal.
+[[rule]]
+name = "numeric level: severe"
+pattern = '"level"\s*:\s*(?P<v>50|60)\b'
+fg = "red"
+bold = true
+
+[[rule]]
+name = "numeric level: warning"
+pattern = '"level"\s*:\s*(?P<v>40)\b'
+fg = "yellow"
+bold = true
+
+# klog (Kubernetes components): `E1003 08:14:00.1 ...`, the first letter is the level.
+[[rule]]
+name = "klog: error"
+pattern = '^(?P<v>[EF])\d{4} '
+fg = "red"
+bold = true
+
+[[rule]]
+name = "klog: warning"
+pattern = '^(?P<v>W)\d{4} '
+fg = "yellow"
+bold = true
+
+# HTTP access logs: the status code after the request, only when it is a problem.
+[[rule]]
+name = "http 5xx"
+pattern = '"\s(?P<v>5\d\d)\s'
+fg = "red"
+bold = true
+
+[[rule]]
+name = "http 4xx"
+pattern = '"\s(?P<v>4\d\d)\s'
+fg = "yellow"
+
+[[rule]]
+name = "stack frame"
+pattern = '^\s+(at\s|\.\.\.)'
+scope = "line"
+fg = "darkgray"
+
+[[rule]]
+name = "caused by"
+pattern = '^(Caused by:|Traceback)'
+scope = "line"
+fg = "red"
+
+[[rule]]
+name = "tilog marker"
+pattern = '^── '
+scope = "line"
+fg = "darkgray"
+italic = true
+
+# Named sources: `tilog prod-api` (or `/add prod-api`) opens them, so a team can share this file.
+# `spec` is a file path, or one of:
+#   ssh:[user@]host:/path/to/log     tail -F over ssh (keys or the ssh agent only: tilog never
+#                                    asks for a password)
+#   docker:container                 docker logs -f
+#   kube:pod | kube:namespace/pod | kube:namespace/pod/container     kubectl logs -f
+#   cmd:any command                  anything that prints lines, e.g. cmd:journalctl -fu app
+#
+# [[source]]
+# name = "prod-api"
+# spec = "ssh:deploy@prod-1:/var/log/tomcat/catalina.out"
+#
+# [[source]]
+# name = "api-pod"
+# spec = "kube:shop/api-7d9f"

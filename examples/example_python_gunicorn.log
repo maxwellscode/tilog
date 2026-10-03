@@ -1,0 +1,2376 @@
+[2026-10-03 08:14:00 +0000] [1] [INFO] Starting gunicorn 21.2.0
+[2026-10-03 08:14:00 +0000] [1] [INFO] Listening at: http://0.0.0.0:8000 (1)
+[2026-10-03 08:14:00 +0000] [1] [INFO] Using worker: sync
+[2026-10-03 08:14:00 +0000] [7] [INFO] Booting worker with pid: 7
+[2026-10-03 08:14:00 +0000] [8] [INFO] Booting worker with pid: 8
+[2026-10-03 08:14:21 +0000] [7] [INFO] reports.tasks: generated report 41 in 0.84s
+[2026-10-03 08:14:48 +0000] [8] [WARNING] django.request: Not Found: /api/reports/9999
+[2026-10-03 08:15:12 +0000] [7] [INFO] reports.tasks: generated report 42 in 1.20s
+[2026-10-03 08:15:44 +0000] [8] [ERROR] Error handling request /api/reports/43
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/db/backends/base/base.py", line 289, in ensure_connection
+    self.connect()
+  File "/usr/local/lib/python3.11/site-packages/django/db/backends/base/base.py", line 270, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/usr/local/lib/python3.11/site-packages/django/db/backends/postgresql/base.py", line 275, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+  File "/usr/local/lib/python3.11/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: connection to server at "10.0.3.2", port 5432 failed: FATAL:  remaining connection slots are reserved for non-replication superuser connections
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/app/reports/views.py", line 42, in report_detail
+    report = Report.objects.get(pk=pk)
+django.db.utils.OperationalError: connection to server at "10.0.3.2", port 5432 failed: FATAL:  remaining connection slots are reserved for non-replication superuser connections
+[2026-10-03 08:16:12 +0000] [7] [INFO] reports.tasks: generated report 44 in 2.91s
+[2026-10-03 08:16:51 +0000] [7] [CRITICAL] WORKER TIMEOUT (pid:7)
+[2026-10-03 08:16:51 +0000] [7] [INFO] Worker exiting (pid: 7)
+[2026-10-03 08:16:52 +0000] [1] [ERROR] Worker (pid:7) was sent SIGKILL! Perhaps out of memory?
+[2026-10-03 08:16:52 +0000] [112] [INFO] Booting worker with pid: 112
+[2026-10-03 08:17:02 +0000] [8] [ERROR] Exception on /api/reports/45 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 08:17:15 +0000] [112] [INFO] reports.tasks: generated report 46 in 0.77s
+[2026-10-03 19:56:22 +0000] [112] [INFO] reports.tasks: generated report 75 in 0.27s
+[2026-10-03 19:56:23 +0000] [7] [INFO] reports.tasks: generated report 76 in 2.97s
+[2026-10-03 19:56:23 +0000] [8] [WARNING] django.request: Not Found: /api/reports/1884
+[2026-10-03 19:56:29 +0000] [7] [WARNING] django.request: Not Found: /api/reports/5793
+[2026-10-03 19:56:29 +0000] [112] [INFO] reports.tasks: generated report 79 in 1.66s
+[2026-10-03 19:56:30 +0000] [7] [ERROR] Exception on /api/reports/80 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:56:36 +0000] [112] [INFO] reports.tasks: generated report 81 in 0.68s
+[2026-10-03 19:56:40 +0000] [112] [INFO] reports.tasks: generated report 82 in 0.68s
+[2026-10-03 19:56:40 +0000] [112] [INFO] reports.tasks: generated report 83 in 2.86s
+[2026-10-03 19:57:20 +0000] [7] [WARNING] django.request: Not Found: /api/reports/7736
+[2026-10-03 19:57:24 +0000] [8] [INFO] reports.tasks: generated report 72 in 2.50s
+[2026-10-03 19:57:24 +0000] [7] [INFO] reports.tasks: generated report 73 in 1.83s
+[2026-10-03 19:57:27 +0000] [8] [ERROR] Exception on /api/reports/74 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:57:29 +0000] [7] [INFO] reports.tasks: generated report 75 in 2.52s
+[2026-10-03 19:57:29 +0000] [7] [INFO] reports.tasks: generated report 76 in 2.54s
+[2026-10-03 19:57:30 +0000] [7] [ERROR] Exception on /api/reports/77 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:57:30 +0000] [7] [INFO] reports.tasks: generated report 78 in 2.76s
+[2026-10-03 19:57:31 +0000] [112] [INFO] reports.tasks: generated report 79 in 2.65s
+[2026-10-03 19:57:32 +0000] [7] [INFO] reports.tasks: generated report 80 in 1.33s
+[2026-10-03 19:57:33 +0000] [8] [INFO] reports.tasks: generated report 81 in 0.65s
+[2026-10-03 19:57:36 +0000] [7] [WARNING] django.request: Not Found: /api/reports/1530
+[2026-10-03 19:57:36 +0000] [112] [ERROR] Exception on /api/reports/83 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:57:37 +0000] [112] [ERROR] Exception on /api/reports/84 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:57:39 +0000] [7] [WARNING] django.request: Not Found: /api/reports/5495
+[2026-10-03 19:57:39 +0000] [8] [ERROR] Exception on /api/reports/86 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:57:40 +0000] [112] [INFO] reports.tasks: generated report 87 in 1.10s
+[2026-10-03 19:57:41 +0000] [8] [ERROR] Exception on /api/reports/88 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:57:44 +0000] [8] [WARNING] django.request: Not Found: /api/reports/6276
+[2026-10-03 19:57:45 +0000] [8] [ERROR] Exception on /api/reports/90 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:57:47 +0000] [112] [WARNING] django.request: Not Found: /api/reports/9582
+[2026-10-03 19:57:48 +0000] [8] [ERROR] Exception on /api/reports/92 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:57:48 +0000] [8] [WARNING] django.request: Not Found: /api/reports/7630
+[2026-10-03 19:57:50 +0000] [7] [INFO] reports.tasks: generated report 94 in 0.25s
+[2026-10-03 19:57:51 +0000] [112] [INFO] reports.tasks: generated report 95 in 2.24s
+[2026-10-03 19:57:53 +0000] [8] [ERROR] Exception on /api/reports/96 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:57:56 +0000] [8] [ERROR] Exception on /api/reports/97 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:57:56 +0000] [8] [INFO] reports.tasks: generated report 98 in 0.17s
+[2026-10-03 19:57:58 +0000] [112] [WARNING] django.request: Not Found: /api/reports/9542
+[2026-10-03 19:58:00 +0000] [112] [INFO] reports.tasks: generated report 100 in 0.50s
+[2026-10-03 19:58:00 +0000] [7] [INFO] reports.tasks: generated report 101 in 1.71s
+[2026-10-03 19:58:01 +0000] [112] [INFO] reports.tasks: generated report 102 in 1.14s
+[2026-10-03 19:58:01 +0000] [7] [INFO] reports.tasks: generated report 103 in 1.37s
+[2026-10-03 19:58:06 +0000] [7] [WARNING] django.request: Not Found: /api/reports/2122
+[2026-10-03 19:58:06 +0000] [7] [INFO] reports.tasks: generated report 105 in 2.39s
+[2026-10-03 19:58:07 +0000] [7] [WARNING] django.request: Not Found: /api/reports/3899
+[2026-10-03 19:58:07 +0000] [8] [WARNING] django.request: Not Found: /api/reports/5476
+[2026-10-03 19:58:08 +0000] [7] [INFO] reports.tasks: generated report 108 in 1.55s
+[2026-10-03 19:58:12 +0000] [7] [INFO] reports.tasks: generated report 109 in 1.67s
+[2026-10-03 19:58:15 +0000] [8] [WARNING] django.request: Not Found: /api/reports/4868
+[2026-10-03 19:58:16 +0000] [8] [INFO] reports.tasks: generated report 111 in 2.68s
+[2026-10-03 19:58:16 +0000] [7] [INFO] reports.tasks: generated report 112 in 1.93s
+[2026-10-03 19:58:16 +0000] [112] [WARNING] django.request: Not Found: /api/reports/3022
+[2026-10-03 19:58:17 +0000] [112] [WARNING] django.request: Not Found: /api/reports/7681
+[2026-10-03 19:58:17 +0000] [8] [INFO] reports.tasks: generated report 115 in 2.19s
+[2026-10-03 19:58:19 +0000] [8] [INFO] reports.tasks: generated report 116 in 2.95s
+[2026-10-03 19:58:19 +0000] [8] [INFO] reports.tasks: generated report 117 in 0.79s
+[2026-10-03 19:58:19 +0000] [8] [INFO] reports.tasks: generated report 118 in 0.76s
+[2026-10-03 19:58:40 +0000] [112] [ERROR] Exception on /api/reports/62 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:58:40 +0000] [112] [WARNING] django.request: Not Found: /api/reports/9377
+[2026-10-03 19:58:41 +0000] [112] [ERROR] Exception on /api/reports/64 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:58:41 +0000] [7] [INFO] reports.tasks: generated report 65 in 2.59s
+[2026-10-03 19:58:42 +0000] [7] [INFO] reports.tasks: generated report 66 in 0.17s
+[2026-10-03 19:58:42 +0000] [112] [ERROR] Exception on /api/reports/67 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:58:43 +0000] [112] [WARNING] django.request: Not Found: /api/reports/2876
+[2026-10-03 19:58:43 +0000] [8] [INFO] reports.tasks: generated report 69 in 0.83s
+[2026-10-03 19:58:43 +0000] [7] [INFO] reports.tasks: generated report 70 in 2.31s
+[2026-10-03 19:58:44 +0000] [112] [INFO] reports.tasks: generated report 71 in 0.49s
+[2026-10-03 19:58:44 +0000] [112] [INFO] reports.tasks: generated report 72 in 0.43s
+[2026-10-03 19:58:44 +0000] [8] [INFO] reports.tasks: generated report 73 in 0.86s
+[2026-10-03 19:58:45 +0000] [7] [INFO] reports.tasks: generated report 74 in 2.75s
+[2026-10-03 19:58:45 +0000] [112] [INFO] reports.tasks: generated report 75 in 2.95s
+[2026-10-03 19:58:45 +0000] [112] [INFO] reports.tasks: generated report 76 in 0.18s
+[2026-10-03 19:58:45 +0000] [7] [INFO] reports.tasks: generated report 77 in 2.73s
+[2026-10-03 19:58:46 +0000] [112] [INFO] reports.tasks: generated report 78 in 0.39s
+[2026-10-03 19:58:46 +0000] [7] [ERROR] Exception on /api/reports/79 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:58:47 +0000] [112] [INFO] reports.tasks: generated report 80 in 0.16s
+[2026-10-03 19:58:47 +0000] [7] [ERROR] Exception on /api/reports/81 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:58:48 +0000] [7] [INFO] reports.tasks: generated report 82 in 2.85s
+[2026-10-03 19:58:48 +0000] [7] [WARNING] django.request: Not Found: /api/reports/3422
+[2026-10-03 19:58:48 +0000] [112] [INFO] reports.tasks: generated report 84 in 2.26s
+[2026-10-03 19:58:48 +0000] [8] [INFO] reports.tasks: generated report 85 in 2.75s
+[2026-10-03 19:58:49 +0000] [7] [INFO] reports.tasks: generated report 86 in 0.49s
+[2026-10-03 19:58:50 +0000] [112] [ERROR] Exception on /api/reports/87 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:58:50 +0000] [7] [INFO] reports.tasks: generated report 88 in 0.28s
+[2026-10-03 19:58:51 +0000] [112] [WARNING] django.request: Not Found: /api/reports/8715
+[2026-10-03 19:58:51 +0000] [7] [INFO] reports.tasks: generated report 90 in 0.62s
+[2026-10-03 19:58:52 +0000] [8] [ERROR] Exception on /api/reports/91 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:58:52 +0000] [8] [ERROR] Exception on /api/reports/92 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:58:52 +0000] [8] [INFO] reports.tasks: generated report 93 in 2.26s
+[2026-10-03 19:58:53 +0000] [8] [WARNING] django.request: Not Found: /api/reports/2267
+[2026-10-03 19:58:53 +0000] [8] [ERROR] Exception on /api/reports/95 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:58:53 +0000] [112] [INFO] reports.tasks: generated report 96 in 1.48s
+[2026-10-03 19:58:54 +0000] [8] [ERROR] Exception on /api/reports/97 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:58:55 +0000] [8] [INFO] reports.tasks: generated report 98 in 2.17s
+[2026-10-03 19:58:55 +0000] [7] [INFO] reports.tasks: generated report 99 in 1.50s
+[2026-10-03 19:58:56 +0000] [7] [ERROR] Exception on /api/reports/100 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:58:56 +0000] [7] [INFO] reports.tasks: generated report 101 in 1.12s
+[2026-10-03 19:58:56 +0000] [112] [ERROR] Exception on /api/reports/102 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:58:56 +0000] [112] [ERROR] Exception on /api/reports/103 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:58:56 +0000] [8] [INFO] reports.tasks: generated report 104 in 1.11s
+[2026-10-03 19:58:57 +0000] [7] [INFO] reports.tasks: generated report 105 in 0.18s
+[2026-10-03 19:58:57 +0000] [7] [ERROR] Exception on /api/reports/106 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:58:57 +0000] [8] [INFO] reports.tasks: generated report 107 in 0.71s
+[2026-10-03 19:58:58 +0000] [7] [WARNING] django.request: Not Found: /api/reports/8139
+[2026-10-03 19:58:59 +0000] [7] [INFO] reports.tasks: generated report 109 in 0.36s
+[2026-10-03 19:58:59 +0000] [7] [INFO] reports.tasks: generated report 110 in 1.95s
+[2026-10-03 19:58:59 +0000] [7] [WARNING] django.request: Not Found: /api/reports/8350
+[2026-10-03 19:58:59 +0000] [8] [INFO] reports.tasks: generated report 112 in 1.83s
+[2026-10-03 19:58:59 +0000] [7] [INFO] reports.tasks: generated report 113 in 1.58s
+[2026-10-03 19:58:59 +0000] [8] [WARNING] django.request: Not Found: /api/reports/5908
+[2026-10-03 19:59:00 +0000] [112] [WARNING] django.request: Not Found: /api/reports/3819
+[2026-10-03 19:59:01 +0000] [8] [WARNING] django.request: Not Found: /api/reports/4033
+[2026-10-03 19:59:01 +0000] [112] [INFO] reports.tasks: generated report 117 in 1.20s
+[2026-10-03 19:59:02 +0000] [8] [WARNING] django.request: Not Found: /api/reports/9291
+[2026-10-03 19:59:02 +0000] [8] [WARNING] django.request: Not Found: /api/reports/5504
+[2026-10-03 19:59:02 +0000] [8] [INFO] reports.tasks: generated report 120 in 1.28s
+[2026-10-03 19:59:03 +0000] [8] [INFO] reports.tasks: generated report 121 in 0.99s
+[2026-10-03 19:59:03 +0000] [8] [INFO] reports.tasks: generated report 122 in 0.76s
+[2026-10-03 19:59:03 +0000] [112] [INFO] reports.tasks: generated report 123 in 2.24s
+[2026-10-03 19:59:04 +0000] [7] [INFO] reports.tasks: generated report 124 in 1.26s
+[2026-10-03 19:59:04 +0000] [112] [WARNING] django.request: Not Found: /api/reports/2394
+[2026-10-03 19:59:05 +0000] [112] [INFO] reports.tasks: generated report 126 in 0.39s
+[2026-10-03 19:59:05 +0000] [8] [ERROR] Exception on /api/reports/127 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:06 +0000] [112] [INFO] reports.tasks: generated report 128 in 1.18s
+[2026-10-03 19:59:06 +0000] [7] [ERROR] Exception on /api/reports/129 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:06 +0000] [7] [INFO] reports.tasks: generated report 130 in 0.56s
+[2026-10-03 19:59:07 +0000] [8] [INFO] reports.tasks: generated report 131 in 2.20s
+[2026-10-03 19:59:07 +0000] [8] [WARNING] django.request: Not Found: /api/reports/5015
+[2026-10-03 19:59:08 +0000] [8] [INFO] reports.tasks: generated report 133 in 2.37s
+[2026-10-03 19:59:08 +0000] [8] [ERROR] Exception on /api/reports/134 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:09 +0000] [7] [ERROR] Exception on /api/reports/135 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:09 +0000] [112] [INFO] reports.tasks: generated report 136 in 2.55s
+[2026-10-03 19:59:10 +0000] [8] [WARNING] django.request: Not Found: /api/reports/6549
+[2026-10-03 19:59:10 +0000] [112] [WARNING] django.request: Not Found: /api/reports/9779
+[2026-10-03 19:59:10 +0000] [112] [INFO] reports.tasks: generated report 139 in 2.37s
+[2026-10-03 19:59:11 +0000] [112] [INFO] reports.tasks: generated report 140 in 0.31s
+[2026-10-03 19:59:11 +0000] [7] [INFO] reports.tasks: generated report 141 in 1.24s
+[2026-10-03 19:59:12 +0000] [8] [INFO] reports.tasks: generated report 142 in 1.21s
+[2026-10-03 19:59:12 +0000] [7] [ERROR] Exception on /api/reports/143 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:13 +0000] [8] [ERROR] Exception on /api/reports/144 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:14 +0000] [7] [WARNING] django.request: Not Found: /api/reports/2128
+[2026-10-03 19:59:14 +0000] [8] [INFO] reports.tasks: generated report 146 in 1.37s
+[2026-10-03 19:59:14 +0000] [8] [INFO] reports.tasks: generated report 147 in 0.50s
+[2026-10-03 19:59:15 +0000] [8] [INFO] reports.tasks: generated report 148 in 1.53s
+[2026-10-03 19:59:16 +0000] [8] [WARNING] django.request: Not Found: /api/reports/8072
+[2026-10-03 19:59:16 +0000] [8] [INFO] reports.tasks: generated report 150 in 0.26s
+[2026-10-03 19:59:16 +0000] [8] [ERROR] Exception on /api/reports/151 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:17 +0000] [112] [WARNING] django.request: Not Found: /api/reports/4136
+[2026-10-03 19:59:17 +0000] [7] [WARNING] django.request: Not Found: /api/reports/2650
+[2026-10-03 19:59:18 +0000] [7] [WARNING] django.request: Not Found: /api/reports/4197
+[2026-10-03 19:59:18 +0000] [8] [INFO] reports.tasks: generated report 155 in 2.18s
+[2026-10-03 19:59:18 +0000] [7] [INFO] reports.tasks: generated report 156 in 1.21s
+[2026-10-03 19:59:19 +0000] [7] [INFO] reports.tasks: generated report 157 in 2.90s
+[2026-10-03 19:59:19 +0000] [7] [ERROR] Exception on /api/reports/158 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:19 +0000] [8] [INFO] reports.tasks: generated report 159 in 0.34s
+[2026-10-03 19:59:19 +0000] [7] [INFO] reports.tasks: generated report 160 in 1.53s
+[2026-10-03 19:59:20 +0000] [8] [INFO] reports.tasks: generated report 161 in 0.72s
+[2026-10-03 19:59:20 +0000] [112] [INFO] reports.tasks: generated report 162 in 1.33s
+[2026-10-03 19:59:20 +0000] [112] [ERROR] Exception on /api/reports/163 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:21 +0000] [7] [INFO] reports.tasks: generated report 164 in 0.50s
+[2026-10-03 19:59:21 +0000] [112] [INFO] reports.tasks: generated report 165 in 2.86s
+[2026-10-03 19:59:21 +0000] [8] [INFO] reports.tasks: generated report 166 in 2.33s
+[2026-10-03 19:59:21 +0000] [8] [WARNING] django.request: Not Found: /api/reports/3252
+[2026-10-03 19:59:22 +0000] [112] [INFO] reports.tasks: generated report 168 in 2.70s
+[2026-10-03 19:59:23 +0000] [7] [INFO] reports.tasks: generated report 169 in 0.68s
+[2026-10-03 19:59:23 +0000] [112] [ERROR] Exception on /api/reports/170 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:23 +0000] [8] [INFO] reports.tasks: generated report 171 in 1.71s
+[2026-10-03 19:59:24 +0000] [8] [WARNING] django.request: Not Found: /api/reports/3084
+[2026-10-03 19:59:24 +0000] [7] [ERROR] Exception on /api/reports/173 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:25 +0000] [8] [ERROR] Exception on /api/reports/174 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:25 +0000] [112] [INFO] reports.tasks: generated report 175 in 0.27s
+[2026-10-03 19:59:26 +0000] [112] [ERROR] Exception on /api/reports/176 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:26 +0000] [7] [ERROR] Exception on /api/reports/177 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:26 +0000] [8] [INFO] reports.tasks: generated report 178 in 0.93s
+[2026-10-03 19:59:26 +0000] [7] [INFO] reports.tasks: generated report 179 in 2.68s
+[2026-10-03 19:59:26 +0000] [112] [WARNING] django.request: Not Found: /api/reports/5611
+[2026-10-03 19:59:28 +0000] [8] [ERROR] Exception on /api/reports/181 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:28 +0000] [7] [ERROR] Exception on /api/reports/182 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:28 +0000] [112] [WARNING] django.request: Not Found: /api/reports/9177
+[2026-10-03 19:59:28 +0000] [112] [INFO] reports.tasks: generated report 184 in 2.14s
+[2026-10-03 19:59:28 +0000] [112] [INFO] reports.tasks: generated report 185 in 0.59s
+[2026-10-03 19:59:29 +0000] [8] [INFO] reports.tasks: generated report 186 in 0.70s
+[2026-10-03 19:59:30 +0000] [8] [ERROR] Exception on /api/reports/187 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:30 +0000] [112] [INFO] reports.tasks: generated report 188 in 0.56s
+[2026-10-03 19:59:30 +0000] [7] [INFO] reports.tasks: generated report 189 in 2.49s
+[2026-10-03 19:59:30 +0000] [112] [ERROR] Exception on /api/reports/190 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:31 +0000] [8] [INFO] reports.tasks: generated report 191 in 2.33s
+[2026-10-03 19:59:31 +0000] [8] [WARNING] django.request: Not Found: /api/reports/2676
+[2026-10-03 19:59:31 +0000] [8] [INFO] reports.tasks: generated report 193 in 1.45s
+[2026-10-03 19:59:31 +0000] [112] [INFO] reports.tasks: generated report 194 in 1.44s
+[2026-10-03 19:59:31 +0000] [8] [WARNING] django.request: Not Found: /api/reports/1286
+[2026-10-03 19:59:31 +0000] [112] [INFO] reports.tasks: generated report 196 in 0.18s
+[2026-10-03 19:59:32 +0000] [8] [INFO] reports.tasks: generated report 197 in 2.17s
+[2026-10-03 19:59:32 +0000] [112] [INFO] reports.tasks: generated report 198 in 0.37s
+[2026-10-03 19:59:32 +0000] [7] [INFO] reports.tasks: generated report 199 in 0.10s
+[2026-10-03 19:59:33 +0000] [7] [INFO] reports.tasks: generated report 200 in 0.51s
+[2026-10-03 19:59:34 +0000] [112] [ERROR] Exception on /api/reports/201 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:34 +0000] [7] [WARNING] django.request: Not Found: /api/reports/3407
+[2026-10-03 19:59:34 +0000] [8] [WARNING] django.request: Not Found: /api/reports/9424
+[2026-10-03 19:59:34 +0000] [7] [INFO] reports.tasks: generated report 204 in 2.57s
+[2026-10-03 19:59:34 +0000] [112] [ERROR] Exception on /api/reports/205 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:35 +0000] [7] [INFO] reports.tasks: generated report 206 in 1.21s
+[2026-10-03 19:59:35 +0000] [8] [WARNING] django.request: Not Found: /api/reports/4938
+[2026-10-03 19:59:35 +0000] [112] [INFO] reports.tasks: generated report 208 in 0.41s
+[2026-10-03 19:59:35 +0000] [7] [INFO] reports.tasks: generated report 209 in 2.24s
+[2026-10-03 19:59:36 +0000] [7] [ERROR] Exception on /api/reports/210 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:36 +0000] [7] [INFO] reports.tasks: generated report 211 in 1.41s
+[2026-10-03 19:59:37 +0000] [7] [ERROR] Exception on /api/reports/212 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:38 +0000] [7] [INFO] reports.tasks: generated report 213 in 2.21s
+[2026-10-03 19:59:38 +0000] [7] [INFO] reports.tasks: generated report 214 in 2.99s
+[2026-10-03 19:59:38 +0000] [7] [WARNING] django.request: Not Found: /api/reports/3771
+[2026-10-03 19:59:47 +0000] [8] [ERROR] Exception on /api/reports/78 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:47 +0000] [112] [INFO] reports.tasks: generated report 79 in 2.22s
+[2026-10-03 19:59:48 +0000] [8] [INFO] reports.tasks: generated report 80 in 2.33s
+[2026-10-03 19:59:49 +0000] [7] [INFO] reports.tasks: generated report 81 in 2.75s
+[2026-10-03 19:59:49 +0000] [112] [ERROR] Exception on /api/reports/82 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:49 +0000] [8] [INFO] reports.tasks: generated report 83 in 2.47s
+[2026-10-03 19:59:49 +0000] [7] [INFO] reports.tasks: generated report 84 in 1.56s
+[2026-10-03 19:59:50 +0000] [112] [ERROR] Exception on /api/reports/85 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:50 +0000] [7] [WARNING] django.request: Not Found: /api/reports/1665
+[2026-10-03 19:59:51 +0000] [8] [INFO] reports.tasks: generated report 87 in 2.82s
+[2026-10-03 19:59:51 +0000] [7] [INFO] reports.tasks: generated report 88 in 0.13s
+[2026-10-03 19:59:52 +0000] [7] [INFO] reports.tasks: generated report 89 in 1.22s
+[2026-10-03 19:59:52 +0000] [7] [WARNING] django.request: Not Found: /api/reports/4645
+[2026-10-03 19:59:53 +0000] [8] [INFO] reports.tasks: generated report 91 in 0.20s
+[2026-10-03 19:59:53 +0000] [112] [WARNING] django.request: Not Found: /api/reports/3990
+[2026-10-03 19:59:53 +0000] [112] [INFO] reports.tasks: generated report 93 in 0.44s
+[2026-10-03 19:59:53 +0000] [112] [INFO] reports.tasks: generated report 94 in 2.63s
+[2026-10-03 19:59:53 +0000] [8] [ERROR] Exception on /api/reports/95 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:54 +0000] [112] [INFO] reports.tasks: generated report 96 in 2.39s
+[2026-10-03 19:59:54 +0000] [8] [INFO] reports.tasks: generated report 97 in 1.42s
+[2026-10-03 19:59:55 +0000] [8] [INFO] reports.tasks: generated report 98 in 2.99s
+[2026-10-03 19:59:56 +0000] [8] [ERROR] Exception on /api/reports/99 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:56 +0000] [7] [INFO] reports.tasks: generated report 100 in 0.99s
+[2026-10-03 19:59:57 +0000] [8] [ERROR] Exception on /api/reports/101 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:57 +0000] [112] [INFO] reports.tasks: generated report 102 in 1.98s
+[2026-10-03 19:59:58 +0000] [8] [ERROR] Exception on /api/reports/103 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:58 +0000] [7] [ERROR] Exception on /api/reports/104 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 19:59:58 +0000] [112] [INFO] reports.tasks: generated report 105 in 0.99s
+[2026-10-03 19:59:58 +0000] [7] [INFO] reports.tasks: generated report 106 in 0.10s
+[2026-10-03 19:59:59 +0000] [8] [INFO] reports.tasks: generated report 107 in 2.43s
+[2026-10-03 19:59:59 +0000] [7] [INFO] reports.tasks: generated report 108 in 2.25s
+[2026-10-03 20:00:00 +0000] [7] [INFO] reports.tasks: generated report 109 in 0.62s
+[2026-10-03 20:00:01 +0000] [8] [INFO] reports.tasks: generated report 110 in 1.49s
+[2026-10-03 20:00:01 +0000] [8] [ERROR] Exception on /api/reports/111 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:01 +0000] [7] [INFO] reports.tasks: generated report 112 in 0.54s
+[2026-10-03 20:00:01 +0000] [7] [INFO] reports.tasks: generated report 113 in 2.19s
+[2026-10-03 20:00:02 +0000] [8] [INFO] reports.tasks: generated report 114 in 0.99s
+[2026-10-03 20:00:02 +0000] [8] [INFO] reports.tasks: generated report 115 in 1.73s
+[2026-10-03 20:00:02 +0000] [7] [ERROR] Exception on /api/reports/116 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:02 +0000] [7] [ERROR] Exception on /api/reports/117 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:02 +0000] [112] [ERROR] Exception on /api/reports/118 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:02 +0000] [8] [INFO] reports.tasks: generated report 119 in 2.47s
+[2026-10-03 20:00:03 +0000] [7] [INFO] reports.tasks: generated report 120 in 1.39s
+[2026-10-03 20:00:03 +0000] [8] [INFO] reports.tasks: generated report 121 in 0.40s
+[2026-10-03 20:00:03 +0000] [7] [INFO] reports.tasks: generated report 122 in 1.30s
+[2026-10-03 20:00:03 +0000] [7] [WARNING] django.request: Not Found: /api/reports/6703
+[2026-10-03 20:00:04 +0000] [8] [WARNING] django.request: Not Found: /api/reports/7980
+[2026-10-03 20:00:04 +0000] [112] [INFO] reports.tasks: generated report 125 in 0.84s
+[2026-10-03 20:00:05 +0000] [112] [INFO] reports.tasks: generated report 126 in 0.28s
+[2026-10-03 20:00:05 +0000] [112] [INFO] reports.tasks: generated report 127 in 0.91s
+[2026-10-03 20:00:06 +0000] [8] [INFO] reports.tasks: generated report 128 in 0.32s
+[2026-10-03 20:00:06 +0000] [8] [INFO] reports.tasks: generated report 129 in 2.26s
+[2026-10-03 20:00:07 +0000] [7] [WARNING] django.request: Not Found: /api/reports/1852
+[2026-10-03 20:00:07 +0000] [8] [ERROR] Exception on /api/reports/131 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:07 +0000] [7] [ERROR] Exception on /api/reports/132 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:08 +0000] [112] [ERROR] Exception on /api/reports/133 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:09 +0000] [112] [INFO] reports.tasks: generated report 134 in 2.31s
+[2026-10-03 20:00:09 +0000] [7] [INFO] reports.tasks: generated report 135 in 2.42s
+[2026-10-03 20:00:09 +0000] [7] [INFO] reports.tasks: generated report 136 in 1.62s
+[2026-10-03 20:00:09 +0000] [112] [ERROR] Exception on /api/reports/137 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:10 +0000] [7] [ERROR] Exception on /api/reports/138 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:10 +0000] [7] [INFO] reports.tasks: generated report 139 in 1.11s
+[2026-10-03 20:00:11 +0000] [7] [INFO] reports.tasks: generated report 140 in 0.48s
+[2026-10-03 20:00:11 +0000] [7] [INFO] reports.tasks: generated report 141 in 1.24s
+[2026-10-03 20:00:11 +0000] [112] [INFO] reports.tasks: generated report 142 in 1.48s
+[2026-10-03 20:00:11 +0000] [8] [INFO] reports.tasks: generated report 143 in 0.30s
+[2026-10-03 20:00:12 +0000] [112] [WARNING] django.request: Not Found: /api/reports/8758
+[2026-10-03 20:00:12 +0000] [112] [ERROR] Exception on /api/reports/145 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:13 +0000] [112] [INFO] reports.tasks: generated report 146 in 2.47s
+[2026-10-03 20:00:13 +0000] [112] [INFO] reports.tasks: generated report 147 in 1.93s
+[2026-10-03 20:00:14 +0000] [112] [WARNING] django.request: Not Found: /api/reports/6943
+[2026-10-03 20:00:14 +0000] [7] [ERROR] Exception on /api/reports/149 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:15 +0000] [112] [ERROR] Exception on /api/reports/150 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:16 +0000] [8] [WARNING] django.request: Not Found: /api/reports/5422
+[2026-10-03 20:00:16 +0000] [112] [WARNING] django.request: Not Found: /api/reports/6257
+[2026-10-03 20:00:16 +0000] [7] [INFO] reports.tasks: generated report 153 in 0.85s
+[2026-10-03 20:00:17 +0000] [7] [WARNING] django.request: Not Found: /api/reports/6496
+[2026-10-03 20:00:18 +0000] [112] [ERROR] Exception on /api/reports/155 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:18 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1100
+[2026-10-03 20:00:19 +0000] [7] [WARNING] django.request: Not Found: /api/reports/2535
+[2026-10-03 20:00:19 +0000] [8] [ERROR] Exception on /api/reports/158 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:19 +0000] [7] [INFO] reports.tasks: generated report 159 in 2.64s
+[2026-10-03 20:00:20 +0000] [8] [INFO] reports.tasks: generated report 160 in 2.38s
+[2026-10-03 20:00:20 +0000] [112] [INFO] reports.tasks: generated report 161 in 2.64s
+[2026-10-03 20:00:21 +0000] [112] [WARNING] django.request: Not Found: /api/reports/2960
+[2026-10-03 20:00:22 +0000] [7] [INFO] reports.tasks: generated report 163 in 0.95s
+[2026-10-03 20:00:22 +0000] [112] [INFO] reports.tasks: generated report 164 in 1.43s
+[2026-10-03 20:00:22 +0000] [8] [WARNING] django.request: Not Found: /api/reports/2640
+[2026-10-03 20:00:23 +0000] [8] [ERROR] Exception on /api/reports/166 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:23 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1184
+[2026-10-03 20:00:23 +0000] [7] [INFO] reports.tasks: generated report 168 in 1.17s
+[2026-10-03 20:00:24 +0000] [7] [WARNING] django.request: Not Found: /api/reports/4870
+[2026-10-03 20:00:24 +0000] [8] [ERROR] Exception on /api/reports/170 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:24 +0000] [112] [ERROR] Exception on /api/reports/171 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:24 +0000] [112] [ERROR] Exception on /api/reports/172 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:25 +0000] [7] [INFO] reports.tasks: generated report 173 in 0.10s
+[2026-10-03 20:00:25 +0000] [8] [INFO] reports.tasks: generated report 174 in 1.93s
+[2026-10-03 20:00:25 +0000] [7] [INFO] reports.tasks: generated report 175 in 0.51s
+[2026-10-03 20:00:25 +0000] [112] [INFO] reports.tasks: generated report 176 in 1.27s
+[2026-10-03 20:00:25 +0000] [8] [WARNING] django.request: Not Found: /api/reports/6365
+[2026-10-03 20:00:26 +0000] [7] [INFO] reports.tasks: generated report 178 in 1.20s
+[2026-10-03 20:00:26 +0000] [7] [WARNING] django.request: Not Found: /api/reports/1210
+[2026-10-03 20:00:26 +0000] [112] [WARNING] django.request: Not Found: /api/reports/7302
+[2026-10-03 20:00:27 +0000] [112] [INFO] reports.tasks: generated report 181 in 2.64s
+[2026-10-03 20:00:28 +0000] [8] [INFO] reports.tasks: generated report 182 in 1.36s
+[2026-10-03 20:00:28 +0000] [7] [INFO] reports.tasks: generated report 183 in 2.63s
+[2026-10-03 20:00:29 +0000] [7] [INFO] reports.tasks: generated report 184 in 0.46s
+[2026-10-03 20:00:29 +0000] [112] [INFO] reports.tasks: generated report 185 in 0.50s
+[2026-10-03 20:00:29 +0000] [7] [INFO] reports.tasks: generated report 186 in 2.31s
+[2026-10-03 20:00:29 +0000] [8] [INFO] reports.tasks: generated report 187 in 2.40s
+[2026-10-03 20:00:30 +0000] [112] [ERROR] Exception on /api/reports/188 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:31 +0000] [112] [INFO] reports.tasks: generated report 189 in 1.53s
+[2026-10-03 20:00:31 +0000] [8] [INFO] reports.tasks: generated report 190 in 0.29s
+[2026-10-03 20:00:31 +0000] [7] [INFO] reports.tasks: generated report 191 in 2.44s
+[2026-10-03 20:00:31 +0000] [7] [INFO] reports.tasks: generated report 192 in 0.28s
+[2026-10-03 20:00:31 +0000] [8] [INFO] reports.tasks: generated report 193 in 1.63s
+[2026-10-03 20:00:32 +0000] [7] [INFO] reports.tasks: generated report 194 in 1.36s
+[2026-10-03 20:00:32 +0000] [7] [ERROR] Exception on /api/reports/195 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:32 +0000] [8] [INFO] reports.tasks: generated report 196 in 0.66s
+[2026-10-03 20:00:33 +0000] [112] [INFO] reports.tasks: generated report 197 in 2.48s
+[2026-10-03 20:00:33 +0000] [7] [WARNING] django.request: Not Found: /api/reports/4162
+[2026-10-03 20:00:33 +0000] [7] [INFO] reports.tasks: generated report 199 in 1.77s
+[2026-10-03 20:00:35 +0000] [112] [INFO] reports.tasks: generated report 200 in 0.32s
+[2026-10-03 20:00:35 +0000] [112] [INFO] reports.tasks: generated report 201 in 2.56s
+[2026-10-03 20:00:36 +0000] [7] [WARNING] django.request: Not Found: /api/reports/7181
+[2026-10-03 20:00:36 +0000] [112] [INFO] reports.tasks: generated report 203 in 2.66s
+[2026-10-03 20:00:37 +0000] [7] [ERROR] Exception on /api/reports/204 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:37 +0000] [112] [INFO] reports.tasks: generated report 205 in 1.62s
+[2026-10-03 20:00:37 +0000] [8] [WARNING] django.request: Not Found: /api/reports/2464
+[2026-10-03 20:00:38 +0000] [8] [INFO] reports.tasks: generated report 207 in 0.78s
+[2026-10-03 20:00:38 +0000] [7] [WARNING] django.request: Not Found: /api/reports/2333
+[2026-10-03 20:00:38 +0000] [7] [INFO] reports.tasks: generated report 209 in 2.74s
+[2026-10-03 20:00:39 +0000] [8] [INFO] reports.tasks: generated report 210 in 1.14s
+[2026-10-03 20:00:39 +0000] [7] [INFO] reports.tasks: generated report 211 in 0.90s
+[2026-10-03 20:00:39 +0000] [7] [INFO] reports.tasks: generated report 212 in 0.12s
+[2026-10-03 20:00:40 +0000] [112] [INFO] reports.tasks: generated report 213 in 2.44s
+[2026-10-03 20:00:41 +0000] [112] [WARNING] django.request: Not Found: /api/reports/2788
+[2026-10-03 20:00:42 +0000] [8] [WARNING] django.request: Not Found: /api/reports/6985
+[2026-10-03 20:00:42 +0000] [112] [WARNING] django.request: Not Found: /api/reports/2599
+[2026-10-03 20:00:43 +0000] [7] [INFO] reports.tasks: generated report 217 in 2.76s
+[2026-10-03 20:00:44 +0000] [8] [INFO] reports.tasks: generated report 218 in 0.40s
+[2026-10-03 20:00:44 +0000] [8] [WARNING] django.request: Not Found: /api/reports/7363
+[2026-10-03 20:00:45 +0000] [7] [INFO] reports.tasks: generated report 220 in 0.44s
+[2026-10-03 20:00:45 +0000] [112] [ERROR] Exception on /api/reports/221 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:45 +0000] [112] [WARNING] django.request: Not Found: /api/reports/6189
+[2026-10-03 20:00:45 +0000] [7] [ERROR] Exception on /api/reports/223 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:00:46 +0000] [8] [INFO] reports.tasks: generated report 224 in 0.88s
+[2026-10-03 20:02:06 +0000] [112] [ERROR] Exception on /api/reports/67 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:06 +0000] [8] [ERROR] Exception on /api/reports/68 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:06 +0000] [8] [INFO] reports.tasks: generated report 69 in 0.81s
+[2026-10-03 20:02:06 +0000] [112] [INFO] reports.tasks: generated report 70 in 1.17s
+[2026-10-03 20:02:07 +0000] [8] [ERROR] Exception on /api/reports/71 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:07 +0000] [112] [INFO] reports.tasks: generated report 72 in 0.13s
+[2026-10-03 20:02:08 +0000] [112] [ERROR] Exception on /api/reports/73 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:08 +0000] [7] [WARNING] django.request: Not Found: /api/reports/7898
+[2026-10-03 20:02:08 +0000] [112] [INFO] reports.tasks: generated report 75 in 1.97s
+[2026-10-03 20:02:09 +0000] [112] [INFO] reports.tasks: generated report 76 in 1.40s
+[2026-10-03 20:02:09 +0000] [8] [INFO] reports.tasks: generated report 77 in 1.30s
+[2026-10-03 20:02:10 +0000] [112] [ERROR] Exception on /api/reports/78 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:10 +0000] [7] [ERROR] Exception on /api/reports/79 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:10 +0000] [112] [INFO] reports.tasks: generated report 80 in 0.96s
+[2026-10-03 20:02:11 +0000] [112] [ERROR] Exception on /api/reports/81 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:11 +0000] [112] [INFO] reports.tasks: generated report 82 in 0.21s
+[2026-10-03 20:02:12 +0000] [112] [INFO] reports.tasks: generated report 83 in 1.51s
+[2026-10-03 20:02:12 +0000] [112] [INFO] reports.tasks: generated report 84 in 1.94s
+[2026-10-03 20:02:12 +0000] [112] [INFO] reports.tasks: generated report 85 in 1.56s
+[2026-10-03 20:02:13 +0000] [8] [INFO] reports.tasks: generated report 86 in 1.32s
+[2026-10-03 20:02:13 +0000] [7] [ERROR] Exception on /api/reports/87 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:13 +0000] [7] [INFO] reports.tasks: generated report 88 in 2.22s
+[2026-10-03 20:02:13 +0000] [112] [WARNING] django.request: Not Found: /api/reports/9110
+[2026-10-03 20:02:14 +0000] [8] [ERROR] Exception on /api/reports/90 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:14 +0000] [7] [INFO] reports.tasks: generated report 91 in 0.27s
+[2026-10-03 20:02:14 +0000] [7] [INFO] reports.tasks: generated report 92 in 1.42s
+[2026-10-03 20:02:15 +0000] [112] [INFO] reports.tasks: generated report 93 in 1.85s
+[2026-10-03 20:02:15 +0000] [7] [INFO] reports.tasks: generated report 94 in 0.25s
+[2026-10-03 20:02:15 +0000] [8] [WARNING] django.request: Not Found: /api/reports/3750
+[2026-10-03 20:02:15 +0000] [7] [INFO] reports.tasks: generated report 96 in 1.80s
+[2026-10-03 20:02:16 +0000] [8] [INFO] reports.tasks: generated report 97 in 0.89s
+[2026-10-03 20:02:16 +0000] [7] [INFO] reports.tasks: generated report 98 in 2.63s
+[2026-10-03 20:02:17 +0000] [7] [INFO] reports.tasks: generated report 99 in 2.85s
+[2026-10-03 20:02:17 +0000] [112] [INFO] reports.tasks: generated report 100 in 0.40s
+[2026-10-03 20:02:17 +0000] [8] [ERROR] Exception on /api/reports/101 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:17 +0000] [112] [INFO] reports.tasks: generated report 102 in 0.77s
+[2026-10-03 20:02:18 +0000] [7] [INFO] reports.tasks: generated report 103 in 0.49s
+[2026-10-03 20:02:18 +0000] [7] [ERROR] Exception on /api/reports/104 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:19 +0000] [7] [INFO] reports.tasks: generated report 105 in 0.48s
+[2026-10-03 20:02:19 +0000] [7] [ERROR] Exception on /api/reports/106 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:19 +0000] [7] [ERROR] Exception on /api/reports/107 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:19 +0000] [112] [INFO] reports.tasks: generated report 108 in 0.28s
+[2026-10-03 20:02:20 +0000] [112] [INFO] reports.tasks: generated report 109 in 2.41s
+[2026-10-03 20:02:21 +0000] [7] [ERROR] Exception on /api/reports/110 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:21 +0000] [112] [INFO] reports.tasks: generated report 111 in 0.46s
+[2026-10-03 20:02:21 +0000] [7] [INFO] reports.tasks: generated report 112 in 1.93s
+[2026-10-03 20:02:22 +0000] [7] [INFO] reports.tasks: generated report 113 in 1.69s
+[2026-10-03 20:02:22 +0000] [7] [WARNING] django.request: Not Found: /api/reports/7991
+[2026-10-03 20:02:22 +0000] [8] [WARNING] django.request: Not Found: /api/reports/4922
+[2026-10-03 20:02:23 +0000] [8] [INFO] reports.tasks: generated report 116 in 2.52s
+[2026-10-03 20:02:24 +0000] [112] [ERROR] Exception on /api/reports/117 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:24 +0000] [7] [INFO] reports.tasks: generated report 118 in 2.82s
+[2026-10-03 20:02:25 +0000] [8] [WARNING] django.request: Not Found: /api/reports/4947
+[2026-10-03 20:02:25 +0000] [8] [ERROR] Exception on /api/reports/120 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:26 +0000] [7] [INFO] reports.tasks: generated report 121 in 0.61s
+[2026-10-03 20:02:27 +0000] [8] [INFO] reports.tasks: generated report 122 in 0.82s
+[2026-10-03 20:02:27 +0000] [7] [INFO] reports.tasks: generated report 123 in 0.43s
+[2026-10-03 20:02:27 +0000] [8] [ERROR] Exception on /api/reports/124 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:27 +0000] [7] [INFO] reports.tasks: generated report 125 in 2.80s
+[2026-10-03 20:02:28 +0000] [7] [INFO] reports.tasks: generated report 126 in 1.82s
+[2026-10-03 20:02:28 +0000] [112] [INFO] reports.tasks: generated report 127 in 2.15s
+[2026-10-03 20:02:29 +0000] [112] [ERROR] Exception on /api/reports/128 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:29 +0000] [112] [INFO] reports.tasks: generated report 129 in 1.60s
+[2026-10-03 20:02:29 +0000] [8] [INFO] reports.tasks: generated report 130 in 0.31s
+[2026-10-03 20:02:30 +0000] [112] [INFO] reports.tasks: generated report 131 in 0.23s
+[2026-10-03 20:02:30 +0000] [7] [WARNING] django.request: Not Found: /api/reports/4726
+[2026-10-03 20:02:31 +0000] [8] [INFO] reports.tasks: generated report 133 in 1.51s
+[2026-10-03 20:02:32 +0000] [7] [ERROR] Exception on /api/reports/134 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:32 +0000] [7] [INFO] reports.tasks: generated report 135 in 2.26s
+[2026-10-03 20:02:32 +0000] [7] [WARNING] django.request: Not Found: /api/reports/4581
+[2026-10-03 20:02:32 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1102
+[2026-10-03 20:02:33 +0000] [112] [INFO] reports.tasks: generated report 138 in 2.84s
+[2026-10-03 20:02:33 +0000] [7] [INFO] reports.tasks: generated report 139 in 2.89s
+[2026-10-03 20:02:33 +0000] [7] [INFO] reports.tasks: generated report 140 in 1.34s
+[2026-10-03 20:02:34 +0000] [8] [ERROR] Exception on /api/reports/141 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:34 +0000] [8] [INFO] reports.tasks: generated report 142 in 0.27s
+[2026-10-03 20:02:34 +0000] [7] [ERROR] Exception on /api/reports/143 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:35 +0000] [7] [INFO] reports.tasks: generated report 144 in 0.58s
+[2026-10-03 20:02:35 +0000] [112] [ERROR] Exception on /api/reports/145 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:35 +0000] [112] [ERROR] Exception on /api/reports/146 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:36 +0000] [7] [WARNING] django.request: Not Found: /api/reports/3952
+[2026-10-03 20:02:36 +0000] [8] [INFO] reports.tasks: generated report 148 in 0.30s
+[2026-10-03 20:02:36 +0000] [8] [ERROR] Exception on /api/reports/149 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:36 +0000] [7] [INFO] reports.tasks: generated report 150 in 1.98s
+[2026-10-03 20:02:36 +0000] [7] [INFO] reports.tasks: generated report 151 in 2.26s
+[2026-10-03 20:02:36 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1217
+[2026-10-03 20:02:37 +0000] [7] [WARNING] django.request: Not Found: /api/reports/4223
+[2026-10-03 20:02:38 +0000] [112] [ERROR] Exception on /api/reports/154 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:38 +0000] [112] [INFO] reports.tasks: generated report 155 in 2.60s
+[2026-10-03 20:02:38 +0000] [8] [INFO] reports.tasks: generated report 156 in 1.16s
+[2026-10-03 20:02:39 +0000] [7] [WARNING] django.request: Not Found: /api/reports/9183
+[2026-10-03 20:02:39 +0000] [7] [WARNING] django.request: Not Found: /api/reports/4260
+[2026-10-03 20:02:39 +0000] [7] [INFO] reports.tasks: generated report 159 in 0.68s
+[2026-10-03 20:02:39 +0000] [112] [WARNING] django.request: Not Found: /api/reports/5943
+[2026-10-03 20:02:39 +0000] [112] [WARNING] django.request: Not Found: /api/reports/9539
+[2026-10-03 20:02:40 +0000] [7] [INFO] reports.tasks: generated report 162 in 0.22s
+[2026-10-03 20:02:41 +0000] [7] [INFO] reports.tasks: generated report 163 in 0.51s
+[2026-10-03 20:02:41 +0000] [8] [ERROR] Exception on /api/reports/164 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:43 +0000] [7] [INFO] reports.tasks: generated report 165 in 2.54s
+[2026-10-03 20:02:43 +0000] [7] [INFO] reports.tasks: generated report 166 in 2.77s
+[2026-10-03 20:02:44 +0000] [7] [INFO] reports.tasks: generated report 167 in 2.91s
+[2026-10-03 20:02:44 +0000] [112] [ERROR] Exception on /api/reports/168 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:44 +0000] [7] [ERROR] Exception on /api/reports/169 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:44 +0000] [112] [INFO] reports.tasks: generated report 170 in 1.30s
+[2026-10-03 20:02:44 +0000] [112] [INFO] reports.tasks: generated report 171 in 2.18s
+[2026-10-03 20:02:45 +0000] [8] [INFO] reports.tasks: generated report 172 in 1.70s
+[2026-10-03 20:02:46 +0000] [7] [INFO] reports.tasks: generated report 173 in 2.35s
+[2026-10-03 20:02:46 +0000] [112] [ERROR] Exception on /api/reports/174 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:46 +0000] [112] [WARNING] django.request: Not Found: /api/reports/3071
+[2026-10-03 20:02:47 +0000] [8] [ERROR] Exception on /api/reports/176 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:47 +0000] [7] [INFO] reports.tasks: generated report 177 in 1.87s
+[2026-10-03 20:02:47 +0000] [8] [INFO] reports.tasks: generated report 178 in 1.41s
+[2026-10-03 20:02:47 +0000] [8] [ERROR] Exception on /api/reports/179 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:47 +0000] [8] [WARNING] django.request: Not Found: /api/reports/3085
+[2026-10-03 20:02:48 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1328
+[2026-10-03 20:02:48 +0000] [8] [WARNING] django.request: Not Found: /api/reports/8094
+[2026-10-03 20:02:48 +0000] [7] [INFO] reports.tasks: generated report 183 in 1.27s
+[2026-10-03 20:02:49 +0000] [8] [ERROR] Exception on /api/reports/184 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:49 +0000] [7] [WARNING] django.request: Not Found: /api/reports/8768
+[2026-10-03 20:02:49 +0000] [8] [INFO] reports.tasks: generated report 186 in 0.98s
+[2026-10-03 20:02:50 +0000] [112] [INFO] reports.tasks: generated report 187 in 0.33s
+[2026-10-03 20:02:50 +0000] [7] [WARNING] django.request: Not Found: /api/reports/5935
+[2026-10-03 20:02:50 +0000] [8] [INFO] reports.tasks: generated report 189 in 1.93s
+[2026-10-03 20:02:50 +0000] [112] [INFO] reports.tasks: generated report 190 in 2.67s
+[2026-10-03 20:02:51 +0000] [7] [WARNING] django.request: Not Found: /api/reports/8902
+[2026-10-03 20:02:51 +0000] [112] [ERROR] Exception on /api/reports/192 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:51 +0000] [8] [INFO] reports.tasks: generated report 193 in 2.32s
+[2026-10-03 20:02:52 +0000] [8] [INFO] reports.tasks: generated report 194 in 1.67s
+[2026-10-03 20:02:52 +0000] [8] [INFO] reports.tasks: generated report 195 in 1.56s
+[2026-10-03 20:02:52 +0000] [112] [INFO] reports.tasks: generated report 196 in 1.44s
+[2026-10-03 20:02:52 +0000] [8] [INFO] reports.tasks: generated report 197 in 2.81s
+[2026-10-03 20:02:53 +0000] [7] [INFO] reports.tasks: generated report 198 in 2.11s
+[2026-10-03 20:02:53 +0000] [112] [ERROR] Exception on /api/reports/199 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:54 +0000] [7] [ERROR] Exception on /api/reports/200 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:54 +0000] [8] [WARNING] django.request: Not Found: /api/reports/2780
+[2026-10-03 20:02:55 +0000] [112] [ERROR] Exception on /api/reports/202 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:55 +0000] [8] [INFO] reports.tasks: generated report 203 in 0.99s
+[2026-10-03 20:02:56 +0000] [8] [INFO] reports.tasks: generated report 204 in 0.82s
+[2026-10-03 20:02:56 +0000] [7] [INFO] reports.tasks: generated report 205 in 0.95s
+[2026-10-03 20:02:56 +0000] [8] [WARNING] django.request: Not Found: /api/reports/3744
+[2026-10-03 20:02:57 +0000] [7] [INFO] reports.tasks: generated report 207 in 1.60s
+[2026-10-03 20:02:57 +0000] [8] [INFO] reports.tasks: generated report 208 in 0.63s
+[2026-10-03 20:02:57 +0000] [7] [ERROR] Exception on /api/reports/209 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:57 +0000] [7] [INFO] reports.tasks: generated report 210 in 1.70s
+[2026-10-03 20:02:57 +0000] [7] [ERROR] Exception on /api/reports/211 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:57 +0000] [112] [ERROR] Exception on /api/reports/212 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:57 +0000] [8] [INFO] reports.tasks: generated report 213 in 1.13s
+[2026-10-03 20:02:58 +0000] [7] [INFO] reports.tasks: generated report 214 in 0.63s
+[2026-10-03 20:02:58 +0000] [8] [ERROR] Exception on /api/reports/215 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:02:59 +0000] [7] [INFO] reports.tasks: generated report 216 in 0.35s
+[2026-10-03 20:02:59 +0000] [7] [INFO] reports.tasks: generated report 217 in 0.18s
+[2026-10-03 20:02:59 +0000] [112] [INFO] reports.tasks: generated report 218 in 1.93s
+[2026-10-03 20:03:01 +0000] [112] [INFO] reports.tasks: generated report 219 in 1.92s
+[2026-10-03 20:03:01 +0000] [112] [INFO] reports.tasks: generated report 220 in 2.40s
+[2026-10-03 20:03:01 +0000] [8] [INFO] reports.tasks: generated report 221 in 2.92s
+[2026-10-03 20:03:02 +0000] [7] [INFO] reports.tasks: generated report 222 in 1.62s
+[2026-10-03 20:03:02 +0000] [7] [INFO] reports.tasks: generated report 223 in 1.64s
+[2026-10-03 20:03:03 +0000] [7] [INFO] reports.tasks: generated report 224 in 1.60s
+[2026-10-03 20:03:04 +0000] [112] [WARNING] django.request: Not Found: /api/reports/6717
+[2026-10-03 20:03:04 +0000] [7] [INFO] reports.tasks: generated report 226 in 2.94s
+[2026-10-03 20:03:04 +0000] [112] [WARNING] django.request: Not Found: /api/reports/8184
+[2026-10-03 20:03:05 +0000] [8] [INFO] reports.tasks: generated report 228 in 0.26s
+[2026-10-03 20:03:05 +0000] [7] [WARNING] django.request: Not Found: /api/reports/7152
+[2026-10-03 20:03:07 +0000] [112] [INFO] reports.tasks: generated report 230 in 0.95s
+[2026-10-03 20:03:07 +0000] [7] [INFO] reports.tasks: generated report 231 in 1.33s
+[2026-10-03 20:03:08 +0000] [7] [INFO] reports.tasks: generated report 232 in 2.88s
+[2026-10-03 20:03:08 +0000] [7] [ERROR] Exception on /api/reports/233 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:08 +0000] [7] [INFO] reports.tasks: generated report 234 in 0.72s
+[2026-10-03 20:03:08 +0000] [8] [WARNING] django.request: Not Found: /api/reports/6826
+[2026-10-03 20:03:09 +0000] [8] [ERROR] Exception on /api/reports/236 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:09 +0000] [7] [WARNING] django.request: Not Found: /api/reports/1663
+[2026-10-03 20:03:09 +0000] [112] [INFO] reports.tasks: generated report 238 in 0.42s
+[2026-10-03 20:03:09 +0000] [8] [INFO] reports.tasks: generated report 239 in 2.98s
+[2026-10-03 20:03:10 +0000] [112] [INFO] reports.tasks: generated report 240 in 2.57s
+[2026-10-03 20:03:10 +0000] [112] [INFO] reports.tasks: generated report 241 in 2.54s
+[2026-10-03 20:03:10 +0000] [8] [WARNING] django.request: Not Found: /api/reports/3250
+[2026-10-03 20:03:11 +0000] [8] [ERROR] Exception on /api/reports/243 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:11 +0000] [7] [WARNING] django.request: Not Found: /api/reports/3003
+[2026-10-03 20:03:11 +0000] [7] [ERROR] Exception on /api/reports/245 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:11 +0000] [112] [INFO] reports.tasks: generated report 246 in 0.44s
+[2026-10-03 20:03:11 +0000] [7] [INFO] reports.tasks: generated report 247 in 0.83s
+[2026-10-03 20:03:12 +0000] [8] [INFO] reports.tasks: generated report 248 in 0.77s
+[2026-10-03 20:03:12 +0000] [112] [INFO] reports.tasks: generated report 249 in 1.37s
+[2026-10-03 20:03:12 +0000] [7] [INFO] reports.tasks: generated report 250 in 1.31s
+[2026-10-03 20:03:13 +0000] [8] [ERROR] Exception on /api/reports/251 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:13 +0000] [7] [INFO] reports.tasks: generated report 252 in 1.98s
+[2026-10-03 20:03:14 +0000] [8] [INFO] reports.tasks: generated report 253 in 2.27s
+[2026-10-03 20:03:14 +0000] [112] [INFO] reports.tasks: generated report 254 in 1.67s
+[2026-10-03 20:03:15 +0000] [8] [INFO] reports.tasks: generated report 255 in 2.81s
+[2026-10-03 20:03:15 +0000] [112] [WARNING] django.request: Not Found: /api/reports/6034
+[2026-10-03 20:03:15 +0000] [8] [INFO] reports.tasks: generated report 257 in 2.50s
+[2026-10-03 20:03:15 +0000] [8] [ERROR] Exception on /api/reports/258 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:15 +0000] [8] [INFO] reports.tasks: generated report 259 in 2.72s
+[2026-10-03 20:03:15 +0000] [8] [INFO] reports.tasks: generated report 260 in 2.36s
+[2026-10-03 20:03:16 +0000] [8] [WARNING] django.request: Not Found: /api/reports/8119
+[2026-10-03 20:03:16 +0000] [8] [ERROR] Exception on /api/reports/262 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:16 +0000] [112] [INFO] reports.tasks: generated report 263 in 2.24s
+[2026-10-03 20:03:16 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1583
+[2026-10-03 20:03:16 +0000] [8] [ERROR] Exception on /api/reports/265 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:16 +0000] [7] [WARNING] django.request: Not Found: /api/reports/9136
+[2026-10-03 20:03:16 +0000] [8] [INFO] reports.tasks: generated report 267 in 0.69s
+[2026-10-03 20:03:17 +0000] [7] [INFO] reports.tasks: generated report 268 in 2.98s
+[2026-10-03 20:03:17 +0000] [7] [WARNING] django.request: Not Found: /api/reports/9527
+[2026-10-03 20:03:17 +0000] [112] [INFO] reports.tasks: generated report 270 in 1.60s
+[2026-10-03 20:03:18 +0000] [7] [INFO] reports.tasks: generated report 271 in 0.84s
+[2026-10-03 20:03:18 +0000] [112] [INFO] reports.tasks: generated report 272 in 1.34s
+[2026-10-03 20:03:18 +0000] [8] [INFO] reports.tasks: generated report 273 in 0.23s
+[2026-10-03 20:03:18 +0000] [8] [INFO] reports.tasks: generated report 274 in 2.54s
+[2026-10-03 20:03:18 +0000] [7] [INFO] reports.tasks: generated report 275 in 0.66s
+[2026-10-03 20:03:19 +0000] [7] [ERROR] Exception on /api/reports/276 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:20 +0000] [112] [INFO] reports.tasks: generated report 277 in 2.86s
+[2026-10-03 20:03:20 +0000] [8] [WARNING] django.request: Not Found: /api/reports/1650
+[2026-10-03 20:03:20 +0000] [7] [INFO] reports.tasks: generated report 279 in 1.61s
+[2026-10-03 20:03:20 +0000] [7] [INFO] reports.tasks: generated report 280 in 1.83s
+[2026-10-03 20:03:20 +0000] [7] [INFO] reports.tasks: generated report 281 in 0.10s
+[2026-10-03 20:03:21 +0000] [112] [INFO] reports.tasks: generated report 282 in 0.71s
+[2026-10-03 20:03:21 +0000] [112] [INFO] reports.tasks: generated report 283 in 2.17s
+[2026-10-03 20:03:22 +0000] [8] [ERROR] Exception on /api/reports/284 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:22 +0000] [112] [ERROR] Exception on /api/reports/285 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:22 +0000] [7] [INFO] reports.tasks: generated report 286 in 0.92s
+[2026-10-03 20:03:22 +0000] [112] [INFO] reports.tasks: generated report 287 in 0.39s
+[2026-10-03 20:03:23 +0000] [112] [INFO] reports.tasks: generated report 288 in 1.51s
+[2026-10-03 20:03:23 +0000] [8] [INFO] reports.tasks: generated report 289 in 1.60s
+[2026-10-03 20:03:23 +0000] [8] [INFO] reports.tasks: generated report 290 in 2.31s
+[2026-10-03 20:03:23 +0000] [112] [ERROR] Exception on /api/reports/291 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:23 +0000] [8] [INFO] reports.tasks: generated report 292 in 0.19s
+[2026-10-03 20:03:24 +0000] [112] [INFO] reports.tasks: generated report 293 in 2.41s
+[2026-10-03 20:03:24 +0000] [8] [ERROR] Exception on /api/reports/294 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:24 +0000] [112] [INFO] reports.tasks: generated report 295 in 1.26s
+[2026-10-03 20:03:24 +0000] [8] [INFO] reports.tasks: generated report 296 in 1.40s
+[2026-10-03 20:03:25 +0000] [7] [INFO] reports.tasks: generated report 297 in 1.85s
+[2026-10-03 20:03:25 +0000] [7] [ERROR] Exception on /api/reports/298 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:25 +0000] [8] [INFO] reports.tasks: generated report 299 in 0.21s
+[2026-10-03 20:03:25 +0000] [112] [ERROR] Exception on /api/reports/300 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:25 +0000] [7] [INFO] reports.tasks: generated report 301 in 0.55s
+[2026-10-03 20:03:26 +0000] [112] [WARNING] django.request: Not Found: /api/reports/2923
+[2026-10-03 20:03:27 +0000] [8] [WARNING] django.request: Not Found: /api/reports/5354
+[2026-10-03 20:03:27 +0000] [8] [INFO] reports.tasks: generated report 304 in 2.39s
+[2026-10-03 20:03:27 +0000] [8] [WARNING] django.request: Not Found: /api/reports/4806
+[2026-10-03 20:03:27 +0000] [7] [WARNING] django.request: Not Found: /api/reports/6520
+[2026-10-03 20:03:27 +0000] [8] [ERROR] Exception on /api/reports/307 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:27 +0000] [8] [INFO] reports.tasks: generated report 308 in 1.42s
+[2026-10-03 20:03:27 +0000] [8] [WARNING] django.request: Not Found: /api/reports/5656
+[2026-10-03 20:03:28 +0000] [7] [INFO] reports.tasks: generated report 310 in 1.13s
+[2026-10-03 20:03:28 +0000] [112] [ERROR] Exception on /api/reports/311 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:29 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1865
+[2026-10-03 20:03:29 +0000] [7] [INFO] reports.tasks: generated report 313 in 2.75s
+[2026-10-03 20:03:29 +0000] [112] [INFO] reports.tasks: generated report 314 in 0.77s
+[2026-10-03 20:03:29 +0000] [7] [INFO] reports.tasks: generated report 315 in 2.89s
+[2026-10-03 20:03:29 +0000] [8] [INFO] reports.tasks: generated report 316 in 1.62s
+[2026-10-03 20:03:29 +0000] [8] [INFO] reports.tasks: generated report 317 in 1.97s
+[2026-10-03 20:03:31 +0000] [7] [INFO] reports.tasks: generated report 318 in 2.38s
+[2026-10-03 20:03:31 +0000] [7] [INFO] reports.tasks: generated report 319 in 0.45s
+[2026-10-03 20:03:31 +0000] [8] [INFO] reports.tasks: generated report 320 in 2.30s
+[2026-10-03 20:03:32 +0000] [112] [ERROR] Exception on /api/reports/321 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:33 +0000] [8] [INFO] reports.tasks: generated report 322 in 2.42s
+[2026-10-03 20:03:33 +0000] [7] [INFO] reports.tasks: generated report 323 in 0.43s
+[2026-10-03 20:03:33 +0000] [7] [INFO] reports.tasks: generated report 324 in 1.73s
+[2026-10-03 20:03:35 +0000] [8] [INFO] reports.tasks: generated report 325 in 1.98s
+[2026-10-03 20:03:35 +0000] [8] [INFO] reports.tasks: generated report 326 in 0.13s
+[2026-10-03 20:03:35 +0000] [7] [INFO] reports.tasks: generated report 327 in 1.51s
+[2026-10-03 20:03:35 +0000] [112] [WARNING] django.request: Not Found: /api/reports/4911
+[2026-10-03 20:03:36 +0000] [112] [INFO] reports.tasks: generated report 329 in 2.82s
+[2026-10-03 20:03:36 +0000] [8] [INFO] reports.tasks: generated report 330 in 1.33s
+[2026-10-03 20:03:37 +0000] [112] [WARNING] django.request: Not Found: /api/reports/9552
+[2026-10-03 20:03:37 +0000] [8] [INFO] reports.tasks: generated report 332 in 1.80s
+[2026-10-03 20:03:37 +0000] [8] [ERROR] Exception on /api/reports/333 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:37 +0000] [112] [INFO] reports.tasks: generated report 334 in 1.55s
+[2026-10-03 20:03:38 +0000] [8] [INFO] reports.tasks: generated report 335 in 1.99s
+[2026-10-03 20:03:39 +0000] [7] [INFO] reports.tasks: generated report 336 in 1.50s
+[2026-10-03 20:03:39 +0000] [112] [INFO] reports.tasks: generated report 337 in 2.38s
+[2026-10-03 20:03:39 +0000] [8] [ERROR] Exception on /api/reports/338 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:40 +0000] [112] [INFO] reports.tasks: generated report 339 in 0.97s
+[2026-10-03 20:03:41 +0000] [7] [WARNING] django.request: Not Found: /api/reports/6493
+[2026-10-03 20:03:41 +0000] [8] [INFO] reports.tasks: generated report 341 in 1.54s
+[2026-10-03 20:03:41 +0000] [112] [INFO] reports.tasks: generated report 342 in 2.89s
+[2026-10-03 20:03:42 +0000] [8] [ERROR] Exception on /api/reports/343 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:42 +0000] [8] [ERROR] Exception on /api/reports/344 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:42 +0000] [7] [INFO] reports.tasks: generated report 345 in 2.27s
+[2026-10-03 20:03:43 +0000] [7] [INFO] reports.tasks: generated report 346 in 2.55s
+[2026-10-03 20:03:43 +0000] [7] [INFO] reports.tasks: generated report 347 in 1.35s
+[2026-10-03 20:03:44 +0000] [7] [ERROR] Exception on /api/reports/348 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:45 +0000] [7] [ERROR] Exception on /api/reports/349 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:46 +0000] [7] [INFO] reports.tasks: generated report 350 in 1.82s
+[2026-10-03 20:03:48 +0000] [7] [INFO] reports.tasks: generated report 351 in 0.43s
+[2026-10-03 20:03:48 +0000] [8] [INFO] reports.tasks: generated report 352 in 0.88s
+[2026-10-03 20:03:48 +0000] [7] [INFO] reports.tasks: generated report 353 in 1.54s
+[2026-10-03 20:03:48 +0000] [8] [INFO] reports.tasks: generated report 354 in 0.75s
+[2026-10-03 20:03:48 +0000] [7] [ERROR] Exception on /api/reports/355 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:48 +0000] [8] [WARNING] django.request: Not Found: /api/reports/8578
+[2026-10-03 20:03:49 +0000] [112] [ERROR] Exception on /api/reports/357 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:49 +0000] [112] [INFO] reports.tasks: generated report 358 in 0.23s
+[2026-10-03 20:03:49 +0000] [112] [WARNING] django.request: Not Found: /api/reports/9759
+[2026-10-03 20:03:49 +0000] [7] [INFO] reports.tasks: generated report 360 in 1.98s
+[2026-10-03 20:03:49 +0000] [8] [INFO] reports.tasks: generated report 361 in 2.35s
+[2026-10-03 20:03:50 +0000] [7] [INFO] reports.tasks: generated report 362 in 1.67s
+[2026-10-03 20:03:50 +0000] [7] [INFO] reports.tasks: generated report 363 in 2.92s
+[2026-10-03 20:03:50 +0000] [8] [ERROR] Exception on /api/reports/364 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:50 +0000] [8] [WARNING] django.request: Not Found: /api/reports/8573
+[2026-10-03 20:03:50 +0000] [7] [INFO] reports.tasks: generated report 366 in 2.73s
+[2026-10-03 20:03:50 +0000] [8] [INFO] reports.tasks: generated report 367 in 0.46s
+[2026-10-03 20:03:50 +0000] [7] [INFO] reports.tasks: generated report 368 in 1.57s
+[2026-10-03 20:03:50 +0000] [8] [WARNING] django.request: Not Found: /api/reports/7310
+[2026-10-03 20:03:51 +0000] [8] [INFO] reports.tasks: generated report 370 in 2.94s
+[2026-10-03 20:03:51 +0000] [7] [WARNING] django.request: Not Found: /api/reports/6148
+[2026-10-03 20:03:51 +0000] [112] [WARNING] django.request: Not Found: /api/reports/8891
+[2026-10-03 20:03:52 +0000] [112] [WARNING] django.request: Not Found: /api/reports/4410
+[2026-10-03 20:03:52 +0000] [112] [WARNING] django.request: Not Found: /api/reports/4835
+[2026-10-03 20:03:52 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1763
+[2026-10-03 20:03:53 +0000] [7] [INFO] reports.tasks: generated report 376 in 1.88s
+[2026-10-03 20:03:54 +0000] [7] [WARNING] django.request: Not Found: /api/reports/9253
+[2026-10-03 20:03:54 +0000] [112] [INFO] reports.tasks: generated report 378 in 2.40s
+[2026-10-03 20:03:54 +0000] [7] [ERROR] Exception on /api/reports/379 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:55 +0000] [112] [INFO] reports.tasks: generated report 380 in 2.74s
+[2026-10-03 20:03:55 +0000] [7] [INFO] reports.tasks: generated report 381 in 0.21s
+[2026-10-03 20:03:56 +0000] [8] [ERROR] Exception on /api/reports/382 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:56 +0000] [7] [INFO] reports.tasks: generated report 383 in 0.31s
+[2026-10-03 20:03:56 +0000] [112] [INFO] reports.tasks: generated report 384 in 1.67s
+[2026-10-03 20:03:57 +0000] [8] [ERROR] Exception on /api/reports/385 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:58 +0000] [7] [ERROR] Exception on /api/reports/386 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:03:58 +0000] [7] [INFO] reports.tasks: generated report 387 in 0.36s
+[2026-10-03 20:03:58 +0000] [7] [WARNING] django.request: Not Found: /api/reports/7754
+[2026-10-03 20:03:59 +0000] [7] [INFO] reports.tasks: generated report 389 in 0.61s
+[2026-10-03 20:04:00 +0000] [8] [WARNING] django.request: Not Found: /api/reports/2885
+[2026-10-03 20:04:00 +0000] [112] [ERROR] Exception on /api/reports/391 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:04:01 +0000] [112] [INFO] reports.tasks: generated report 392 in 2.21s
+[2026-10-03 20:04:01 +0000] [8] [INFO] reports.tasks: generated report 393 in 1.15s
+[2026-10-03 20:04:01 +0000] [8] [WARNING] django.request: Not Found: /api/reports/8117
+[2026-10-03 20:04:02 +0000] [7] [INFO] reports.tasks: generated report 395 in 0.54s
+[2026-10-03 20:04:02 +0000] [7] [INFO] reports.tasks: generated report 396 in 1.88s
+[2026-10-03 20:04:03 +0000] [112] [INFO] reports.tasks: generated report 397 in 1.77s
+[2026-10-03 20:04:03 +0000] [8] [ERROR] Exception on /api/reports/398 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:04:04 +0000] [8] [INFO] reports.tasks: generated report 399 in 2.72s
+[2026-10-03 20:04:04 +0000] [7] [INFO] reports.tasks: generated report 400 in 2.35s
+[2026-10-03 20:04:04 +0000] [7] [INFO] reports.tasks: generated report 401 in 1.52s
+[2026-10-03 20:20:27 +0000] [8] [ERROR] Exception on /api/reports/78 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:27 +0000] [8] [INFO] reports.tasks: generated report 79 in 2.88s
+[2026-10-03 20:20:27 +0000] [8] [WARNING] django.request: Not Found: /api/reports/6110
+[2026-10-03 20:20:27 +0000] [7] [INFO] reports.tasks: generated report 81 in 0.29s
+[2026-10-03 20:20:27 +0000] [8] [ERROR] Exception on /api/reports/82 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:28 +0000] [8] [INFO] reports.tasks: generated report 83 in 0.15s
+[2026-10-03 20:20:28 +0000] [8] [WARNING] django.request: Not Found: /api/reports/2420
+[2026-10-03 20:20:28 +0000] [7] [INFO] reports.tasks: generated report 85 in 1.39s
+[2026-10-03 20:20:29 +0000] [7] [INFO] reports.tasks: generated report 86 in 0.80s
+[2026-10-03 20:20:29 +0000] [7] [INFO] reports.tasks: generated report 87 in 2.41s
+[2026-10-03 20:20:31 +0000] [8] [INFO] reports.tasks: generated report 88 in 1.90s
+[2026-10-03 20:20:31 +0000] [7] [ERROR] Exception on /api/reports/89 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:31 +0000] [8] [INFO] reports.tasks: generated report 90 in 1.77s
+[2026-10-03 20:20:31 +0000] [7] [INFO] reports.tasks: generated report 91 in 1.24s
+[2026-10-03 20:20:31 +0000] [7] [INFO] reports.tasks: generated report 92 in 2.80s
+[2026-10-03 20:20:32 +0000] [7] [INFO] reports.tasks: generated report 93 in 2.21s
+[2026-10-03 20:20:32 +0000] [8] [INFO] reports.tasks: generated report 94 in 2.66s
+[2026-10-03 20:20:33 +0000] [7] [INFO] reports.tasks: generated report 95 in 1.57s
+[2026-10-03 20:20:33 +0000] [112] [INFO] reports.tasks: generated report 96 in 0.15s
+[2026-10-03 20:20:34 +0000] [7] [ERROR] Exception on /api/reports/97 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:34 +0000] [7] [ERROR] Exception on /api/reports/98 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:34 +0000] [8] [INFO] reports.tasks: generated report 99 in 0.52s
+[2026-10-03 20:20:34 +0000] [7] [ERROR] Exception on /api/reports/100 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:35 +0000] [112] [INFO] reports.tasks: generated report 101 in 0.51s
+[2026-10-03 20:20:35 +0000] [8] [INFO] reports.tasks: generated report 102 in 1.74s
+[2026-10-03 20:20:36 +0000] [112] [ERROR] Exception on /api/reports/103 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:36 +0000] [8] [INFO] reports.tasks: generated report 104 in 0.81s
+[2026-10-03 20:20:36 +0000] [7] [ERROR] Exception on /api/reports/105 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:36 +0000] [112] [ERROR] Exception on /api/reports/106 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:37 +0000] [7] [INFO] reports.tasks: generated report 107 in 2.75s
+[2026-10-03 20:20:37 +0000] [112] [INFO] reports.tasks: generated report 108 in 2.17s
+[2026-10-03 20:20:38 +0000] [8] [WARNING] django.request: Not Found: /api/reports/8243
+[2026-10-03 20:20:38 +0000] [112] [INFO] reports.tasks: generated report 110 in 1.59s
+[2026-10-03 20:20:38 +0000] [8] [INFO] reports.tasks: generated report 111 in 2.61s
+[2026-10-03 20:20:39 +0000] [112] [ERROR] Exception on /api/reports/112 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:39 +0000] [7] [INFO] reports.tasks: generated report 113 in 0.55s
+[2026-10-03 20:20:40 +0000] [112] [WARNING] django.request: Not Found: /api/reports/4268
+[2026-10-03 20:20:40 +0000] [112] [INFO] reports.tasks: generated report 115 in 0.90s
+[2026-10-03 20:20:41 +0000] [7] [WARNING] django.request: Not Found: /api/reports/2732
+[2026-10-03 20:20:41 +0000] [7] [INFO] reports.tasks: generated report 117 in 1.49s
+[2026-10-03 20:20:41 +0000] [112] [ERROR] Exception on /api/reports/118 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:42 +0000] [112] [WARNING] django.request: Not Found: /api/reports/6932
+[2026-10-03 20:20:42 +0000] [8] [INFO] reports.tasks: generated report 120 in 2.80s
+[2026-10-03 20:20:43 +0000] [8] [INFO] reports.tasks: generated report 121 in 1.82s
+[2026-10-03 20:20:43 +0000] [112] [WARNING] django.request: Not Found: /api/reports/4611
+[2026-10-03 20:20:44 +0000] [112] [WARNING] django.request: Not Found: /api/reports/6848
+[2026-10-03 20:20:44 +0000] [8] [INFO] reports.tasks: generated report 124 in 2.96s
+[2026-10-03 20:20:45 +0000] [7] [INFO] reports.tasks: generated report 125 in 1.38s
+[2026-10-03 20:20:45 +0000] [8] [INFO] reports.tasks: generated report 126 in 0.90s
+[2026-10-03 20:20:46 +0000] [8] [INFO] reports.tasks: generated report 127 in 2.43s
+[2026-10-03 20:20:47 +0000] [112] [INFO] reports.tasks: generated report 128 in 2.79s
+[2026-10-03 20:20:47 +0000] [112] [ERROR] Exception on /api/reports/129 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:47 +0000] [112] [ERROR] Exception on /api/reports/130 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:47 +0000] [8] [ERROR] Exception on /api/reports/131 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:47 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1090
+[2026-10-03 20:20:48 +0000] [7] [INFO] reports.tasks: generated report 133 in 1.36s
+[2026-10-03 20:20:48 +0000] [112] [INFO] reports.tasks: generated report 134 in 1.53s
+[2026-10-03 20:20:49 +0000] [7] [INFO] reports.tasks: generated report 135 in 2.20s
+[2026-10-03 20:20:49 +0000] [112] [ERROR] Exception on /api/reports/136 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:50 +0000] [112] [ERROR] Exception on /api/reports/137 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:50 +0000] [8] [INFO] reports.tasks: generated report 138 in 2.15s
+[2026-10-03 20:20:51 +0000] [7] [ERROR] Exception on /api/reports/139 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:52 +0000] [8] [ERROR] Exception on /api/reports/140 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:52 +0000] [112] [INFO] reports.tasks: generated report 141 in 1.82s
+[2026-10-03 20:20:52 +0000] [7] [WARNING] django.request: Not Found: /api/reports/3194
+[2026-10-03 20:20:54 +0000] [112] [WARNING] django.request: Not Found: /api/reports/6948
+[2026-10-03 20:20:54 +0000] [8] [ERROR] Exception on /api/reports/144 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:54 +0000] [7] [INFO] reports.tasks: generated report 145 in 2.48s
+[2026-10-03 20:20:54 +0000] [8] [WARNING] django.request: Not Found: /api/reports/1626
+[2026-10-03 20:20:54 +0000] [112] [ERROR] Exception on /api/reports/147 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:55 +0000] [7] [INFO] reports.tasks: generated report 148 in 0.12s
+[2026-10-03 20:20:55 +0000] [8] [WARNING] django.request: Not Found: /api/reports/6697
+[2026-10-03 20:20:57 +0000] [112] [WARNING] django.request: Not Found: /api/reports/9697
+[2026-10-03 20:20:57 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1330
+[2026-10-03 20:20:57 +0000] [8] [INFO] reports.tasks: generated report 152 in 2.77s
+[2026-10-03 20:20:58 +0000] [112] [ERROR] Exception on /api/reports/153 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:58 +0000] [7] [WARNING] django.request: Not Found: /api/reports/8427
+[2026-10-03 20:20:58 +0000] [7] [ERROR] Exception on /api/reports/155 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:20:58 +0000] [112] [INFO] reports.tasks: generated report 156 in 2.95s
+[2026-10-03 20:20:59 +0000] [8] [INFO] reports.tasks: generated report 157 in 2.51s
+[2026-10-03 20:20:59 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1911
+[2026-10-03 20:20:59 +0000] [7] [INFO] reports.tasks: generated report 159 in 1.32s
+[2026-10-03 20:21:00 +0000] [112] [INFO] reports.tasks: generated report 160 in 0.76s
+[2026-10-03 20:21:00 +0000] [8] [ERROR] Exception on /api/reports/161 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:01 +0000] [7] [WARNING] django.request: Not Found: /api/reports/7243
+[2026-10-03 20:21:01 +0000] [7] [INFO] reports.tasks: generated report 163 in 0.29s
+[2026-10-03 20:21:02 +0000] [112] [WARNING] django.request: Not Found: /api/reports/3583
+[2026-10-03 20:21:03 +0000] [8] [INFO] reports.tasks: generated report 165 in 2.87s
+[2026-10-03 20:21:03 +0000] [8] [WARNING] django.request: Not Found: /api/reports/2720
+[2026-10-03 20:21:03 +0000] [7] [ERROR] Exception on /api/reports/167 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:03 +0000] [112] [INFO] reports.tasks: generated report 168 in 1.96s
+[2026-10-03 20:21:04 +0000] [8] [INFO] reports.tasks: generated report 169 in 0.20s
+[2026-10-03 20:21:05 +0000] [112] [INFO] reports.tasks: generated report 170 in 1.94s
+[2026-10-03 20:21:05 +0000] [8] [INFO] reports.tasks: generated report 171 in 2.56s
+[2026-10-03 20:21:05 +0000] [112] [INFO] reports.tasks: generated report 172 in 2.23s
+[2026-10-03 20:21:06 +0000] [8] [INFO] reports.tasks: generated report 173 in 0.66s
+[2026-10-03 20:21:06 +0000] [112] [INFO] reports.tasks: generated report 174 in 2.50s
+[2026-10-03 20:21:06 +0000] [7] [INFO] reports.tasks: generated report 175 in 2.53s
+[2026-10-03 20:21:07 +0000] [8] [ERROR] Exception on /api/reports/176 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:07 +0000] [112] [INFO] reports.tasks: generated report 177 in 0.28s
+[2026-10-03 20:21:08 +0000] [8] [ERROR] Exception on /api/reports/178 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:08 +0000] [112] [WARNING] django.request: Not Found: /api/reports/4494
+[2026-10-03 20:21:09 +0000] [112] [INFO] reports.tasks: generated report 180 in 2.23s
+[2026-10-03 20:21:09 +0000] [8] [ERROR] Exception on /api/reports/181 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:09 +0000] [112] [INFO] reports.tasks: generated report 182 in 1.50s
+[2026-10-03 20:21:09 +0000] [8] [INFO] reports.tasks: generated report 183 in 0.71s
+[2026-10-03 20:21:09 +0000] [7] [ERROR] Exception on /api/reports/184 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:10 +0000] [7] [INFO] reports.tasks: generated report 185 in 2.71s
+[2026-10-03 20:21:10 +0000] [7] [INFO] reports.tasks: generated report 186 in 0.44s
+[2026-10-03 20:21:10 +0000] [7] [ERROR] Exception on /api/reports/187 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:11 +0000] [8] [ERROR] Exception on /api/reports/188 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:12 +0000] [7] [INFO] reports.tasks: generated report 189 in 0.30s
+[2026-10-03 20:21:13 +0000] [7] [INFO] reports.tasks: generated report 190 in 2.76s
+[2026-10-03 20:21:13 +0000] [7] [INFO] reports.tasks: generated report 191 in 1.86s
+[2026-10-03 20:21:14 +0000] [8] [INFO] reports.tasks: generated report 192 in 0.93s
+[2026-10-03 20:21:14 +0000] [8] [INFO] reports.tasks: generated report 193 in 2.51s
+[2026-10-03 20:21:14 +0000] [112] [INFO] reports.tasks: generated report 194 in 2.28s
+[2026-10-03 20:21:14 +0000] [7] [INFO] reports.tasks: generated report 195 in 0.86s
+[2026-10-03 20:21:14 +0000] [112] [INFO] reports.tasks: generated report 196 in 0.87s
+[2026-10-03 20:21:15 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1700
+[2026-10-03 20:21:15 +0000] [7] [ERROR] Exception on /api/reports/198 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:17 +0000] [8] [WARNING] django.request: Not Found: /api/reports/7766
+[2026-10-03 20:21:18 +0000] [112] [INFO] reports.tasks: generated report 200 in 1.28s
+[2026-10-03 20:21:19 +0000] [112] [INFO] reports.tasks: generated report 201 in 0.91s
+[2026-10-03 20:21:20 +0000] [8] [INFO] reports.tasks: generated report 202 in 0.69s
+[2026-10-03 20:21:22 +0000] [8] [INFO] reports.tasks: generated report 203 in 0.56s
+[2026-10-03 20:21:22 +0000] [112] [WARNING] django.request: Not Found: /api/reports/2605
+[2026-10-03 20:21:22 +0000] [8] [INFO] reports.tasks: generated report 205 in 0.84s
+[2026-10-03 20:21:23 +0000] [7] [INFO] reports.tasks: generated report 206 in 0.32s
+[2026-10-03 20:21:23 +0000] [8] [INFO] reports.tasks: generated report 207 in 0.57s
+[2026-10-03 20:21:23 +0000] [112] [INFO] reports.tasks: generated report 208 in 1.45s
+[2026-10-03 20:21:23 +0000] [112] [ERROR] Exception on /api/reports/209 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:24 +0000] [8] [INFO] reports.tasks: generated report 210 in 0.40s
+[2026-10-03 20:21:24 +0000] [8] [ERROR] Exception on /api/reports/211 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:24 +0000] [8] [ERROR] Exception on /api/reports/212 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:25 +0000] [112] [WARNING] django.request: Not Found: /api/reports/8376
+[2026-10-03 20:21:25 +0000] [112] [WARNING] django.request: Not Found: /api/reports/2630
+[2026-10-03 20:21:26 +0000] [8] [INFO] reports.tasks: generated report 215 in 1.21s
+[2026-10-03 20:21:26 +0000] [8] [ERROR] Exception on /api/reports/216 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:26 +0000] [7] [ERROR] Exception on /api/reports/217 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:26 +0000] [8] [INFO] reports.tasks: generated report 218 in 2.55s
+[2026-10-03 20:21:26 +0000] [8] [WARNING] django.request: Not Found: /api/reports/4136
+[2026-10-03 20:21:27 +0000] [8] [INFO] reports.tasks: generated report 220 in 1.33s
+[2026-10-03 20:21:27 +0000] [7] [INFO] reports.tasks: generated report 221 in 1.85s
+[2026-10-03 20:21:27 +0000] [8] [INFO] reports.tasks: generated report 222 in 0.76s
+[2026-10-03 20:21:27 +0000] [7] [INFO] reports.tasks: generated report 223 in 1.82s
+[2026-10-03 20:21:27 +0000] [112] [INFO] reports.tasks: generated report 224 in 0.69s
+[2026-10-03 20:21:28 +0000] [8] [INFO] reports.tasks: generated report 225 in 0.17s
+[2026-10-03 20:21:28 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1931
+[2026-10-03 20:21:28 +0000] [7] [INFO] reports.tasks: generated report 227 in 1.61s
+[2026-10-03 20:21:28 +0000] [112] [INFO] reports.tasks: generated report 228 in 1.86s
+[2026-10-03 20:21:30 +0000] [7] [WARNING] django.request: Not Found: /api/reports/1739
+[2026-10-03 20:21:30 +0000] [112] [INFO] reports.tasks: generated report 230 in 1.13s
+[2026-10-03 20:21:30 +0000] [8] [WARNING] django.request: Not Found: /api/reports/5945
+[2026-10-03 20:21:30 +0000] [7] [INFO] reports.tasks: generated report 232 in 2.75s
+[2026-10-03 20:21:30 +0000] [112] [INFO] reports.tasks: generated report 233 in 0.95s
+[2026-10-03 20:21:30 +0000] [8] [INFO] reports.tasks: generated report 234 in 0.17s
+[2026-10-03 20:21:30 +0000] [8] [INFO] reports.tasks: generated report 235 in 2.81s
+[2026-10-03 20:21:30 +0000] [112] [INFO] reports.tasks: generated report 236 in 1.19s
+[2026-10-03 20:21:30 +0000] [112] [WARNING] django.request: Not Found: /api/reports/6589
+[2026-10-03 20:21:31 +0000] [8] [INFO] reports.tasks: generated report 238 in 0.48s
+[2026-10-03 20:21:32 +0000] [8] [INFO] reports.tasks: generated report 239 in 0.90s
+[2026-10-03 20:21:32 +0000] [8] [WARNING] django.request: Not Found: /api/reports/6943
+[2026-10-03 20:21:32 +0000] [7] [ERROR] Exception on /api/reports/241 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:33 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1748
+[2026-10-03 20:21:33 +0000] [7] [WARNING] django.request: Not Found: /api/reports/1229
+[2026-10-03 20:21:34 +0000] [112] [INFO] reports.tasks: generated report 244 in 2.47s
+[2026-10-03 20:21:34 +0000] [112] [WARNING] django.request: Not Found: /api/reports/8787
+[2026-10-03 20:21:35 +0000] [8] [INFO] reports.tasks: generated report 246 in 1.26s
+[2026-10-03 20:21:35 +0000] [7] [INFO] reports.tasks: generated report 247 in 2.44s
+[2026-10-03 20:21:35 +0000] [112] [INFO] reports.tasks: generated report 248 in 0.78s
+[2026-10-03 20:21:35 +0000] [7] [INFO] reports.tasks: generated report 249 in 0.90s
+[2026-10-03 20:21:36 +0000] [112] [WARNING] django.request: Not Found: /api/reports/4564
+[2026-10-03 20:21:37 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1967
+[2026-10-03 20:21:37 +0000] [112] [INFO] reports.tasks: generated report 252 in 1.75s
+[2026-10-03 20:21:37 +0000] [112] [INFO] reports.tasks: generated report 253 in 2.84s
+[2026-10-03 20:21:37 +0000] [112] [INFO] reports.tasks: generated report 254 in 1.45s
+[2026-10-03 20:21:37 +0000] [8] [INFO] reports.tasks: generated report 255 in 2.25s
+[2026-10-03 20:21:37 +0000] [7] [WARNING] django.request: Not Found: /api/reports/5616
+[2026-10-03 20:21:38 +0000] [8] [INFO] reports.tasks: generated report 257 in 2.77s
+[2026-10-03 20:21:38 +0000] [8] [INFO] reports.tasks: generated report 258 in 1.30s
+[2026-10-03 20:21:38 +0000] [7] [WARNING] django.request: Not Found: /api/reports/3177
+[2026-10-03 20:21:38 +0000] [112] [INFO] reports.tasks: generated report 260 in 1.12s
+[2026-10-03 20:21:40 +0000] [7] [WARNING] django.request: Not Found: /api/reports/2771
+[2026-10-03 20:21:42 +0000] [112] [WARNING] django.request: Not Found: /api/reports/5682
+[2026-10-03 20:21:42 +0000] [8] [INFO] reports.tasks: generated report 263 in 1.86s
+[2026-10-03 20:21:42 +0000] [8] [INFO] reports.tasks: generated report 264 in 0.44s
+[2026-10-03 20:21:42 +0000] [8] [INFO] reports.tasks: generated report 265 in 1.38s
+[2026-10-03 20:21:43 +0000] [112] [INFO] reports.tasks: generated report 266 in 0.83s
+[2026-10-03 20:21:43 +0000] [7] [INFO] reports.tasks: generated report 267 in 1.89s
+[2026-10-03 20:21:43 +0000] [7] [INFO] reports.tasks: generated report 268 in 0.54s
+[2026-10-03 20:21:44 +0000] [7] [WARNING] django.request: Not Found: /api/reports/7592
+[2026-10-03 20:21:44 +0000] [112] [INFO] reports.tasks: generated report 270 in 1.60s
+[2026-10-03 20:21:45 +0000] [8] [INFO] reports.tasks: generated report 271 in 1.18s
+[2026-10-03 20:21:45 +0000] [8] [INFO] reports.tasks: generated report 272 in 0.65s
+[2026-10-03 20:21:47 +0000] [112] [WARNING] django.request: Not Found: /api/reports/2270
+[2026-10-03 20:21:47 +0000] [112] [INFO] reports.tasks: generated report 274 in 0.13s
+[2026-10-03 20:21:49 +0000] [7] [ERROR] Exception on /api/reports/275 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:49 +0000] [8] [INFO] reports.tasks: generated report 276 in 2.37s
+[2026-10-03 20:21:50 +0000] [7] [ERROR] Exception on /api/reports/277 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:50 +0000] [112] [INFO] reports.tasks: generated report 278 in 0.82s
+[2026-10-03 20:21:50 +0000] [8] [WARNING] django.request: Not Found: /api/reports/7510
+[2026-10-03 20:21:51 +0000] [112] [ERROR] Exception on /api/reports/280 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:52 +0000] [112] [INFO] reports.tasks: generated report 281 in 2.26s
+[2026-10-03 20:21:52 +0000] [112] [INFO] reports.tasks: generated report 282 in 0.90s
+[2026-10-03 20:21:52 +0000] [112] [INFO] reports.tasks: generated report 283 in 1.80s
+[2026-10-03 20:21:53 +0000] [8] [WARNING] django.request: Not Found: /api/reports/1827
+[2026-10-03 20:21:53 +0000] [7] [INFO] reports.tasks: generated report 285 in 1.13s
+[2026-10-03 20:21:54 +0000] [8] [ERROR] Exception on /api/reports/286 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:54 +0000] [112] [INFO] reports.tasks: generated report 287 in 2.99s
+[2026-10-03 20:21:56 +0000] [8] [WARNING] django.request: Not Found: /api/reports/6146
+[2026-10-03 20:21:56 +0000] [7] [WARNING] django.request: Not Found: /api/reports/6816
+[2026-10-03 20:21:56 +0000] [8] [INFO] reports.tasks: generated report 290 in 2.50s
+[2026-10-03 20:21:56 +0000] [8] [INFO] reports.tasks: generated report 291 in 1.26s
+[2026-10-03 20:21:56 +0000] [8] [WARNING] django.request: Not Found: /api/reports/2108
+[2026-10-03 20:21:57 +0000] [8] [WARNING] django.request: Not Found: /api/reports/6347
+[2026-10-03 20:21:58 +0000] [7] [ERROR] Exception on /api/reports/294 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:21:58 +0000] [7] [INFO] reports.tasks: generated report 295 in 0.24s
+[2026-10-03 20:21:59 +0000] [7] [INFO] reports.tasks: generated report 296 in 0.81s
+[2026-10-03 20:22:00 +0000] [112] [INFO] reports.tasks: generated report 297 in 0.24s
+[2026-10-03 20:22:00 +0000] [112] [INFO] reports.tasks: generated report 298 in 0.19s
+[2026-10-03 20:22:01 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1784
+[2026-10-03 20:22:02 +0000] [112] [INFO] reports.tasks: generated report 300 in 1.81s
+[2026-10-03 20:22:02 +0000] [7] [WARNING] django.request: Not Found: /api/reports/2371
+[2026-10-03 20:22:02 +0000] [112] [INFO] reports.tasks: generated report 302 in 2.60s
+[2026-10-03 20:22:03 +0000] [8] [INFO] reports.tasks: generated report 303 in 0.56s
+[2026-10-03 20:22:04 +0000] [8] [ERROR] Exception on /api/reports/304 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:04 +0000] [112] [INFO] reports.tasks: generated report 305 in 2.43s
+[2026-10-03 20:22:04 +0000] [7] [ERROR] Exception on /api/reports/306 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:04 +0000] [7] [INFO] reports.tasks: generated report 307 in 1.37s
+[2026-10-03 20:22:05 +0000] [112] [ERROR] Exception on /api/reports/308 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:05 +0000] [112] [ERROR] Exception on /api/reports/309 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:06 +0000] [7] [INFO] reports.tasks: generated report 310 in 1.88s
+[2026-10-03 20:22:06 +0000] [8] [ERROR] Exception on /api/reports/311 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:06 +0000] [112] [WARNING] django.request: Not Found: /api/reports/6316
+[2026-10-03 20:22:08 +0000] [8] [ERROR] Exception on /api/reports/313 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:09 +0000] [8] [INFO] reports.tasks: generated report 314 in 2.14s
+[2026-10-03 20:22:09 +0000] [7] [INFO] reports.tasks: generated report 315 in 0.34s
+[2026-10-03 20:22:09 +0000] [112] [INFO] reports.tasks: generated report 316 in 1.35s
+[2026-10-03 20:22:10 +0000] [8] [INFO] reports.tasks: generated report 317 in 1.54s
+[2026-10-03 20:22:10 +0000] [7] [INFO] reports.tasks: generated report 318 in 0.35s
+[2026-10-03 20:22:10 +0000] [112] [WARNING] django.request: Not Found: /api/reports/2396
+[2026-10-03 20:22:10 +0000] [8] [INFO] reports.tasks: generated report 320 in 1.73s
+[2026-10-03 20:22:11 +0000] [7] [INFO] reports.tasks: generated report 321 in 2.70s
+[2026-10-03 20:22:11 +0000] [8] [WARNING] django.request: Not Found: /api/reports/9997
+[2026-10-03 20:22:12 +0000] [7] [INFO] reports.tasks: generated report 323 in 0.46s
+[2026-10-03 20:22:12 +0000] [112] [INFO] reports.tasks: generated report 324 in 0.89s
+[2026-10-03 20:22:13 +0000] [112] [INFO] reports.tasks: generated report 325 in 2.77s
+[2026-10-03 20:22:14 +0000] [8] [INFO] reports.tasks: generated report 326 in 2.67s
+[2026-10-03 20:22:14 +0000] [112] [WARNING] django.request: Not Found: /api/reports/2001
+[2026-10-03 20:22:15 +0000] [112] [INFO] reports.tasks: generated report 328 in 0.72s
+[2026-10-03 20:22:16 +0000] [8] [WARNING] django.request: Not Found: /api/reports/2556
+[2026-10-03 20:22:16 +0000] [112] [ERROR] Exception on /api/reports/330 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:16 +0000] [8] [INFO] reports.tasks: generated report 331 in 2.16s
+[2026-10-03 20:22:16 +0000] [7] [INFO] reports.tasks: generated report 332 in 1.14s
+[2026-10-03 20:22:17 +0000] [7] [ERROR] Exception on /api/reports/333 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:18 +0000] [8] [INFO] reports.tasks: generated report 334 in 1.62s
+[2026-10-03 20:22:18 +0000] [7] [WARNING] django.request: Not Found: /api/reports/9910
+[2026-10-03 20:22:19 +0000] [8] [ERROR] Exception on /api/reports/336 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:19 +0000] [8] [INFO] reports.tasks: generated report 337 in 1.46s
+[2026-10-03 20:22:20 +0000] [112] [INFO] reports.tasks: generated report 338 in 1.73s
+[2026-10-03 20:22:20 +0000] [7] [ERROR] Exception on /api/reports/339 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:20 +0000] [8] [INFO] reports.tasks: generated report 340 in 0.81s
+[2026-10-03 20:22:20 +0000] [112] [ERROR] Exception on /api/reports/341 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:20 +0000] [112] [ERROR] Exception on /api/reports/342 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:22 +0000] [7] [INFO] reports.tasks: generated report 343 in 0.43s
+[2026-10-03 20:22:22 +0000] [7] [INFO] reports.tasks: generated report 344 in 2.91s
+[2026-10-03 20:22:22 +0000] [8] [ERROR] Exception on /api/reports/345 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:22 +0000] [112] [ERROR] Exception on /api/reports/346 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:22 +0000] [112] [INFO] reports.tasks: generated report 347 in 1.32s
+[2026-10-03 20:22:23 +0000] [7] [INFO] reports.tasks: generated report 348 in 2.74s
+[2026-10-03 20:22:23 +0000] [112] [WARNING] django.request: Not Found: /api/reports/7823
+[2026-10-03 20:22:23 +0000] [112] [ERROR] Exception on /api/reports/350 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:22:23 +0000] [8] [INFO] reports.tasks: generated report 351 in 2.64s
+[2026-10-03 20:22:24 +0000] [8] [INFO] reports.tasks: generated report 352 in 0.61s
+[2026-10-03 20:22:24 +0000] [112] [INFO] reports.tasks: generated report 353 in 1.87s
+[2026-10-03 20:22:24 +0000] [8] [INFO] reports.tasks: generated report 354 in 2.91s
+[2026-10-03 20:22:25 +0000] [8] [INFO] reports.tasks: generated report 355 in 2.62s
+[2026-10-03 20:22:25 +0000] [8] [INFO] reports.tasks: generated report 356 in 1.22s
+[2026-10-03 20:22:25 +0000] [7] [INFO] reports.tasks: generated report 357 in 0.83s
+[2026-10-03 20:22:26 +0000] [7] [INFO] reports.tasks: generated report 358 in 2.54s
+[2026-10-03 20:22:26 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1255
+[2026-10-03 20:22:26 +0000] [8] [INFO] reports.tasks: generated report 360 in 1.97s
+[2026-10-03 20:30:15 +0000] [112] [WARNING] django.request: Not Found: /api/reports/5251
+[2026-10-03 20:30:18 +0000] [8] [INFO] reports.tasks: generated report 62 in 2.10s
+[2026-10-03 20:30:18 +0000] [8] [INFO] reports.tasks: generated report 63 in 0.29s
+[2026-10-03 20:30:18 +0000] [112] [INFO] reports.tasks: generated report 64 in 2.20s
+[2026-10-03 20:30:19 +0000] [7] [INFO] reports.tasks: generated report 65 in 1.79s
+[2026-10-03 20:30:19 +0000] [7] [INFO] reports.tasks: generated report 66 in 1.58s
+[2026-10-03 20:30:20 +0000] [112] [INFO] reports.tasks: generated report 67 in 1.35s
+[2026-10-03 20:30:20 +0000] [112] [INFO] reports.tasks: generated report 68 in 0.68s
+[2026-10-03 20:30:20 +0000] [112] [ERROR] Exception on /api/reports/69 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:20 +0000] [7] [INFO] reports.tasks: generated report 70 in 1.49s
+[2026-10-03 20:30:21 +0000] [8] [INFO] reports.tasks: generated report 71 in 2.67s
+[2026-10-03 20:30:21 +0000] [112] [INFO] reports.tasks: generated report 72 in 2.37s
+[2026-10-03 20:30:21 +0000] [7] [INFO] reports.tasks: generated report 73 in 2.73s
+[2026-10-03 20:30:22 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1128
+[2026-10-03 20:30:22 +0000] [7] [INFO] reports.tasks: generated report 75 in 1.23s
+[2026-10-03 20:30:22 +0000] [8] [ERROR] Exception on /api/reports/76 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:22 +0000] [7] [INFO] reports.tasks: generated report 77 in 1.47s
+[2026-10-03 20:30:23 +0000] [8] [ERROR] Exception on /api/reports/78 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:23 +0000] [7] [WARNING] django.request: Not Found: /api/reports/9006
+[2026-10-03 20:30:23 +0000] [8] [INFO] reports.tasks: generated report 80 in 1.30s
+[2026-10-03 20:30:23 +0000] [8] [INFO] reports.tasks: generated report 81 in 1.96s
+[2026-10-03 20:30:24 +0000] [7] [WARNING] django.request: Not Found: /api/reports/1072
+[2026-10-03 20:30:25 +0000] [8] [INFO] reports.tasks: generated report 83 in 2.76s
+[2026-10-03 20:30:25 +0000] [8] [ERROR] Exception on /api/reports/84 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:25 +0000] [112] [WARNING] django.request: Not Found: /api/reports/2983
+[2026-10-03 20:30:25 +0000] [8] [WARNING] django.request: Not Found: /api/reports/3788
+[2026-10-03 20:30:27 +0000] [8] [WARNING] django.request: Not Found: /api/reports/7021
+[2026-10-03 20:30:27 +0000] [7] [INFO] reports.tasks: generated report 88 in 1.32s
+[2026-10-03 20:30:28 +0000] [112] [INFO] reports.tasks: generated report 89 in 1.67s
+[2026-10-03 20:30:29 +0000] [7] [WARNING] django.request: Not Found: /api/reports/7795
+[2026-10-03 20:30:29 +0000] [112] [ERROR] Exception on /api/reports/91 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:30 +0000] [7] [INFO] reports.tasks: generated report 92 in 2.56s
+[2026-10-03 20:30:30 +0000] [8] [INFO] reports.tasks: generated report 93 in 1.22s
+[2026-10-03 20:30:30 +0000] [112] [INFO] reports.tasks: generated report 94 in 1.13s
+[2026-10-03 20:30:31 +0000] [7] [WARNING] django.request: Not Found: /api/reports/1868
+[2026-10-03 20:30:31 +0000] [7] [INFO] reports.tasks: generated report 96 in 1.23s
+[2026-10-03 20:30:32 +0000] [112] [INFO] reports.tasks: generated report 97 in 2.56s
+[2026-10-03 20:30:32 +0000] [7] [INFO] reports.tasks: generated report 98 in 2.55s
+[2026-10-03 20:30:32 +0000] [7] [WARNING] django.request: Not Found: /api/reports/7710
+[2026-10-03 20:30:32 +0000] [8] [INFO] reports.tasks: generated report 100 in 0.64s
+[2026-10-03 20:30:33 +0000] [7] [WARNING] django.request: Not Found: /api/reports/9613
+[2026-10-03 20:30:33 +0000] [112] [INFO] reports.tasks: generated report 102 in 1.42s
+[2026-10-03 20:30:33 +0000] [112] [ERROR] Exception on /api/reports/103 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:35 +0000] [7] [INFO] reports.tasks: generated report 104 in 1.58s
+[2026-10-03 20:30:35 +0000] [7] [WARNING] django.request: Not Found: /api/reports/6320
+[2026-10-03 20:30:35 +0000] [7] [WARNING] django.request: Not Found: /api/reports/3576
+[2026-10-03 20:30:35 +0000] [8] [INFO] reports.tasks: generated report 107 in 2.59s
+[2026-10-03 20:30:35 +0000] [8] [ERROR] Exception on /api/reports/108 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:36 +0000] [8] [INFO] reports.tasks: generated report 109 in 2.75s
+[2026-10-03 20:30:36 +0000] [112] [ERROR] Exception on /api/reports/110 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:37 +0000] [8] [INFO] reports.tasks: generated report 111 in 2.35s
+[2026-10-03 20:30:38 +0000] [8] [ERROR] Exception on /api/reports/112 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:38 +0000] [112] [INFO] reports.tasks: generated report 113 in 2.56s
+[2026-10-03 20:30:39 +0000] [112] [INFO] reports.tasks: generated report 114 in 1.96s
+[2026-10-03 20:30:39 +0000] [112] [INFO] reports.tasks: generated report 115 in 1.52s
+[2026-10-03 20:30:39 +0000] [8] [INFO] reports.tasks: generated report 116 in 1.91s
+[2026-10-03 20:30:40 +0000] [8] [INFO] reports.tasks: generated report 117 in 2.35s
+[2026-10-03 20:30:41 +0000] [8] [ERROR] Exception on /api/reports/118 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:41 +0000] [112] [INFO] reports.tasks: generated report 119 in 2.53s
+[2026-10-03 20:30:42 +0000] [7] [ERROR] Exception on /api/reports/120 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:42 +0000] [112] [ERROR] Exception on /api/reports/121 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:42 +0000] [7] [WARNING] django.request: Not Found: /api/reports/4353
+[2026-10-03 20:30:43 +0000] [112] [ERROR] Exception on /api/reports/123 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:43 +0000] [112] [WARNING] django.request: Not Found: /api/reports/6693
+[2026-10-03 20:30:43 +0000] [8] [WARNING] django.request: Not Found: /api/reports/2188
+[2026-10-03 20:30:44 +0000] [8] [ERROR] Exception on /api/reports/126 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:45 +0000] [8] [INFO] reports.tasks: generated report 127 in 1.21s
+[2026-10-03 20:30:45 +0000] [7] [ERROR] Exception on /api/reports/128 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:45 +0000] [8] [WARNING] django.request: Not Found: /api/reports/6064
+[2026-10-03 20:30:46 +0000] [112] [INFO] reports.tasks: generated report 130 in 0.44s
+[2026-10-03 20:30:46 +0000] [7] [INFO] reports.tasks: generated report 131 in 0.88s
+[2026-10-03 20:30:46 +0000] [112] [INFO] reports.tasks: generated report 132 in 1.53s
+[2026-10-03 20:30:46 +0000] [7] [INFO] reports.tasks: generated report 133 in 2.26s
+[2026-10-03 20:30:48 +0000] [8] [WARNING] django.request: Not Found: /api/reports/8993
+[2026-10-03 20:30:48 +0000] [7] [INFO] reports.tasks: generated report 135 in 0.91s
+[2026-10-03 20:30:48 +0000] [7] [INFO] reports.tasks: generated report 136 in 0.40s
+[2026-10-03 20:30:48 +0000] [7] [INFO] reports.tasks: generated report 137 in 2.93s
+[2026-10-03 20:30:48 +0000] [7] [INFO] reports.tasks: generated report 138 in 1.24s
+[2026-10-03 20:30:48 +0000] [7] [ERROR] Exception on /api/reports/139 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:48 +0000] [7] [INFO] reports.tasks: generated report 140 in 1.84s
+[2026-10-03 20:30:48 +0000] [7] [ERROR] Exception on /api/reports/141 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:49 +0000] [8] [INFO] reports.tasks: generated report 142 in 1.94s
+[2026-10-03 20:30:49 +0000] [8] [WARNING] django.request: Not Found: /api/reports/3290
+[2026-10-03 20:30:50 +0000] [112] [ERROR] Exception on /api/reports/144 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:50 +0000] [7] [INFO] reports.tasks: generated report 145 in 0.89s
+[2026-10-03 20:30:51 +0000] [7] [INFO] reports.tasks: generated report 146 in 0.95s
+[2026-10-03 20:30:51 +0000] [112] [INFO] reports.tasks: generated report 147 in 0.20s
+[2026-10-03 20:30:51 +0000] [7] [ERROR] Exception on /api/reports/148 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:52 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1053
+[2026-10-03 20:30:52 +0000] [112] [INFO] reports.tasks: generated report 150 in 1.75s
+[2026-10-03 20:30:53 +0000] [112] [INFO] reports.tasks: generated report 151 in 2.94s
+[2026-10-03 20:30:54 +0000] [8] [INFO] reports.tasks: generated report 152 in 1.32s
+[2026-10-03 20:30:54 +0000] [112] [INFO] reports.tasks: generated report 153 in 0.10s
+[2026-10-03 20:30:54 +0000] [7] [ERROR] Exception on /api/reports/154 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:30:54 +0000] [7] [INFO] reports.tasks: generated report 155 in 0.44s
+[2026-10-03 20:30:55 +0000] [112] [WARNING] django.request: Not Found: /api/reports/6909
+[2026-10-03 20:30:55 +0000] [8] [WARNING] django.request: Not Found: /api/reports/5205
+[2026-10-03 20:30:55 +0000] [7] [INFO] reports.tasks: generated report 158 in 0.18s
+[2026-10-03 20:30:56 +0000] [7] [WARNING] django.request: Not Found: /api/reports/6698
+[2026-10-03 20:30:56 +0000] [8] [INFO] reports.tasks: generated report 160 in 0.16s
+[2026-10-03 20:30:56 +0000] [7] [INFO] reports.tasks: generated report 161 in 1.49s
+[2026-10-03 20:30:57 +0000] [7] [INFO] reports.tasks: generated report 162 in 0.70s
+[2026-10-03 20:30:57 +0000] [7] [INFO] reports.tasks: generated report 163 in 2.59s
+[2026-10-03 20:30:57 +0000] [7] [INFO] reports.tasks: generated report 164 in 1.83s
+[2026-10-03 20:30:57 +0000] [112] [INFO] reports.tasks: generated report 165 in 2.20s
+[2026-10-03 20:30:58 +0000] [112] [WARNING] django.request: Not Found: /api/reports/5961
+[2026-10-03 20:30:58 +0000] [7] [INFO] reports.tasks: generated report 167 in 2.19s
+[2026-10-03 20:30:58 +0000] [8] [INFO] reports.tasks: generated report 168 in 0.35s
+[2026-10-03 20:30:58 +0000] [7] [INFO] reports.tasks: generated report 169 in 0.84s
+[2026-10-03 20:31:00 +0000] [7] [INFO] reports.tasks: generated report 170 in 0.47s
+[2026-10-03 20:31:00 +0000] [112] [INFO] reports.tasks: generated report 171 in 0.53s
+[2026-10-03 20:31:00 +0000] [7] [WARNING] django.request: Not Found: /api/reports/5928
+[2026-10-03 20:31:00 +0000] [7] [INFO] reports.tasks: generated report 173 in 1.72s
+[2026-10-03 20:31:01 +0000] [8] [INFO] reports.tasks: generated report 174 in 0.94s
+[2026-10-03 20:31:02 +0000] [7] [WARNING] django.request: Not Found: /api/reports/7045
+[2026-10-03 20:31:02 +0000] [112] [WARNING] django.request: Not Found: /api/reports/2622
+[2026-10-03 20:31:02 +0000] [7] [INFO] reports.tasks: generated report 177 in 0.45s
+[2026-10-03 20:31:02 +0000] [112] [INFO] reports.tasks: generated report 178 in 0.93s
+[2026-10-03 20:31:02 +0000] [112] [WARNING] django.request: Not Found: /api/reports/1644
+[2026-10-03 20:31:03 +0000] [8] [INFO] reports.tasks: generated report 180 in 2.50s
+[2026-10-03 20:31:03 +0000] [8] [INFO] reports.tasks: generated report 181 in 2.86s
+[2026-10-03 20:31:03 +0000] [8] [WARNING] django.request: Not Found: /api/reports/4832
+[2026-10-03 20:31:04 +0000] [112] [INFO] reports.tasks: generated report 183 in 2.37s
+[2026-10-03 20:31:05 +0000] [112] [INFO] reports.tasks: generated report 184 in 0.15s
+[2026-10-03 20:31:05 +0000] [112] [ERROR] Exception on /api/reports/185 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:05 +0000] [8] [INFO] reports.tasks: generated report 186 in 2.20s
+[2026-10-03 20:31:06 +0000] [8] [INFO] reports.tasks: generated report 187 in 1.64s
+[2026-10-03 20:31:06 +0000] [8] [INFO] reports.tasks: generated report 188 in 0.22s
+[2026-10-03 20:31:06 +0000] [8] [ERROR] Exception on /api/reports/189 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:07 +0000] [8] [WARNING] django.request: Not Found: /api/reports/8088
+[2026-10-03 20:31:10 +0000] [112] [INFO] reports.tasks: generated report 191 in 0.95s
+[2026-10-03 20:31:10 +0000] [7] [ERROR] Exception on /api/reports/192 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:10 +0000] [7] [INFO] reports.tasks: generated report 193 in 2.78s
+[2026-10-03 20:31:11 +0000] [112] [INFO] reports.tasks: generated report 194 in 2.58s
+[2026-10-03 20:31:11 +0000] [8] [INFO] reports.tasks: generated report 195 in 2.44s
+[2026-10-03 20:31:12 +0000] [112] [ERROR] Exception on /api/reports/196 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:12 +0000] [7] [ERROR] Exception on /api/reports/197 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:12 +0000] [112] [INFO] reports.tasks: generated report 198 in 0.59s
+[2026-10-03 20:31:12 +0000] [8] [INFO] reports.tasks: generated report 199 in 1.86s
+[2026-10-03 20:31:12 +0000] [8] [ERROR] Exception on /api/reports/200 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:12 +0000] [7] [WARNING] django.request: Not Found: /api/reports/6443
+[2026-10-03 20:31:13 +0000] [112] [INFO] reports.tasks: generated report 202 in 2.39s
+[2026-10-03 20:31:13 +0000] [8] [INFO] reports.tasks: generated report 203 in 1.46s
+[2026-10-03 20:31:14 +0000] [7] [INFO] reports.tasks: generated report 204 in 0.69s
+[2026-10-03 20:31:14 +0000] [112] [INFO] reports.tasks: generated report 205 in 0.24s
+[2026-10-03 20:31:14 +0000] [7] [INFO] reports.tasks: generated report 206 in 2.73s
+[2026-10-03 20:31:14 +0000] [112] [WARNING] django.request: Not Found: /api/reports/5168
+[2026-10-03 20:31:14 +0000] [112] [WARNING] django.request: Not Found: /api/reports/5858
+[2026-10-03 20:31:16 +0000] [112] [INFO] reports.tasks: generated report 209 in 0.86s
+[2026-10-03 20:31:16 +0000] [8] [INFO] reports.tasks: generated report 210 in 0.45s
+[2026-10-03 20:31:16 +0000] [7] [INFO] reports.tasks: generated report 211 in 2.46s
+[2026-10-03 20:31:17 +0000] [7] [WARNING] django.request: Not Found: /api/reports/2563
+[2026-10-03 20:31:17 +0000] [8] [INFO] reports.tasks: generated report 213 in 2.66s
+[2026-10-03 20:31:18 +0000] [7] [ERROR] Exception on /api/reports/214 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:19 +0000] [8] [ERROR] Exception on /api/reports/215 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:19 +0000] [8] [ERROR] Exception on /api/reports/216 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:20 +0000] [112] [INFO] reports.tasks: generated report 217 in 0.47s
+[2026-10-03 20:31:20 +0000] [8] [ERROR] Exception on /api/reports/218 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:20 +0000] [7] [ERROR] Exception on /api/reports/219 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:20 +0000] [7] [INFO] reports.tasks: generated report 220 in 2.10s
+[2026-10-03 20:31:20 +0000] [8] [ERROR] Exception on /api/reports/221 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:20 +0000] [8] [WARNING] django.request: Not Found: /api/reports/4600
+[2026-10-03 20:31:21 +0000] [7] [ERROR] Exception on /api/reports/223 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:21 +0000] [7] [INFO] reports.tasks: generated report 224 in 0.47s
+[2026-10-03 20:31:21 +0000] [8] [INFO] reports.tasks: generated report 225 in 2.89s
+[2026-10-03 20:31:21 +0000] [7] [ERROR] Exception on /api/reports/226 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:22 +0000] [8] [ERROR] Exception on /api/reports/227 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:22 +0000] [8] [INFO] reports.tasks: generated report 228 in 1.15s
+[2026-10-03 20:31:23 +0000] [7] [WARNING] django.request: Not Found: /api/reports/1470
+[2026-10-03 20:31:23 +0000] [8] [INFO] reports.tasks: generated report 230 in 2.63s
+[2026-10-03 20:31:23 +0000] [8] [INFO] reports.tasks: generated report 231 in 2.93s
+[2026-10-03 20:31:24 +0000] [8] [ERROR] Exception on /api/reports/232 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:24 +0000] [112] [INFO] reports.tasks: generated report 233 in 2.86s
+[2026-10-03 20:31:25 +0000] [7] [INFO] reports.tasks: generated report 234 in 1.23s
+[2026-10-03 20:31:25 +0000] [8] [WARNING] django.request: Not Found: /api/reports/6005
+[2026-10-03 20:31:26 +0000] [8] [WARNING] django.request: Not Found: /api/reports/8998
+[2026-10-03 20:31:26 +0000] [112] [INFO] reports.tasks: generated report 237 in 1.45s
+[2026-10-03 20:31:27 +0000] [7] [INFO] reports.tasks: generated report 238 in 2.56s
+[2026-10-03 20:31:27 +0000] [7] [INFO] reports.tasks: generated report 239 in 2.23s
+[2026-10-03 20:31:27 +0000] [7] [WARNING] django.request: Not Found: /api/reports/8156
+[2026-10-03 20:31:27 +0000] [8] [INFO] reports.tasks: generated report 241 in 1.80s
+[2026-10-03 20:31:28 +0000] [8] [ERROR] Exception on /api/reports/242 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:29 +0000] [7] [ERROR] Exception on /api/reports/243 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:29 +0000] [112] [INFO] reports.tasks: generated report 244 in 1.53s
+[2026-10-03 20:31:30 +0000] [7] [INFO] reports.tasks: generated report 245 in 1.69s
+[2026-10-03 20:31:30 +0000] [8] [INFO] reports.tasks: generated report 246 in 1.82s
+[2026-10-03 20:31:31 +0000] [8] [INFO] reports.tasks: generated report 247 in 1.89s
+[2026-10-03 20:31:31 +0000] [7] [INFO] reports.tasks: generated report 248 in 0.39s
+[2026-10-03 20:31:31 +0000] [8] [INFO] reports.tasks: generated report 249 in 2.49s
+[2026-10-03 20:31:31 +0000] [8] [ERROR] Exception on /api/reports/250 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:31 +0000] [8] [ERROR] Exception on /api/reports/251 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:32 +0000] [7] [WARNING] django.request: Not Found: /api/reports/6465
+[2026-10-03 20:31:32 +0000] [112] [INFO] reports.tasks: generated report 253 in 0.73s
+[2026-10-03 20:31:33 +0000] [112] [INFO] reports.tasks: generated report 254 in 2.97s
+[2026-10-03 20:31:34 +0000] [112] [WARNING] django.request: Not Found: /api/reports/6411
+[2026-10-03 20:31:34 +0000] [8] [INFO] reports.tasks: generated report 256 in 2.56s
+[2026-10-03 20:31:34 +0000] [8] [WARNING] django.request: Not Found: /api/reports/2352
+[2026-10-03 20:31:35 +0000] [8] [INFO] reports.tasks: generated report 258 in 1.94s
+[2026-10-03 20:31:36 +0000] [7] [INFO] reports.tasks: generated report 259 in 2.73s
+[2026-10-03 20:31:37 +0000] [8] [INFO] reports.tasks: generated report 260 in 0.96s
+[2026-10-03 20:31:37 +0000] [7] [INFO] reports.tasks: generated report 261 in 2.45s
+[2026-10-03 20:31:37 +0000] [7] [WARNING] django.request: Not Found: /api/reports/3834
+[2026-10-03 20:31:37 +0000] [7] [INFO] reports.tasks: generated report 263 in 0.46s
+[2026-10-03 20:31:37 +0000] [112] [INFO] reports.tasks: generated report 264 in 0.52s
+[2026-10-03 20:31:38 +0000] [7] [INFO] reports.tasks: generated report 265 in 0.52s
+[2026-10-03 20:31:38 +0000] [112] [ERROR] Exception on /api/reports/266 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:38 +0000] [8] [WARNING] django.request: Not Found: /api/reports/9064
+[2026-10-03 20:31:39 +0000] [112] [INFO] reports.tasks: generated report 268 in 2.14s
+[2026-10-03 20:31:39 +0000] [112] [INFO] reports.tasks: generated report 269 in 2.95s
+[2026-10-03 20:31:40 +0000] [7] [INFO] reports.tasks: generated report 270 in 1.27s
+[2026-10-03 20:31:40 +0000] [8] [ERROR] Exception on /api/reports/271 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:41 +0000] [7] [WARNING] django.request: Not Found: /api/reports/4231
+[2026-10-03 20:31:41 +0000] [8] [INFO] reports.tasks: generated report 273 in 2.29s
+[2026-10-03 20:31:41 +0000] [8] [WARNING] django.request: Not Found: /api/reports/2865
+[2026-10-03 20:31:42 +0000] [7] [ERROR] Exception on /api/reports/275 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:42 +0000] [8] [INFO] reports.tasks: generated report 276 in 2.63s
+[2026-10-03 20:31:42 +0000] [7] [WARNING] django.request: Not Found: /api/reports/4825
+[2026-10-03 20:31:43 +0000] [8] [WARNING] django.request: Not Found: /api/reports/6998
+[2026-10-03 20:31:43 +0000] [7] [ERROR] Exception on /api/reports/279 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:43 +0000] [7] [INFO] reports.tasks: generated report 280 in 2.38s
+[2026-10-03 20:31:44 +0000] [8] [INFO] reports.tasks: generated report 281 in 0.85s
+[2026-10-03 20:31:44 +0000] [7] [ERROR] Exception on /api/reports/282 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:44 +0000] [112] [INFO] reports.tasks: generated report 283 in 2.86s
+[2026-10-03 20:31:45 +0000] [7] [INFO] reports.tasks: generated report 284 in 0.65s
+[2026-10-03 20:31:45 +0000] [7] [ERROR] Exception on /api/reports/285 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:47 +0000] [8] [INFO] reports.tasks: generated report 286 in 0.51s
+[2026-10-03 20:31:47 +0000] [8] [INFO] reports.tasks: generated report 287 in 1.87s
+[2026-10-03 20:31:48 +0000] [112] [INFO] reports.tasks: generated report 288 in 2.96s
+[2026-10-03 20:31:48 +0000] [7] [ERROR] Exception on /api/reports/289 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:48 +0000] [7] [INFO] reports.tasks: generated report 290 in 1.25s
+[2026-10-03 20:31:48 +0000] [112] [INFO] reports.tasks: generated report 291 in 0.46s
+[2026-10-03 20:31:49 +0000] [8] [ERROR] Exception on /api/reports/292 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:50 +0000] [112] [ERROR] Exception on /api/reports/293 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:50 +0000] [112] [INFO] reports.tasks: generated report 294 in 1.52s
+[2026-10-03 20:31:51 +0000] [7] [ERROR] Exception on /api/reports/295 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:52 +0000] [7] [WARNING] django.request: Not Found: /api/reports/5203
+[2026-10-03 20:31:52 +0000] [7] [INFO] reports.tasks: generated report 297 in 1.36s
+[2026-10-03 20:31:52 +0000] [7] [ERROR] Exception on /api/reports/298 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:53 +0000] [8] [INFO] reports.tasks: generated report 299 in 0.68s
+[2026-10-03 20:31:53 +0000] [8] [ERROR] Exception on /api/reports/300 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:53 +0000] [8] [WARNING] django.request: Not Found: /api/reports/3121
+[2026-10-03 20:31:53 +0000] [112] [ERROR] Exception on /api/reports/302 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:53 +0000] [112] [WARNING] django.request: Not Found: /api/reports/2108
+[2026-10-03 20:31:54 +0000] [112] [INFO] reports.tasks: generated report 304 in 0.41s
+[2026-10-03 20:31:54 +0000] [8] [INFO] reports.tasks: generated report 305 in 1.55s
+[2026-10-03 20:31:54 +0000] [7] [INFO] reports.tasks: generated report 306 in 2.65s
+[2026-10-03 20:31:55 +0000] [8] [ERROR] Exception on /api/reports/307 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:56 +0000] [112] [INFO] reports.tasks: generated report 308 in 2.18s
+[2026-10-03 20:31:56 +0000] [112] [WARNING] django.request: Not Found: /api/reports/4872
+[2026-10-03 20:31:56 +0000] [8] [INFO] reports.tasks: generated report 310 in 0.23s
+[2026-10-03 20:31:57 +0000] [112] [ERROR] Exception on /api/reports/311 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:57 +0000] [7] [INFO] reports.tasks: generated report 312 in 1.96s
+[2026-10-03 20:31:57 +0000] [7] [WARNING] django.request: Not Found: /api/reports/4174
+[2026-10-03 20:31:57 +0000] [8] [WARNING] django.request: Not Found: /api/reports/4599
+[2026-10-03 20:31:58 +0000] [112] [ERROR] Exception on /api/reports/315 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:58 +0000] [7] [INFO] reports.tasks: generated report 316 in 2.94s
+[2026-10-03 20:31:58 +0000] [7] [INFO] reports.tasks: generated report 317 in 0.86s
+[2026-10-03 20:31:59 +0000] [8] [WARNING] django.request: Not Found: /api/reports/5233
+[2026-10-03 20:31:59 +0000] [112] [ERROR] Exception on /api/reports/319 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:31:59 +0000] [7] [WARNING] django.request: Not Found: /api/reports/8916
+[2026-10-03 20:32:00 +0000] [7] [WARNING] django.request: Not Found: /api/reports/5888
+[2026-10-03 20:32:00 +0000] [7] [INFO] reports.tasks: generated report 322 in 1.49s
+[2026-10-03 20:32:00 +0000] [112] [INFO] reports.tasks: generated report 323 in 1.30s
+[2026-10-03 20:32:01 +0000] [7] [INFO] reports.tasks: generated report 324 in 1.70s
+[2026-10-03 20:32:01 +0000] [8] [WARNING] django.request: Not Found: /api/reports/7405
+[2026-10-03 20:32:01 +0000] [7] [WARNING] django.request: Not Found: /api/reports/6873
+[2026-10-03 20:32:02 +0000] [112] [INFO] reports.tasks: generated report 327 in 1.85s
+[2026-10-03 20:32:02 +0000] [8] [INFO] reports.tasks: generated report 328 in 0.56s
+[2026-10-03 20:32:02 +0000] [8] [INFO] reports.tasks: generated report 329 in 2.12s
+[2026-10-03 20:32:03 +0000] [7] [INFO] reports.tasks: generated report 330 in 0.95s
+[2026-10-03 20:32:04 +0000] [7] [WARNING] django.request: Not Found: /api/reports/6004
+[2026-10-03 20:32:04 +0000] [8] [INFO] reports.tasks: generated report 332 in 2.65s
+[2026-10-03 20:32:04 +0000] [8] [INFO] reports.tasks: generated report 333 in 0.79s
+[2026-10-03 20:32:04 +0000] [7] [INFO] reports.tasks: generated report 334 in 2.83s
+[2026-10-03 20:32:05 +0000] [112] [INFO] reports.tasks: generated report 335 in 0.89s
+[2026-10-03 20:32:05 +0000] [7] [ERROR] Exception on /api/reports/336 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:32:06 +0000] [112] [INFO] reports.tasks: generated report 337 in 1.60s
+[2026-10-03 20:32:06 +0000] [112] [INFO] reports.tasks: generated report 338 in 1.97s
+[2026-10-03 20:32:07 +0000] [8] [INFO] reports.tasks: generated report 339 in 2.40s
+[2026-10-03 20:32:07 +0000] [8] [WARNING] django.request: Not Found: /api/reports/9510
+[2026-10-03 20:32:07 +0000] [7] [INFO] reports.tasks: generated report 341 in 0.31s
+[2026-10-03 20:32:08 +0000] [7] [INFO] reports.tasks: generated report 342 in 1.66s
+[2026-10-03 20:32:09 +0000] [112] [INFO] reports.tasks: generated report 343 in 1.30s
+[2026-10-03 20:32:10 +0000] [112] [INFO] reports.tasks: generated report 344 in 0.24s
+[2026-10-03 20:32:10 +0000] [8] [ERROR] Exception on /api/reports/345 [GET]
+Traceback (most recent call last):
+  File "/app/reports/views.py", line 57, in report_detail
+    value = int(request.GET["limit"])
+ValueError: invalid literal for int() with base 10: 'ten'
+[2026-10-03 20:32:11 +0000] [8] [INFO] reports.tasks: generated report 346 in 0.40s
+[2026-10-03 20:32:11 +0000] [7] [INFO] reports.tasks: generated report 347 in 2.57s
+[2026-10-03 20:32:11 +0000] [7] [INFO] reports.tasks: generated report 348 in 1.58s
+[2026-10-03 20:32:13 +0000] [7] [WARNING] django.request: Not Found: /api/reports/1459
+[2026-10-03 20:32:13 +0000] [7] [INFO] reports.tasks: generated report 350 in 2.85s
+[2026-10-03 20:32:14 +0000] [7] [INFO] reports.tasks: generated report 351 in 2.24s
+[2026-10-03 20:32:14 +0000] [8] [WARNING] django.request: Not Found: /api/reports/2650
+[2026-10-03 20:32:14 +0000] [112] [INFO] reports.tasks: generated report 353 in 2.79s

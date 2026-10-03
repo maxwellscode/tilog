@@ -1,0 +1,1400 @@
+2026-10-03T08:14:00.101264873Z level=info msg="starting orders-worker" version=2.3.1 queue=orders
+2026-10-03T08:14:00.340118222Z level=info msg="connected to amqp" url=amqp://rabbitmq.shop.svc:5672
+2026-10-03T08:14:00.341902117Z level=info msg="consuming" queue=orders prefetch=20
+2026-10-03T08:14:03.412066001Z level=info msg="order processed" order_id=10501 duration_ms=41
+2026-10-03T08:14:19.775310458Z level=info msg="order processed" order_id=10502 duration_ms=38
+2026-10-03T08:14:44.032941117Z level=debug msg="heartbeat" unacked=0
+2026-10-03T08:15:26.140772664Z level=info msg="order processed" order_id=10503 duration_ms=44
+2026-10-03T08:15:58.604215903Z level=warn msg="slow consumer" queue=orders lag_ms=1840
+2026-10-03T08:16:12.201508377Z level=info msg="order processed" order_id=10504 duration_ms=212
+2026-10-03T08:16:49.870113002Z level=error msg="failed to write order" order_id=10512 err="pq: remaining connection slots are reserved for non-replication superuser connections"
+2026-10-03T08:16:50.871336581Z level=warn msg="retrying" order_id=10512 attempt=1 backoff=1s
+2026-10-03T08:16:52.003112345Z level=error msg="failed to write order" order_id=10512 err="pq: remaining connection slots are reserved for non-replication superuser connections"
+2026-10-03T08:16:52.003290812Z level=warn msg="retrying" order_id=10512 attempt=2 backoff=2s
+2026-10-03T08:16:55.007712930Z level=error msg="failed to write order" order_id=10513 err="context deadline exceeded"
+2026-10-03T08:16:58.012204411Z level=error msg="giving up" order_id=10512 attempts=3 action=dead-letter
+2026-10-03T08:16:58.012871029Z level=warn msg="published to dead-letter queue" queue=orders.dlq order_id=10512
+2026-10-03T08:17:01.445002134Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T08:17:01.445011240Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T08:17:01.445013119Z
+2026-10-03T08:17:01.445014855Z goroutine 42 [running]:
+2026-10-03T08:17:01.445016402Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T08:17:01.445018088Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T08:17:01.445019774Z main.(*Worker).run(0xc0001a2000)
+2026-10-03T08:17:01.445021317Z 	/src/cmd/orders-worker/worker.go:77 +0x105
+2026-10-03T08:17:01.445022840Z created by main.main
+2026-10-03T08:17:01.445024261Z 	/src/cmd/orders-worker/main.go:44 +0x1b3
+2026-10-03T08:17:15.220448193Z level=info msg="starting orders-worker" version=2.3.1 queue=orders
+2026-10-03T08:17:15.611730550Z level=info msg="connected to amqp" url=amqp://rabbitmq.shop.svc:5672
+2026-10-03T08:17:15.613001881Z level=info msg="consuming" queue=orders prefetch=20
+2026-10-03T08:17:16.004551112Z level=info msg="order processed" order_id=10514 duration_ms=47
+2026-10-03T19:56:22.072658917Z level=info msg="order processed" order_id=10639 duration_ms=59
+2026-10-03T19:56:24.943230913Z level=info msg="order processed" order_id=10640 duration_ms=63
+2026-10-03T19:56:25.479361434Z level=info msg="order processed" order_id=10641 duration_ms=51
+2026-10-03T19:56:30.223548578Z level=warn msg="slow consumer" queue=orders lag_ms=1281
+2026-10-03T19:56:31.098170215Z level=warn msg="slow consumer" queue=orders lag_ms=1930
+2026-10-03T19:56:32.687983972Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:56:34.096533574Z level=info msg="order processed" order_id=10653 duration_ms=62
+2026-10-03T19:56:37.235000579Z level=info msg="order processed" order_id=10656 duration_ms=51
+2026-10-03T19:56:37.069949662Z level=info msg="order processed" order_id=10658 duration_ms=33
+2026-10-03T19:56:47.041086947Z level=info msg="order processed" order_id=10668 duration_ms=33
+2026-10-03T19:57:25.590845276Z level=error msg="failed to write order" order_id=10610 err="context deadline exceeded"
+2026-10-03T19:57:25.869071402Z level=warn msg="retrying" order_id=10610 attempt=1 backoff=1s
+2026-10-03T19:57:26.571646518Z level=error msg="failed to write order" order_id=10612 err="context deadline exceeded"
+2026-10-03T19:57:26.477990485Z level=warn msg="retrying" order_id=10612 attempt=1 backoff=1s
+2026-10-03T19:57:28.737848267Z level=debug msg="heartbeat" unacked=0
+2026-10-03T19:57:28.272628224Z level=info msg="order processed" order_id=10618 duration_ms=62
+2026-10-03T19:57:29.538684710Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:57:29.737544109Z level=info msg="order processed" order_id=10621 duration_ms=58
+2026-10-03T19:57:33.117780451Z level=info msg="order processed" order_id=10628 duration_ms=39
+2026-10-03T19:57:34.633433280Z level=info msg="order processed" order_id=10631 duration_ms=37
+2026-10-03T19:57:38.204417453Z level=info msg="order processed" order_id=10639 duration_ms=59
+2026-10-03T19:57:38.250400650Z level=info msg="order processed" order_id=10641 duration_ms=68
+2026-10-03T19:57:39.006807995Z level=info msg="order processed" order_id=10644 duration_ms=42
+2026-10-03T19:57:40.980529229Z level=warn msg="slow consumer" queue=orders lag_ms=2569
+2026-10-03T19:57:41.921889760Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:57:42.172340298Z level=info msg="order processed" order_id=10651 duration_ms=59
+2026-10-03T19:57:43.961866970Z level=info msg="order processed" order_id=10654 duration_ms=38
+2026-10-03T19:57:45.113528422Z level=warn msg="slow consumer" queue=orders lag_ms=2665
+2026-10-03T19:57:46.395027827Z level=info msg="order processed" order_id=10661 duration_ms=61
+2026-10-03T19:57:47.462038502Z level=debug msg="heartbeat" unacked=1
+2026-10-03T19:57:48.069962940Z level=info msg="order processed" order_id=10669 duration_ms=52
+2026-10-03T19:57:49.323232479Z level=debug msg="heartbeat" unacked=0
+2026-10-03T19:57:50.361841755Z level=info msg="order processed" order_id=10673 duration_ms=52
+2026-10-03T19:57:51.364134714Z level=info msg="order processed" order_id=10674 duration_ms=58
+2026-10-03T19:57:51.554234470Z level=error msg="failed to write order" order_id=10676 err="context deadline exceeded"
+2026-10-03T19:57:51.230012819Z level=warn msg="retrying" order_id=10676 attempt=1 backoff=1s
+2026-10-03T19:57:52.707085457Z level=warn msg="slow consumer" queue=orders lag_ms=2453
+2026-10-03T19:57:54.747044561Z level=warn msg="slow consumer" queue=orders lag_ms=2574
+2026-10-03T19:57:54.328145169Z level=info msg="order processed" order_id=10689 duration_ms=69
+2026-10-03T19:57:55.035413267Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:57:56.759321625Z level=error msg="failed to write order" order_id=10694 err="context deadline exceeded"
+2026-10-03T19:57:56.244567604Z level=warn msg="retrying" order_id=10694 attempt=1 backoff=1s
+2026-10-03T19:57:57.718714962Z level=info msg="order processed" order_id=10698 duration_ms=54
+2026-10-03T19:58:01.684332562Z level=info msg="order processed" order_id=10700 duration_ms=51
+2026-10-03T19:58:02.219667385Z level=error msg="failed to write order" order_id=10702 err="context deadline exceeded"
+2026-10-03T19:58:02.366359448Z level=warn msg="retrying" order_id=10702 attempt=1 backoff=1s
+2026-10-03T19:58:02.441235522Z level=info msg="order processed" order_id=10703 duration_ms=46
+2026-10-03T19:58:03.714292485Z level=warn msg="slow consumer" queue=orders lag_ms=1477
+2026-10-03T19:58:04.563728079Z level=warn msg="slow consumer" queue=orders lag_ms=1585
+2026-10-03T19:58:07.479667741Z level=info msg="order processed" order_id=10719 duration_ms=66
+2026-10-03T19:58:09.889194411Z level=info msg="order processed" order_id=10721 duration_ms=67
+2026-10-03T19:58:09.739862411Z level=info msg="order processed" order_id=10722 duration_ms=38
+2026-10-03T19:58:11.933994844Z level=warn msg="slow consumer" queue=orders lag_ms=2675
+2026-10-03T19:58:11.124437003Z level=info msg="order processed" order_id=10726 duration_ms=56
+2026-10-03T19:58:13.164131185Z level=info msg="order processed" order_id=10730 duration_ms=49
+2026-10-03T19:58:15.238896853Z level=info msg="order processed" order_id=10735 duration_ms=56
+2026-10-03T19:58:18.955658038Z level=debug msg="heartbeat" unacked=1
+2026-10-03T19:58:39.407941390Z level=info msg="order processed" order_id=10623 duration_ms=55
+2026-10-03T19:58:40.975186779Z level=warn msg="slow consumer" queue=orders lag_ms=1045
+2026-10-03T19:58:41.884194156Z level=info msg="order processed" order_id=10633 duration_ms=30
+2026-10-03T19:58:41.676072279Z level=info msg="order processed" order_id=10634 duration_ms=51
+2026-10-03T19:58:41.999357523Z level=info msg="order processed" order_id=10636 duration_ms=45
+2026-10-03T19:58:42.926220603Z level=info msg="order processed" order_id=10637 duration_ms=68
+2026-10-03T19:58:42.823168935Z level=debug msg="heartbeat" unacked=1
+2026-10-03T19:58:42.031994086Z level=info msg="order processed" order_id=10640 duration_ms=67
+2026-10-03T19:58:42.819131941Z level=warn msg="slow consumer" queue=orders lag_ms=2003
+2026-10-03T19:58:43.263972570Z level=info msg="order processed" order_id=10646 duration_ms=47
+2026-10-03T19:58:43.347255342Z level=info msg="order processed" order_id=10647 duration_ms=52
+2026-10-03T19:58:43.040409726Z level=error msg="failed to write order" order_id=10650 err="context deadline exceeded"
+2026-10-03T19:58:43.640465708Z level=warn msg="retrying" order_id=10650 attempt=1 backoff=1s
+2026-10-03T19:58:43.631618391Z level=info msg="order processed" order_id=10651 duration_ms=53
+2026-10-03T19:58:43.333369985Z level=info msg="order processed" order_id=10652 duration_ms=66
+2026-10-03T19:58:45.421259855Z level=info msg="order processed" order_id=10670 duration_ms=54
+2026-10-03T19:58:46.759747395Z level=info msg="order processed" order_id=10678 duration_ms=52
+2026-10-03T19:58:46.161432295Z level=error msg="failed to write order" order_id=10679 err="context deadline exceeded"
+2026-10-03T19:58:46.972135438Z level=warn msg="retrying" order_id=10679 attempt=1 backoff=1s
+2026-10-03T19:58:46.031492177Z level=info msg="order processed" order_id=10683 duration_ms=69
+2026-10-03T19:58:47.278289250Z level=info msg="order processed" order_id=10688 duration_ms=68
+2026-10-03T19:58:47.119272851Z level=info msg="order processed" order_id=10692 duration_ms=66
+2026-10-03T19:58:48.392669802Z level=warn msg="slow consumer" queue=orders lag_ms=1592
+2026-10-03T19:58:48.005014702Z level=debug msg="heartbeat" unacked=0
+2026-10-03T19:58:49.312046063Z level=info msg="order processed" order_id=10705 duration_ms=48
+2026-10-03T19:58:49.757626672Z level=info msg="order processed" order_id=10706 duration_ms=50
+2026-10-03T19:58:50.193125635Z level=info msg="order processed" order_id=10709 duration_ms=59
+2026-10-03T19:58:50.842247982Z level=info msg="order processed" order_id=10710 duration_ms=36
+2026-10-03T19:58:51.942502887Z level=info msg="order processed" order_id=10718 duration_ms=64
+2026-10-03T19:58:52.858190183Z level=info msg="order processed" order_id=10721 duration_ms=59
+2026-10-03T19:58:52.747539624Z level=warn msg="slow consumer" queue=orders lag_ms=2107
+2026-10-03T19:58:52.838400270Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:58:53.219961135Z level=info msg="order processed" order_id=10727 duration_ms=39
+2026-10-03T19:58:53.869856599Z level=error msg="failed to write order" order_id=10730 err="context deadline exceeded"
+2026-10-03T19:58:53.126164053Z level=warn msg="retrying" order_id=10730 attempt=1 backoff=1s
+2026-10-03T19:58:53.264736291Z level=error msg="failed to write order" order_id=10731 err="context deadline exceeded"
+2026-10-03T19:58:53.957228893Z level=warn msg="retrying" order_id=10731 attempt=1 backoff=1s
+2026-10-03T19:58:53.961952968Z level=info msg="order processed" order_id=10734 duration_ms=38
+2026-10-03T19:58:54.454387276Z level=info msg="order processed" order_id=10744 duration_ms=55
+2026-10-03T19:58:56.919978624Z level=debug msg="heartbeat" unacked=2
+2026-10-03T19:58:56.923093276Z level=error msg="failed to write order" order_id=10753 err="context deadline exceeded"
+2026-10-03T19:58:56.534968578Z level=warn msg="retrying" order_id=10753 attempt=1 backoff=1s
+2026-10-03T19:58:56.247670760Z level=info msg="order processed" order_id=10756 duration_ms=64
+2026-10-03T19:58:57.808477302Z level=info msg="order processed" order_id=10758 duration_ms=31
+2026-10-03T19:58:57.216988830Z level=warn msg="slow consumer" queue=orders lag_ms=2760
+2026-10-03T19:58:57.393022708Z level=info msg="order processed" order_id=10762 duration_ms=46
+2026-10-03T19:58:57.555763256Z level=debug msg="heartbeat" unacked=1
+2026-10-03T19:58:58.766962767Z level=error msg="failed to write order" order_id=10765 err="context deadline exceeded"
+2026-10-03T19:58:58.503514575Z level=warn msg="retrying" order_id=10765 attempt=1 backoff=1s
+2026-10-03T19:58:58.136398034Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:58:59.700460516Z level=info msg="order processed" order_id=10773 duration_ms=40
+2026-10-03T19:58:59.309652830Z level=info msg="order processed" order_id=10777 duration_ms=43
+2026-10-03T19:59:00.083124662Z level=info msg="order processed" order_id=10779 duration_ms=63
+2026-10-03T19:59:00.671547312Z level=info msg="order processed" order_id=10783 duration_ms=57
+2026-10-03T19:59:00.947139951Z level=info msg="order processed" order_id=10785 duration_ms=33
+2026-10-03T19:59:00.967704307Z level=debug msg="heartbeat" unacked=2
+2026-10-03T19:59:01.212454558Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:59:01.555289967Z level=info msg="order processed" order_id=10788 duration_ms=48
+2026-10-03T19:59:01.316000582Z level=info msg="order processed" order_id=10791 duration_ms=57
+2026-10-03T19:59:02.406242897Z level=info msg="order processed" order_id=10796 duration_ms=64
+2026-10-03T19:59:02.945946051Z level=info msg="order processed" order_id=10797 duration_ms=66
+2026-10-03T19:59:03.706097307Z level=debug msg="heartbeat" unacked=2
+2026-10-03T19:59:03.109914474Z level=info msg="order processed" order_id=10805 duration_ms=44
+2026-10-03T19:59:03.329872086Z level=info msg="order processed" order_id=10806 duration_ms=48
+2026-10-03T19:59:04.662441666Z level=error msg="failed to write order" order_id=10807 err="context deadline exceeded"
+2026-10-03T19:59:04.507278594Z level=warn msg="retrying" order_id=10807 attempt=1 backoff=1s
+2026-10-03T19:59:04.054738829Z level=info msg="order processed" order_id=10808 duration_ms=32
+2026-10-03T19:59:04.875275748Z level=info msg="order processed" order_id=10810 duration_ms=66
+2026-10-03T19:59:04.331100929Z level=warn msg="slow consumer" queue=orders lag_ms=2885
+2026-10-03T19:59:04.464218406Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T19:59:04.065553302Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T19:59:04.538716452Z goroutine 42 [running]:
+2026-10-03T19:59:04.895753284Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T19:59:04.985519779Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T19:59:05.992978773Z level=info msg="order processed" order_id=10823 duration_ms=67
+2026-10-03T19:59:05.588596045Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:59:06.949744096Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:59:07.124491376Z level=info msg="order processed" order_id=10832 duration_ms=36
+2026-10-03T19:59:07.680997386Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:59:08.105739388Z level=error msg="failed to write order" order_id=10839 err="context deadline exceeded"
+2026-10-03T19:59:08.490024868Z level=warn msg="retrying" order_id=10839 attempt=1 backoff=1s
+2026-10-03T19:59:08.038678718Z level=info msg="order processed" order_id=10841 duration_ms=58
+2026-10-03T19:59:08.065741422Z level=info msg="order processed" order_id=10842 duration_ms=57
+2026-10-03T19:59:09.738179391Z level=info msg="order processed" order_id=10850 duration_ms=58
+2026-10-03T19:59:09.237048460Z level=info msg="order processed" order_id=10852 duration_ms=42
+2026-10-03T19:59:10.751445980Z level=info msg="order processed" order_id=10853 duration_ms=55
+2026-10-03T19:59:10.612582401Z level=debug msg="heartbeat" unacked=2
+2026-10-03T19:59:10.097583921Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:59:10.423293128Z level=info msg="order processed" order_id=10858 duration_ms=62
+2026-10-03T19:59:11.462997683Z level=info msg="order processed" order_id=10862 duration_ms=36
+2026-10-03T19:59:11.131116995Z level=info msg="order processed" order_id=10863 duration_ms=57
+2026-10-03T19:59:11.801470973Z level=info msg="order processed" order_id=10866 duration_ms=68
+2026-10-03T19:59:11.978840981Z level=info msg="order processed" order_id=10867 duration_ms=52
+2026-10-03T19:59:11.330006692Z level=warn msg="slow consumer" queue=orders lag_ms=1673
+2026-10-03T19:59:12.696651808Z level=info msg="order processed" order_id=10872 duration_ms=44
+2026-10-03T19:59:12.432232090Z level=info msg="order processed" order_id=10875 duration_ms=58
+2026-10-03T19:59:13.992535572Z level=info msg="order processed" order_id=10882 duration_ms=54
+2026-10-03T19:59:13.472222546Z level=debug msg="heartbeat" unacked=1
+2026-10-03T19:59:14.414888568Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T19:59:14.031549309Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T19:59:14.757864757Z goroutine 42 [running]:
+2026-10-03T19:59:14.967785395Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T19:59:14.371620921Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T19:59:14.259902037Z level=error msg="failed to write order" order_id=10891 err="context deadline exceeded"
+2026-10-03T19:59:14.583503060Z level=warn msg="retrying" order_id=10891 attempt=1 backoff=1s
+2026-10-03T19:59:14.095808204Z level=info msg="order processed" order_id=10895 duration_ms=47
+2026-10-03T19:59:14.240943538Z level=info msg="order processed" order_id=10896 duration_ms=67
+2026-10-03T19:59:16.123330490Z level=debug msg="heartbeat" unacked=1
+2026-10-03T19:59:16.980605794Z level=error msg="failed to write order" order_id=10904 err="context deadline exceeded"
+2026-10-03T19:59:16.777858862Z level=warn msg="retrying" order_id=10904 attempt=1 backoff=1s
+2026-10-03T19:59:17.244674529Z level=info msg="order processed" order_id=10908 duration_ms=69
+2026-10-03T19:59:17.134120634Z level=info msg="order processed" order_id=10911 duration_ms=31
+2026-10-03T19:59:17.490616508Z level=warn msg="slow consumer" queue=orders lag_ms=1637
+2026-10-03T19:59:17.061919310Z level=info msg="order processed" order_id=10915 duration_ms=30
+2026-10-03T19:59:17.291051883Z level=info msg="order processed" order_id=10916 duration_ms=56
+2026-10-03T19:59:19.015151364Z level=info msg="order processed" order_id=10923 duration_ms=69
+2026-10-03T19:59:20.053318184Z level=warn msg="slow consumer" queue=orders lag_ms=2241
+2026-10-03T19:59:20.888376575Z level=info msg="order processed" order_id=10929 duration_ms=50
+2026-10-03T19:59:22.508495564Z level=info msg="order processed" order_id=10937 duration_ms=65
+2026-10-03T19:59:22.882607859Z level=info msg="order processed" order_id=10940 duration_ms=68
+2026-10-03T19:59:22.149986811Z level=info msg="order processed" order_id=10941 duration_ms=46
+2026-10-03T19:59:22.186004024Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:59:23.703172799Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:59:23.337643135Z level=info msg="order processed" order_id=10947 duration_ms=40
+2026-10-03T19:59:23.281461075Z level=error msg="failed to write order" order_id=10951 err="context deadline exceeded"
+2026-10-03T19:59:23.293396414Z level=warn msg="retrying" order_id=10951 attempt=1 backoff=1s
+2026-10-03T19:59:24.756368517Z level=info msg="order processed" order_id=10952 duration_ms=48
+2026-10-03T19:59:24.150621797Z level=info msg="order processed" order_id=10954 duration_ms=39
+2026-10-03T19:59:24.879425076Z level=info msg="order processed" order_id=10958 duration_ms=47
+2026-10-03T19:59:25.576009225Z level=info msg="order processed" order_id=10963 duration_ms=64
+2026-10-03T19:59:25.955622317Z level=warn msg="slow consumer" queue=orders lag_ms=2689
+2026-10-03T19:59:25.818383351Z level=info msg="order processed" order_id=10970 duration_ms=68
+2026-10-03T19:59:26.645521130Z level=error msg="failed to write order" order_id=10971 err="context deadline exceeded"
+2026-10-03T19:59:26.271275275Z level=warn msg="retrying" order_id=10971 attempt=1 backoff=1s
+2026-10-03T19:59:27.578673201Z level=debug msg="heartbeat" unacked=1
+2026-10-03T19:59:27.143498871Z level=debug msg="heartbeat" unacked=1
+2026-10-03T19:59:27.183106000Z level=info msg="order processed" order_id=10985 duration_ms=36
+2026-10-03T19:59:27.852201940Z level=info msg="order processed" order_id=10988 duration_ms=32
+2026-10-03T19:59:28.028640272Z level=info msg="order processed" order_id=10989 duration_ms=48
+2026-10-03T19:59:28.050111070Z level=debug msg="heartbeat" unacked=2
+2026-10-03T19:59:29.477387031Z level=debug msg="heartbeat" unacked=2
+2026-10-03T19:59:29.609115211Z level=info msg="order processed" order_id=11000 duration_ms=57
+2026-10-03T19:59:30.372240984Z level=info msg="order processed" order_id=11003 duration_ms=46
+2026-10-03T19:59:30.268545157Z level=info msg="order processed" order_id=11004 duration_ms=38
+2026-10-03T19:59:31.079120748Z level=warn msg="slow consumer" queue=orders lag_ms=1673
+2026-10-03T19:59:33.786382832Z level=error msg="failed to write order" order_id=11025 err="context deadline exceeded"
+2026-10-03T19:59:33.303789534Z level=warn msg="retrying" order_id=11025 attempt=1 backoff=1s
+2026-10-03T19:59:33.679736932Z level=info msg="order processed" order_id=11026 duration_ms=46
+2026-10-03T19:59:33.481355772Z level=info msg="order processed" order_id=11029 duration_ms=35
+2026-10-03T19:59:34.492326817Z level=warn msg="slow consumer" queue=orders lag_ms=1644
+2026-10-03T19:59:34.154020645Z level=info msg="order processed" order_id=11036 duration_ms=39
+2026-10-03T19:59:35.911501270Z level=error msg="failed to write order" order_id=11039 err="context deadline exceeded"
+2026-10-03T19:59:35.146557483Z level=warn msg="retrying" order_id=11039 attempt=1 backoff=1s
+2026-10-03T19:59:35.100701856Z level=info msg="order processed" order_id=11044 duration_ms=59
+2026-10-03T19:59:36.366677545Z level=info msg="order processed" order_id=11045 duration_ms=44
+2026-10-03T19:59:36.554886496Z level=info msg="order processed" order_id=11048 duration_ms=68
+2026-10-03T19:59:37.027363299Z level=info msg="order processed" order_id=11049 duration_ms=31
+2026-10-03T19:59:38.035640128Z level=info msg="order processed" order_id=11054 duration_ms=38
+2026-10-03T19:59:38.045243121Z level=error msg="failed to write order" order_id=11057 err="context deadline exceeded"
+2026-10-03T19:59:38.068420756Z level=warn msg="retrying" order_id=11057 attempt=1 backoff=1s
+2026-10-03T19:59:38.065211851Z level=info msg="order processed" order_id=11058 duration_ms=45
+2026-10-03T19:59:38.975713278Z level=info msg="order processed" order_id=11059 duration_ms=61
+2026-10-03T19:59:47.171521726Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T19:59:47.624007184Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T19:59:47.233829312Z goroutine 42 [running]:
+2026-10-03T19:59:47.071700235Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T19:59:47.732379803Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T19:59:47.169848755Z level=debug msg="heartbeat" unacked=1
+2026-10-03T19:59:47.059163883Z level=info msg="order processed" order_id=10621 duration_ms=35
+2026-10-03T19:59:47.497504249Z level=info msg="order processed" order_id=10622 duration_ms=59
+2026-10-03T19:59:47.577880640Z level=info msg="order processed" order_id=10623 duration_ms=54
+2026-10-03T19:59:48.546864934Z level=info msg="order processed" order_id=10627 duration_ms=43
+2026-10-03T19:59:48.847631905Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:59:48.108551056Z level=error msg="failed to write order" order_id=10630 err="context deadline exceeded"
+2026-10-03T19:59:48.008685147Z level=warn msg="retrying" order_id=10630 attempt=1 backoff=1s
+2026-10-03T19:59:48.043744701Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:59:48.474065569Z level=info msg="order processed" order_id=10633 duration_ms=46
+2026-10-03T19:59:48.657352466Z level=info msg="order processed" order_id=10634 duration_ms=58
+2026-10-03T19:59:48.462883924Z level=info msg="order processed" order_id=10635 duration_ms=54
+2026-10-03T19:59:49.311208314Z level=info msg="order processed" order_id=10637 duration_ms=69
+2026-10-03T19:59:49.074530633Z level=info msg="order processed" order_id=10640 duration_ms=53
+2026-10-03T19:59:50.995050634Z level=info msg="order processed" order_id=10643 duration_ms=43
+2026-10-03T19:59:50.797191177Z level=warn msg="slow consumer" queue=orders lag_ms=2506
+2026-10-03T19:59:50.555428754Z level=debug msg="heartbeat" unacked=3
+2026-10-03T19:59:50.962434150Z level=info msg="order processed" order_id=10647 duration_ms=55
+2026-10-03T19:59:51.364461437Z level=error msg="failed to write order" order_id=10650 err="context deadline exceeded"
+2026-10-03T19:59:51.101125328Z level=warn msg="retrying" order_id=10650 attempt=1 backoff=1s
+2026-10-03T19:59:51.547536408Z level=info msg="order processed" order_id=10651 duration_ms=59
+2026-10-03T19:59:51.794519508Z level=info msg="order processed" order_id=10652 duration_ms=60
+2026-10-03T19:59:52.958824969Z level=debug msg="heartbeat" unacked=1
+2026-10-03T19:59:53.720404304Z level=debug msg="heartbeat" unacked=1
+2026-10-03T19:59:54.962528166Z level=error msg="failed to write order" order_id=10670 err="context deadline exceeded"
+2026-10-03T19:59:54.312178874Z level=warn msg="retrying" order_id=10670 attempt=1 backoff=1s
+2026-10-03T19:59:54.472639547Z level=info msg="order processed" order_id=10673 duration_ms=40
+2026-10-03T19:59:55.323168925Z level=info msg="order processed" order_id=10680 duration_ms=53
+2026-10-03T19:59:55.425975384Z level=info msg="order processed" order_id=10681 duration_ms=49
+2026-10-03T19:59:56.114832444Z level=info msg="order processed" order_id=10684 duration_ms=63
+2026-10-03T19:59:57.957910161Z level=info msg="order processed" order_id=10689 duration_ms=33
+2026-10-03T19:59:57.965778297Z level=error msg="failed to write order" order_id=10690 err="context deadline exceeded"
+2026-10-03T19:59:57.729166018Z level=warn msg="retrying" order_id=10690 attempt=1 backoff=1s
+2026-10-03T19:59:58.403808508Z level=info msg="order processed" order_id=10694 duration_ms=65
+2026-10-03T19:59:58.253191961Z level=info msg="order processed" order_id=10695 duration_ms=54
+2026-10-03T19:59:58.859456198Z level=info msg="order processed" order_id=10696 duration_ms=30
+2026-10-03T19:59:59.284983029Z level=info msg="order processed" order_id=10698 duration_ms=37
+2026-10-03T19:59:59.292950025Z level=debug msg="heartbeat" unacked=1
+2026-10-03T19:59:59.791132681Z level=info msg="order processed" order_id=10703 duration_ms=35
+2026-10-03T20:00:00.457050051Z level=info msg="order processed" order_id=10707 duration_ms=68
+2026-10-03T20:00:00.275986471Z level=error msg="failed to write order" order_id=10709 err="context deadline exceeded"
+2026-10-03T20:00:00.787229714Z level=warn msg="retrying" order_id=10709 attempt=1 backoff=1s
+2026-10-03T20:00:01.361435740Z level=info msg="order processed" order_id=10715 duration_ms=49
+2026-10-03T20:00:01.170333681Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:00:01.645859616Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:00:01.998081355Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:00:01.020225507Z goroutine 42 [running]:
+2026-10-03T20:00:01.622818120Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:00:01.516401888Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:00:02.728505776Z level=warn msg="slow consumer" queue=orders lag_ms=2866
+2026-10-03T20:00:03.539138834Z level=info msg="order processed" order_id=10733 duration_ms=47
+2026-10-03T20:00:04.765914352Z level=warn msg="slow consumer" queue=orders lag_ms=1426
+2026-10-03T20:00:05.195905546Z level=info msg="order processed" order_id=10745 duration_ms=60
+2026-10-03T20:00:06.307674909Z level=info msg="order processed" order_id=10749 duration_ms=47
+2026-10-03T20:00:06.922792705Z level=info msg="order processed" order_id=10751 duration_ms=64
+2026-10-03T20:00:07.567108060Z level=error msg="failed to write order" order_id=10757 err="context deadline exceeded"
+2026-10-03T20:00:07.847234432Z level=warn msg="retrying" order_id=10757 attempt=1 backoff=1s
+2026-10-03T20:00:07.945046222Z level=info msg="order processed" order_id=10758 duration_ms=36
+2026-10-03T20:00:07.458846091Z level=info msg="order processed" order_id=10759 duration_ms=35
+2026-10-03T20:00:07.503145931Z level=info msg="order processed" order_id=10760 duration_ms=55
+2026-10-03T20:00:07.907408765Z level=info msg="order processed" order_id=10761 duration_ms=65
+2026-10-03T20:00:07.813363834Z level=info msg="order processed" order_id=10765 duration_ms=47
+2026-10-03T20:00:08.779310951Z level=info msg="order processed" order_id=10769 duration_ms=58
+2026-10-03T20:00:08.443998596Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:00:08.605136992Z level=info msg="order processed" order_id=10774 duration_ms=32
+2026-10-03T20:00:08.306925839Z level=info msg="order processed" order_id=10776 duration_ms=36
+2026-10-03T20:00:09.541777599Z level=info msg="order processed" order_id=10778 duration_ms=69
+2026-10-03T20:00:09.154664867Z level=info msg="order processed" order_id=10780 duration_ms=36
+2026-10-03T20:00:10.250872907Z level=info msg="order processed" order_id=10781 duration_ms=39
+2026-10-03T20:00:11.858075758Z level=info msg="order processed" order_id=10793 duration_ms=45
+2026-10-03T20:00:11.925631624Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:00:12.933468383Z level=info msg="order processed" order_id=10803 duration_ms=39
+2026-10-03T20:00:13.344927710Z level=error msg="failed to write order" order_id=10808 err="context deadline exceeded"
+2026-10-03T20:00:13.568367666Z level=warn msg="retrying" order_id=10808 attempt=1 backoff=1s
+2026-10-03T20:00:13.026309914Z level=info msg="order processed" order_id=10813 duration_ms=47
+2026-10-03T20:00:14.071993957Z level=error msg="failed to write order" order_id=10818 err="context deadline exceeded"
+2026-10-03T20:00:14.032203682Z level=warn msg="retrying" order_id=10818 attempt=1 backoff=1s
+2026-10-03T20:00:14.011336147Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:00:15.800284835Z level=info msg="order processed" order_id=10820 duration_ms=35
+2026-10-03T20:00:16.049280153Z level=info msg="order processed" order_id=10824 duration_ms=51
+2026-10-03T20:00:16.471638887Z level=info msg="order processed" order_id=10825 duration_ms=50
+2026-10-03T20:00:17.273732522Z level=info msg="order processed" order_id=10839 duration_ms=42
+2026-10-03T20:00:18.804506636Z level=error msg="failed to write order" order_id=10843 err="context deadline exceeded"
+2026-10-03T20:00:18.784620687Z level=warn msg="retrying" order_id=10843 attempt=1 backoff=1s
+2026-10-03T20:00:18.246491199Z level=warn msg="slow consumer" queue=orders lag_ms=1404
+2026-10-03T20:00:18.026604728Z level=info msg="order processed" order_id=10846 duration_ms=50
+2026-10-03T20:00:19.144863513Z level=info msg="order processed" order_id=10852 duration_ms=36
+2026-10-03T20:00:20.388171153Z level=info msg="order processed" order_id=10857 duration_ms=43
+2026-10-03T20:00:20.347614801Z level=info msg="order processed" order_id=10858 duration_ms=44
+2026-10-03T20:00:20.400020987Z level=info msg="order processed" order_id=10861 duration_ms=33
+2026-10-03T20:00:21.789799727Z level=error msg="failed to write order" order_id=10868 err="context deadline exceeded"
+2026-10-03T20:00:21.193771055Z level=warn msg="retrying" order_id=10868 attempt=1 backoff=1s
+2026-10-03T20:00:22.553473856Z level=warn msg="slow consumer" queue=orders lag_ms=2776
+2026-10-03T20:00:22.850518023Z level=info msg="order processed" order_id=10874 duration_ms=44
+2026-10-03T20:00:23.148542891Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:00:24.020084717Z level=info msg="order processed" order_id=10883 duration_ms=68
+2026-10-03T20:00:24.865208911Z level=info msg="order processed" order_id=10886 duration_ms=34
+2026-10-03T20:00:25.930655992Z level=info msg="order processed" order_id=10889 duration_ms=47
+2026-10-03T20:00:25.292660137Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:00:25.434043148Z level=info msg="order processed" order_id=10894 duration_ms=59
+2026-10-03T20:00:26.055115780Z level=info msg="order processed" order_id=10896 duration_ms=34
+2026-10-03T20:00:26.354041097Z level=info msg="order processed" order_id=10900 duration_ms=59
+2026-10-03T20:00:26.523014640Z level=info msg="order processed" order_id=10902 duration_ms=46
+2026-10-03T20:00:26.191284299Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:00:27.988446628Z level=info msg="order processed" order_id=10909 duration_ms=64
+2026-10-03T20:00:27.835743721Z level=info msg="order processed" order_id=10911 duration_ms=48
+2026-10-03T20:00:27.041101437Z level=info msg="order processed" order_id=10914 duration_ms=34
+2026-10-03T20:00:28.040354155Z level=info msg="order processed" order_id=10919 duration_ms=67
+2026-10-03T20:00:28.033710416Z level=info msg="order processed" order_id=10921 duration_ms=68
+2026-10-03T20:00:28.057822798Z level=info msg="order processed" order_id=10924 duration_ms=53
+2026-10-03T20:00:29.397790666Z level=info msg="order processed" order_id=10927 duration_ms=47
+2026-10-03T20:00:29.406490474Z level=error msg="failed to write order" order_id=10929 err="context deadline exceeded"
+2026-10-03T20:00:29.859475997Z level=warn msg="retrying" order_id=10929 attempt=1 backoff=1s
+2026-10-03T20:00:29.914051269Z level=info msg="order processed" order_id=10930 duration_ms=48
+2026-10-03T20:00:30.587675812Z level=info msg="order processed" order_id=10935 duration_ms=50
+2026-10-03T20:00:30.545337951Z level=info msg="order processed" order_id=10936 duration_ms=61
+2026-10-03T20:00:30.584819117Z level=info msg="order processed" order_id=10940 duration_ms=41
+2026-10-03T20:00:30.221906292Z level=info msg="order processed" order_id=10941 duration_ms=56
+2026-10-03T20:00:31.193914686Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:00:31.753512860Z level=info msg="order processed" order_id=10947 duration_ms=67
+2026-10-03T20:00:32.903097349Z level=info msg="order processed" order_id=10949 duration_ms=42
+2026-10-03T20:00:32.054974331Z level=info msg="order processed" order_id=10950 duration_ms=34
+2026-10-03T20:00:32.714114775Z level=info msg="order processed" order_id=10954 duration_ms=42
+2026-10-03T20:00:33.306277859Z level=info msg="order processed" order_id=10962 duration_ms=69
+2026-10-03T20:00:34.282201667Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:00:34.847935351Z level=info msg="order processed" order_id=10966 duration_ms=45
+2026-10-03T20:00:35.557533780Z level=warn msg="slow consumer" queue=orders lag_ms=2741
+2026-10-03T20:00:35.888578311Z level=info msg="order processed" order_id=10978 duration_ms=68
+2026-10-03T20:00:37.372146595Z level=info msg="order processed" order_id=10987 duration_ms=51
+2026-10-03T20:00:38.987904563Z level=info msg="order processed" order_id=10999 duration_ms=43
+2026-10-03T20:00:38.981818895Z level=info msg="order processed" order_id=11000 duration_ms=67
+2026-10-03T20:00:38.324771686Z level=info msg="order processed" order_id=11001 duration_ms=35
+2026-10-03T20:00:38.302362650Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:00:38.142967210Z level=info msg="order processed" order_id=11003 duration_ms=47
+2026-10-03T20:00:39.193106418Z level=info msg="order processed" order_id=11004 duration_ms=63
+2026-10-03T20:00:39.667047103Z level=error msg="failed to write order" order_id=11009 err="context deadline exceeded"
+2026-10-03T20:00:39.271298524Z level=warn msg="retrying" order_id=11009 attempt=1 backoff=1s
+2026-10-03T20:00:40.052561585Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:00:40.831568468Z level=info msg="order processed" order_id=11014 duration_ms=34
+2026-10-03T20:00:40.684709428Z level=info msg="order processed" order_id=11015 duration_ms=54
+2026-10-03T20:00:41.450902902Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:00:42.071070698Z level=info msg="order processed" order_id=11021 duration_ms=62
+2026-10-03T20:00:42.180857369Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:00:42.374147527Z level=warn msg="slow consumer" queue=orders lag_ms=1745
+2026-10-03T20:00:43.953162169Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:00:44.014061175Z level=error msg="failed to write order" order_id=11030 err="context deadline exceeded"
+2026-10-03T20:00:44.267754428Z level=warn msg="retrying" order_id=11030 attempt=1 backoff=1s
+2026-10-03T20:00:44.469946008Z level=info msg="order processed" order_id=11032 duration_ms=57
+2026-10-03T20:00:44.544522160Z level=info msg="order processed" order_id=11035 duration_ms=58
+2026-10-03T20:00:46.171492936Z level=info msg="order processed" order_id=11043 duration_ms=56
+2026-10-03T20:00:46.467466890Z level=info msg="order processed" order_id=11045 duration_ms=67
+2026-10-03T20:02:06.423682334Z level=info msg="order processed" order_id=10643 duration_ms=69
+2026-10-03T20:02:07.169640212Z level=info msg="order processed" order_id=10649 duration_ms=39
+2026-10-03T20:02:07.316158526Z level=info msg="order processed" order_id=10650 duration_ms=61
+2026-10-03T20:02:07.322538882Z level=info msg="order processed" order_id=10656 duration_ms=43
+2026-10-03T20:02:07.969480130Z level=info msg="order processed" order_id=10657 duration_ms=41
+2026-10-03T20:02:08.798744077Z level=error msg="failed to write order" order_id=10662 err="context deadline exceeded"
+2026-10-03T20:02:08.928303897Z level=warn msg="retrying" order_id=10662 attempt=1 backoff=1s
+2026-10-03T20:02:09.057082815Z level=info msg="order processed" order_id=10668 duration_ms=65
+2026-10-03T20:02:10.299841482Z level=error msg="failed to write order" order_id=10673 err="context deadline exceeded"
+2026-10-03T20:02:10.059396333Z level=warn msg="retrying" order_id=10673 attempt=1 backoff=1s
+2026-10-03T20:02:10.038238053Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:02:11.515128089Z level=warn msg="slow consumer" queue=orders lag_ms=1252
+2026-10-03T20:02:12.404965825Z level=info msg="order processed" order_id=10681 duration_ms=65
+2026-10-03T20:02:12.834247348Z level=info msg="order processed" order_id=10682 duration_ms=64
+2026-10-03T20:02:13.662156396Z level=info msg="order processed" order_id=10690 duration_ms=69
+2026-10-03T20:02:13.972870858Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:02:13.428816185Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:02:14.039469259Z level=info msg="order processed" order_id=10696 duration_ms=53
+2026-10-03T20:02:14.645910208Z level=info msg="order processed" order_id=10699 duration_ms=39
+2026-10-03T20:02:14.059084427Z level=info msg="order processed" order_id=10701 duration_ms=36
+2026-10-03T20:02:15.149852968Z level=info msg="order processed" order_id=10703 duration_ms=52
+2026-10-03T20:02:17.222236187Z level=warn msg="slow consumer" queue=orders lag_ms=2304
+2026-10-03T20:02:17.141111545Z level=info msg="order processed" order_id=10716 duration_ms=54
+2026-10-03T20:02:17.696028024Z level=info msg="order processed" order_id=10717 duration_ms=68
+2026-10-03T20:02:17.845566520Z level=info msg="order processed" order_id=10718 duration_ms=36
+2026-10-03T20:02:18.316691202Z level=info msg="order processed" order_id=10722 duration_ms=69
+2026-10-03T20:02:18.521465532Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:02:19.399239572Z level=info msg="order processed" order_id=10727 duration_ms=33
+2026-10-03T20:02:19.733239151Z level=info msg="order processed" order_id=10732 duration_ms=56
+2026-10-03T20:02:20.053990578Z level=info msg="order processed" order_id=10735 duration_ms=48
+2026-10-03T20:02:20.542680343Z level=error msg="failed to write order" order_id=10737 err="context deadline exceeded"
+2026-10-03T20:02:20.559832573Z level=warn msg="retrying" order_id=10737 attempt=1 backoff=1s
+2026-10-03T20:02:20.787869228Z level=error msg="failed to write order" order_id=10742 err="context deadline exceeded"
+2026-10-03T20:02:20.067195309Z level=warn msg="retrying" order_id=10742 attempt=1 backoff=1s
+2026-10-03T20:02:21.277408711Z level=info msg="order processed" order_id=10745 duration_ms=51
+2026-10-03T20:02:21.127480127Z level=info msg="order processed" order_id=10746 duration_ms=33
+2026-10-03T20:02:22.851674954Z level=info msg="order processed" order_id=10752 duration_ms=45
+2026-10-03T20:02:22.960938006Z level=info msg="order processed" order_id=10756 duration_ms=40
+2026-10-03T20:02:22.157022041Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:02:23.548970919Z level=info msg="order processed" order_id=10764 duration_ms=31
+2026-10-03T20:02:23.482364700Z level=info msg="order processed" order_id=10766 duration_ms=55
+2026-10-03T20:02:24.181177317Z level=warn msg="slow consumer" queue=orders lag_ms=2930
+2026-10-03T20:02:24.441906604Z level=info msg="order processed" order_id=10773 duration_ms=40
+2026-10-03T20:02:24.313975336Z level=warn msg="slow consumer" queue=orders lag_ms=1986
+2026-10-03T20:02:25.604257516Z level=error msg="failed to write order" order_id=10779 err="context deadline exceeded"
+2026-10-03T20:02:25.775407176Z level=warn msg="retrying" order_id=10779 attempt=1 backoff=1s
+2026-10-03T20:02:26.310746137Z level=error msg="failed to write order" order_id=10787 err="context deadline exceeded"
+2026-10-03T20:02:26.676288563Z level=warn msg="retrying" order_id=10787 attempt=1 backoff=1s
+2026-10-03T20:02:26.337633915Z level=info msg="order processed" order_id=10788 duration_ms=62
+2026-10-03T20:02:26.209738175Z level=error msg="failed to write order" order_id=10791 err="context deadline exceeded"
+2026-10-03T20:02:26.225381238Z level=warn msg="retrying" order_id=10791 attempt=1 backoff=1s
+2026-10-03T20:02:28.667470658Z level=error msg="failed to write order" order_id=10797 err="context deadline exceeded"
+2026-10-03T20:02:28.095773358Z level=warn msg="retrying" order_id=10797 attempt=1 backoff=1s
+2026-10-03T20:02:29.595401800Z level=info msg="order processed" order_id=10804 duration_ms=67
+2026-10-03T20:02:30.425444492Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:02:32.667636371Z level=warn msg="slow consumer" queue=orders lag_ms=1877
+2026-10-03T20:02:32.707023799Z level=info msg="order processed" order_id=10822 duration_ms=31
+2026-10-03T20:02:32.164599873Z level=info msg="order processed" order_id=10823 duration_ms=51
+2026-10-03T20:02:33.989617989Z level=error msg="failed to write order" order_id=10825 err="context deadline exceeded"
+2026-10-03T20:02:33.243536687Z level=warn msg="retrying" order_id=10825 attempt=1 backoff=1s
+2026-10-03T20:02:33.034467745Z level=info msg="order processed" order_id=10832 duration_ms=35
+2026-10-03T20:02:34.139229332Z level=info msg="order processed" order_id=10836 duration_ms=51
+2026-10-03T20:02:35.879631137Z level=info msg="order processed" order_id=10840 duration_ms=49
+2026-10-03T20:02:35.363345315Z level=info msg="order processed" order_id=10843 duration_ms=54
+2026-10-03T20:02:36.444950985Z level=info msg="order processed" order_id=10845 duration_ms=63
+2026-10-03T20:02:36.950253872Z level=info msg="order processed" order_id=10846 duration_ms=35
+2026-10-03T20:02:37.620598972Z level=info msg="order processed" order_id=10856 duration_ms=59
+2026-10-03T20:02:38.992417346Z level=info msg="order processed" order_id=10860 duration_ms=47
+2026-10-03T20:02:38.084445714Z level=info msg="order processed" order_id=10861 duration_ms=59
+2026-10-03T20:02:38.313140491Z level=info msg="order processed" order_id=10863 duration_ms=59
+2026-10-03T20:02:38.283634111Z level=info msg="order processed" order_id=10865 duration_ms=67
+2026-10-03T20:02:39.893263696Z level=info msg="order processed" order_id=10870 duration_ms=69
+2026-10-03T20:02:39.338580534Z level=info msg="order processed" order_id=10871 duration_ms=43
+2026-10-03T20:02:39.394950346Z level=info msg="order processed" order_id=10874 duration_ms=57
+2026-10-03T20:02:39.512713676Z level=error msg="failed to write order" order_id=10875 err="context deadline exceeded"
+2026-10-03T20:02:39.444244087Z level=warn msg="retrying" order_id=10875 attempt=1 backoff=1s
+2026-10-03T20:02:40.061726857Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:02:41.033864320Z level=info msg="order processed" order_id=10883 duration_ms=50
+2026-10-03T20:02:42.078353704Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:02:45.583384146Z level=info msg="order processed" order_id=10908 duration_ms=61
+2026-10-03T20:02:45.307166815Z level=error msg="failed to write order" order_id=10909 err="context deadline exceeded"
+2026-10-03T20:02:45.224996046Z level=warn msg="retrying" order_id=10909 attempt=1 backoff=1s
+2026-10-03T20:02:45.947726283Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:02:46.559947826Z level=info msg="order processed" order_id=10913 duration_ms=44
+2026-10-03T20:02:46.189044267Z level=info msg="order processed" order_id=10918 duration_ms=33
+2026-10-03T20:02:47.228537558Z level=info msg="order processed" order_id=10921 duration_ms=35
+2026-10-03T20:02:47.416806930Z level=info msg="order processed" order_id=10922 duration_ms=52
+2026-10-03T20:02:47.743544999Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:02:47.020891917Z level=info msg="order processed" order_id=10927 duration_ms=60
+2026-10-03T20:02:49.858774455Z level=info msg="order processed" order_id=10938 duration_ms=40
+2026-10-03T20:02:50.390110825Z level=info msg="order processed" order_id=10941 duration_ms=61
+2026-10-03T20:02:50.141721114Z level=info msg="order processed" order_id=10942 duration_ms=47
+2026-10-03T20:02:50.768200730Z level=info msg="order processed" order_id=10946 duration_ms=54
+2026-10-03T20:02:50.044326176Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:02:50.164343174Z level=info msg="order processed" order_id=10949 duration_ms=33
+2026-10-03T20:02:51.069453954Z level=info msg="order processed" order_id=10953 duration_ms=38
+2026-10-03T20:02:52.002886650Z level=info msg="order processed" order_id=10960 duration_ms=50
+2026-10-03T20:02:52.323178683Z level=info msg="order processed" order_id=10961 duration_ms=52
+2026-10-03T20:02:52.890382863Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:02:52.645426072Z level=warn msg="slow consumer" queue=orders lag_ms=1902
+2026-10-03T20:02:53.841543363Z level=warn msg="slow consumer" queue=orders lag_ms=1499
+2026-10-03T20:02:53.331418372Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:02:53.028178867Z level=info msg="order processed" order_id=10973 duration_ms=36
+2026-10-03T20:02:53.819931773Z level=info msg="order processed" order_id=10974 duration_ms=36
+2026-10-03T20:02:54.563255218Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:02:54.491950881Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:02:54.162826201Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:02:54.055095209Z level=error msg="failed to write order" order_id=10983 err="context deadline exceeded"
+2026-10-03T20:02:54.166693068Z level=warn msg="retrying" order_id=10983 attempt=1 backoff=1s
+2026-10-03T20:02:55.130562439Z level=error msg="failed to write order" order_id=10986 err="context deadline exceeded"
+2026-10-03T20:02:55.770801186Z level=warn msg="retrying" order_id=10986 attempt=1 backoff=1s
+2026-10-03T20:02:55.065096642Z level=info msg="order processed" order_id=10988 duration_ms=54
+2026-10-03T20:02:56.427606737Z level=info msg="order processed" order_id=10998 duration_ms=58
+2026-10-03T20:02:57.001005969Z level=info msg="order processed" order_id=11000 duration_ms=58
+2026-10-03T20:02:57.545835361Z level=info msg="order processed" order_id=11002 duration_ms=34
+2026-10-03T20:02:58.746759353Z level=info msg="order processed" order_id=11003 duration_ms=51
+2026-10-03T20:02:58.006562410Z level=info msg="order processed" order_id=11004 duration_ms=60
+2026-10-03T20:02:58.880825278Z level=info msg="order processed" order_id=11005 duration_ms=39
+2026-10-03T20:02:58.765401673Z level=info msg="order processed" order_id=11007 duration_ms=54
+2026-10-03T20:02:58.651908309Z level=info msg="order processed" order_id=11008 duration_ms=36
+2026-10-03T20:02:58.812984157Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:02:58.072955528Z level=info msg="order processed" order_id=11011 duration_ms=61
+2026-10-03T20:02:59.128134460Z level=error msg="failed to write order" order_id=11013 err="context deadline exceeded"
+2026-10-03T20:02:59.755234063Z level=warn msg="retrying" order_id=11013 attempt=1 backoff=1s
+2026-10-03T20:02:59.713381724Z level=error msg="failed to write order" order_id=11015 err="context deadline exceeded"
+2026-10-03T20:02:59.765102402Z level=warn msg="retrying" order_id=11015 attempt=1 backoff=1s
+2026-10-03T20:02:59.681290893Z level=info msg="order processed" order_id=11016 duration_ms=56
+2026-10-03T20:03:00.058056705Z level=warn msg="slow consumer" queue=orders lag_ms=2842
+2026-10-03T20:03:00.908050586Z level=info msg="order processed" order_id=11022 duration_ms=37
+2026-10-03T20:03:00.788505470Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:03:00.821141380Z level=error msg="failed to write order" order_id=11025 err="context deadline exceeded"
+2026-10-03T20:03:00.443598126Z level=warn msg="retrying" order_id=11025 attempt=1 backoff=1s
+2026-10-03T20:03:00.344206849Z level=info msg="order processed" order_id=11028 duration_ms=30
+2026-10-03T20:03:01.498434566Z level=info msg="order processed" order_id=11031 duration_ms=63
+2026-10-03T20:03:02.454194698Z level=info msg="order processed" order_id=11039 duration_ms=42
+2026-10-03T20:03:02.205331396Z level=info msg="order processed" order_id=11042 duration_ms=45
+2026-10-03T20:03:05.087441915Z level=info msg="order processed" order_id=11057 duration_ms=42
+2026-10-03T20:03:05.569506617Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:03:05.560083657Z level=warn msg="slow consumer" queue=orders lag_ms=2071
+2026-10-03T20:03:06.648034590Z level=warn msg="slow consumer" queue=orders lag_ms=2809
+2026-10-03T20:03:06.285720603Z level=info msg="order processed" order_id=11069 duration_ms=38
+2026-10-03T20:03:06.310315622Z level=info msg="order processed" order_id=11073 duration_ms=44
+2026-10-03T20:03:06.112895799Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:03:07.070631096Z level=info msg="order processed" order_id=11075 duration_ms=41
+2026-10-03T20:03:07.853189475Z level=info msg="order processed" order_id=11077 duration_ms=50
+2026-10-03T20:03:07.962454995Z level=info msg="order processed" order_id=11078 duration_ms=47
+2026-10-03T20:03:07.904082812Z level=info msg="order processed" order_id=11079 duration_ms=67
+2026-10-03T20:03:07.719298307Z level=info msg="order processed" order_id=11080 duration_ms=49
+2026-10-03T20:03:08.055396381Z level=info msg="order processed" order_id=11083 duration_ms=31
+2026-10-03T20:03:08.446309495Z level=error msg="failed to write order" order_id=11085 err="context deadline exceeded"
+2026-10-03T20:03:08.151668378Z level=warn msg="retrying" order_id=11085 attempt=1 backoff=1s
+2026-10-03T20:03:08.274500101Z level=error msg="failed to write order" order_id=11086 err="context deadline exceeded"
+2026-10-03T20:03:08.223035189Z level=warn msg="retrying" order_id=11086 attempt=1 backoff=1s
+2026-10-03T20:03:09.764353339Z level=info msg="order processed" order_id=11089 duration_ms=47
+2026-10-03T20:03:09.690661178Z level=info msg="order processed" order_id=11092 duration_ms=64
+2026-10-03T20:03:09.050072697Z level=info msg="order processed" order_id=11098 duration_ms=48
+2026-10-03T20:03:10.845602718Z level=info msg="order processed" order_id=11100 duration_ms=64
+2026-10-03T20:03:10.616588429Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:03:10.130113272Z level=warn msg="slow consumer" queue=orders lag_ms=2107
+2026-10-03T20:03:10.657158099Z level=info msg="order processed" order_id=11105 duration_ms=68
+2026-10-03T20:03:12.007108315Z level=info msg="order processed" order_id=11115 duration_ms=66
+2026-10-03T20:03:12.410763395Z level=warn msg="slow consumer" queue=orders lag_ms=2046
+2026-10-03T20:03:13.306357912Z level=info msg="order processed" order_id=11118 duration_ms=51
+2026-10-03T20:03:13.937533707Z level=info msg="order processed" order_id=11120 duration_ms=59
+2026-10-03T20:03:14.028496807Z level=info msg="order processed" order_id=11126 duration_ms=62
+2026-10-03T20:03:15.168386600Z level=info msg="order processed" order_id=11133 duration_ms=31
+2026-10-03T20:03:15.184553319Z level=info msg="order processed" order_id=11134 duration_ms=69
+2026-10-03T20:03:16.531743143Z level=info msg="order processed" order_id=11136 duration_ms=65
+2026-10-03T20:03:17.331416795Z level=info msg="order processed" order_id=11139 duration_ms=63
+2026-10-03T20:03:17.752274188Z level=info msg="order processed" order_id=11141 duration_ms=35
+2026-10-03T20:03:17.824622033Z level=info msg="order processed" order_id=11144 duration_ms=59
+2026-10-03T20:03:18.821375963Z level=warn msg="slow consumer" queue=orders lag_ms=2020
+2026-10-03T20:03:18.850898576Z level=warn msg="slow consumer" queue=orders lag_ms=2402
+2026-10-03T20:03:19.684803147Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:03:19.263057284Z level=info msg="order processed" order_id=11156 duration_ms=65
+2026-10-03T20:03:20.936640049Z level=info msg="order processed" order_id=11159 duration_ms=58
+2026-10-03T20:03:20.262437536Z level=info msg="order processed" order_id=11161 duration_ms=39
+2026-10-03T20:03:20.063858282Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:03:20.001485907Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:03:20.726585417Z goroutine 42 [running]:
+2026-10-03T20:03:20.850937452Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:03:20.023924662Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:03:21.012914041Z level=warn msg="slow consumer" queue=orders lag_ms=2344
+2026-10-03T20:03:21.680472704Z level=error msg="failed to write order" order_id=11172 err="context deadline exceeded"
+2026-10-03T20:03:21.973956658Z level=warn msg="retrying" order_id=11172 attempt=1 backoff=1s
+2026-10-03T20:03:21.727098692Z level=info msg="order processed" order_id=11174 duration_ms=60
+2026-10-03T20:03:21.868657550Z level=error msg="failed to write order" order_id=11175 err="context deadline exceeded"
+2026-10-03T20:03:21.045463709Z level=warn msg="retrying" order_id=11175 attempt=1 backoff=1s
+2026-10-03T20:03:22.717553863Z level=info msg="order processed" order_id=11176 duration_ms=46
+2026-10-03T20:03:22.752955467Z level=info msg="order processed" order_id=11182 duration_ms=40
+2026-10-03T20:03:23.581111834Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:03:23.020489870Z level=info msg="order processed" order_id=11186 duration_ms=51
+2026-10-03T20:03:23.100598267Z level=info msg="order processed" order_id=11189 duration_ms=60
+2026-10-03T20:03:23.953867107Z level=info msg="order processed" order_id=11191 duration_ms=61
+2026-10-03T20:03:24.967217448Z level=info msg="order processed" order_id=11197 duration_ms=51
+2026-10-03T20:03:25.197038595Z level=info msg="order processed" order_id=11201 duration_ms=61
+2026-10-03T20:03:25.051502441Z level=info msg="order processed" order_id=11204 duration_ms=51
+2026-10-03T20:03:26.060494574Z level=warn msg="slow consumer" queue=orders lag_ms=1171
+2026-10-03T20:03:26.452668230Z level=error msg="failed to write order" order_id=11217 err="context deadline exceeded"
+2026-10-03T20:03:26.942149105Z level=warn msg="retrying" order_id=11217 attempt=1 backoff=1s
+2026-10-03T20:03:26.774926830Z level=info msg="order processed" order_id=11219 duration_ms=64
+2026-10-03T20:03:27.518356218Z level=info msg="order processed" order_id=11222 duration_ms=61
+2026-10-03T20:03:27.232141689Z level=error msg="failed to write order" order_id=11226 err="context deadline exceeded"
+2026-10-03T20:03:27.483845912Z level=warn msg="retrying" order_id=11226 attempt=1 backoff=1s
+2026-10-03T20:03:28.111488244Z level=warn msg="slow consumer" queue=orders lag_ms=2096
+2026-10-03T20:03:29.548107301Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:03:30.793787328Z level=info msg="order processed" order_id=11251 duration_ms=30
+2026-10-03T20:03:31.316871194Z level=info msg="order processed" order_id=11258 duration_ms=46
+2026-10-03T20:03:31.170640628Z level=info msg="order processed" order_id=11260 duration_ms=47
+2026-10-03T20:03:31.878901605Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:03:31.544216945Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:03:31.019484017Z level=info msg="order processed" order_id=11263 duration_ms=60
+2026-10-03T20:03:31.727182599Z level=info msg="order processed" order_id=11264 duration_ms=54
+2026-10-03T20:03:31.026371410Z level=warn msg="slow consumer" queue=orders lag_ms=1704
+2026-10-03T20:03:32.229263240Z level=info msg="order processed" order_id=11268 duration_ms=56
+2026-10-03T20:03:32.826843717Z level=info msg="order processed" order_id=11273 duration_ms=57
+2026-10-03T20:03:32.844150826Z level=info msg="order processed" order_id=11276 duration_ms=45
+2026-10-03T20:03:33.041925892Z level=warn msg="slow consumer" queue=orders lag_ms=2506
+2026-10-03T20:03:33.022389475Z level=info msg="order processed" order_id=11279 duration_ms=48
+2026-10-03T20:03:33.025354431Z level=info msg="order processed" order_id=11283 duration_ms=39
+2026-10-03T20:03:33.722088648Z level=error msg="failed to write order" order_id=11286 err="context deadline exceeded"
+2026-10-03T20:03:33.563166904Z level=warn msg="retrying" order_id=11286 attempt=1 backoff=1s
+2026-10-03T20:03:33.571201375Z level=info msg="order processed" order_id=11288 duration_ms=37
+2026-10-03T20:03:33.523662524Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:03:35.411261903Z level=info msg="order processed" order_id=11305 duration_ms=40
+2026-10-03T20:03:36.088802142Z level=info msg="order processed" order_id=11310 duration_ms=47
+2026-10-03T20:03:36.184326109Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:03:36.018365942Z level=error msg="failed to write order" order_id=11316 err="context deadline exceeded"
+2026-10-03T20:03:36.312168036Z level=warn msg="retrying" order_id=11316 attempt=1 backoff=1s
+2026-10-03T20:03:37.579210251Z level=info msg="order processed" order_id=11319 duration_ms=47
+2026-10-03T20:03:37.637653691Z level=error msg="failed to write order" order_id=11320 err="context deadline exceeded"
+2026-10-03T20:03:37.308063349Z level=warn msg="retrying" order_id=11320 attempt=1 backoff=1s
+2026-10-03T20:03:38.070314269Z level=info msg="order processed" order_id=11322 duration_ms=67
+2026-10-03T20:03:38.560646372Z level=info msg="order processed" order_id=11323 duration_ms=65
+2026-10-03T20:03:39.281413951Z level=info msg="order processed" order_id=11327 duration_ms=40
+2026-10-03T20:03:39.544405991Z level=info msg="order processed" order_id=11330 duration_ms=56
+2026-10-03T20:03:39.562772372Z level=warn msg="slow consumer" queue=orders lag_ms=2924
+2026-10-03T20:03:40.572839161Z level=info msg="order processed" order_id=11342 duration_ms=43
+2026-10-03T20:03:40.696609349Z level=info msg="order processed" order_id=11343 duration_ms=48
+2026-10-03T20:03:41.479204623Z level=info msg="order processed" order_id=11346 duration_ms=35
+2026-10-03T20:03:41.526954444Z level=info msg="order processed" order_id=11347 duration_ms=35
+2026-10-03T20:03:41.017568282Z level=warn msg="slow consumer" queue=orders lag_ms=1721
+2026-10-03T20:03:42.592645712Z level=error msg="failed to write order" order_id=11362 err="context deadline exceeded"
+2026-10-03T20:03:42.635185282Z level=warn msg="retrying" order_id=11362 attempt=1 backoff=1s
+2026-10-03T20:03:43.724549143Z level=info msg="order processed" order_id=11365 duration_ms=36
+2026-10-03T20:03:43.640226839Z level=info msg="order processed" order_id=11369 duration_ms=58
+2026-10-03T20:03:43.656849911Z level=error msg="failed to write order" order_id=11370 err="context deadline exceeded"
+2026-10-03T20:03:43.540656870Z level=warn msg="retrying" order_id=11370 attempt=1 backoff=1s
+2026-10-03T20:03:43.662398661Z level=info msg="order processed" order_id=11371 duration_ms=46
+2026-10-03T20:03:44.249776373Z level=warn msg="slow consumer" queue=orders lag_ms=1879
+2026-10-03T20:03:44.733446166Z level=warn msg="slow consumer" queue=orders lag_ms=1798
+2026-10-03T20:03:45.370331500Z level=info msg="order processed" order_id=11385 duration_ms=49
+2026-10-03T20:03:45.075687709Z level=info msg="order processed" order_id=11391 duration_ms=68
+2026-10-03T20:03:46.989115583Z level=info msg="order processed" order_id=11393 duration_ms=46
+2026-10-03T20:03:46.027631678Z level=info msg="order processed" order_id=11395 duration_ms=42
+2026-10-03T20:03:46.514780782Z level=error msg="failed to write order" order_id=11396 err="context deadline exceeded"
+2026-10-03T20:03:46.557654741Z level=warn msg="retrying" order_id=11396 attempt=1 backoff=1s
+2026-10-03T20:03:47.381269022Z level=error msg="failed to write order" order_id=11403 err="context deadline exceeded"
+2026-10-03T20:03:47.307499498Z level=warn msg="retrying" order_id=11403 attempt=1 backoff=1s
+2026-10-03T20:03:48.206630169Z level=info msg="order processed" order_id=11408 duration_ms=47
+2026-10-03T20:03:49.249269093Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:03:49.664166534Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:03:49.358314027Z level=info msg="order processed" order_id=11416 duration_ms=38
+2026-10-03T20:03:50.696122686Z level=info msg="order processed" order_id=11421 duration_ms=40
+2026-10-03T20:03:50.504105224Z level=warn msg="slow consumer" queue=orders lag_ms=1084
+2026-10-03T20:03:51.833539983Z level=info msg="order processed" order_id=11429 duration_ms=34
+2026-10-03T20:03:51.273874429Z level=info msg="order processed" order_id=11430 duration_ms=68
+2026-10-03T20:03:52.035471037Z level=info msg="order processed" order_id=11433 duration_ms=39
+2026-10-03T20:03:52.894417375Z level=error msg="failed to write order" order_id=11434 err="context deadline exceeded"
+2026-10-03T20:03:52.487850430Z level=warn msg="retrying" order_id=11434 attempt=1 backoff=1s
+2026-10-03T20:03:52.114935508Z level=error msg="failed to write order" order_id=11439 err="context deadline exceeded"
+2026-10-03T20:03:52.527190753Z level=warn msg="retrying" order_id=11439 attempt=1 backoff=1s
+2026-10-03T20:03:52.403872141Z level=info msg="order processed" order_id=11441 duration_ms=65
+2026-10-03T20:03:53.128291976Z level=info msg="order processed" order_id=11445 duration_ms=64
+2026-10-03T20:03:54.640763394Z level=warn msg="slow consumer" queue=orders lag_ms=1894
+2026-10-03T20:03:55.050533088Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:03:56.770519742Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:03:56.937375699Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:03:58.817449306Z level=info msg="order processed" order_id=11474 duration_ms=30
+2026-10-03T20:03:58.249193964Z level=info msg="order processed" order_id=11475 duration_ms=61
+2026-10-03T20:03:58.154298606Z level=error msg="failed to write order" order_id=11477 err="context deadline exceeded"
+2026-10-03T20:03:58.837785918Z level=warn msg="retrying" order_id=11477 attempt=1 backoff=1s
+2026-10-03T20:03:59.284483570Z level=error msg="failed to write order" order_id=11483 err="context deadline exceeded"
+2026-10-03T20:03:59.582417578Z level=warn msg="retrying" order_id=11483 attempt=1 backoff=1s
+2026-10-03T20:03:59.822913422Z level=info msg="order processed" order_id=11484 duration_ms=60
+2026-10-03T20:03:59.271274843Z level=info msg="order processed" order_id=11485 duration_ms=44
+2026-10-03T20:03:59.047491380Z level=info msg="order processed" order_id=11487 duration_ms=30
+2026-10-03T20:04:00.747439876Z level=info msg="order processed" order_id=11490 duration_ms=56
+2026-10-03T20:04:00.815748932Z level=info msg="order processed" order_id=11492 duration_ms=31
+2026-10-03T20:04:00.947558711Z level=info msg="order processed" order_id=11494 duration_ms=42
+2026-10-03T20:04:00.969210861Z level=info msg="order processed" order_id=11495 duration_ms=60
+2026-10-03T20:04:01.702312781Z level=info msg="order processed" order_id=11499 duration_ms=53
+2026-10-03T20:04:01.968012741Z level=info msg="order processed" order_id=11500 duration_ms=40
+2026-10-03T20:04:01.338375874Z level=info msg="order processed" order_id=11504 duration_ms=41
+2026-10-03T20:04:02.798172151Z level=info msg="order processed" order_id=11506 duration_ms=63
+2026-10-03T20:04:02.889255910Z level=error msg="failed to write order" order_id=11511 err="context deadline exceeded"
+2026-10-03T20:04:02.024861755Z level=warn msg="retrying" order_id=11511 attempt=1 backoff=1s
+2026-10-03T20:04:02.027767632Z level=warn msg="slow consumer" queue=orders lag_ms=2487
+2026-10-03T20:04:03.687063542Z level=error msg="failed to write order" order_id=11516 err="context deadline exceeded"
+2026-10-03T20:04:03.744308523Z level=warn msg="retrying" order_id=11516 attempt=1 backoff=1s
+2026-10-03T20:04:03.230055751Z level=info msg="order processed" order_id=11517 duration_ms=62
+2026-10-03T20:04:03.228114595Z level=info msg="order processed" order_id=11520 duration_ms=32
+2026-10-03T20:04:03.576341764Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:04:04.139984681Z level=info msg="order processed" order_id=11524 duration_ms=56
+2026-10-03T20:04:04.770097124Z level=info msg="order processed" order_id=11526 duration_ms=48
+2026-10-03T20:04:04.392383432Z level=warn msg="slow consumer" queue=orders lag_ms=1768
+2026-10-03T20:04:04.034858876Z level=info msg="order processed" order_id=11534 duration_ms=52
+2026-10-03T20:20:27.029321507Z level=info msg="order processed" order_id=10614 duration_ms=42
+2026-10-03T20:20:28.718142435Z level=warn msg="slow consumer" queue=orders lag_ms=2452
+2026-10-03T20:20:28.400061606Z level=info msg="order processed" order_id=10618 duration_ms=41
+2026-10-03T20:20:28.436017381Z level=info msg="order processed" order_id=10620 duration_ms=33
+2026-10-03T20:20:29.482896840Z level=info msg="order processed" order_id=10624 duration_ms=34
+2026-10-03T20:20:29.195908175Z level=info msg="order processed" order_id=10627 duration_ms=68
+2026-10-03T20:20:29.791385774Z level=info msg="order processed" order_id=10628 duration_ms=63
+2026-10-03T20:20:29.218453344Z level=info msg="order processed" order_id=10629 duration_ms=46
+2026-10-03T20:20:29.895486564Z level=info msg="order processed" order_id=10630 duration_ms=45
+2026-10-03T20:20:29.440577121Z level=error msg="failed to write order" order_id=10631 err="context deadline exceeded"
+2026-10-03T20:20:29.100841384Z level=warn msg="retrying" order_id=10631 attempt=1 backoff=1s
+2026-10-03T20:20:29.716786532Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:20:31.343821569Z level=info msg="order processed" order_id=10639 duration_ms=38
+2026-10-03T20:20:32.353158198Z level=info msg="order processed" order_id=10651 duration_ms=35
+2026-10-03T20:20:32.125771908Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:20:33.082915636Z level=info msg="order processed" order_id=10656 duration_ms=46
+2026-10-03T20:20:33.905720089Z level=info msg="order processed" order_id=10658 duration_ms=31
+2026-10-03T20:20:34.831146894Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:20:34.197123493Z level=info msg="order processed" order_id=10662 duration_ms=47
+2026-10-03T20:20:34.621633453Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:20:34.308772331Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:20:34.248633301Z goroutine 42 [running]:
+2026-10-03T20:20:34.066733668Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:20:34.679007340Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:20:34.369510181Z level=info msg="order processed" order_id=10668 duration_ms=63
+2026-10-03T20:20:34.092926284Z level=info msg="order processed" order_id=10670 duration_ms=32
+2026-10-03T20:20:35.056512624Z level=info msg="order processed" order_id=10672 duration_ms=31
+2026-10-03T20:20:35.674605810Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:20:35.018904452Z level=info msg="order processed" order_id=10676 duration_ms=40
+2026-10-03T20:20:35.005717269Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:20:35.330780451Z level=info msg="order processed" order_id=10680 duration_ms=35
+2026-10-03T20:20:36.467723549Z level=warn msg="slow consumer" queue=orders lag_ms=1095
+2026-10-03T20:20:37.346656752Z level=info msg="order processed" order_id=10693 duration_ms=59
+2026-10-03T20:20:39.045901198Z level=info msg="order processed" order_id=10705 duration_ms=63
+2026-10-03T20:20:39.828652581Z level=error msg="failed to write order" order_id=10708 err="context deadline exceeded"
+2026-10-03T20:20:39.179669176Z level=warn msg="retrying" order_id=10708 attempt=1 backoff=1s
+2026-10-03T20:20:39.289624908Z level=info msg="order processed" order_id=10715 duration_ms=60
+2026-10-03T20:20:40.269056615Z level=warn msg="slow consumer" queue=orders lag_ms=1703
+2026-10-03T20:20:40.632906703Z level=info msg="order processed" order_id=10720 duration_ms=49
+2026-10-03T20:20:41.436788747Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:20:42.525742124Z level=info msg="order processed" order_id=10729 duration_ms=69
+2026-10-03T20:20:42.407026339Z level=warn msg="slow consumer" queue=orders lag_ms=2387
+2026-10-03T20:20:43.461997709Z level=warn msg="slow consumer" queue=orders lag_ms=2306
+2026-10-03T20:20:43.052962214Z level=warn msg="slow consumer" queue=orders lag_ms=2517
+2026-10-03T20:20:43.590770285Z level=info msg="order processed" order_id=10737 duration_ms=65
+2026-10-03T20:20:44.729169192Z level=info msg="order processed" order_id=10742 duration_ms=42
+2026-10-03T20:20:44.841923243Z level=warn msg="slow consumer" queue=orders lag_ms=1417
+2026-10-03T20:20:45.988762187Z level=warn msg="slow consumer" queue=orders lag_ms=1574
+2026-10-03T20:20:46.216537205Z level=error msg="failed to write order" order_id=10753 err="context deadline exceeded"
+2026-10-03T20:20:46.765850846Z level=warn msg="retrying" order_id=10753 attempt=1 backoff=1s
+2026-10-03T20:20:46.887259721Z level=info msg="order processed" order_id=10754 duration_ms=65
+2026-10-03T20:20:47.583926081Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:20:47.277575142Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:20:47.043443206Z level=warn msg="slow consumer" queue=orders lag_ms=1462
+2026-10-03T20:20:48.675627172Z level=info msg="order processed" order_id=10764 duration_ms=46
+2026-10-03T20:20:48.017380271Z level=warn msg="slow consumer" queue=orders lag_ms=2369
+2026-10-03T20:20:50.650836280Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:20:51.566638314Z level=info msg="order processed" order_id=10788 duration_ms=43
+2026-10-03T20:20:52.022471845Z level=info msg="order processed" order_id=10792 duration_ms=43
+2026-10-03T20:20:52.187534200Z level=info msg="order processed" order_id=10793 duration_ms=34
+2026-10-03T20:20:53.038798818Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:20:53.648276205Z level=info msg="order processed" order_id=10803 duration_ms=49
+2026-10-03T20:20:53.569604375Z level=info msg="order processed" order_id=10807 duration_ms=58
+2026-10-03T20:20:54.531527889Z level=error msg="failed to write order" order_id=10809 err="context deadline exceeded"
+2026-10-03T20:20:54.289447800Z level=warn msg="retrying" order_id=10809 attempt=1 backoff=1s
+2026-10-03T20:20:54.213038956Z level=info msg="order processed" order_id=10812 duration_ms=51
+2026-10-03T20:20:55.725793713Z level=warn msg="slow consumer" queue=orders lag_ms=2630
+2026-10-03T20:20:56.753058394Z level=info msg="order processed" order_id=10821 duration_ms=50
+2026-10-03T20:20:57.765708299Z level=info msg="order processed" order_id=10830 duration_ms=38
+2026-10-03T20:20:58.166088281Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:20:58.978549110Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:20:58.470517546Z goroutine 42 [running]:
+2026-10-03T20:20:58.032698928Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:20:58.215078692Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:20:58.668410913Z level=info msg="order processed" order_id=10836 duration_ms=47
+2026-10-03T20:20:59.654308059Z level=info msg="order processed" order_id=10845 duration_ms=56
+2026-10-03T20:20:59.014115276Z level=info msg="order processed" order_id=10847 duration_ms=33
+2026-10-03T20:21:00.982467719Z level=info msg="order processed" order_id=10852 duration_ms=46
+2026-10-03T20:21:01.713360140Z level=info msg="order processed" order_id=10855 duration_ms=31
+2026-10-03T20:21:02.735675571Z level=info msg="order processed" order_id=10861 duration_ms=47
+2026-10-03T20:21:02.028418943Z level=info msg="order processed" order_id=10862 duration_ms=35
+2026-10-03T20:21:02.535996335Z level=info msg="order processed" order_id=10864 duration_ms=34
+2026-10-03T20:21:03.884044663Z level=warn msg="slow consumer" queue=orders lag_ms=2413
+2026-10-03T20:21:04.010031345Z level=info msg="order processed" order_id=10874 duration_ms=62
+2026-10-03T20:21:04.565476183Z level=info msg="order processed" order_id=10878 duration_ms=49
+2026-10-03T20:21:04.628964855Z level=warn msg="slow consumer" queue=orders lag_ms=2803
+2026-10-03T20:21:04.174599895Z level=info msg="order processed" order_id=10880 duration_ms=31
+2026-10-03T20:21:05.114241969Z level=error msg="failed to write order" order_id=10884 err="context deadline exceeded"
+2026-10-03T20:21:05.238897926Z level=warn msg="retrying" order_id=10884 attempt=1 backoff=1s
+2026-10-03T20:21:05.048163949Z level=info msg="order processed" order_id=10886 duration_ms=54
+2026-10-03T20:21:05.295395900Z level=info msg="order processed" order_id=10887 duration_ms=37
+2026-10-03T20:21:06.716877183Z level=warn msg="slow consumer" queue=orders lag_ms=1760
+2026-10-03T20:21:06.378693092Z level=info msg="order processed" order_id=10893 duration_ms=51
+2026-10-03T20:21:06.087272327Z level=error msg="failed to write order" order_id=10897 err="context deadline exceeded"
+2026-10-03T20:21:06.824484536Z level=warn msg="retrying" order_id=10897 attempt=1 backoff=1s
+2026-10-03T20:21:07.009536476Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:21:08.129359954Z level=info msg="order processed" order_id=10910 duration_ms=50
+2026-10-03T20:21:08.453952102Z level=info msg="order processed" order_id=10911 duration_ms=49
+2026-10-03T20:21:09.069116115Z level=info msg="order processed" order_id=10917 duration_ms=48
+2026-10-03T20:21:09.276987408Z level=info msg="order processed" order_id=10919 duration_ms=57
+2026-10-03T20:21:10.672643122Z level=info msg="order processed" order_id=10927 duration_ms=61
+2026-10-03T20:21:10.482048590Z level=info msg="order processed" order_id=10929 duration_ms=66
+2026-10-03T20:21:11.318137455Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:21:12.174525651Z level=info msg="order processed" order_id=10941 duration_ms=46
+2026-10-03T20:21:12.317340883Z level=info msg="order processed" order_id=10943 duration_ms=49
+2026-10-03T20:21:12.551010087Z level=info msg="order processed" order_id=10946 duration_ms=66
+2026-10-03T20:21:12.483404867Z level=info msg="order processed" order_id=10947 duration_ms=30
+2026-10-03T20:21:13.872553124Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:21:14.227120970Z level=info msg="order processed" order_id=10965 duration_ms=51
+2026-10-03T20:21:15.382828823Z level=info msg="order processed" order_id=10970 duration_ms=45
+2026-10-03T20:21:16.329233469Z level=info msg="order processed" order_id=10975 duration_ms=68
+2026-10-03T20:21:16.835353596Z level=info msg="order processed" order_id=10977 duration_ms=38
+2026-10-03T20:21:16.761324063Z level=info msg="order processed" order_id=10978 duration_ms=32
+2026-10-03T20:21:16.883588878Z level=info msg="order processed" order_id=10979 duration_ms=50
+2026-10-03T20:21:16.166758132Z level=info msg="order processed" order_id=10982 duration_ms=57
+2026-10-03T20:21:17.307902619Z level=info msg="order processed" order_id=10983 duration_ms=62
+2026-10-03T20:21:17.533108717Z level=error msg="failed to write order" order_id=10985 err="context deadline exceeded"
+2026-10-03T20:21:17.638210089Z level=warn msg="retrying" order_id=10985 attempt=1 backoff=1s
+2026-10-03T20:21:18.533063203Z level=info msg="order processed" order_id=10988 duration_ms=41
+2026-10-03T20:21:18.920611464Z level=info msg="order processed" order_id=10989 duration_ms=40
+2026-10-03T20:21:18.077031372Z level=info msg="order processed" order_id=10992 duration_ms=36
+2026-10-03T20:21:18.494789907Z level=warn msg="slow consumer" queue=orders lag_ms=2750
+2026-10-03T20:21:19.076747594Z level=info msg="order processed" order_id=10996 duration_ms=69
+2026-10-03T20:21:19.492903723Z level=info msg="order processed" order_id=10997 duration_ms=52
+2026-10-03T20:21:19.170500725Z level=info msg="order processed" order_id=10999 duration_ms=44
+2026-10-03T20:21:19.879677791Z level=info msg="order processed" order_id=11001 duration_ms=68
+2026-10-03T20:21:19.638979403Z level=info msg="order processed" order_id=11002 duration_ms=45
+2026-10-03T20:21:20.468788389Z level=info msg="order processed" order_id=11004 duration_ms=59
+2026-10-03T20:21:20.673824653Z level=info msg="order processed" order_id=11007 duration_ms=42
+2026-10-03T20:21:20.082315521Z level=info msg="order processed" order_id=11008 duration_ms=34
+2026-10-03T20:21:21.603765799Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:21:21.637119800Z level=info msg="order processed" order_id=11011 duration_ms=40
+2026-10-03T20:21:21.003961050Z level=warn msg="slow consumer" queue=orders lag_ms=2022
+2026-10-03T20:21:21.584203679Z level=info msg="order processed" order_id=11014 duration_ms=32
+2026-10-03T20:21:21.015209188Z level=info msg="order processed" order_id=11018 duration_ms=40
+2026-10-03T20:21:22.051513579Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:21:22.825517491Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:21:22.380731630Z goroutine 42 [running]:
+2026-10-03T20:21:22.234139225Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:21:22.534600006Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:21:22.062920508Z level=error msg="failed to write order" order_id=11027 err="context deadline exceeded"
+2026-10-03T20:21:22.205478611Z level=warn msg="retrying" order_id=11027 attempt=1 backoff=1s
+2026-10-03T20:21:23.186946397Z level=warn msg="slow consumer" queue=orders lag_ms=1759
+2026-10-03T20:21:23.729723434Z level=info msg="order processed" order_id=11029 duration_ms=43
+2026-10-03T20:21:23.316549494Z level=error msg="failed to write order" order_id=11030 err="context deadline exceeded"
+2026-10-03T20:21:23.340077613Z level=warn msg="retrying" order_id=11030 attempt=1 backoff=1s
+2026-10-03T20:21:23.543506340Z level=info msg="order processed" order_id=11035 duration_ms=45
+2026-10-03T20:21:24.166064667Z level=info msg="order processed" order_id=11040 duration_ms=59
+2026-10-03T20:21:25.324446559Z level=info msg="order processed" order_id=11044 duration_ms=63
+2026-10-03T20:21:25.806015133Z level=info msg="order processed" order_id=11045 duration_ms=45
+2026-10-03T20:21:25.291388430Z level=info msg="order processed" order_id=11048 duration_ms=61
+2026-10-03T20:21:27.686114980Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:21:28.050766752Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:21:29.028175220Z level=info msg="order processed" order_id=11074 duration_ms=61
+2026-10-03T20:21:29.142646804Z level=info msg="order processed" order_id=11076 duration_ms=63
+2026-10-03T20:21:29.051377274Z level=info msg="order processed" order_id=11077 duration_ms=59
+2026-10-03T20:21:30.065304180Z level=info msg="order processed" order_id=11079 duration_ms=39
+2026-10-03T20:21:30.024143306Z level=info msg="order processed" order_id=11080 duration_ms=40
+2026-10-03T20:21:30.456374514Z level=info msg="order processed" order_id=11081 duration_ms=59
+2026-10-03T20:21:31.535464809Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:21:31.054781539Z level=info msg="order processed" order_id=11085 duration_ms=62
+2026-10-03T20:21:31.571522068Z level=info msg="order processed" order_id=11086 duration_ms=66
+2026-10-03T20:21:32.662733496Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:21:32.381881228Z level=info msg="order processed" order_id=11092 duration_ms=63
+2026-10-03T20:21:33.293212529Z level=info msg="order processed" order_id=11097 duration_ms=55
+2026-10-03T20:21:33.932030739Z level=info msg="order processed" order_id=11099 duration_ms=57
+2026-10-03T20:21:34.817398666Z level=error msg="failed to write order" order_id=11104 err="context deadline exceeded"
+2026-10-03T20:21:34.805747618Z level=warn msg="retrying" order_id=11104 attempt=1 backoff=1s
+2026-10-03T20:21:34.496410580Z level=info msg="order processed" order_id=11106 duration_ms=37
+2026-10-03T20:21:34.406832580Z level=info msg="order processed" order_id=11107 duration_ms=62
+2026-10-03T20:21:34.024375826Z level=info msg="order processed" order_id=11108 duration_ms=61
+2026-10-03T20:21:35.452744997Z level=error msg="failed to write order" order_id=11111 err="context deadline exceeded"
+2026-10-03T20:21:35.952389858Z level=warn msg="retrying" order_id=11111 attempt=1 backoff=1s
+2026-10-03T20:21:35.310779578Z level=info msg="order processed" order_id=11112 duration_ms=62
+2026-10-03T20:21:35.359189997Z level=info msg="order processed" order_id=11117 duration_ms=33
+2026-10-03T20:21:35.305254746Z level=info msg="order processed" order_id=11119 duration_ms=61
+2026-10-03T20:21:36.939585739Z level=info msg="order processed" order_id=11120 duration_ms=65
+2026-10-03T20:21:36.048537398Z level=info msg="order processed" order_id=11121 duration_ms=40
+2026-10-03T20:21:36.720905565Z level=info msg="order processed" order_id=11124 duration_ms=35
+2026-10-03T20:21:36.283917718Z level=info msg="order processed" order_id=11126 duration_ms=38
+2026-10-03T20:21:36.201693616Z level=info msg="order processed" order_id=11127 duration_ms=60
+2026-10-03T20:21:37.964920257Z level=info msg="order processed" order_id=11129 duration_ms=46
+2026-10-03T20:21:37.799001751Z level=error msg="failed to write order" order_id=11130 err="context deadline exceeded"
+2026-10-03T20:21:37.561174246Z level=warn msg="retrying" order_id=11130 attempt=1 backoff=1s
+2026-10-03T20:21:37.752756203Z level=info msg="order processed" order_id=11133 duration_ms=30
+2026-10-03T20:21:37.268320510Z level=info msg="order processed" order_id=11134 duration_ms=34
+2026-10-03T20:21:38.017423395Z level=error msg="failed to write order" order_id=11137 err="context deadline exceeded"
+2026-10-03T20:21:38.127539956Z level=warn msg="retrying" order_id=11137 attempt=1 backoff=1s
+2026-10-03T20:21:38.781827710Z level=info msg="order processed" order_id=11139 duration_ms=39
+2026-10-03T20:21:38.759431367Z level=error msg="failed to write order" order_id=11141 err="context deadline exceeded"
+2026-10-03T20:21:38.066341276Z level=warn msg="retrying" order_id=11141 attempt=1 backoff=1s
+2026-10-03T20:21:39.434544219Z level=info msg="order processed" order_id=11142 duration_ms=66
+2026-10-03T20:21:39.101722615Z level=error msg="failed to write order" order_id=11145 err="context deadline exceeded"
+2026-10-03T20:21:39.597597981Z level=warn msg="retrying" order_id=11145 attempt=1 backoff=1s
+2026-10-03T20:21:39.665427656Z level=info msg="order processed" order_id=11149 duration_ms=37
+2026-10-03T20:21:39.267747442Z level=info msg="order processed" order_id=11150 duration_ms=30
+2026-10-03T20:21:40.599205769Z level=info msg="order processed" order_id=11152 duration_ms=67
+2026-10-03T20:21:40.001495241Z level=warn msg="slow consumer" queue=orders lag_ms=2935
+2026-10-03T20:21:40.258924253Z level=error msg="failed to write order" order_id=11157 err="context deadline exceeded"
+2026-10-03T20:21:40.782565289Z level=warn msg="retrying" order_id=11157 attempt=1 backoff=1s
+2026-10-03T20:21:40.287646664Z level=info msg="order processed" order_id=11158 duration_ms=63
+2026-10-03T20:21:41.648122254Z level=info msg="order processed" order_id=11159 duration_ms=54
+2026-10-03T20:21:41.908520148Z level=info msg="order processed" order_id=11162 duration_ms=48
+2026-10-03T20:21:41.295190354Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:21:41.142497181Z level=error msg="failed to write order" order_id=11169 err="context deadline exceeded"
+2026-10-03T20:21:41.586377080Z level=warn msg="retrying" order_id=11169 attempt=1 backoff=1s
+2026-10-03T20:21:42.084519481Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:21:42.577007579Z level=info msg="order processed" order_id=11174 duration_ms=62
+2026-10-03T20:21:43.556676984Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:21:43.186910424Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:21:43.747887022Z goroutine 42 [running]:
+2026-10-03T20:21:43.297876342Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:21:43.005145054Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:21:43.563580181Z level=error msg="failed to write order" order_id=11179 err="context deadline exceeded"
+2026-10-03T20:21:43.970140102Z level=warn msg="retrying" order_id=11179 attempt=1 backoff=1s
+2026-10-03T20:21:44.106516760Z level=info msg="order processed" order_id=11180 duration_ms=34
+2026-10-03T20:21:44.253933224Z level=info msg="order processed" order_id=11181 duration_ms=50
+2026-10-03T20:21:45.514188086Z level=info msg="order processed" order_id=11193 duration_ms=39
+2026-10-03T20:21:46.667047364Z level=info msg="order processed" order_id=11200 duration_ms=59
+2026-10-03T20:21:46.939072805Z level=info msg="order processed" order_id=11206 duration_ms=52
+2026-10-03T20:21:46.395383954Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:21:46.949543300Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:21:46.787418013Z goroutine 42 [running]:
+2026-10-03T20:21:46.929606368Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:21:46.647505680Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:21:46.159437830Z level=error msg="failed to write order" order_id=11208 err="context deadline exceeded"
+2026-10-03T20:21:46.574300853Z level=warn msg="retrying" order_id=11208 attempt=1 backoff=1s
+2026-10-03T20:21:47.424947191Z level=info msg="order processed" order_id=11212 duration_ms=61
+2026-10-03T20:21:47.056012426Z level=warn msg="slow consumer" queue=orders lag_ms=1004
+2026-10-03T20:21:49.624605739Z level=info msg="order processed" order_id=11225 duration_ms=50
+2026-10-03T20:21:49.990083291Z level=info msg="order processed" order_id=11226 duration_ms=40
+2026-10-03T20:21:49.944153989Z level=info msg="order processed" order_id=11228 duration_ms=51
+2026-10-03T20:21:50.655072108Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:21:50.135688695Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:21:50.202091183Z goroutine 42 [running]:
+2026-10-03T20:21:50.926690612Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:21:50.044372282Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:21:50.499631501Z level=info msg="order processed" order_id=11235 duration_ms=47
+2026-10-03T20:21:50.344914943Z level=warn msg="slow consumer" queue=orders lag_ms=1287
+2026-10-03T20:21:51.248466167Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:21:51.298761248Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:21:51.619893350Z goroutine 42 [running]:
+2026-10-03T20:21:51.158464888Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:21:51.766155537Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:21:51.322423871Z level=info msg="order processed" order_id=11244 duration_ms=55
+2026-10-03T20:21:52.250752497Z level=warn msg="slow consumer" queue=orders lag_ms=1772
+2026-10-03T20:21:52.071382492Z level=error msg="failed to write order" order_id=11253 err="context deadline exceeded"
+2026-10-03T20:21:52.934492142Z level=warn msg="retrying" order_id=11253 attempt=1 backoff=1s
+2026-10-03T20:21:52.510044092Z level=error msg="failed to write order" order_id=11255 err="context deadline exceeded"
+2026-10-03T20:21:52.557265029Z level=warn msg="retrying" order_id=11255 attempt=1 backoff=1s
+2026-10-03T20:21:52.807724832Z level=info msg="order processed" order_id=11258 duration_ms=43
+2026-10-03T20:21:53.081260038Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:21:53.496542289Z level=info msg="order processed" order_id=11262 duration_ms=37
+2026-10-03T20:21:53.042970949Z level=info msg="order processed" order_id=11267 duration_ms=58
+2026-10-03T20:21:54.705769425Z level=info msg="order processed" order_id=11271 duration_ms=47
+2026-10-03T20:21:54.446168499Z level=info msg="order processed" order_id=11272 duration_ms=64
+2026-10-03T20:21:54.221166337Z level=info msg="order processed" order_id=11275 duration_ms=50
+2026-10-03T20:21:55.581298914Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:21:55.298283755Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:21:55.926100954Z goroutine 42 [running]:
+2026-10-03T20:21:55.066677525Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:21:55.506599887Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:21:55.062689963Z level=info msg="order processed" order_id=11278 duration_ms=59
+2026-10-03T20:21:55.901991129Z level=info msg="order processed" order_id=11283 duration_ms=61
+2026-10-03T20:21:56.725248093Z level=error msg="failed to write order" order_id=11288 err="context deadline exceeded"
+2026-10-03T20:21:56.876794853Z level=warn msg="retrying" order_id=11288 attempt=1 backoff=1s
+2026-10-03T20:21:56.592510695Z level=info msg="order processed" order_id=11291 duration_ms=58
+2026-10-03T20:21:56.930594263Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:21:57.980255907Z level=info msg="order processed" order_id=11300 duration_ms=40
+2026-10-03T20:21:58.944333633Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:21:58.976076258Z level=info msg="order processed" order_id=11305 duration_ms=46
+2026-10-03T20:21:59.485933210Z level=info msg="order processed" order_id=11308 duration_ms=34
+2026-10-03T20:21:59.395462920Z level=info msg="order processed" order_id=11312 duration_ms=58
+2026-10-03T20:21:59.549792000Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:22:00.671311739Z level=info msg="order processed" order_id=11322 duration_ms=32
+2026-10-03T20:22:00.943865120Z level=info msg="order processed" order_id=11323 duration_ms=60
+2026-10-03T20:22:00.326880337Z level=info msg="order processed" order_id=11325 duration_ms=51
+2026-10-03T20:22:00.688460638Z level=info msg="order processed" order_id=11327 duration_ms=69
+2026-10-03T20:22:01.004043293Z level=info msg="order processed" order_id=11332 duration_ms=64
+2026-10-03T20:22:01.971311598Z level=info msg="order processed" order_id=11334 duration_ms=64
+2026-10-03T20:22:02.357693300Z level=info msg="order processed" order_id=11337 duration_ms=44
+2026-10-03T20:22:03.701643900Z level=info msg="order processed" order_id=11344 duration_ms=45
+2026-10-03T20:22:03.537639485Z level=error msg="failed to write order" order_id=11349 err="context deadline exceeded"
+2026-10-03T20:22:03.508445305Z level=warn msg="retrying" order_id=11349 attempt=1 backoff=1s
+2026-10-03T20:22:03.613786060Z level=info msg="order processed" order_id=11350 duration_ms=60
+2026-10-03T20:22:04.117760054Z level=info msg="order processed" order_id=11354 duration_ms=48
+2026-10-03T20:22:04.011170297Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:22:06.259346906Z level=info msg="order processed" order_id=11364 duration_ms=30
+2026-10-03T20:22:06.751919915Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:22:07.109286861Z level=info msg="order processed" order_id=11371 duration_ms=49
+2026-10-03T20:22:07.709536434Z level=info msg="order processed" order_id=11373 duration_ms=50
+2026-10-03T20:22:07.146759285Z level=warn msg="slow consumer" queue=orders lag_ms=1520
+2026-10-03T20:22:07.977510349Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:22:07.067909817Z level=info msg="order processed" order_id=11380 duration_ms=51
+2026-10-03T20:22:07.017219648Z level=info msg="order processed" order_id=11381 duration_ms=41
+2026-10-03T20:22:08.695656791Z level=error msg="failed to write order" order_id=11383 err="context deadline exceeded"
+2026-10-03T20:22:08.086714555Z level=warn msg="retrying" order_id=11383 attempt=1 backoff=1s
+2026-10-03T20:22:09.496503535Z level=info msg="order processed" order_id=11386 duration_ms=34
+2026-10-03T20:22:09.787742943Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:22:10.133817305Z level=info msg="order processed" order_id=11393 duration_ms=33
+2026-10-03T20:22:12.697337146Z level=info msg="order processed" order_id=11400 duration_ms=32
+2026-10-03T20:22:12.993981393Z level=error msg="failed to write order" order_id=11405 err="context deadline exceeded"
+2026-10-03T20:22:12.577537125Z level=warn msg="retrying" order_id=11405 attempt=1 backoff=1s
+2026-10-03T20:22:12.009734531Z level=info msg="order processed" order_id=11407 duration_ms=34
+2026-10-03T20:22:14.425336385Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:22:14.589242416Z level=info msg="order processed" order_id=11415 duration_ms=45
+2026-10-03T20:22:14.768367710Z level=info msg="order processed" order_id=11418 duration_ms=61
+2026-10-03T20:22:15.408116184Z level=error msg="failed to write order" order_id=11419 err="context deadline exceeded"
+2026-10-03T20:22:15.650868081Z level=warn msg="retrying" order_id=11419 attempt=1 backoff=1s
+2026-10-03T20:22:16.493495633Z level=info msg="order processed" order_id=11425 duration_ms=60
+2026-10-03T20:22:16.839806033Z level=warn msg="slow consumer" queue=orders lag_ms=1518
+2026-10-03T20:22:16.081802688Z level=info msg="order processed" order_id=11429 duration_ms=31
+2026-10-03T20:22:16.543396744Z level=error msg="failed to write order" order_id=11430 err="context deadline exceeded"
+2026-10-03T20:22:16.118398639Z level=warn msg="retrying" order_id=11430 attempt=1 backoff=1s
+2026-10-03T20:22:16.940612081Z level=info msg="order processed" order_id=11431 duration_ms=32
+2026-10-03T20:22:16.036168843Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:22:17.797577345Z level=info msg="order processed" order_id=11437 duration_ms=38
+2026-10-03T20:22:17.946761482Z level=info msg="order processed" order_id=11438 duration_ms=41
+2026-10-03T20:22:17.808304957Z level=error msg="failed to write order" order_id=11442 err="context deadline exceeded"
+2026-10-03T20:22:17.977478881Z level=warn msg="retrying" order_id=11442 attempt=1 backoff=1s
+2026-10-03T20:22:18.524927885Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:22:19.749834251Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:22:20.496154461Z level=info msg="order processed" order_id=11458 duration_ms=66
+2026-10-03T20:22:20.606164745Z level=info msg="order processed" order_id=11459 duration_ms=69
+2026-10-03T20:22:20.186102398Z level=info msg="order processed" order_id=11460 duration_ms=58
+2026-10-03T20:22:20.916049406Z level=info msg="order processed" order_id=11461 duration_ms=63
+2026-10-03T20:22:21.695953136Z level=info msg="order processed" order_id=11464 duration_ms=63
+2026-10-03T20:22:21.800212974Z level=info msg="order processed" order_id=11469 duration_ms=48
+2026-10-03T20:22:21.594237018Z level=info msg="order processed" order_id=11470 duration_ms=66
+2026-10-03T20:22:21.575877543Z level=info msg="order processed" order_id=11471 duration_ms=38
+2026-10-03T20:22:21.032279116Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:22:23.175993847Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:22:23.452299452Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:22:23.736680034Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:22:23.529081558Z goroutine 42 [running]:
+2026-10-03T20:22:23.542565999Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:22:23.586721027Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:22:24.902750964Z level=info msg="order processed" order_id=11487 duration_ms=48
+2026-10-03T20:22:24.338037590Z level=info msg="order processed" order_id=11488 duration_ms=45
+2026-10-03T20:22:24.392961372Z level=warn msg="slow consumer" queue=orders lag_ms=1032
+2026-10-03T20:22:25.571752504Z level=info msg="order processed" order_id=11492 duration_ms=34
+2026-10-03T20:22:25.271115277Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:22:25.669090730Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:22:26.669086264Z level=info msg="order processed" order_id=11503 duration_ms=33
+2026-10-03T20:30:15.654961545Z level=info msg="order processed" order_id=10607 duration_ms=49
+2026-10-03T20:30:16.533629759Z level=info msg="order processed" order_id=10611 duration_ms=68
+2026-10-03T20:30:16.737179403Z level=error msg="failed to write order" order_id=10612 err="context deadline exceeded"
+2026-10-03T20:30:16.519520452Z level=warn msg="retrying" order_id=10612 attempt=1 backoff=1s
+2026-10-03T20:30:16.519864808Z level=info msg="order processed" order_id=10614 duration_ms=64
+2026-10-03T20:30:17.019271198Z level=warn msg="slow consumer" queue=orders lag_ms=2597
+2026-10-03T20:30:17.439603248Z level=info msg="order processed" order_id=10621 duration_ms=37
+2026-10-03T20:30:17.368931891Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:30:17.623541782Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:30:18.931733282Z level=info msg="order processed" order_id=10629 duration_ms=38
+2026-10-03T20:30:18.457000489Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:30:18.209389107Z level=error msg="failed to write order" order_id=10633 err="context deadline exceeded"
+2026-10-03T20:30:18.912248535Z level=warn msg="retrying" order_id=10633 attempt=1 backoff=1s
+2026-10-03T20:30:19.836628470Z level=info msg="order processed" order_id=10634 duration_ms=30
+2026-10-03T20:30:19.155031817Z level=info msg="order processed" order_id=10635 duration_ms=42
+2026-10-03T20:30:19.304966906Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:30:19.172506338Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:30:19.106359831Z goroutine 42 [running]:
+2026-10-03T20:30:19.819047883Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:30:19.546596443Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:30:19.608067502Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:30:20.284200939Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:30:20.947419455Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:30:20.517569744Z goroutine 42 [running]:
+2026-10-03T20:30:20.018006899Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:30:20.675198203Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:30:20.064916995Z level=info msg="order processed" order_id=10641 duration_ms=50
+2026-10-03T20:30:21.944130274Z level=info msg="order processed" order_id=10645 duration_ms=66
+2026-10-03T20:30:21.138984251Z level=info msg="order processed" order_id=10651 duration_ms=48
+2026-10-03T20:30:21.118301430Z level=error msg="failed to write order" order_id=10653 err="context deadline exceeded"
+2026-10-03T20:30:21.553634973Z level=warn msg="retrying" order_id=10653 attempt=1 backoff=1s
+2026-10-03T20:30:22.050194074Z level=info msg="order processed" order_id=10656 duration_ms=55
+2026-10-03T20:30:23.210731506Z level=info msg="order processed" order_id=10661 duration_ms=65
+2026-10-03T20:30:23.161995148Z level=info msg="order processed" order_id=10662 duration_ms=57
+2026-10-03T20:30:24.917762939Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:30:24.159175551Z level=info msg="order processed" order_id=10673 duration_ms=55
+2026-10-03T20:30:24.606141933Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:30:25.200895596Z level=info msg="order processed" order_id=10676 duration_ms=63
+2026-10-03T20:30:25.114035400Z level=warn msg="slow consumer" queue=orders lag_ms=2282
+2026-10-03T20:30:26.042877981Z level=info msg="order processed" order_id=10683 duration_ms=41
+2026-10-03T20:30:26.008795070Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:30:27.763589013Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:30:27.316331488Z level=info msg="order processed" order_id=10693 duration_ms=49
+2026-10-03T20:30:28.933495492Z level=info msg="order processed" order_id=10697 duration_ms=38
+2026-10-03T20:30:28.225981287Z level=info msg="order processed" order_id=10703 duration_ms=31
+2026-10-03T20:30:29.228530097Z level=warn msg="slow consumer" queue=orders lag_ms=1625
+2026-10-03T20:30:30.456811417Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:30:30.419831482Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:30:30.030709332Z level=info msg="order processed" order_id=10718 duration_ms=51
+2026-10-03T20:30:30.134426490Z level=info msg="order processed" order_id=10720 duration_ms=68
+2026-10-03T20:30:30.928225467Z level=info msg="order processed" order_id=10721 duration_ms=52
+2026-10-03T20:30:31.457213113Z level=info msg="order processed" order_id=10722 duration_ms=46
+2026-10-03T20:30:31.055479770Z level=info msg="order processed" order_id=10725 duration_ms=63
+2026-10-03T20:30:31.937982348Z level=info msg="order processed" order_id=10727 duration_ms=62
+2026-10-03T20:30:31.042073456Z level=info msg="order processed" order_id=10728 duration_ms=36
+2026-10-03T20:30:32.726869458Z level=warn msg="slow consumer" queue=orders lag_ms=1779
+2026-10-03T20:30:32.189032183Z level=info msg="order processed" order_id=10732 duration_ms=64
+2026-10-03T20:30:33.550432772Z level=info msg="order processed" order_id=10735 duration_ms=57
+2026-10-03T20:30:33.471047943Z level=info msg="order processed" order_id=10736 duration_ms=55
+2026-10-03T20:30:33.222785715Z level=error msg="failed to write order" order_id=10737 err="context deadline exceeded"
+2026-10-03T20:30:33.051714741Z level=warn msg="retrying" order_id=10737 attempt=1 backoff=1s
+2026-10-03T20:30:33.683234272Z level=info msg="order processed" order_id=10738 duration_ms=48
+2026-10-03T20:30:33.006553577Z level=error msg="failed to write order" order_id=10739 err="context deadline exceeded"
+2026-10-03T20:30:33.355914846Z level=warn msg="retrying" order_id=10739 attempt=1 backoff=1s
+2026-10-03T20:30:33.049797696Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:30:34.945157300Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:30:34.022124087Z level=warn msg="slow consumer" queue=orders lag_ms=1176
+2026-10-03T20:30:34.548568258Z level=info msg="order processed" order_id=10745 duration_ms=39
+2026-10-03T20:30:34.484252997Z level=info msg="order processed" order_id=10748 duration_ms=43
+2026-10-03T20:30:34.978102238Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:30:35.659391660Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:30:35.989654325Z level=info msg="order processed" order_id=10755 duration_ms=35
+2026-10-03T20:30:35.314486770Z level=info msg="order processed" order_id=10757 duration_ms=39
+2026-10-03T20:30:35.781462051Z level=warn msg="slow consumer" queue=orders lag_ms=2189
+2026-10-03T20:30:35.741200837Z level=info msg="order processed" order_id=10760 duration_ms=45
+2026-10-03T20:30:36.703946275Z level=warn msg="slow consumer" queue=orders lag_ms=2213
+2026-10-03T20:30:36.692450240Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:30:36.102178293Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:30:36.908046659Z level=error msg="failed to write order" order_id=10766 err="context deadline exceeded"
+2026-10-03T20:30:36.065953936Z level=warn msg="retrying" order_id=10766 attempt=1 backoff=1s
+2026-10-03T20:30:37.259805398Z level=warn msg="slow consumer" queue=orders lag_ms=2451
+2026-10-03T20:30:37.036617368Z level=error msg="failed to write order" order_id=10775 err="context deadline exceeded"
+2026-10-03T20:30:37.088927017Z level=warn msg="retrying" order_id=10775 attempt=1 backoff=1s
+2026-10-03T20:30:38.219989605Z level=warn msg="slow consumer" queue=orders lag_ms=1686
+2026-10-03T20:30:38.926914537Z level=info msg="order processed" order_id=10779 duration_ms=69
+2026-10-03T20:30:39.985880820Z level=info msg="order processed" order_id=10790 duration_ms=67
+2026-10-03T20:30:40.249409950Z level=info msg="order processed" order_id=10792 duration_ms=47
+2026-10-03T20:30:40.426306345Z level=error msg="failed to write order" order_id=10793 err="context deadline exceeded"
+2026-10-03T20:30:40.978685479Z level=warn msg="retrying" order_id=10793 attempt=1 backoff=1s
+2026-10-03T20:30:41.049075539Z level=info msg="order processed" order_id=10795 duration_ms=38
+2026-10-03T20:30:41.798259823Z level=info msg="order processed" order_id=10797 duration_ms=57
+2026-10-03T20:30:42.902952365Z level=info msg="order processed" order_id=10803 duration_ms=65
+2026-10-03T20:30:42.473772256Z level=error msg="failed to write order" order_id=10806 err="context deadline exceeded"
+2026-10-03T20:30:42.942717254Z level=warn msg="retrying" order_id=10806 attempt=1 backoff=1s
+2026-10-03T20:30:43.014548148Z level=info msg="order processed" order_id=10813 duration_ms=57
+2026-10-03T20:30:43.366142207Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:30:44.570610546Z level=error msg="failed to write order" order_id=10817 err="context deadline exceeded"
+2026-10-03T20:30:44.172350217Z level=warn msg="retrying" order_id=10817 attempt=1 backoff=1s
+2026-10-03T20:30:44.252956105Z level=info msg="order processed" order_id=10822 duration_ms=33
+2026-10-03T20:30:46.177988441Z level=warn msg="slow consumer" queue=orders lag_ms=2166
+2026-10-03T20:30:46.900779010Z level=info msg="order processed" order_id=10828 duration_ms=43
+2026-10-03T20:30:46.692701751Z level=info msg="order processed" order_id=10829 duration_ms=41
+2026-10-03T20:30:47.816409536Z level=info msg="order processed" order_id=10833 duration_ms=31
+2026-10-03T20:30:47.991039084Z level=error msg="failed to write order" order_id=10836 err="context deadline exceeded"
+2026-10-03T20:30:47.320022963Z level=warn msg="retrying" order_id=10836 attempt=1 backoff=1s
+2026-10-03T20:30:48.943342330Z level=info msg="order processed" order_id=10838 duration_ms=44
+2026-10-03T20:30:48.849585081Z level=info msg="order processed" order_id=10840 duration_ms=65
+2026-10-03T20:30:49.210632781Z level=info msg="order processed" order_id=10844 duration_ms=49
+2026-10-03T20:30:50.100850412Z level=info msg="order processed" order_id=10850 duration_ms=55
+2026-10-03T20:30:50.886703886Z level=warn msg="slow consumer" queue=orders lag_ms=2709
+2026-10-03T20:30:50.397521363Z level=info msg="order processed" order_id=10852 duration_ms=67
+2026-10-03T20:30:50.958895710Z level=info msg="order processed" order_id=10854 duration_ms=69
+2026-10-03T20:30:50.252898913Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:30:51.930819069Z level=info msg="order processed" order_id=10857 duration_ms=39
+2026-10-03T20:30:51.899721899Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:30:51.210412100Z level=warn msg="slow consumer" queue=orders lag_ms=1845
+2026-10-03T20:30:51.030779692Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:30:51.286640836Z level=warn msg="slow consumer" queue=orders lag_ms=1046
+2026-10-03T20:30:52.998836518Z level=info msg="order processed" order_id=10867 duration_ms=44
+2026-10-03T20:30:52.869983318Z level=info msg="order processed" order_id=10868 duration_ms=66
+2026-10-03T20:30:52.880285516Z level=info msg="order processed" order_id=10869 duration_ms=37
+2026-10-03T20:30:53.989077397Z level=info msg="order processed" order_id=10879 duration_ms=44
+2026-10-03T20:30:53.233599303Z level=info msg="order processed" order_id=10880 duration_ms=50
+2026-10-03T20:30:53.687855612Z level=info msg="order processed" order_id=10881 duration_ms=62
+2026-10-03T20:30:54.885303137Z level=info msg="order processed" order_id=10883 duration_ms=62
+2026-10-03T20:30:54.935570885Z level=info msg="order processed" order_id=10884 duration_ms=49
+2026-10-03T20:30:54.347006431Z level=info msg="order processed" order_id=10888 duration_ms=57
+2026-10-03T20:30:55.090853145Z level=info msg="order processed" order_id=10891 duration_ms=50
+2026-10-03T20:30:55.142834290Z level=info msg="order processed" order_id=10893 duration_ms=63
+2026-10-03T20:30:56.045392632Z level=error msg="failed to write order" order_id=10899 err="context deadline exceeded"
+2026-10-03T20:30:56.297925071Z level=warn msg="retrying" order_id=10899 attempt=1 backoff=1s
+2026-10-03T20:30:57.191628420Z level=warn msg="slow consumer" queue=orders lag_ms=1457
+2026-10-03T20:30:57.058278178Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:30:58.484400228Z level=info msg="order processed" order_id=10906 duration_ms=53
+2026-10-03T20:30:58.891520275Z level=warn msg="slow consumer" queue=orders lag_ms=2363
+2026-10-03T20:30:58.730157370Z level=info msg="order processed" order_id=10909 duration_ms=42
+2026-10-03T20:30:59.003816594Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:30:59.819168159Z level=info msg="order processed" order_id=10913 duration_ms=42
+2026-10-03T20:30:59.612845664Z level=error msg="failed to write order" order_id=10916 err="context deadline exceeded"
+2026-10-03T20:30:59.331627876Z level=warn msg="retrying" order_id=10916 attempt=1 backoff=1s
+2026-10-03T20:30:59.276009712Z level=info msg="order processed" order_id=10918 duration_ms=32
+2026-10-03T20:31:00.861517624Z level=info msg="order processed" order_id=10923 duration_ms=42
+2026-10-03T20:31:00.050437277Z level=info msg="order processed" order_id=10924 duration_ms=55
+2026-10-03T20:31:00.007432332Z level=info msg="order processed" order_id=10925 duration_ms=66
+2026-10-03T20:31:01.374519569Z level=info msg="order processed" order_id=10932 duration_ms=53
+2026-10-03T20:31:01.387920909Z level=info msg="order processed" order_id=10934 duration_ms=34
+2026-10-03T20:31:02.686417294Z level=error msg="failed to write order" order_id=10941 err="context deadline exceeded"
+2026-10-03T20:31:02.453339727Z level=warn msg="retrying" order_id=10941 attempt=1 backoff=1s
+2026-10-03T20:31:03.219478012Z level=info msg="order processed" order_id=10946 duration_ms=56
+2026-10-03T20:31:03.059739382Z level=info msg="order processed" order_id=10947 duration_ms=33
+2026-10-03T20:31:03.823620012Z level=info msg="order processed" order_id=10951 duration_ms=63
+2026-10-03T20:31:05.853440569Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:31:05.968516299Z level=info msg="order processed" order_id=10960 duration_ms=67
+2026-10-03T20:31:05.939335572Z level=info msg="order processed" order_id=10961 duration_ms=49
+2026-10-03T20:31:06.492037749Z level=warn msg="slow consumer" queue=orders lag_ms=1758
+2026-10-03T20:31:06.697033980Z level=info msg="order processed" order_id=10967 duration_ms=62
+2026-10-03T20:31:07.120739833Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:31:07.562120143Z level=error msg="failed to write order" order_id=10980 err="context deadline exceeded"
+2026-10-03T20:31:07.701608362Z level=warn msg="retrying" order_id=10980 attempt=1 backoff=1s
+2026-10-03T20:31:08.021200732Z level=info msg="order processed" order_id=10984 duration_ms=58
+2026-10-03T20:31:09.072258029Z level=info msg="order processed" order_id=10992 duration_ms=40
+2026-10-03T20:31:09.550437646Z level=info msg="order processed" order_id=10995 duration_ms=48
+2026-10-03T20:31:10.563769111Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:31:10.503958863Z level=info msg="order processed" order_id=11004 duration_ms=35
+2026-10-03T20:31:11.603757705Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:31:12.031027737Z level=info msg="order processed" order_id=11014 duration_ms=31
+2026-10-03T20:31:12.473267204Z level=error msg="failed to write order" order_id=11016 err="context deadline exceeded"
+2026-10-03T20:31:12.715922566Z level=warn msg="retrying" order_id=11016 attempt=1 backoff=1s
+2026-10-03T20:31:12.884518131Z level=info msg="order processed" order_id=11017 duration_ms=34
+2026-10-03T20:31:12.004145090Z level=error msg="failed to write order" order_id=11021 err="context deadline exceeded"
+2026-10-03T20:31:12.183180710Z level=warn msg="retrying" order_id=11021 attempt=1 backoff=1s
+2026-10-03T20:31:13.484236412Z level=info msg="order processed" order_id=11023 duration_ms=46
+2026-10-03T20:31:13.473582914Z level=info msg="order processed" order_id=11025 duration_ms=39
+2026-10-03T20:31:13.684763470Z level=info msg="order processed" order_id=11027 duration_ms=51
+2026-10-03T20:31:13.378823572Z level=info msg="order processed" order_id=11028 duration_ms=56
+2026-10-03T20:31:14.318303933Z level=info msg="order processed" order_id=11029 duration_ms=41
+2026-10-03T20:31:14.375387689Z level=info msg="order processed" order_id=11032 duration_ms=57
+2026-10-03T20:31:14.037663113Z level=info msg="order processed" order_id=11035 duration_ms=53
+2026-10-03T20:31:14.708927635Z level=warn msg="slow consumer" queue=orders lag_ms=1300
+2026-10-03T20:31:15.472122712Z level=error msg="failed to write order" order_id=11040 err="context deadline exceeded"
+2026-10-03T20:31:15.864703077Z level=warn msg="retrying" order_id=11040 attempt=1 backoff=1s
+2026-10-03T20:31:15.092243578Z level=info msg="order processed" order_id=11043 duration_ms=31
+2026-10-03T20:31:16.207462100Z level=info msg="order processed" order_id=11045 duration_ms=43
+2026-10-03T20:31:16.448855078Z level=info msg="order processed" order_id=11052 duration_ms=67
+2026-10-03T20:31:16.685425219Z level=info msg="order processed" order_id=11053 duration_ms=55
+2026-10-03T20:31:17.673363215Z level=info msg="order processed" order_id=11056 duration_ms=66
+2026-10-03T20:31:17.956509636Z level=info msg="order processed" order_id=11057 duration_ms=39
+2026-10-03T20:31:17.030629237Z level=info msg="order processed" order_id=11059 duration_ms=57
+2026-10-03T20:31:18.256957998Z level=warn msg="slow consumer" queue=orders lag_ms=1701
+2026-10-03T20:31:18.425130536Z level=info msg="order processed" order_id=11064 duration_ms=57
+2026-10-03T20:31:19.315083912Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:31:19.970061148Z level=info msg="order processed" order_id=11074 duration_ms=39
+2026-10-03T20:31:19.349193647Z level=info msg="order processed" order_id=11077 duration_ms=66
+2026-10-03T20:31:20.514716669Z level=info msg="order processed" order_id=11079 duration_ms=49
+2026-10-03T20:31:20.804155560Z level=info msg="order processed" order_id=11080 duration_ms=58
+2026-10-03T20:31:20.361964394Z level=info msg="order processed" order_id=11081 duration_ms=34
+2026-10-03T20:31:20.833639093Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:31:21.717166255Z level=info msg="order processed" order_id=11090 duration_ms=54
+2026-10-03T20:31:21.237391980Z level=info msg="order processed" order_id=11092 duration_ms=46
+2026-10-03T20:31:21.175457987Z level=info msg="order processed" order_id=11093 duration_ms=51
+2026-10-03T20:31:21.495967869Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:31:22.543022489Z level=info msg="order processed" order_id=11095 duration_ms=64
+2026-10-03T20:31:22.706556323Z level=info msg="order processed" order_id=11097 duration_ms=49
+2026-10-03T20:31:22.454463845Z level=info msg="order processed" order_id=11098 duration_ms=62
+2026-10-03T20:31:22.477841906Z level=info msg="order processed" order_id=11101 duration_ms=68
+2026-10-03T20:31:22.150240899Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:31:24.922243353Z level=error msg="failed to write order" order_id=11112 err="context deadline exceeded"
+2026-10-03T20:31:24.864176352Z level=warn msg="retrying" order_id=11112 attempt=1 backoff=1s
+2026-10-03T20:31:24.073994565Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:31:25.010617246Z level=error msg="failed to write order" order_id=11122 err="context deadline exceeded"
+2026-10-03T20:31:25.287220391Z level=warn msg="retrying" order_id=11122 attempt=1 backoff=1s
+2026-10-03T20:31:26.557965470Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:31:26.845898530Z level=info msg="order processed" order_id=11127 duration_ms=43
+2026-10-03T20:31:27.701155637Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:31:27.817949381Z level=warn msg="slow consumer" queue=orders lag_ms=2934
+2026-10-03T20:31:28.778908938Z level=info msg="order processed" order_id=11141 duration_ms=58
+2026-10-03T20:31:28.692011750Z level=info msg="order processed" order_id=11143 duration_ms=33
+2026-10-03T20:31:29.805843598Z level=info msg="order processed" order_id=11146 duration_ms=35
+2026-10-03T20:31:30.418951389Z level=info msg="order processed" order_id=11150 duration_ms=55
+2026-10-03T20:31:30.212313183Z level=info msg="order processed" order_id=11152 duration_ms=58
+2026-10-03T20:31:31.125835411Z level=info msg="order processed" order_id=11163 duration_ms=68
+2026-10-03T20:31:31.900085655Z level=info msg="order processed" order_id=11166 duration_ms=35
+2026-10-03T20:31:32.035514408Z level=error msg="failed to write order" order_id=11168 err="context deadline exceeded"
+2026-10-03T20:31:32.204577516Z level=warn msg="retrying" order_id=11168 attempt=1 backoff=1s
+2026-10-03T20:31:32.827669411Z level=info msg="order processed" order_id=11171 duration_ms=31
+2026-10-03T20:31:33.277050805Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:31:33.667098481Z level=info msg="order processed" order_id=11179 duration_ms=35
+2026-10-03T20:31:34.611066732Z level=info msg="order processed" order_id=11182 duration_ms=33
+2026-10-03T20:31:34.207722809Z level=info msg="order processed" order_id=11183 duration_ms=30
+2026-10-03T20:31:34.328306172Z level=info msg="order processed" order_id=11187 duration_ms=39
+2026-10-03T20:31:34.526980306Z level=info msg="order processed" order_id=11188 duration_ms=44
+2026-10-03T20:31:35.355508034Z level=info msg="order processed" order_id=11196 duration_ms=30
+2026-10-03T20:31:35.561496309Z level=info msg="order processed" order_id=11198 duration_ms=67
+2026-10-03T20:31:35.049585662Z level=info msg="order processed" order_id=11200 duration_ms=63
+2026-10-03T20:31:36.826090337Z level=error msg="failed to write order" order_id=11203 err="context deadline exceeded"
+2026-10-03T20:31:36.229641040Z level=warn msg="retrying" order_id=11203 attempt=1 backoff=1s
+2026-10-03T20:31:36.760972239Z level=info msg="order processed" order_id=11204 duration_ms=56
+2026-10-03T20:31:36.592372975Z level=info msg="order processed" order_id=11205 duration_ms=41
+2026-10-03T20:31:36.018696506Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:31:36.504815121Z level=error msg="failed to write order" order_id=11208 err="context deadline exceeded"
+2026-10-03T20:31:36.348531158Z level=warn msg="retrying" order_id=11208 attempt=1 backoff=1s
+2026-10-03T20:31:37.226962786Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:31:37.713392719Z level=info msg="order processed" order_id=11214 duration_ms=42
+2026-10-03T20:31:37.144298919Z level=warn msg="slow consumer" queue=orders lag_ms=2701
+2026-10-03T20:31:37.474754643Z level=info msg="order processed" order_id=11216 duration_ms=65
+2026-10-03T20:31:40.462247978Z level=info msg="order processed" order_id=11233 duration_ms=62
+2026-10-03T20:31:40.792123340Z level=info msg="order processed" order_id=11234 duration_ms=33
+2026-10-03T20:31:40.372780594Z level=info msg="order processed" order_id=11238 duration_ms=30
+2026-10-03T20:31:41.316629086Z level=error msg="failed to write order" order_id=11244 err="context deadline exceeded"
+2026-10-03T20:31:41.983850774Z level=warn msg="retrying" order_id=11244 attempt=1 backoff=1s
+2026-10-03T20:31:41.571173851Z level=info msg="order processed" order_id=11245 duration_ms=69
+2026-10-03T20:31:42.582969583Z level=info msg="order processed" order_id=11248 duration_ms=61
+2026-10-03T20:31:42.009403553Z level=debug msg="heartbeat" unacked=1
+2026-10-03T20:31:42.122132306Z level=info msg="order processed" order_id=11250 duration_ms=37
+2026-10-03T20:31:42.767235876Z level=info msg="order processed" order_id=11255 duration_ms=32
+2026-10-03T20:31:43.744707921Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:31:43.036690798Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:31:43.645082330Z goroutine 42 [running]:
+2026-10-03T20:31:43.931555690Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:31:43.846569658Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:31:43.124857737Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:31:43.633815343Z level=error msg="failed to write order" order_id=11262 err="context deadline exceeded"
+2026-10-03T20:31:43.038272342Z level=warn msg="retrying" order_id=11262 attempt=1 backoff=1s
+2026-10-03T20:31:43.687464872Z level=info msg="order processed" order_id=11263 duration_ms=58
+2026-10-03T20:31:43.265350721Z level=info msg="order processed" order_id=11265 duration_ms=50
+2026-10-03T20:31:43.032061878Z level=info msg="order processed" order_id=11266 duration_ms=47
+2026-10-03T20:31:44.692855808Z level=info msg="order processed" order_id=11271 duration_ms=45
+2026-10-03T20:31:45.026218188Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:31:45.902728859Z level=info msg="order processed" order_id=11279 duration_ms=41
+2026-10-03T20:31:45.275415626Z level=info msg="order processed" order_id=11280 duration_ms=46
+2026-10-03T20:31:46.849493184Z level=info msg="order processed" order_id=11281 duration_ms=36
+2026-10-03T20:31:46.993069072Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:31:46.524314596Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:31:46.704343170Z goroutine 42 [running]:
+2026-10-03T20:31:46.268101277Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:31:46.518954035Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:31:47.353868728Z level=warn msg="slow consumer" queue=orders lag_ms=1291
+2026-10-03T20:31:47.153745008Z level=error msg="failed to write order" order_id=11295 err="context deadline exceeded"
+2026-10-03T20:31:47.554742908Z level=warn msg="retrying" order_id=11295 attempt=1 backoff=1s
+2026-10-03T20:31:48.826771563Z level=info msg="order processed" order_id=11296 duration_ms=53
+2026-10-03T20:31:48.914099716Z level=info msg="order processed" order_id=11298 duration_ms=66
+2026-10-03T20:31:49.190738798Z level=warn msg="slow consumer" queue=orders lag_ms=1162
+2026-10-03T20:31:49.195568982Z level=info msg="order processed" order_id=11306 duration_ms=36
+2026-10-03T20:31:50.663269098Z level=info msg="order processed" order_id=11310 duration_ms=68
+2026-10-03T20:31:50.038295208Z level=info msg="order processed" order_id=11311 duration_ms=59
+2026-10-03T20:31:50.238940472Z level=info msg="order processed" order_id=11315 duration_ms=40
+2026-10-03T20:31:50.442674692Z level=info msg="order processed" order_id=11319 duration_ms=37
+2026-10-03T20:31:51.162301460Z level=info msg="order processed" order_id=11325 duration_ms=56
+2026-10-03T20:31:53.847080876Z level=info msg="order processed" order_id=11336 duration_ms=60
+2026-10-03T20:31:53.597528363Z level=info msg="order processed" order_id=11337 duration_ms=49
+2026-10-03T20:31:54.573874169Z level=info msg="order processed" order_id=11345 duration_ms=60
+2026-10-03T20:31:54.033509798Z level=info msg="order processed" order_id=11346 duration_ms=52
+2026-10-03T20:31:54.179673628Z level=info msg="order processed" order_id=11350 duration_ms=62
+2026-10-03T20:31:56.872177491Z level=error msg="failed to write order" order_id=11361 err="context deadline exceeded"
+2026-10-03T20:31:56.894180264Z level=warn msg="retrying" order_id=11361 attempt=1 backoff=1s
+2026-10-03T20:31:56.659505828Z level=warn msg="slow consumer" queue=orders lag_ms=2319
+2026-10-03T20:31:57.028120153Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:31:59.763237699Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:32:00.589393538Z level=info msg="order processed" order_id=11386 duration_ms=34
+2026-10-03T20:32:00.441307543Z level=info msg="order processed" order_id=11387 duration_ms=64
+2026-10-03T20:32:01.871490561Z level=warn msg="slow consumer" queue=orders lag_ms=2879
+2026-10-03T20:32:01.545470551Z level=info msg="order processed" order_id=11391 duration_ms=30
+2026-10-03T20:32:02.992751961Z level=info msg="order processed" order_id=11401 duration_ms=42
+2026-10-03T20:32:03.577599679Z level=info msg="order processed" order_id=11405 duration_ms=60
+2026-10-03T20:32:03.229318821Z level=warn msg="slow consumer" queue=orders lag_ms=2639
+2026-10-03T20:32:03.166521263Z level=info msg="order processed" order_id=11408 duration_ms=39
+2026-10-03T20:32:03.387166469Z level=info msg="order processed" order_id=11409 duration_ms=34
+2026-10-03T20:32:04.860034784Z level=info msg="order processed" order_id=11410 duration_ms=45
+2026-10-03T20:32:04.848783646Z level=info msg="order processed" order_id=11414 duration_ms=46
+2026-10-03T20:32:06.855193774Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:32:06.536287463Z level=warn msg="slow consumer" queue=orders lag_ms=2467
+2026-10-03T20:32:06.678711136Z level=warn msg="slow consumer" queue=orders lag_ms=1730
+2026-10-03T20:32:06.382878509Z level=info msg="order processed" order_id=11429 duration_ms=33
+2026-10-03T20:32:07.794805292Z level=info msg="order processed" order_id=11430 duration_ms=53
+2026-10-03T20:32:07.649208279Z level=info msg="order processed" order_id=11434 duration_ms=38
+2026-10-03T20:32:07.738519400Z level=info msg="order processed" order_id=11437 duration_ms=67
+2026-10-03T20:32:07.729150841Z level=warn msg="slow consumer" queue=orders lag_ms=1600
+2026-10-03T20:32:08.699822913Z level=debug msg="heartbeat" unacked=3
+2026-10-03T20:32:08.047785804Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:32:09.959400032Z level=error msg="failed to write order" order_id=11448 err="context deadline exceeded"
+2026-10-03T20:32:09.111895996Z level=warn msg="retrying" order_id=11448 attempt=1 backoff=1s
+2026-10-03T20:32:09.395918069Z level=error msg="failed to write order" order_id=11450 err="context deadline exceeded"
+2026-10-03T20:32:09.635621289Z level=warn msg="retrying" order_id=11450 attempt=1 backoff=1s
+2026-10-03T20:32:09.391909533Z level=error msg="failed to write order" order_id=11455 err="context deadline exceeded"
+2026-10-03T20:32:09.006631448Z level=warn msg="retrying" order_id=11455 attempt=1 backoff=1s
+2026-10-03T20:32:10.038177598Z level=info msg="order processed" order_id=11456 duration_ms=55
+2026-10-03T20:32:11.882685469Z level=error msg="failed to write order" order_id=11466 err="context deadline exceeded"
+2026-10-03T20:32:11.042865626Z level=warn msg="retrying" order_id=11466 attempt=1 backoff=1s
+2026-10-03T20:32:12.046000040Z level=info msg="order processed" order_id=11469 duration_ms=35
+2026-10-03T20:32:12.259035500Z level=info msg="order processed" order_id=11470 duration_ms=54
+2026-10-03T20:32:12.044789248Z level=error msg="failed to write order" order_id=11472 err="context deadline exceeded"
+2026-10-03T20:32:12.405690094Z level=warn msg="retrying" order_id=11472 attempt=1 backoff=1s
+2026-10-03T20:32:12.621234223Z level=debug msg="heartbeat" unacked=2
+2026-10-03T20:32:12.886706890Z level=debug msg="heartbeat" unacked=0
+2026-10-03T20:32:13.242212646Z level=warn msg="slow consumer" queue=orders lag_ms=2709
+2026-10-03T20:32:13.548917320Z level=info msg="order processed" order_id=11483 duration_ms=37
+2026-10-03T20:32:14.916496452Z level=info msg="order processed" order_id=11485 duration_ms=49
+2026-10-03T20:32:14.176223744Z level=info msg="order processed" order_id=11486 duration_ms=62
+2026-10-03T20:32:14.728812779Z panic: runtime error: invalid memory address or nil pointer dereference
+2026-10-03T20:32:14.223616763Z [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x4a2f1c]
+2026-10-03T20:32:14.939763416Z goroutine 42 [running]:
+2026-10-03T20:32:14.410071459Z main.(*Worker).handle(0xc0001a2000, {0xc000124000, 0x5c})
+2026-10-03T20:32:14.991579059Z 	/src/cmd/orders-worker/worker.go:118 +0x1c
+2026-10-03T20:32:14.037804648Z level=info msg="order processed" order_id=11491 duration_ms=65

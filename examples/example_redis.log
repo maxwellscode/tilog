@@ -1,0 +1,2208 @@
+1:C 03 Oct 2026 08:14:00.001 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 03 Oct 2026 08:14:00.001 # Redis version=7.2.3, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 03 Oct 2026 08:14:00.001 # Configuration loaded
+1:M 03 Oct 2026 08:14:00.002 * monotonic clock: POSIX clock_gettime
+1:M 03 Oct 2026 08:14:00.003 * Running mode=standalone, port=6379.
+1:M 03 Oct 2026 08:14:00.003 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
+1:M 03 Oct 2026 08:14:00.004 * Server initialized
+1:M 03 Oct 2026 08:14:00.004 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 03 Oct 2026 08:14:00.009 * Loading RDB produced by version 7.2.3
+1:M 03 Oct 2026 08:14:00.009 * RDB age 612 seconds
+1:M 03 Oct 2026 08:14:00.010 * Done loading RDB, keys loaded: 18204, keys expired: 0.
+1:M 03 Oct 2026 08:14:00.010 * Ready to accept connections tcp
+1:M 03 Oct 2026 08:14:42.317 * 100 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 08:14:42.318 * Background saving started by pid 71
+71:C 03 Oct 2026 08:14:42.611 * DB saved on disk
+71:C 03 Oct 2026 08:14:42.612 * Fork CoW for RDB: current 1 MB, peak 1 MB, average 1 MB
+1:M 03 Oct 2026 08:14:42.719 * Background saving terminated with success
+1:M 03 Oct 2026 08:15:58.044 # Client id=312 addr=10.0.3.5:48122 laddr=10.0.3.2:6379 fd=14 name= age=3600 idle=3600 flags=N db=0 sub=0 psub=0 ssub=0 multi=-1 qbuf=0 qbuf-free=0 argv-mem=0 multi-mem=0 rbs=1024 rbp=0 obl=0 oll=0 omem=0 tot-mem=1800 events=r cmd=get user=default redir=-1 resp=2 closed by idle timeout
+1:M 03 Oct 2026 08:16:30.011 * 10000 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 08:16:30.013 * Background saving started by pid 87
+87:C 03 Oct 2026 08:16:30.512 * DB saved on disk
+1:M 03 Oct 2026 08:16:30.621 * Background saving terminated with success
+1:M 03 Oct 2026 08:17:06.003 # Connection with client id=388 addr=10.0.3.5:50911 lost: Connection reset by peer
+1:M 03 Oct 2026 08:17:06.004 # Connection with client id=389 addr=10.0.3.5:50913 lost: Connection reset by peer
+1:M 03 Oct 2026 08:17:15.601 * Accepted 10.0.3.5:51392
+1:M 03 Oct 2026 19:56:22.181 # Connection with client id=387 addr=10.0.3.5:51480 lost: Connection reset by peer
+1:M 03 Oct 2026 19:56:25.140 * 814 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:56:26.028 * Accepted 10.0.3.5:53189
+1:M 03 Oct 2026 19:56:28.005 * Accepted 10.0.3.5:53065
+1:M 03 Oct 2026 19:56:31.048 * 1019 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:56:31.048 * Background saving started by pid 124
+124:C 03 Oct 2026 19:56:31.048 * DB saved on disk
+1:M 03 Oct 2026 19:56:31.048 * Background saving terminated with success
+1:M 03 Oct 2026 19:56:33.144 * 6080 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:56:33.144 * Background saving started by pid 131
+131:C 03 Oct 2026 19:56:33.144 * DB saved on disk
+1:M 03 Oct 2026 19:56:33.144 * Background saving terminated with success
+1:M 03 Oct 2026 19:56:34.155 * 5496 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:56:34.155 * Background saving started by pid 78
+78:C 03 Oct 2026 19:56:34.155 * DB saved on disk
+1:M 03 Oct 2026 19:56:34.155 * Background saving terminated with success
+1:M 03 Oct 2026 19:56:38.262 * Accepted 10.0.3.5:58877
+1:M 03 Oct 2026 19:56:46.003 * Accepted 10.0.3.5:56320
+1:M 03 Oct 2026 19:56:46.116 * Accepted 10.0.3.5:54245
+1:M 03 Oct 2026 19:56:48.169 * Accepted 10.0.3.5:53886
+1:M 03 Oct 2026 19:56:48.180 * 765 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:56:48.180 * Background saving started by pid 95
+95:C 03 Oct 2026 19:56:48.180 * DB saved on disk
+1:M 03 Oct 2026 19:56:48.180 * Background saving terminated with success
+1:M 03 Oct 2026 19:57:22.389 * Accepted 10.0.3.5:55493
+1:M 03 Oct 2026 19:57:23.125 * Accepted 10.0.3.5:50332
+1:M 03 Oct 2026 19:57:24.117 * Accepted 10.0.3.5:58393
+1:M 03 Oct 2026 19:57:24.180 # Connection with client id=468 addr=10.0.3.5:50341 lost: Connection reset by peer
+1:M 03 Oct 2026 19:57:27.260 * 353 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:57:30.142 * Accepted 10.0.3.5:54588
+1:M 03 Oct 2026 19:57:31.095 * Accepted 10.0.3.5:50569
+1:M 03 Oct 2026 19:57:35.148 * Accepted 10.0.3.5:52030
+1:M 03 Oct 2026 19:57:35.375 # Connection with client id=311 addr=10.0.3.5:55446 lost: Connection reset by peer
+1:M 03 Oct 2026 19:57:36.271 # Connection with client id=378 addr=10.0.3.5:53723 lost: Connection reset by peer
+1:M 03 Oct 2026 19:57:37.011 * 1892 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:57:37.011 * Background saving started by pid 107
+107:C 03 Oct 2026 19:57:37.011 * DB saved on disk
+1:M 03 Oct 2026 19:57:37.011 * Background saving terminated with success
+1:M 03 Oct 2026 19:57:38.279 # Connection with client id=476 addr=10.0.3.5:53143 lost: Connection reset by peer
+1:M 03 Oct 2026 19:57:41.280 * Accepted 10.0.3.5:53629
+1:M 03 Oct 2026 19:57:42.141 * 1298 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:57:42.141 * Background saving started by pid 100
+100:C 03 Oct 2026 19:57:42.141 * DB saved on disk
+1:M 03 Oct 2026 19:57:42.141 * Background saving terminated with success
+1:M 03 Oct 2026 19:57:42.286 # Connection with client id=400 addr=10.0.3.5:51492 lost: Connection reset by peer
+1:M 03 Oct 2026 19:57:42.323 * Accepted 10.0.3.5:54192
+1:M 03 Oct 2026 19:57:43.462 * 8824 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:57:43.462 * Background saving started by pid 130
+130:C 03 Oct 2026 19:57:43.462 * DB saved on disk
+1:M 03 Oct 2026 19:57:43.462 * Background saving terminated with success
+1:M 03 Oct 2026 19:57:44.045 * Accepted 10.0.3.5:50988
+1:M 03 Oct 2026 19:57:45.032 * Accepted 10.0.3.5:57782
+1:M 03 Oct 2026 19:57:46.004 * Accepted 10.0.3.5:58953
+1:M 03 Oct 2026 19:57:51.209 * 2816 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:57:51.209 * Background saving started by pid 108
+108:C 03 Oct 2026 19:57:51.209 * DB saved on disk
+1:M 03 Oct 2026 19:57:51.209 * Background saving terminated with success
+1:M 03 Oct 2026 19:57:51.258 * 183 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:57:54.152 * Accepted 10.0.3.5:50544
+1:M 03 Oct 2026 19:57:55.191 * Accepted 10.0.3.5:51873
+1:M 03 Oct 2026 19:58:02.150 * 7219 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:02.150 * Background saving started by pid 101
+101:C 03 Oct 2026 19:58:02.150 * DB saved on disk
+1:M 03 Oct 2026 19:58:02.150 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:03.544 * Accepted 10.0.3.5:51695
+1:M 03 Oct 2026 19:58:04.295 * Accepted 10.0.3.5:53605
+1:M 03 Oct 2026 19:58:06.308 * Accepted 10.0.3.5:52682
+1:M 03 Oct 2026 19:58:06.425 * Accepted 10.0.3.5:51057
+1:M 03 Oct 2026 19:58:06.554 # Connection with client id=493 addr=10.0.3.5:54606 lost: Connection reset by peer
+1:M 03 Oct 2026 19:58:07.293 * 805 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:58:07.414 * 6994 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:07.414 * Background saving started by pid 103
+103:C 03 Oct 2026 19:58:07.414 * DB saved on disk
+1:M 03 Oct 2026 19:58:07.414 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:10.374 * Accepted 10.0.3.5:51523
+1:M 03 Oct 2026 19:58:10.392 * Accepted 10.0.3.5:52139
+1:M 03 Oct 2026 19:58:13.149 # Connection with client id=425 addr=10.0.3.5:51644 lost: Connection reset by peer
+1:M 03 Oct 2026 19:58:16.467 * Accepted 10.0.3.5:54864
+1:M 03 Oct 2026 19:58:17.027 * 1367 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:17.027 * Background saving started by pid 123
+123:C 03 Oct 2026 19:58:17.027 * DB saved on disk
+1:M 03 Oct 2026 19:58:17.027 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:18.105 * Accepted 10.0.3.5:53121
+1:M 03 Oct 2026 19:58:39.343 * 1694 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:39.343 * Background saving started by pid 134
+134:C 03 Oct 2026 19:58:39.343 * DB saved on disk
+1:M 03 Oct 2026 19:58:39.343 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:40.060 * Accepted 10.0.3.5:50123
+1:M 03 Oct 2026 19:58:40.156 # Connection with client id=340 addr=10.0.3.5:51257 lost: Connection reset by peer
+1:M 03 Oct 2026 19:58:40.397 * 774 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:40.397 * Background saving started by pid 97
+97:C 03 Oct 2026 19:58:40.397 * DB saved on disk
+1:M 03 Oct 2026 19:58:40.397 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:40.442 * 519 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:58:40.798 # Connection with client id=405 addr=10.0.3.5:57743 lost: Connection reset by peer
+1:M 03 Oct 2026 19:58:41.335 * Accepted 10.0.3.5:55893
+1:M 03 Oct 2026 19:58:41.473 # Connection with client id=433 addr=10.0.3.5:52628 lost: Connection reset by peer
+1:M 03 Oct 2026 19:58:41.587 * Accepted 10.0.3.5:53407
+1:M 03 Oct 2026 19:58:42.305 * Accepted 10.0.3.5:55632
+1:M 03 Oct 2026 19:58:42.336 * Accepted 10.0.3.5:53457
+1:M 03 Oct 2026 19:58:42.800 # Connection with client id=390 addr=10.0.3.5:55516 lost: Connection reset by peer
+1:M 03 Oct 2026 19:58:42.999 * 3563 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:42.999 * Background saving started by pid 78
+78:C 03 Oct 2026 19:58:42.999 * DB saved on disk
+1:M 03 Oct 2026 19:58:42.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:43.846 * 120 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:43.846 * Background saving started by pid 118
+118:C 03 Oct 2026 19:58:43.846 * DB saved on disk
+1:M 03 Oct 2026 19:58:43.846 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:45.137 * 513 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:45.137 * Background saving started by pid 61
+61:C 03 Oct 2026 19:58:45.137 * DB saved on disk
+1:M 03 Oct 2026 19:58:45.137 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:45.818 * Accepted 10.0.3.5:54900
+1:M 03 Oct 2026 19:58:47.585 * Accepted 10.0.3.5:53724
+1:M 03 Oct 2026 19:58:47.854 * Accepted 10.0.3.5:52657
+1:M 03 Oct 2026 19:58:47.947 # Connection with client id=340 addr=10.0.3.5:53825 lost: Connection reset by peer
+1:M 03 Oct 2026 19:58:47.999 * Accepted 10.0.3.5:56950
+1:M 03 Oct 2026 19:58:48.766 # Connection with client id=433 addr=10.0.3.5:53227 lost: Connection reset by peer
+1:M 03 Oct 2026 19:58:48.769 * Accepted 10.0.3.5:50295
+1:M 03 Oct 2026 19:58:48.777 # Connection with client id=494 addr=10.0.3.5:55485 lost: Connection reset by peer
+1:M 03 Oct 2026 19:58:48.999 * Accepted 10.0.3.5:50508
+1:M 03 Oct 2026 19:58:49.304 * 239 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:58:49.453 * Accepted 10.0.3.5:53375
+1:M 03 Oct 2026 19:58:50.137 * 7943 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:50.137 * Background saving started by pid 134
+134:C 03 Oct 2026 19:58:50.137 * DB saved on disk
+1:M 03 Oct 2026 19:58:50.137 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:50.477 # Connection with client id=475 addr=10.0.3.5:54612 lost: Connection reset by peer
+1:M 03 Oct 2026 19:58:50.999 * 6607 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:50.999 * Background saving started by pid 101
+101:C 03 Oct 2026 19:58:50.999 * DB saved on disk
+1:M 03 Oct 2026 19:58:50.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:50.999 * 5331 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:50.999 * Background saving started by pid 105
+105:C 03 Oct 2026 19:58:50.999 * DB saved on disk
+1:M 03 Oct 2026 19:58:50.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:51.967 * 494 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:58:52.269 * Accepted 10.0.3.5:54927
+1:M 03 Oct 2026 19:58:52.999 * 326 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:58:52.999 * 7131 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:52.999 * Background saving started by pid 96
+96:C 03 Oct 2026 19:58:52.999 * DB saved on disk
+1:M 03 Oct 2026 19:58:52.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:52.999 * 259 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:58:53.600 * Accepted 10.0.3.5:54547
+1:M 03 Oct 2026 19:58:53.999 * 3866 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:53.999 * Background saving started by pid 111
+111:C 03 Oct 2026 19:58:53.999 * DB saved on disk
+1:M 03 Oct 2026 19:58:53.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:54.129 # Connection with client id=470 addr=10.0.3.5:54921 lost: Connection reset by peer
+1:M 03 Oct 2026 19:58:54.365 * Accepted 10.0.3.5:58879
+1:M 03 Oct 2026 19:58:54.788 * Accepted 10.0.3.5:57569
+1:M 03 Oct 2026 19:58:54.999 * 546 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:58:55.221 * Accepted 10.0.3.5:51296
+1:M 03 Oct 2026 19:58:55.507 * Accepted 10.0.3.5:53944
+1:M 03 Oct 2026 19:58:55.934 * Accepted 10.0.3.5:56974
+1:M 03 Oct 2026 19:58:55.999 * Accepted 10.0.3.5:52994
+1:M 03 Oct 2026 19:58:56.367 # Connection with client id=317 addr=10.0.3.5:55341 lost: Connection reset by peer
+1:M 03 Oct 2026 19:58:57.142 * 416 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:58:57.599 * 776 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:57.599 * Background saving started by pid 126
+126:C 03 Oct 2026 19:58:57.599 * DB saved on disk
+1:M 03 Oct 2026 19:58:57.599 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:57.780 # Connection with client id=472 addr=10.0.3.5:55999 lost: Connection reset by peer
+1:M 03 Oct 2026 19:58:58.234 * 5411 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:58:58.234 * Background saving started by pid 137
+137:C 03 Oct 2026 19:58:58.234 * DB saved on disk
+1:M 03 Oct 2026 19:58:58.234 * Background saving terminated with success
+1:M 03 Oct 2026 19:58:58.429 # Connection with client id=343 addr=10.0.3.5:57235 lost: Connection reset by peer
+1:M 03 Oct 2026 19:58:59.219 * 646 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:58:59.999 * Accepted 10.0.3.5:50610
+1:M 03 Oct 2026 19:59:00.113 * 7851 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:00.113 * Background saving started by pid 85
+85:C 03 Oct 2026 19:59:00.113 * DB saved on disk
+1:M 03 Oct 2026 19:59:00.113 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:01.063 * Accepted 10.0.3.5:54174
+1:M 03 Oct 2026 19:59:01.345 * 830 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:02.690 * Accepted 10.0.3.5:56070
+1:M 03 Oct 2026 19:59:02.731 * Accepted 10.0.3.5:57579
+1:M 03 Oct 2026 19:59:02.759 * Accepted 10.0.3.5:51881
+1:M 03 Oct 2026 19:59:02.935 * 3797 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:02.935 * Background saving started by pid 70
+70:C 03 Oct 2026 19:59:02.935 * DB saved on disk
+1:M 03 Oct 2026 19:59:02.935 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:02.999 # Connection with client id=342 addr=10.0.3.5:54469 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:02.999 * Accepted 10.0.3.5:56043
+1:M 03 Oct 2026 19:59:03.379 * Accepted 10.0.3.5:51433
+1:M 03 Oct 2026 19:59:03.999 * Accepted 10.0.3.5:53827
+1:M 03 Oct 2026 19:59:03.999 * Accepted 10.0.3.5:58277
+1:M 03 Oct 2026 19:59:04.259 * 1884 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:04.259 * Background saving started by pid 84
+84:C 03 Oct 2026 19:59:04.259 * DB saved on disk
+1:M 03 Oct 2026 19:59:04.259 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:04.632 * Accepted 10.0.3.5:52464
+1:M 03 Oct 2026 19:59:04.635 * Accepted 10.0.3.5:55098
+1:M 03 Oct 2026 19:59:04.773 * Accepted 10.0.3.5:52580
+1:M 03 Oct 2026 19:59:04.987 * 392 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:05.183 * 7004 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:05.183 * Background saving started by pid 96
+96:C 03 Oct 2026 19:59:05.183 * DB saved on disk
+1:M 03 Oct 2026 19:59:05.183 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:05.268 * Accepted 10.0.3.5:53567
+1:M 03 Oct 2026 19:59:05.553 * 378 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:05.999 # Connection with client id=431 addr=10.0.3.5:56566 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:06.086 * Accepted 10.0.3.5:52609
+1:M 03 Oct 2026 19:59:06.399 * 2845 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:06.399 * Background saving started by pid 135
+135:C 03 Oct 2026 19:59:06.399 * DB saved on disk
+1:M 03 Oct 2026 19:59:06.399 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:06.565 # Connection with client id=469 addr=10.0.3.5:50775 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:07.528 * 1470 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:07.528 * Background saving started by pid 104
+104:C 03 Oct 2026 19:59:07.528 * DB saved on disk
+1:M 03 Oct 2026 19:59:07.528 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:07.999 * 6487 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:07.999 * Background saving started by pid 99
+99:C 03 Oct 2026 19:59:07.999 * DB saved on disk
+1:M 03 Oct 2026 19:59:07.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:07.999 * 358 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:08.132 * Accepted 10.0.3.5:55401
+1:M 03 Oct 2026 19:59:09.138 * 5127 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:09.138 * Background saving started by pid 120
+120:C 03 Oct 2026 19:59:09.138 * DB saved on disk
+1:M 03 Oct 2026 19:59:09.138 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:09.204 * 5052 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:09.204 * Background saving started by pid 69
+69:C 03 Oct 2026 19:59:09.204 * DB saved on disk
+1:M 03 Oct 2026 19:59:09.204 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:09.691 * Accepted 10.0.3.5:50135
+1:M 03 Oct 2026 19:59:09.999 * Accepted 10.0.3.5:50379
+1:M 03 Oct 2026 19:59:10.629 * Accepted 10.0.3.5:52755
+1:M 03 Oct 2026 19:59:10.999 * 572 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:10.999 * Background saving started by pid 65
+65:C 03 Oct 2026 19:59:10.999 * DB saved on disk
+1:M 03 Oct 2026 19:59:10.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:10.999 * 8028 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:10.999 * Background saving started by pid 94
+94:C 03 Oct 2026 19:59:10.999 * DB saved on disk
+1:M 03 Oct 2026 19:59:10.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:11.528 * 3285 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:11.528 * Background saving started by pid 90
+90:C 03 Oct 2026 19:59:11.528 * DB saved on disk
+1:M 03 Oct 2026 19:59:11.528 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:11.561 * Accepted 10.0.3.5:50341
+1:M 03 Oct 2026 19:59:11.602 * 301 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:11.781 * Accepted 10.0.3.5:53272
+1:M 03 Oct 2026 19:59:11.991 * Accepted 10.0.3.5:55463
+1:M 03 Oct 2026 19:59:11.999 * Accepted 10.0.3.5:51840
+1:M 03 Oct 2026 19:59:12.708 * Accepted 10.0.3.5:53121
+1:M 03 Oct 2026 19:59:13.261 # Connection with client id=370 addr=10.0.3.5:55833 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:13.382 * 2969 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:13.382 * Background saving started by pid 75
+75:C 03 Oct 2026 19:59:13.382 * DB saved on disk
+1:M 03 Oct 2026 19:59:13.382 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:13.527 * Accepted 10.0.3.5:50735
+1:M 03 Oct 2026 19:59:13.999 * Accepted 10.0.3.5:58029
+1:M 03 Oct 2026 19:59:14.032 * Accepted 10.0.3.5:57219
+1:M 03 Oct 2026 19:59:15.061 * Accepted 10.0.3.5:52050
+1:M 03 Oct 2026 19:59:15.393 # Connection with client id=323 addr=10.0.3.5:51924 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:15.423 * Accepted 10.0.3.5:53000
+1:M 03 Oct 2026 19:59:15.637 * Accepted 10.0.3.5:56328
+1:M 03 Oct 2026 19:59:16.742 * Accepted 10.0.3.5:55739
+1:M 03 Oct 2026 19:59:16.752 * Accepted 10.0.3.5:51240
+1:M 03 Oct 2026 19:59:16.875 # Connection with client id=346 addr=10.0.3.5:57285 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:16.999 * 3806 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:16.999 * Background saving started by pid 126
+126:C 03 Oct 2026 19:59:16.999 * DB saved on disk
+1:M 03 Oct 2026 19:59:16.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:17.500 * Accepted 10.0.3.5:56786
+1:M 03 Oct 2026 19:59:17.621 * Accepted 10.0.3.5:50763
+1:M 03 Oct 2026 19:59:17.773 * 3686 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:17.773 * Background saving started by pid 66
+66:C 03 Oct 2026 19:59:17.773 * DB saved on disk
+1:M 03 Oct 2026 19:59:17.773 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:17.999 * 8950 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:17.999 * Background saving started by pid 90
+90:C 03 Oct 2026 19:59:17.999 * DB saved on disk
+1:M 03 Oct 2026 19:59:17.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:18.464 * Accepted 10.0.3.5:58989
+1:M 03 Oct 2026 19:59:18.597 * 1324 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:18.597 * Background saving started by pid 101
+101:C 03 Oct 2026 19:59:18.597 * DB saved on disk
+1:M 03 Oct 2026 19:59:18.597 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:18.816 # Connection with client id=399 addr=10.0.3.5:53837 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:19.690 * 3286 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:19.690 * Background saving started by pid 138
+138:C 03 Oct 2026 19:59:19.690 * DB saved on disk
+1:M 03 Oct 2026 19:59:19.690 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:19.999 * Accepted 10.0.3.5:58936
+1:M 03 Oct 2026 19:59:19.999 * Accepted 10.0.3.5:55128
+1:M 03 Oct 2026 19:59:20.999 * Accepted 10.0.3.5:51119
+1:M 03 Oct 2026 19:59:21.088 * 418 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:21.355 * 697 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:22.162 * 5929 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:22.162 * Background saving started by pid 110
+110:C 03 Oct 2026 19:59:22.162 * DB saved on disk
+1:M 03 Oct 2026 19:59:22.162 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:22.646 * Accepted 10.0.3.5:53111
+1:M 03 Oct 2026 19:59:22.730 * Accepted 10.0.3.5:51156
+1:M 03 Oct 2026 19:59:23.311 * Accepted 10.0.3.5:54926
+1:M 03 Oct 2026 19:59:23.999 * Accepted 10.0.3.5:52973
+1:M 03 Oct 2026 19:59:24.467 * 514 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:24.539 * Accepted 10.0.3.5:51046
+1:M 03 Oct 2026 19:59:24.623 * Accepted 10.0.3.5:53323
+1:M 03 Oct 2026 19:59:24.999 * 1868 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:24.999 * Background saving started by pid 121
+121:C 03 Oct 2026 19:59:24.999 * DB saved on disk
+1:M 03 Oct 2026 19:59:24.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:25.108 * 322 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:25.522 * Accepted 10.0.3.5:51669
+1:M 03 Oct 2026 19:59:25.999 * Accepted 10.0.3.5:54857
+1:M 03 Oct 2026 19:59:27.999 # Connection with client id=464 addr=10.0.3.5:52177 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:27.999 * Accepted 10.0.3.5:53961
+1:M 03 Oct 2026 19:59:27.999 * Accepted 10.0.3.5:55106
+1:M 03 Oct 2026 19:59:28.198 * Accepted 10.0.3.5:54771
+1:M 03 Oct 2026 19:59:28.999 * 3673 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:28.999 * Background saving started by pid 71
+71:C 03 Oct 2026 19:59:28.999 * DB saved on disk
+1:M 03 Oct 2026 19:59:28.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:28.999 # Connection with client id=475 addr=10.0.3.5:51693 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:31.021 * 72 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:31.271 # Connection with client id=371 addr=10.0.3.5:55751 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:31.743 * 256 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:31.970 * 313 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:32.107 # Connection with client id=359 addr=10.0.3.5:52221 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:32.131 # Connection with client id=313 addr=10.0.3.5:53002 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:32.390 * 4030 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:32.390 * Background saving started by pid 121
+121:C 03 Oct 2026 19:59:32.390 * DB saved on disk
+1:M 03 Oct 2026 19:59:32.390 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:32.954 # Connection with client id=463 addr=10.0.3.5:57128 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:33.999 * 9055 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:33.999 * Background saving started by pid 79
+79:C 03 Oct 2026 19:59:33.999 * DB saved on disk
+1:M 03 Oct 2026 19:59:33.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:34.615 * 664 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:34.615 * Background saving started by pid 100
+100:C 03 Oct 2026 19:59:34.615 * DB saved on disk
+1:M 03 Oct 2026 19:59:34.615 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:35.317 * Accepted 10.0.3.5:58014
+1:M 03 Oct 2026 19:59:36.605 # Connection with client id=460 addr=10.0.3.5:55095 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:36.814 * 6604 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:36.814 * Background saving started by pid 93
+93:C 03 Oct 2026 19:59:36.814 * DB saved on disk
+1:M 03 Oct 2026 19:59:36.814 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:37.450 * 4644 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:37.450 * Background saving started by pid 126
+126:C 03 Oct 2026 19:59:37.450 * DB saved on disk
+1:M 03 Oct 2026 19:59:37.450 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:38.999 # Connection with client id=407 addr=10.0.3.5:57887 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:38.999 # Connection with client id=445 addr=10.0.3.5:50314 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:47.999 * 4293 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:47.999 * Background saving started by pid 80
+80:C 03 Oct 2026 19:59:47.999 * DB saved on disk
+1:M 03 Oct 2026 19:59:47.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:48.700 * 415 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:49.999 * 568 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:49.999 * 408 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:50.104 * Accepted 10.0.3.5:58982
+1:M 03 Oct 2026 19:59:51.589 * Accepted 10.0.3.5:52304
+1:M 03 Oct 2026 19:59:51.999 * Accepted 10.0.3.5:53103
+1:M 03 Oct 2026 19:59:51.999 # Connection with client id=305 addr=10.0.3.5:56966 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:52.497 * 5612 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:52.497 * Background saving started by pid 137
+137:C 03 Oct 2026 19:59:52.497 * DB saved on disk
+1:M 03 Oct 2026 19:59:52.497 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:53.378 * 4265 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:53.378 * Background saving started by pid 114
+114:C 03 Oct 2026 19:59:53.378 * DB saved on disk
+1:M 03 Oct 2026 19:59:53.378 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:53.574 * Accepted 10.0.3.5:55485
+1:M 03 Oct 2026 19:59:53.694 * Accepted 10.0.3.5:52803
+1:M 03 Oct 2026 19:59:54.789 * Accepted 10.0.3.5:52986
+1:M 03 Oct 2026 19:59:54.999 * 7190 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:54.999 * Background saving started by pid 72
+72:C 03 Oct 2026 19:59:54.999 * DB saved on disk
+1:M 03 Oct 2026 19:59:54.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:55.080 * Accepted 10.0.3.5:58661
+1:M 03 Oct 2026 19:59:55.309 * Accepted 10.0.3.5:52921
+1:M 03 Oct 2026 19:59:55.499 * Accepted 10.0.3.5:58546
+1:M 03 Oct 2026 19:59:55.843 * 638 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 19:59:56.269 * Accepted 10.0.3.5:58002
+1:M 03 Oct 2026 19:59:56.999 * 1212 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 19:59:56.999 * Background saving started by pid 85
+85:C 03 Oct 2026 19:59:56.999 * DB saved on disk
+1:M 03 Oct 2026 19:59:56.999 * Background saving terminated with success
+1:M 03 Oct 2026 19:59:56.999 * Accepted 10.0.3.5:57578
+1:M 03 Oct 2026 19:59:57.177 # Connection with client id=422 addr=10.0.3.5:51112 lost: Connection reset by peer
+1:M 03 Oct 2026 19:59:57.414 * Accepted 10.0.3.5:51183
+1:M 03 Oct 2026 19:59:58.385 * Accepted 10.0.3.5:51569
+1:M 03 Oct 2026 19:59:58.999 * Accepted 10.0.3.5:57263
+1:M 03 Oct 2026 19:59:59.415 * Accepted 10.0.3.5:50510
+1:M 03 Oct 2026 20:00:00.504 * 943 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:00.504 * Background saving started by pid 86
+86:C 03 Oct 2026 20:00:00.504 * DB saved on disk
+1:M 03 Oct 2026 20:00:00.504 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:00.624 * Accepted 10.0.3.5:53668
+1:M 03 Oct 2026 20:00:00.688 * Accepted 10.0.3.5:52297
+1:M 03 Oct 2026 20:00:01.232 * Accepted 10.0.3.5:52853
+1:M 03 Oct 2026 20:00:01.286 * Accepted 10.0.3.5:58064
+1:M 03 Oct 2026 20:00:01.918 # Connection with client id=495 addr=10.0.3.5:50113 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:01.999 * 7042 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:01.999 * Background saving started by pid 68
+68:C 03 Oct 2026 20:00:01.999 * DB saved on disk
+1:M 03 Oct 2026 20:00:01.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:03.777 * Accepted 10.0.3.5:53333
+1:M 03 Oct 2026 20:00:03.999 * 1309 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:03.999 * Background saving started by pid 91
+91:C 03 Oct 2026 20:00:03.999 * DB saved on disk
+1:M 03 Oct 2026 20:00:03.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:04.674 * Accepted 10.0.3.5:58910
+1:M 03 Oct 2026 20:00:04.999 # Connection with client id=321 addr=10.0.3.5:57597 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:05.999 * Accepted 10.0.3.5:58229
+1:M 03 Oct 2026 20:00:06.375 # Connection with client id=377 addr=10.0.3.5:54763 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:06.999 * 6006 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:06.999 * Background saving started by pid 81
+81:C 03 Oct 2026 20:00:06.999 * DB saved on disk
+1:M 03 Oct 2026 20:00:06.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:07.983 * Accepted 10.0.3.5:52840
+1:M 03 Oct 2026 20:00:07.999 # Connection with client id=455 addr=10.0.3.5:57362 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:08.492 * Accepted 10.0.3.5:54141
+1:M 03 Oct 2026 20:00:08.734 * 53 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:08.816 * 9035 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:08.816 * Background saving started by pid 77
+77:C 03 Oct 2026 20:00:08.816 * DB saved on disk
+1:M 03 Oct 2026 20:00:08.816 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:09.207 * 6851 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:09.207 * Background saving started by pid 124
+124:C 03 Oct 2026 20:00:09.207 * DB saved on disk
+1:M 03 Oct 2026 20:00:09.207 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:09.608 * Accepted 10.0.3.5:54109
+1:M 03 Oct 2026 20:00:09.851 * 116 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:10.753 # Connection with client id=400 addr=10.0.3.5:50935 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:10.806 * 6094 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:10.806 * Background saving started by pid 121
+121:C 03 Oct 2026 20:00:10.806 * DB saved on disk
+1:M 03 Oct 2026 20:00:10.806 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:10.999 * 875 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:11.119 * Accepted 10.0.3.5:54421
+1:M 03 Oct 2026 20:00:11.241 # Connection with client id=466 addr=10.0.3.5:56573 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:11.985 * Accepted 10.0.3.5:55005
+1:M 03 Oct 2026 20:00:11.999 * Accepted 10.0.3.5:52447
+1:M 03 Oct 2026 20:00:12.182 * Accepted 10.0.3.5:54658
+1:M 03 Oct 2026 20:00:12.221 * Accepted 10.0.3.5:54454
+1:M 03 Oct 2026 20:00:12.285 * 8167 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:12.285 * Background saving started by pid 114
+114:C 03 Oct 2026 20:00:12.285 * DB saved on disk
+1:M 03 Oct 2026 20:00:12.285 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:12.999 * 219 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:13.397 * Accepted 10.0.3.5:51282
+1:M 03 Oct 2026 20:00:13.893 * 685 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:13.893 * Background saving started by pid 80
+80:C 03 Oct 2026 20:00:13.893 * DB saved on disk
+1:M 03 Oct 2026 20:00:13.893 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:14.122 * Accepted 10.0.3.5:53047
+1:M 03 Oct 2026 20:00:14.755 * Accepted 10.0.3.5:51570
+1:M 03 Oct 2026 20:00:15.041 * Accepted 10.0.3.5:53014
+1:M 03 Oct 2026 20:00:15.259 * 3761 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:15.259 * Background saving started by pid 130
+130:C 03 Oct 2026 20:00:15.259 * DB saved on disk
+1:M 03 Oct 2026 20:00:15.259 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:15.421 * 371 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:15.525 * 7514 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:15.525 * Background saving started by pid 109
+109:C 03 Oct 2026 20:00:15.525 * DB saved on disk
+1:M 03 Oct 2026 20:00:15.525 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:15.565 * 7910 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:15.565 * Background saving started by pid 119
+119:C 03 Oct 2026 20:00:15.565 * DB saved on disk
+1:M 03 Oct 2026 20:00:15.565 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:15.870 * 238 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:15.999 * Accepted 10.0.3.5:50228
+1:M 03 Oct 2026 20:00:15.999 * 4500 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:15.999 * Background saving started by pid 89
+89:C 03 Oct 2026 20:00:15.999 * DB saved on disk
+1:M 03 Oct 2026 20:00:15.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:16.074 # Connection with client id=405 addr=10.0.3.5:57913 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:16.433 * Accepted 10.0.3.5:57015
+1:M 03 Oct 2026 20:00:16.511 * Accepted 10.0.3.5:51229
+1:M 03 Oct 2026 20:00:17.513 * Accepted 10.0.3.5:56946
+1:M 03 Oct 2026 20:00:17.999 * 4313 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:17.999 * Background saving started by pid 88
+88:C 03 Oct 2026 20:00:17.999 * DB saved on disk
+1:M 03 Oct 2026 20:00:17.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:18.999 * 7910 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:18.999 * Background saving started by pid 88
+88:C 03 Oct 2026 20:00:18.999 * DB saved on disk
+1:M 03 Oct 2026 20:00:18.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:19.210 * 9084 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:19.210 * Background saving started by pid 77
+77:C 03 Oct 2026 20:00:19.210 * DB saved on disk
+1:M 03 Oct 2026 20:00:19.210 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:20.178 * 5391 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:20.178 * Background saving started by pid 78
+78:C 03 Oct 2026 20:00:20.178 * DB saved on disk
+1:M 03 Oct 2026 20:00:20.178 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:20.470 * 276 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:20.833 * Accepted 10.0.3.5:56611
+1:M 03 Oct 2026 20:00:21.843 * Accepted 10.0.3.5:54381
+1:M 03 Oct 2026 20:00:21.872 * 7665 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:21.872 * Background saving started by pid 89
+89:C 03 Oct 2026 20:00:21.872 * DB saved on disk
+1:M 03 Oct 2026 20:00:21.872 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:21.999 * Accepted 10.0.3.5:54206
+1:M 03 Oct 2026 20:00:21.999 * 5345 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:21.999 * Background saving started by pid 110
+110:C 03 Oct 2026 20:00:21.999 * DB saved on disk
+1:M 03 Oct 2026 20:00:21.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:22.245 * 4116 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:22.245 * Background saving started by pid 82
+82:C 03 Oct 2026 20:00:22.245 * DB saved on disk
+1:M 03 Oct 2026 20:00:22.245 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:22.488 * Accepted 10.0.3.5:50205
+1:M 03 Oct 2026 20:00:22.615 * 214 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:22.841 # Connection with client id=487 addr=10.0.3.5:54208 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:22.950 * 496 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:23.198 # Connection with client id=319 addr=10.0.3.5:53006 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:23.475 * Accepted 10.0.3.5:51375
+1:M 03 Oct 2026 20:00:23.999 * Accepted 10.0.3.5:56578
+1:M 03 Oct 2026 20:00:23.999 * Accepted 10.0.3.5:51121
+1:M 03 Oct 2026 20:00:23.999 * Accepted 10.0.3.5:51383
+1:M 03 Oct 2026 20:00:23.999 # Connection with client id=370 addr=10.0.3.5:55567 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:23.999 # Connection with client id=350 addr=10.0.3.5:52041 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:24.286 * Accepted 10.0.3.5:51561
+1:M 03 Oct 2026 20:00:24.999 * 2093 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:24.999 * Background saving started by pid 73
+73:C 03 Oct 2026 20:00:24.999 * DB saved on disk
+1:M 03 Oct 2026 20:00:24.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:24.999 * Accepted 10.0.3.5:51434
+1:M 03 Oct 2026 20:00:25.135 * 7937 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:25.135 * Background saving started by pid 73
+73:C 03 Oct 2026 20:00:25.135 * DB saved on disk
+1:M 03 Oct 2026 20:00:25.135 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:26.251 # Connection with client id=373 addr=10.0.3.5:57206 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:26.699 * 6765 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:26.699 * Background saving started by pid 67
+67:C 03 Oct 2026 20:00:26.699 * DB saved on disk
+1:M 03 Oct 2026 20:00:26.699 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:27.557 * Accepted 10.0.3.5:50992
+1:M 03 Oct 2026 20:00:27.999 * Accepted 10.0.3.5:55028
+1:M 03 Oct 2026 20:00:28.890 * 7684 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:28.890 * Background saving started by pid 60
+60:C 03 Oct 2026 20:00:28.890 * DB saved on disk
+1:M 03 Oct 2026 20:00:28.890 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:29.520 * Accepted 10.0.3.5:53404
+1:M 03 Oct 2026 20:00:29.687 * Accepted 10.0.3.5:50087
+1:M 03 Oct 2026 20:00:29.936 * Accepted 10.0.3.5:51735
+1:M 03 Oct 2026 20:00:29.999 * 289 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:29.999 * 2196 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:29.999 * Background saving started by pid 75
+75:C 03 Oct 2026 20:00:29.999 * DB saved on disk
+1:M 03 Oct 2026 20:00:29.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:29.999 * Accepted 10.0.3.5:54105
+1:M 03 Oct 2026 20:00:30.564 * Accepted 10.0.3.5:52637
+1:M 03 Oct 2026 20:00:30.685 * Accepted 10.0.3.5:52493
+1:M 03 Oct 2026 20:00:30.997 * 57 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:30.999 * 2875 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:30.999 * Background saving started by pid 77
+77:C 03 Oct 2026 20:00:30.999 * DB saved on disk
+1:M 03 Oct 2026 20:00:30.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:31.224 * 377 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:31.513 * Accepted 10.0.3.5:56216
+1:M 03 Oct 2026 20:00:31.880 * 5152 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:31.880 * Background saving started by pid 94
+94:C 03 Oct 2026 20:00:31.880 * DB saved on disk
+1:M 03 Oct 2026 20:00:31.880 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:31.999 * Accepted 10.0.3.5:51350
+1:M 03 Oct 2026 20:00:32.100 * Accepted 10.0.3.5:55258
+1:M 03 Oct 2026 20:00:32.999 * 436 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:33.331 * 147 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:33.717 * Accepted 10.0.3.5:57653
+1:M 03 Oct 2026 20:00:34.875 * 4514 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:34.875 * Background saving started by pid 107
+107:C 03 Oct 2026 20:00:34.875 * DB saved on disk
+1:M 03 Oct 2026 20:00:34.875 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:35.240 * 6766 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:35.240 * Background saving started by pid 74
+74:C 03 Oct 2026 20:00:35.240 * DB saved on disk
+1:M 03 Oct 2026 20:00:35.240 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:36.072 # Connection with client id=387 addr=10.0.3.5:56318 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:36.147 * 812 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:36.234 * Accepted 10.0.3.5:54982
+1:M 03 Oct 2026 20:00:36.478 * 705 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:36.516 # Connection with client id=342 addr=10.0.3.5:50773 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:37.352 * Accepted 10.0.3.5:52944
+1:M 03 Oct 2026 20:00:37.999 * Accepted 10.0.3.5:51139
+1:M 03 Oct 2026 20:00:38.999 * Accepted 10.0.3.5:55216
+1:M 03 Oct 2026 20:00:39.686 * 196 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:40.151 * Accepted 10.0.3.5:53149
+1:M 03 Oct 2026 20:00:40.388 * Accepted 10.0.3.5:57988
+1:M 03 Oct 2026 20:00:40.923 * 2830 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:40.923 * Background saving started by pid 71
+71:C 03 Oct 2026 20:00:40.923 * DB saved on disk
+1:M 03 Oct 2026 20:00:40.923 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:41.295 * 4989 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:41.295 * Background saving started by pid 119
+119:C 03 Oct 2026 20:00:41.295 * DB saved on disk
+1:M 03 Oct 2026 20:00:41.295 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:41.526 * Accepted 10.0.3.5:52463
+1:M 03 Oct 2026 20:00:41.652 * 7092 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:41.652 * Background saving started by pid 80
+80:C 03 Oct 2026 20:00:41.652 * DB saved on disk
+1:M 03 Oct 2026 20:00:41.652 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:41.974 # Connection with client id=459 addr=10.0.3.5:56668 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:42.314 * 377 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:42.332 * 2918 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:42.332 * Background saving started by pid 73
+73:C 03 Oct 2026 20:00:42.332 * DB saved on disk
+1:M 03 Oct 2026 20:00:42.332 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:42.401 * 1297 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:42.401 * Background saving started by pid 86
+86:C 03 Oct 2026 20:00:42.401 * DB saved on disk
+1:M 03 Oct 2026 20:00:42.401 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:42.916 * Accepted 10.0.3.5:53781
+1:M 03 Oct 2026 20:00:42.932 * Accepted 10.0.3.5:52964
+1:M 03 Oct 2026 20:00:42.999 # Connection with client id=452 addr=10.0.3.5:52250 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:43.029 * 15 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:43.140 # Connection with client id=494 addr=10.0.3.5:50013 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:43.176 * Accepted 10.0.3.5:51930
+1:M 03 Oct 2026 20:00:43.368 * Accepted 10.0.3.5:55764
+1:M 03 Oct 2026 20:00:43.650 * 4463 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:43.650 * Background saving started by pid 90
+90:C 03 Oct 2026 20:00:43.650 * DB saved on disk
+1:M 03 Oct 2026 20:00:43.650 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:43.999 * Accepted 10.0.3.5:52159
+1:M 03 Oct 2026 20:00:43.999 # Connection with client id=312 addr=10.0.3.5:54596 lost: Connection reset by peer
+1:M 03 Oct 2026 20:00:44.142 * Accepted 10.0.3.5:52943
+1:M 03 Oct 2026 20:00:44.529 * Accepted 10.0.3.5:56788
+1:M 03 Oct 2026 20:00:44.970 * 789 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:45.426 * 3044 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:00:45.426 * Background saving started by pid 138
+138:C 03 Oct 2026 20:00:45.426 * DB saved on disk
+1:M 03 Oct 2026 20:00:45.426 * Background saving terminated with success
+1:M 03 Oct 2026 20:00:45.493 * 404 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:00:46.674 * Accepted 10.0.3.5:55935
+1:M 03 Oct 2026 20:00:46.738 * Accepted 10.0.3.5:53570
+1:M 03 Oct 2026 20:02:05.077 # Connection with client id=303 addr=10.0.3.5:56710 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:05.379 * 180 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:05.555 * 5190 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:05.555 * Background saving started by pid 123
+123:C 03 Oct 2026 20:02:05.555 * DB saved on disk
+1:M 03 Oct 2026 20:02:05.555 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:06.261 * Accepted 10.0.3.5:53874
+1:M 03 Oct 2026 20:02:06.348 * 2806 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:06.348 * Background saving started by pid 84
+84:C 03 Oct 2026 20:02:06.348 * DB saved on disk
+1:M 03 Oct 2026 20:02:06.348 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:06.447 * 726 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:06.999 * Accepted 10.0.3.5:54452
+1:M 03 Oct 2026 20:02:07.584 * Accepted 10.0.3.5:53768
+1:M 03 Oct 2026 20:02:07.999 # Connection with client id=373 addr=10.0.3.5:57990 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:08.933 * 8746 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:08.933 * Background saving started by pid 63
+63:C 03 Oct 2026 20:02:08.933 * DB saved on disk
+1:M 03 Oct 2026 20:02:08.933 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:09.965 * 146 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:09.978 * Accepted 10.0.3.5:53955
+1:M 03 Oct 2026 20:02:10.740 * Accepted 10.0.3.5:55174
+1:M 03 Oct 2026 20:02:10.999 # Connection with client id=373 addr=10.0.3.5:52869 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:11.823 * Accepted 10.0.3.5:55406
+1:M 03 Oct 2026 20:02:11.999 # Connection with client id=325 addr=10.0.3.5:57503 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:11.999 * Accepted 10.0.3.5:51372
+1:M 03 Oct 2026 20:02:11.999 * 3323 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:11.999 * Background saving started by pid 128
+128:C 03 Oct 2026 20:02:11.999 * DB saved on disk
+1:M 03 Oct 2026 20:02:11.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:12.161 * 163 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:12.999 * 4427 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:12.999 * Background saving started by pid 93
+93:C 03 Oct 2026 20:02:12.999 * DB saved on disk
+1:M 03 Oct 2026 20:02:12.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:13.105 * Accepted 10.0.3.5:56343
+1:M 03 Oct 2026 20:02:13.999 * 5525 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:13.999 * Background saving started by pid 122
+122:C 03 Oct 2026 20:02:13.999 * DB saved on disk
+1:M 03 Oct 2026 20:02:13.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:14.202 * Accepted 10.0.3.5:54536
+1:M 03 Oct 2026 20:02:14.405 * 8973 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:14.405 * Background saving started by pid 95
+95:C 03 Oct 2026 20:02:14.405 * DB saved on disk
+1:M 03 Oct 2026 20:02:14.405 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:14.578 * 2663 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:14.578 * Background saving started by pid 112
+112:C 03 Oct 2026 20:02:14.578 * DB saved on disk
+1:M 03 Oct 2026 20:02:14.578 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:14.730 # Connection with client id=426 addr=10.0.3.5:50427 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:14.999 # Connection with client id=338 addr=10.0.3.5:51890 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:15.854 * 507 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:15.999 * 2664 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:15.999 * Background saving started by pid 109
+109:C 03 Oct 2026 20:02:15.999 * DB saved on disk
+1:M 03 Oct 2026 20:02:15.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:16.999 * 64 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:16.999 * 3693 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:16.999 * Background saving started by pid 74
+74:C 03 Oct 2026 20:02:16.999 * DB saved on disk
+1:M 03 Oct 2026 20:02:16.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:17.237 * 703 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:17.716 * Accepted 10.0.3.5:50659
+1:M 03 Oct 2026 20:02:17.999 * 4748 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:17.999 * Background saving started by pid 131
+131:C 03 Oct 2026 20:02:17.999 * DB saved on disk
+1:M 03 Oct 2026 20:02:17.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:18.291 * 6105 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:18.291 * Background saving started by pid 89
+89:C 03 Oct 2026 20:02:18.291 * DB saved on disk
+1:M 03 Oct 2026 20:02:18.291 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:18.607 * 473 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:18.999 # Connection with client id=384 addr=10.0.3.5:50771 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:19.660 * 888 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:19.967 * Accepted 10.0.3.5:51783
+1:M 03 Oct 2026 20:02:20.175 * 4318 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:20.175 * Background saving started by pid 63
+63:C 03 Oct 2026 20:02:20.175 * DB saved on disk
+1:M 03 Oct 2026 20:02:20.175 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:20.625 * Accepted 10.0.3.5:50783
+1:M 03 Oct 2026 20:02:21.206 # Connection with client id=311 addr=10.0.3.5:50101 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:21.750 * 1937 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:21.750 * Background saving started by pid 95
+95:C 03 Oct 2026 20:02:21.750 * DB saved on disk
+1:M 03 Oct 2026 20:02:21.750 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:22.611 * Accepted 10.0.3.5:53063
+1:M 03 Oct 2026 20:02:22.880 * 102 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:22.999 * Accepted 10.0.3.5:58690
+1:M 03 Oct 2026 20:02:23.191 * Accepted 10.0.3.5:50453
+1:M 03 Oct 2026 20:02:24.431 * 4491 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:24.431 * Background saving started by pid 104
+104:C 03 Oct 2026 20:02:24.431 * DB saved on disk
+1:M 03 Oct 2026 20:02:24.431 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:24.999 * 5077 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:24.999 * Background saving started by pid 83
+83:C 03 Oct 2026 20:02:24.999 * DB saved on disk
+1:M 03 Oct 2026 20:02:24.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:25.491 # Connection with client id=470 addr=10.0.3.5:53226 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:26.047 * 3153 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:26.047 * Background saving started by pid 80
+80:C 03 Oct 2026 20:02:26.047 * DB saved on disk
+1:M 03 Oct 2026 20:02:26.047 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:26.124 * Accepted 10.0.3.5:54008
+1:M 03 Oct 2026 20:02:26.609 * 4116 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:26.609 * Background saving started by pid 65
+65:C 03 Oct 2026 20:02:26.609 * DB saved on disk
+1:M 03 Oct 2026 20:02:26.609 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:26.745 * 5907 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:26.745 * Background saving started by pid 71
+71:C 03 Oct 2026 20:02:26.745 * DB saved on disk
+1:M 03 Oct 2026 20:02:26.745 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:26.894 # Connection with client id=494 addr=10.0.3.5:50867 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:27.238 * Accepted 10.0.3.5:52657
+1:M 03 Oct 2026 20:02:27.999 * 9085 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:27.999 * Background saving started by pid 62
+62:C 03 Oct 2026 20:02:27.999 * DB saved on disk
+1:M 03 Oct 2026 20:02:27.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:28.999 * Accepted 10.0.3.5:54923
+1:M 03 Oct 2026 20:02:28.999 * Accepted 10.0.3.5:53984
+1:M 03 Oct 2026 20:02:29.307 # Connection with client id=494 addr=10.0.3.5:55740 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:29.847 # Connection with client id=330 addr=10.0.3.5:55331 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:29.999 * 2347 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:29.999 * Background saving started by pid 64
+64:C 03 Oct 2026 20:02:29.999 * DB saved on disk
+1:M 03 Oct 2026 20:02:29.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:30.114 * Accepted 10.0.3.5:57803
+1:M 03 Oct 2026 20:02:30.863 # Connection with client id=315 addr=10.0.3.5:50830 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:30.999 * 498 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:30.999 * Accepted 10.0.3.5:56506
+1:M 03 Oct 2026 20:02:31.097 * 906 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:31.157 * Accepted 10.0.3.5:51008
+1:M 03 Oct 2026 20:02:31.999 # Connection with client id=321 addr=10.0.3.5:54525 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:31.999 # Connection with client id=348 addr=10.0.3.5:53886 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:32.498 * Accepted 10.0.3.5:53602
+1:M 03 Oct 2026 20:02:32.630 * Accepted 10.0.3.5:50275
+1:M 03 Oct 2026 20:02:32.661 # Connection with client id=372 addr=10.0.3.5:52239 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:32.688 * Accepted 10.0.3.5:58632
+1:M 03 Oct 2026 20:02:33.999 * Accepted 10.0.3.5:50436
+1:M 03 Oct 2026 20:02:34.143 # Connection with client id=441 addr=10.0.3.5:58962 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:34.767 * 7198 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:34.767 * Background saving started by pid 125
+125:C 03 Oct 2026 20:02:34.767 * DB saved on disk
+1:M 03 Oct 2026 20:02:34.767 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:34.875 * Accepted 10.0.3.5:55248
+1:M 03 Oct 2026 20:02:35.160 # Connection with client id=497 addr=10.0.3.5:53561 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:35.999 * Accepted 10.0.3.5:50461
+1:M 03 Oct 2026 20:02:36.226 # Connection with client id=391 addr=10.0.3.5:55493 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:36.310 # Connection with client id=423 addr=10.0.3.5:55165 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:36.698 * Accepted 10.0.3.5:54659
+1:M 03 Oct 2026 20:02:36.844 * 2740 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:36.844 * Background saving started by pid 65
+65:C 03 Oct 2026 20:02:36.844 * DB saved on disk
+1:M 03 Oct 2026 20:02:36.844 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:36.933 * Accepted 10.0.3.5:52687
+1:M 03 Oct 2026 20:02:37.905 * 7906 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:37.905 * Background saving started by pid 79
+79:C 03 Oct 2026 20:02:37.905 * DB saved on disk
+1:M 03 Oct 2026 20:02:37.905 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:37.980 * Accepted 10.0.3.5:50786
+1:M 03 Oct 2026 20:02:37.999 * 1263 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:37.999 * Background saving started by pid 65
+65:C 03 Oct 2026 20:02:37.999 * DB saved on disk
+1:M 03 Oct 2026 20:02:37.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:38.091 * Accepted 10.0.3.5:53739
+1:M 03 Oct 2026 20:02:38.182 * 6558 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:38.182 * Background saving started by pid 80
+80:C 03 Oct 2026 20:02:38.182 * DB saved on disk
+1:M 03 Oct 2026 20:02:38.182 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:39.999 * Accepted 10.0.3.5:56982
+1:M 03 Oct 2026 20:02:40.708 * 2902 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:40.708 * Background saving started by pid 97
+97:C 03 Oct 2026 20:02:40.708 * DB saved on disk
+1:M 03 Oct 2026 20:02:40.708 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:40.906 * 7076 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:40.906 * Background saving started by pid 78
+78:C 03 Oct 2026 20:02:40.906 * DB saved on disk
+1:M 03 Oct 2026 20:02:40.906 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:40.941 * 453 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:40.999 # Connection with client id=315 addr=10.0.3.5:54964 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:41.619 * Accepted 10.0.3.5:53936
+1:M 03 Oct 2026 20:02:42.329 # Connection with client id=444 addr=10.0.3.5:54008 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:42.462 * 46 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:42.999 * Accepted 10.0.3.5:58159
+1:M 03 Oct 2026 20:02:43.082 * Accepted 10.0.3.5:56161
+1:M 03 Oct 2026 20:02:43.431 * 329 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:43.652 * Accepted 10.0.3.5:56753
+1:M 03 Oct 2026 20:02:43.872 # Connection with client id=447 addr=10.0.3.5:53418 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:44.194 * 3668 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:44.194 * Background saving started by pid 111
+111:C 03 Oct 2026 20:02:44.194 * DB saved on disk
+1:M 03 Oct 2026 20:02:44.194 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:44.347 * Accepted 10.0.3.5:55294
+1:M 03 Oct 2026 20:02:44.999 * Accepted 10.0.3.5:57106
+1:M 03 Oct 2026 20:02:44.999 # Connection with client id=447 addr=10.0.3.5:51341 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:44.999 * 309 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:46.164 * 1150 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:46.164 * Background saving started by pid 124
+124:C 03 Oct 2026 20:02:46.164 * DB saved on disk
+1:M 03 Oct 2026 20:02:46.164 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:46.470 * Accepted 10.0.3.5:57121
+1:M 03 Oct 2026 20:02:46.802 * 3966 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:46.802 * Background saving started by pid 134
+134:C 03 Oct 2026 20:02:46.802 * DB saved on disk
+1:M 03 Oct 2026 20:02:46.802 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:46.950 * Accepted 10.0.3.5:55208
+1:M 03 Oct 2026 20:02:46.999 # Connection with client id=395 addr=10.0.3.5:52705 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:46.999 * 661 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:47.999 * 3816 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:47.999 * Background saving started by pid 61
+61:C 03 Oct 2026 20:02:47.999 * DB saved on disk
+1:M 03 Oct 2026 20:02:47.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:48.804 * 670 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:49.082 * 509 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:49.401 * 8172 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:49.401 * Background saving started by pid 80
+80:C 03 Oct 2026 20:02:49.401 * DB saved on disk
+1:M 03 Oct 2026 20:02:49.401 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:49.720 * Accepted 10.0.3.5:51823
+1:M 03 Oct 2026 20:02:49.929 * 1407 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:49.929 * Background saving started by pid 85
+85:C 03 Oct 2026 20:02:49.929 * DB saved on disk
+1:M 03 Oct 2026 20:02:49.929 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:49.999 * Accepted 10.0.3.5:53829
+1:M 03 Oct 2026 20:02:50.147 # Connection with client id=433 addr=10.0.3.5:53529 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:50.794 * 149 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:51.274 * Accepted 10.0.3.5:53028
+1:M 03 Oct 2026 20:02:51.707 # Connection with client id=351 addr=10.0.3.5:51471 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:51.734 # Connection with client id=436 addr=10.0.3.5:54651 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:51.772 * Accepted 10.0.3.5:50441
+1:M 03 Oct 2026 20:02:51.999 * Accepted 10.0.3.5:52662
+1:M 03 Oct 2026 20:02:52.318 * 900 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:52.373 * 308 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:52.966 * 5330 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:52.966 * Background saving started by pid 132
+132:C 03 Oct 2026 20:02:52.966 * DB saved on disk
+1:M 03 Oct 2026 20:02:52.966 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:52.999 * 514 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:52.999 * Background saving started by pid 122
+122:C 03 Oct 2026 20:02:52.999 * DB saved on disk
+1:M 03 Oct 2026 20:02:52.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:53.676 * Accepted 10.0.3.5:56047
+1:M 03 Oct 2026 20:02:55.627 * 6569 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:55.627 * Background saving started by pid 113
+113:C 03 Oct 2026 20:02:55.627 * DB saved on disk
+1:M 03 Oct 2026 20:02:55.627 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:55.775 # Connection with client id=330 addr=10.0.3.5:57980 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:55.999 * Accepted 10.0.3.5:55786
+1:M 03 Oct 2026 20:02:56.368 # Connection with client id=426 addr=10.0.3.5:51415 lost: Connection reset by peer
+1:M 03 Oct 2026 20:02:56.444 * 973 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:56.444 * Background saving started by pid 114
+114:C 03 Oct 2026 20:02:56.444 * DB saved on disk
+1:M 03 Oct 2026 20:02:56.444 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:56.600 * Accepted 10.0.3.5:57599
+1:M 03 Oct 2026 20:02:56.739 * 5863 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:02:56.739 * Background saving started by pid 122
+122:C 03 Oct 2026 20:02:56.739 * DB saved on disk
+1:M 03 Oct 2026 20:02:56.739 * Background saving terminated with success
+1:M 03 Oct 2026 20:02:56.999 * 61 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:02:57.539 * Accepted 10.0.3.5:57982
+1:M 03 Oct 2026 20:02:57.986 * Accepted 10.0.3.5:58811
+1:M 03 Oct 2026 20:02:59.257 # Connection with client id=322 addr=10.0.3.5:54998 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:00.401 * 1274 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:00.401 * Background saving started by pid 68
+68:C 03 Oct 2026 20:03:00.401 * DB saved on disk
+1:M 03 Oct 2026 20:03:00.401 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:00.909 * Accepted 10.0.3.5:52975
+1:M 03 Oct 2026 20:03:01.627 * Accepted 10.0.3.5:58363
+1:M 03 Oct 2026 20:03:01.783 * Accepted 10.0.3.5:58732
+1:M 03 Oct 2026 20:03:01.999 * Accepted 10.0.3.5:51065
+1:M 03 Oct 2026 20:03:02.933 * Accepted 10.0.3.5:50100
+1:M 03 Oct 2026 20:03:03.214 * Accepted 10.0.3.5:50040
+1:M 03 Oct 2026 20:03:03.569 * Accepted 10.0.3.5:53929
+1:M 03 Oct 2026 20:03:03.707 * 802 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:03.999 # Connection with client id=437 addr=10.0.3.5:54555 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:04.299 * 6259 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:04.299 * Background saving started by pid 96
+96:C 03 Oct 2026 20:03:04.299 * DB saved on disk
+1:M 03 Oct 2026 20:03:04.299 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:04.557 * Accepted 10.0.3.5:50663
+1:M 03 Oct 2026 20:03:04.641 * 2892 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:04.641 * Background saving started by pid 139
+139:C 03 Oct 2026 20:03:04.641 * DB saved on disk
+1:M 03 Oct 2026 20:03:04.641 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:05.979 * 867 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:06.621 * Accepted 10.0.3.5:53608
+1:M 03 Oct 2026 20:03:06.931 * Accepted 10.0.3.5:53603
+1:M 03 Oct 2026 20:03:06.999 * 7474 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:06.999 * Background saving started by pid 78
+78:C 03 Oct 2026 20:03:06.999 * DB saved on disk
+1:M 03 Oct 2026 20:03:06.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:06.999 # Connection with client id=328 addr=10.0.3.5:53757 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:07.999 * Accepted 10.0.3.5:58902
+1:M 03 Oct 2026 20:03:08.999 * Accepted 10.0.3.5:54906
+1:M 03 Oct 2026 20:03:09.062 # Connection with client id=308 addr=10.0.3.5:53348 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:09.261 * Accepted 10.0.3.5:53971
+1:M 03 Oct 2026 20:03:10.115 * 464 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:10.904 * 147 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:10.957 * Accepted 10.0.3.5:50787
+1:M 03 Oct 2026 20:03:10.999 * Accepted 10.0.3.5:53281
+1:M 03 Oct 2026 20:03:11.740 * 512 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:11.865 * 7185 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:11.865 * Background saving started by pid 80
+80:C 03 Oct 2026 20:03:11.865 * DB saved on disk
+1:M 03 Oct 2026 20:03:11.865 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:11.999 * 549 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:12.203 * 526 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:12.807 # Connection with client id=474 addr=10.0.3.5:50311 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:13.039 * Accepted 10.0.3.5:53345
+1:M 03 Oct 2026 20:03:13.173 * Accepted 10.0.3.5:57648
+1:M 03 Oct 2026 20:03:13.549 * Accepted 10.0.3.5:54429
+1:M 03 Oct 2026 20:03:13.635 # Connection with client id=349 addr=10.0.3.5:52019 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:13.965 * Accepted 10.0.3.5:54204
+1:M 03 Oct 2026 20:03:14.916 * Accepted 10.0.3.5:52059
+1:M 03 Oct 2026 20:03:14.999 * Accepted 10.0.3.5:55529
+1:M 03 Oct 2026 20:03:14.999 * Accepted 10.0.3.5:53177
+1:M 03 Oct 2026 20:03:15.925 # Connection with client id=339 addr=10.0.3.5:54323 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:16.935 * 554 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:16.963 # Connection with client id=339 addr=10.0.3.5:54683 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:16.999 * 645 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:16.999 * Accepted 10.0.3.5:58721
+1:M 03 Oct 2026 20:03:17.166 # Connection with client id=454 addr=10.0.3.5:53013 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:18.999 * 608 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:19.592 * 899 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:19.693 * Accepted 10.0.3.5:51234
+1:M 03 Oct 2026 20:03:19.823 # Connection with client id=373 addr=10.0.3.5:52287 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:19.873 * 2320 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:19.873 * Background saving started by pid 132
+132:C 03 Oct 2026 20:03:19.873 * DB saved on disk
+1:M 03 Oct 2026 20:03:19.873 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:20.907 * Accepted 10.0.3.5:50704
+1:M 03 Oct 2026 20:03:21.493 * 48 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:21.694 * Accepted 10.0.3.5:53987
+1:M 03 Oct 2026 20:03:21.766 * Accepted 10.0.3.5:54496
+1:M 03 Oct 2026 20:03:21.999 * Accepted 10.0.3.5:58117
+1:M 03 Oct 2026 20:03:22.161 * 422 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:22.300 * Accepted 10.0.3.5:52907
+1:M 03 Oct 2026 20:03:22.491 * 164 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:22.999 * Accepted 10.0.3.5:55077
+1:M 03 Oct 2026 20:03:22.999 * 712 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:24.833 * 6843 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:24.833 * Background saving started by pid 123
+123:C 03 Oct 2026 20:03:24.833 * DB saved on disk
+1:M 03 Oct 2026 20:03:24.833 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:24.999 * 3302 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:24.999 * Background saving started by pid 101
+101:C 03 Oct 2026 20:03:24.999 * DB saved on disk
+1:M 03 Oct 2026 20:03:24.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:24.999 * 452 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:24.999 * 3427 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:24.999 * Background saving started by pid 82
+82:C 03 Oct 2026 20:03:24.999 * DB saved on disk
+1:M 03 Oct 2026 20:03:24.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:25.055 * Accepted 10.0.3.5:51422
+1:M 03 Oct 2026 20:03:25.999 * Accepted 10.0.3.5:56370
+1:M 03 Oct 2026 20:03:26.143 * 762 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:26.473 * 841 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:26.494 * Accepted 10.0.3.5:52106
+1:M 03 Oct 2026 20:03:26.845 * Accepted 10.0.3.5:54888
+1:M 03 Oct 2026 20:03:26.999 * Accepted 10.0.3.5:56301
+1:M 03 Oct 2026 20:03:27.240 * Accepted 10.0.3.5:55201
+1:M 03 Oct 2026 20:03:27.312 * 596 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:28.404 * Accepted 10.0.3.5:54589
+1:M 03 Oct 2026 20:03:28.999 # Connection with client id=436 addr=10.0.3.5:51090 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:29.740 * Accepted 10.0.3.5:54743
+1:M 03 Oct 2026 20:03:29.793 * Accepted 10.0.3.5:58687
+1:M 03 Oct 2026 20:03:29.999 * 7271 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:29.999 * Background saving started by pid 87
+87:C 03 Oct 2026 20:03:29.999 * DB saved on disk
+1:M 03 Oct 2026 20:03:29.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:30.437 * Accepted 10.0.3.5:54858
+1:M 03 Oct 2026 20:03:31.702 * 969 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:31.702 * Background saving started by pid 99
+99:C 03 Oct 2026 20:03:31.702 * DB saved on disk
+1:M 03 Oct 2026 20:03:31.702 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:31.830 * Accepted 10.0.3.5:53628
+1:M 03 Oct 2026 20:03:32.999 # Connection with client id=450 addr=10.0.3.5:55339 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:33.279 # Connection with client id=370 addr=10.0.3.5:55143 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:33.999 * 1960 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:33.999 * Background saving started by pid 112
+112:C 03 Oct 2026 20:03:33.999 * DB saved on disk
+1:M 03 Oct 2026 20:03:33.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:34.540 * Accepted 10.0.3.5:58273
+1:M 03 Oct 2026 20:03:34.736 # Connection with client id=409 addr=10.0.3.5:56419 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:34.887 * Accepted 10.0.3.5:53910
+1:M 03 Oct 2026 20:03:35.750 * Accepted 10.0.3.5:52496
+1:M 03 Oct 2026 20:03:35.999 * 8776 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:35.999 * Background saving started by pid 117
+117:C 03 Oct 2026 20:03:35.999 * DB saved on disk
+1:M 03 Oct 2026 20:03:35.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:36.999 * 2008 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:36.999 * Background saving started by pid 95
+95:C 03 Oct 2026 20:03:36.999 * DB saved on disk
+1:M 03 Oct 2026 20:03:36.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:37.139 * 3102 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:37.139 * Background saving started by pid 83
+83:C 03 Oct 2026 20:03:37.139 * DB saved on disk
+1:M 03 Oct 2026 20:03:37.139 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:37.999 * Accepted 10.0.3.5:58298
+1:M 03 Oct 2026 20:03:37.999 * 2112 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:37.999 * Background saving started by pid 134
+134:C 03 Oct 2026 20:03:37.999 * DB saved on disk
+1:M 03 Oct 2026 20:03:37.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:38.145 * Accepted 10.0.3.5:54256
+1:M 03 Oct 2026 20:03:38.224 * 172 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:38.278 * 297 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:38.678 * Accepted 10.0.3.5:51181
+1:M 03 Oct 2026 20:03:39.277 * 4163 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:39.277 * Background saving started by pid 109
+109:C 03 Oct 2026 20:03:39.277 * DB saved on disk
+1:M 03 Oct 2026 20:03:39.277 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:39.720 * 728 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:39.999 * Accepted 10.0.3.5:54151
+1:M 03 Oct 2026 20:03:39.999 * Accepted 10.0.3.5:57384
+1:M 03 Oct 2026 20:03:39.999 * 4835 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:39.999 * Background saving started by pid 63
+63:C 03 Oct 2026 20:03:39.999 * DB saved on disk
+1:M 03 Oct 2026 20:03:39.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:39.999 * Accepted 10.0.3.5:57850
+1:M 03 Oct 2026 20:03:40.108 * 32 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:40.522 * Accepted 10.0.3.5:51564
+1:M 03 Oct 2026 20:03:40.893 * 6718 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:40.893 * Background saving started by pid 117
+117:C 03 Oct 2026 20:03:40.893 * DB saved on disk
+1:M 03 Oct 2026 20:03:40.893 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:40.998 * 38 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:41.887 * Accepted 10.0.3.5:56025
+1:M 03 Oct 2026 20:03:42.696 * Accepted 10.0.3.5:51729
+1:M 03 Oct 2026 20:03:43.265 * 2165 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:43.265 * Background saving started by pid 87
+87:C 03 Oct 2026 20:03:43.265 * DB saved on disk
+1:M 03 Oct 2026 20:03:43.265 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:43.639 * Accepted 10.0.3.5:52254
+1:M 03 Oct 2026 20:03:43.999 * Accepted 10.0.3.5:56916
+1:M 03 Oct 2026 20:03:44.675 * 6486 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:44.675 * Background saving started by pid 138
+138:C 03 Oct 2026 20:03:44.675 * DB saved on disk
+1:M 03 Oct 2026 20:03:44.675 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:44.999 * Accepted 10.0.3.5:51530
+1:M 03 Oct 2026 20:03:45.911 * Accepted 10.0.3.5:54086
+1:M 03 Oct 2026 20:03:46.358 * Accepted 10.0.3.5:58360
+1:M 03 Oct 2026 20:03:47.223 * Accepted 10.0.3.5:52465
+1:M 03 Oct 2026 20:03:47.313 * 5324 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:47.313 * Background saving started by pid 73
+73:C 03 Oct 2026 20:03:47.313 * DB saved on disk
+1:M 03 Oct 2026 20:03:47.313 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:47.589 * 8072 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:47.589 * Background saving started by pid 81
+81:C 03 Oct 2026 20:03:47.589 * DB saved on disk
+1:M 03 Oct 2026 20:03:47.589 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:47.999 * Accepted 10.0.3.5:50861
+1:M 03 Oct 2026 20:03:47.999 * Accepted 10.0.3.5:50026
+1:M 03 Oct 2026 20:03:47.999 * Accepted 10.0.3.5:50981
+1:M 03 Oct 2026 20:03:48.771 * Accepted 10.0.3.5:56361
+1:M 03 Oct 2026 20:03:49.999 * 12 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:50.267 * 908 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:03:51.818 * Accepted 10.0.3.5:58975
+1:M 03 Oct 2026 20:03:52.267 * 2912 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:52.267 * Background saving started by pid 95
+95:C 03 Oct 2026 20:03:52.267 * DB saved on disk
+1:M 03 Oct 2026 20:03:52.267 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:52.403 * Accepted 10.0.3.5:52193
+1:M 03 Oct 2026 20:03:52.577 * Accepted 10.0.3.5:52948
+1:M 03 Oct 2026 20:03:53.311 * Accepted 10.0.3.5:53023
+1:M 03 Oct 2026 20:03:53.881 * Accepted 10.0.3.5:51649
+1:M 03 Oct 2026 20:03:54.234 * Accepted 10.0.3.5:53219
+1:M 03 Oct 2026 20:03:54.473 * 3905 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:54.473 * Background saving started by pid 77
+77:C 03 Oct 2026 20:03:54.473 * DB saved on disk
+1:M 03 Oct 2026 20:03:54.473 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:54.999 # Connection with client id=354 addr=10.0.3.5:55898 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:55.372 # Connection with client id=309 addr=10.0.3.5:57961 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:55.766 # Connection with client id=365 addr=10.0.3.5:50525 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:55.999 # Connection with client id=458 addr=10.0.3.5:51189 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:56.471 * 1533 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:56.471 * Background saving started by pid 79
+79:C 03 Oct 2026 20:03:56.471 * DB saved on disk
+1:M 03 Oct 2026 20:03:56.471 * Background saving terminated with success
+1:M 03 Oct 2026 20:03:56.999 * Accepted 10.0.3.5:57875
+1:M 03 Oct 2026 20:03:56.999 * Accepted 10.0.3.5:57708
+1:M 03 Oct 2026 20:03:57.285 * Accepted 10.0.3.5:51910
+1:M 03 Oct 2026 20:03:57.522 # Connection with client id=391 addr=10.0.3.5:57308 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:57.551 * Accepted 10.0.3.5:53792
+1:M 03 Oct 2026 20:03:58.675 # Connection with client id=446 addr=10.0.3.5:50914 lost: Connection reset by peer
+1:M 03 Oct 2026 20:03:59.305 * Accepted 10.0.3.5:50398
+1:M 03 Oct 2026 20:03:59.376 * 398 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:03:59.376 * Background saving started by pid 74
+74:C 03 Oct 2026 20:03:59.376 * DB saved on disk
+1:M 03 Oct 2026 20:03:59.376 * Background saving terminated with success
+1:M 03 Oct 2026 20:04:00.261 * 582 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:04:00.463 * 4291 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:04:00.463 * Background saving started by pid 80
+80:C 03 Oct 2026 20:04:00.463 * DB saved on disk
+1:M 03 Oct 2026 20:04:00.463 * Background saving terminated with success
+1:M 03 Oct 2026 20:04:00.979 * 3808 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:04:00.979 * Background saving started by pid 81
+81:C 03 Oct 2026 20:04:00.979 * DB saved on disk
+1:M 03 Oct 2026 20:04:00.979 * Background saving terminated with success
+1:M 03 Oct 2026 20:04:01.029 * 205 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:04:01.721 * 626 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:04:01.721 * Background saving started by pid 73
+73:C 03 Oct 2026 20:04:01.721 * DB saved on disk
+1:M 03 Oct 2026 20:04:01.721 * Background saving terminated with success
+1:M 03 Oct 2026 20:04:03.222 * Accepted 10.0.3.5:52573
+1:M 03 Oct 2026 20:04:03.515 * 4952 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:04:03.515 * Background saving started by pid 99
+99:C 03 Oct 2026 20:04:03.515 * DB saved on disk
+1:M 03 Oct 2026 20:04:03.515 * Background saving terminated with success
+1:M 03 Oct 2026 20:04:03.668 # Connection with client id=362 addr=10.0.3.5:50109 lost: Connection reset by peer
+1:M 03 Oct 2026 20:04:04.916 # Connection with client id=401 addr=10.0.3.5:52618 lost: Connection reset by peer
+1:M 03 Oct 2026 20:04:04.999 * Accepted 10.0.3.5:57843
+1:M 03 Oct 2026 20:20:27.612 * 712 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:28.181 * Accepted 10.0.3.5:50985
+1:M 03 Oct 2026 20:20:28.425 * Accepted 10.0.3.5:55562
+1:M 03 Oct 2026 20:20:28.999 * 314 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:29.203 * 46 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:29.224 * Accepted 10.0.3.5:53995
+1:M 03 Oct 2026 20:20:29.381 * Accepted 10.0.3.5:50098
+1:M 03 Oct 2026 20:20:29.999 * 779 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:29.999 * Accepted 10.0.3.5:56859
+1:M 03 Oct 2026 20:20:29.999 # Connection with client id=356 addr=10.0.3.5:51325 lost: Connection reset by peer
+1:M 03 Oct 2026 20:20:30.414 * Accepted 10.0.3.5:50593
+1:M 03 Oct 2026 20:20:30.999 * Accepted 10.0.3.5:51808
+1:M 03 Oct 2026 20:20:31.927 * 1323 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:20:31.927 * Background saving started by pid 111
+111:C 03 Oct 2026 20:20:31.927 * DB saved on disk
+1:M 03 Oct 2026 20:20:31.927 * Background saving terminated with success
+1:M 03 Oct 2026 20:20:31.999 * Accepted 10.0.3.5:51862
+1:M 03 Oct 2026 20:20:32.476 * 571 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:32.999 * Accepted 10.0.3.5:53957
+1:M 03 Oct 2026 20:20:33.070 * 360 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:34.422 * 887 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:34.753 * Accepted 10.0.3.5:52081
+1:M 03 Oct 2026 20:20:35.578 * 6758 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:20:35.578 * Background saving started by pid 74
+74:C 03 Oct 2026 20:20:35.578 * DB saved on disk
+1:M 03 Oct 2026 20:20:35.578 * Background saving terminated with success
+1:M 03 Oct 2026 20:20:35.999 * Accepted 10.0.3.5:57018
+1:M 03 Oct 2026 20:20:36.999 * Accepted 10.0.3.5:55706
+1:M 03 Oct 2026 20:20:37.374 * 836 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:37.489 * Accepted 10.0.3.5:57010
+1:M 03 Oct 2026 20:20:37.915 # Connection with client id=351 addr=10.0.3.5:51513 lost: Connection reset by peer
+1:M 03 Oct 2026 20:20:37.999 * Accepted 10.0.3.5:58004
+1:M 03 Oct 2026 20:20:40.999 * Accepted 10.0.3.5:51995
+1:M 03 Oct 2026 20:20:41.208 # Connection with client id=363 addr=10.0.3.5:52109 lost: Connection reset by peer
+1:M 03 Oct 2026 20:20:41.999 * 109 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:42.915 * 802 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:42.999 * Accepted 10.0.3.5:54074
+1:M 03 Oct 2026 20:20:44.074 * Accepted 10.0.3.5:54058
+1:M 03 Oct 2026 20:20:44.999 * 213 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:44.999 * 2353 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:20:44.999 * Background saving started by pid 135
+135:C 03 Oct 2026 20:20:44.999 * DB saved on disk
+1:M 03 Oct 2026 20:20:44.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:20:45.206 # Connection with client id=363 addr=10.0.3.5:58299 lost: Connection reset by peer
+1:M 03 Oct 2026 20:20:45.928 * Accepted 10.0.3.5:52327
+1:M 03 Oct 2026 20:20:45.999 * Accepted 10.0.3.5:56670
+1:M 03 Oct 2026 20:20:46.133 * Accepted 10.0.3.5:55364
+1:M 03 Oct 2026 20:20:46.366 * 1376 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:20:46.366 * Background saving started by pid 88
+88:C 03 Oct 2026 20:20:46.366 * DB saved on disk
+1:M 03 Oct 2026 20:20:46.366 * Background saving terminated with success
+1:M 03 Oct 2026 20:20:46.534 * 277 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:46.607 * 5163 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:20:46.607 * Background saving started by pid 73
+73:C 03 Oct 2026 20:20:46.607 * DB saved on disk
+1:M 03 Oct 2026 20:20:46.607 * Background saving terminated with success
+1:M 03 Oct 2026 20:20:46.626 # Connection with client id=360 addr=10.0.3.5:50580 lost: Connection reset by peer
+1:M 03 Oct 2026 20:20:46.999 * Accepted 10.0.3.5:50861
+1:M 03 Oct 2026 20:20:47.568 * 5273 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:20:47.568 * Background saving started by pid 71
+71:C 03 Oct 2026 20:20:47.568 * DB saved on disk
+1:M 03 Oct 2026 20:20:47.568 * Background saving terminated with success
+1:M 03 Oct 2026 20:20:49.156 # Connection with client id=490 addr=10.0.3.5:55183 lost: Connection reset by peer
+1:M 03 Oct 2026 20:20:49.398 * 2769 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:20:49.398 * Background saving started by pid 73
+73:C 03 Oct 2026 20:20:49.398 * DB saved on disk
+1:M 03 Oct 2026 20:20:49.398 * Background saving terminated with success
+1:M 03 Oct 2026 20:20:49.709 * Accepted 10.0.3.5:55116
+1:M 03 Oct 2026 20:20:49.923 # Connection with client id=372 addr=10.0.3.5:50906 lost: Connection reset by peer
+1:M 03 Oct 2026 20:20:49.943 * Accepted 10.0.3.5:51113
+1:M 03 Oct 2026 20:20:49.999 * 7473 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:20:49.999 * Background saving started by pid 97
+97:C 03 Oct 2026 20:20:49.999 * DB saved on disk
+1:M 03 Oct 2026 20:20:49.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:20:49.999 * 745 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:20:49.999 * Background saving started by pid 91
+91:C 03 Oct 2026 20:20:49.999 * DB saved on disk
+1:M 03 Oct 2026 20:20:49.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:20:50.435 * 231 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:50.586 * Accepted 10.0.3.5:51891
+1:M 03 Oct 2026 20:20:51.460 * Accepted 10.0.3.5:55709
+1:M 03 Oct 2026 20:20:52.701 * 7015 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:20:52.701 * Background saving started by pid 68
+68:C 03 Oct 2026 20:20:52.701 * DB saved on disk
+1:M 03 Oct 2026 20:20:52.701 * Background saving terminated with success
+1:M 03 Oct 2026 20:20:52.764 * 3856 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:20:52.764 * Background saving started by pid 82
+82:C 03 Oct 2026 20:20:52.764 * DB saved on disk
+1:M 03 Oct 2026 20:20:52.764 * Background saving terminated with success
+1:M 03 Oct 2026 20:20:53.999 * 244 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:20:53.999 * Background saving started by pid 121
+121:C 03 Oct 2026 20:20:53.999 * DB saved on disk
+1:M 03 Oct 2026 20:20:53.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:20:55.135 * Accepted 10.0.3.5:54745
+1:M 03 Oct 2026 20:20:55.340 * 655 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:55.471 * Accepted 10.0.3.5:54390
+1:M 03 Oct 2026 20:20:55.535 * 2154 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:20:55.535 * Background saving started by pid 116
+116:C 03 Oct 2026 20:20:55.535 * DB saved on disk
+1:M 03 Oct 2026 20:20:55.535 * Background saving terminated with success
+1:M 03 Oct 2026 20:20:55.999 * Accepted 10.0.3.5:55318
+1:M 03 Oct 2026 20:20:56.387 * 22 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:57.859 * 257 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:58.792 * Accepted 10.0.3.5:53713
+1:M 03 Oct 2026 20:20:59.443 * 887 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:20:59.864 * Accepted 10.0.3.5:50542
+1:M 03 Oct 2026 20:20:59.999 # Connection with client id=317 addr=10.0.3.5:52115 lost: Connection reset by peer
+1:M 03 Oct 2026 20:20:59.999 * Accepted 10.0.3.5:56516
+1:M 03 Oct 2026 20:21:00.309 * 6127 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:00.309 * Background saving started by pid 79
+79:C 03 Oct 2026 20:21:00.309 * DB saved on disk
+1:M 03 Oct 2026 20:21:00.309 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:00.801 # Connection with client id=303 addr=10.0.3.5:51700 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:00.925 # Connection with client id=356 addr=10.0.3.5:54821 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:00.999 * Accepted 10.0.3.5:58788
+1:M 03 Oct 2026 20:21:01.065 * Accepted 10.0.3.5:55731
+1:M 03 Oct 2026 20:21:01.142 * Accepted 10.0.3.5:51740
+1:M 03 Oct 2026 20:21:01.152 * Accepted 10.0.3.5:50704
+1:M 03 Oct 2026 20:21:01.785 # Connection with client id=499 addr=10.0.3.5:57294 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:02.253 # Connection with client id=469 addr=10.0.3.5:57780 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:02.953 * Accepted 10.0.3.5:58750
+1:M 03 Oct 2026 20:21:03.485 * Accepted 10.0.3.5:58549
+1:M 03 Oct 2026 20:21:03.770 * Accepted 10.0.3.5:56363
+1:M 03 Oct 2026 20:21:04.119 * Accepted 10.0.3.5:57092
+1:M 03 Oct 2026 20:21:04.218 * Accepted 10.0.3.5:55978
+1:M 03 Oct 2026 20:21:04.998 # Connection with client id=456 addr=10.0.3.5:53954 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:04.999 * 2125 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:04.999 * Background saving started by pid 119
+119:C 03 Oct 2026 20:21:04.999 * DB saved on disk
+1:M 03 Oct 2026 20:21:04.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:05.748 * 8949 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:05.748 * Background saving started by pid 125
+125:C 03 Oct 2026 20:21:05.748 * DB saved on disk
+1:M 03 Oct 2026 20:21:05.748 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:06.449 * Accepted 10.0.3.5:56700
+1:M 03 Oct 2026 20:21:06.563 * 567 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:06.801 * Accepted 10.0.3.5:53229
+1:M 03 Oct 2026 20:21:08.069 * Accepted 10.0.3.5:54840
+1:M 03 Oct 2026 20:21:08.446 * 7534 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:08.446 * Background saving started by pid 86
+86:C 03 Oct 2026 20:21:08.446 * DB saved on disk
+1:M 03 Oct 2026 20:21:08.446 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:08.800 * Accepted 10.0.3.5:53282
+1:M 03 Oct 2026 20:21:09.212 * Accepted 10.0.3.5:54419
+1:M 03 Oct 2026 20:21:09.828 * 7138 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:09.828 * Background saving started by pid 118
+118:C 03 Oct 2026 20:21:09.828 * DB saved on disk
+1:M 03 Oct 2026 20:21:09.828 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:10.244 * Accepted 10.0.3.5:55280
+1:M 03 Oct 2026 20:21:10.792 * 4670 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:10.792 * Background saving started by pid 138
+138:C 03 Oct 2026 20:21:10.792 * DB saved on disk
+1:M 03 Oct 2026 20:21:10.792 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:10.999 # Connection with client id=346 addr=10.0.3.5:52682 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:10.999 * Accepted 10.0.3.5:57852
+1:M 03 Oct 2026 20:21:11.168 * 1507 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:11.168 * Background saving started by pid 97
+97:C 03 Oct 2026 20:21:11.168 * DB saved on disk
+1:M 03 Oct 2026 20:21:11.168 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:11.332 * Accepted 10.0.3.5:50032
+1:M 03 Oct 2026 20:21:11.818 * 6611 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:11.818 * Background saving started by pid 82
+82:C 03 Oct 2026 20:21:11.818 * DB saved on disk
+1:M 03 Oct 2026 20:21:11.818 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:11.999 # Connection with client id=443 addr=10.0.3.5:58972 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:12.999 * 223 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:13.219 * 225 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:14.880 * Accepted 10.0.3.5:54688
+1:M 03 Oct 2026 20:21:15.999 * Accepted 10.0.3.5:56420
+1:M 03 Oct 2026 20:21:16.852 * Accepted 10.0.3.5:57019
+1:M 03 Oct 2026 20:21:16.999 * 607 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:17.144 * Accepted 10.0.3.5:50164
+1:M 03 Oct 2026 20:21:17.535 * Accepted 10.0.3.5:54717
+1:M 03 Oct 2026 20:21:17.644 * 108 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:18.234 * Accepted 10.0.3.5:58109
+1:M 03 Oct 2026 20:21:18.600 * Accepted 10.0.3.5:55300
+1:M 03 Oct 2026 20:21:18.672 * Accepted 10.0.3.5:55350
+1:M 03 Oct 2026 20:21:18.701 * Accepted 10.0.3.5:51378
+1:M 03 Oct 2026 20:21:18.999 * Accepted 10.0.3.5:52155
+1:M 03 Oct 2026 20:21:19.518 * Accepted 10.0.3.5:55959
+1:M 03 Oct 2026 20:21:19.999 # Connection with client id=495 addr=10.0.3.5:56232 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:21.303 * 2961 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:21.303 * Background saving started by pid 64
+64:C 03 Oct 2026 20:21:21.303 * DB saved on disk
+1:M 03 Oct 2026 20:21:21.303 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:21.999 * Accepted 10.0.3.5:51538
+1:M 03 Oct 2026 20:21:21.999 * Accepted 10.0.3.5:53167
+1:M 03 Oct 2026 20:21:22.232 # Connection with client id=382 addr=10.0.3.5:56602 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:22.594 * Accepted 10.0.3.5:58988
+1:M 03 Oct 2026 20:21:23.679 * 8140 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:23.679 * Background saving started by pid 62
+62:C 03 Oct 2026 20:21:23.679 * DB saved on disk
+1:M 03 Oct 2026 20:21:23.679 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:25.562 * Accepted 10.0.3.5:55791
+1:M 03 Oct 2026 20:21:25.640 * 279 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:26.855 * 4819 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:26.855 * Background saving started by pid 139
+139:C 03 Oct 2026 20:21:26.855 * DB saved on disk
+1:M 03 Oct 2026 20:21:26.855 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:27.308 * 609 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:27.640 * Accepted 10.0.3.5:56071
+1:M 03 Oct 2026 20:21:27.792 * Accepted 10.0.3.5:56552
+1:M 03 Oct 2026 20:21:27.999 * 539 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:28.284 * 3593 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:28.284 * Background saving started by pid 78
+78:C 03 Oct 2026 20:21:28.284 * DB saved on disk
+1:M 03 Oct 2026 20:21:28.284 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:28.963 * 402 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:29.007 * Accepted 10.0.3.5:57537
+1:M 03 Oct 2026 20:21:29.383 * Accepted 10.0.3.5:56201
+1:M 03 Oct 2026 20:21:30.147 * 362 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:30.438 * Accepted 10.0.3.5:54190
+1:M 03 Oct 2026 20:21:30.999 * Accepted 10.0.3.5:51781
+1:M 03 Oct 2026 20:21:31.484 # Connection with client id=342 addr=10.0.3.5:50076 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:31.538 # Connection with client id=369 addr=10.0.3.5:58210 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:31.731 * 3080 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:31.731 * Background saving started by pid 88
+88:C 03 Oct 2026 20:21:31.731 * DB saved on disk
+1:M 03 Oct 2026 20:21:31.731 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:31.896 * Accepted 10.0.3.5:54372
+1:M 03 Oct 2026 20:21:31.948 * Accepted 10.0.3.5:51392
+1:M 03 Oct 2026 20:21:31.994 * Accepted 10.0.3.5:53795
+1:M 03 Oct 2026 20:21:34.532 * 1659 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:34.532 * Background saving started by pid 115
+115:C 03 Oct 2026 20:21:34.532 * DB saved on disk
+1:M 03 Oct 2026 20:21:34.532 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:34.602 # Connection with client id=329 addr=10.0.3.5:56344 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:34.726 * 200 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:34.983 * 3960 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:34.983 * Background saving started by pid 103
+103:C 03 Oct 2026 20:21:34.983 * DB saved on disk
+1:M 03 Oct 2026 20:21:34.983 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:34.999 * 1588 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:34.999 * Background saving started by pid 97
+97:C 03 Oct 2026 20:21:34.999 * DB saved on disk
+1:M 03 Oct 2026 20:21:34.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:36.068 # Connection with client id=387 addr=10.0.3.5:50530 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:36.135 * Accepted 10.0.3.5:52174
+1:M 03 Oct 2026 20:21:36.142 * 225 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:36.316 * Accepted 10.0.3.5:58664
+1:M 03 Oct 2026 20:21:36.579 # Connection with client id=480 addr=10.0.3.5:52663 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:37.308 * Accepted 10.0.3.5:54623
+1:M 03 Oct 2026 20:21:37.418 * 5823 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:37.418 * Background saving started by pid 78
+78:C 03 Oct 2026 20:21:37.418 * DB saved on disk
+1:M 03 Oct 2026 20:21:37.418 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:38.853 * 905 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:38.999 * Accepted 10.0.3.5:55098
+1:M 03 Oct 2026 20:21:39.150 * Accepted 10.0.3.5:52739
+1:M 03 Oct 2026 20:21:39.307 * Accepted 10.0.3.5:51579
+1:M 03 Oct 2026 20:21:40.527 * Accepted 10.0.3.5:57293
+1:M 03 Oct 2026 20:21:40.999 * 702 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:40.999 * Background saving started by pid 118
+118:C 03 Oct 2026 20:21:40.999 * DB saved on disk
+1:M 03 Oct 2026 20:21:40.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:40.999 * Accepted 10.0.3.5:58168
+1:M 03 Oct 2026 20:21:42.051 # Connection with client id=308 addr=10.0.3.5:52691 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:42.140 * 819 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:43.123 * 7452 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:43.123 * Background saving started by pid 82
+82:C 03 Oct 2026 20:21:43.123 * DB saved on disk
+1:M 03 Oct 2026 20:21:43.123 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:43.259 * 7637 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:43.259 * Background saving started by pid 87
+87:C 03 Oct 2026 20:21:43.259 * DB saved on disk
+1:M 03 Oct 2026 20:21:43.259 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:43.285 * 2401 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:43.285 * Background saving started by pid 133
+133:C 03 Oct 2026 20:21:43.285 * DB saved on disk
+1:M 03 Oct 2026 20:21:43.285 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:43.328 * Accepted 10.0.3.5:56900
+1:M 03 Oct 2026 20:21:43.420 * Accepted 10.0.3.5:56106
+1:M 03 Oct 2026 20:21:43.609 * 4439 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:43.609 * Background saving started by pid 100
+100:C 03 Oct 2026 20:21:43.609 * DB saved on disk
+1:M 03 Oct 2026 20:21:43.609 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:43.999 * 2621 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:43.999 * Background saving started by pid 106
+106:C 03 Oct 2026 20:21:43.999 * DB saved on disk
+1:M 03 Oct 2026 20:21:43.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:44.526 * Accepted 10.0.3.5:58182
+1:M 03 Oct 2026 20:21:44.999 * Accepted 10.0.3.5:56801
+1:M 03 Oct 2026 20:21:44.999 * Accepted 10.0.3.5:53253
+1:M 03 Oct 2026 20:21:45.596 # Connection with client id=343 addr=10.0.3.5:50508 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:45.964 * Accepted 10.0.3.5:51321
+1:M 03 Oct 2026 20:21:46.305 * 6925 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:46.305 * Background saving started by pid 119
+119:C 03 Oct 2026 20:21:46.305 * DB saved on disk
+1:M 03 Oct 2026 20:21:46.305 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:46.857 * Accepted 10.0.3.5:51771
+1:M 03 Oct 2026 20:21:46.874 * Accepted 10.0.3.5:50166
+1:M 03 Oct 2026 20:21:46.999 * 230 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:47.062 * 194 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:47.182 * Accepted 10.0.3.5:55519
+1:M 03 Oct 2026 20:21:47.331 * Accepted 10.0.3.5:51206
+1:M 03 Oct 2026 20:21:47.726 * Accepted 10.0.3.5:51894
+1:M 03 Oct 2026 20:21:48.255 * 2333 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:48.255 * Background saving started by pid 98
+98:C 03 Oct 2026 20:21:48.255 * DB saved on disk
+1:M 03 Oct 2026 20:21:48.255 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:48.436 * Accepted 10.0.3.5:56661
+1:M 03 Oct 2026 20:21:48.999 * Accepted 10.0.3.5:52590
+1:M 03 Oct 2026 20:21:48.999 * Accepted 10.0.3.5:56139
+1:M 03 Oct 2026 20:21:49.366 * 898 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:49.442 * Accepted 10.0.3.5:54829
+1:M 03 Oct 2026 20:21:49.603 * 888 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:49.800 * 106 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:50.046 * Accepted 10.0.3.5:53160
+1:M 03 Oct 2026 20:21:50.999 * 4160 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:50.999 * Background saving started by pid 63
+63:C 03 Oct 2026 20:21:50.999 * DB saved on disk
+1:M 03 Oct 2026 20:21:50.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:51.134 # Connection with client id=431 addr=10.0.3.5:58882 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:51.267 * Accepted 10.0.3.5:53904
+1:M 03 Oct 2026 20:21:51.999 * 3740 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:51.999 * Background saving started by pid 76
+76:C 03 Oct 2026 20:21:51.999 * DB saved on disk
+1:M 03 Oct 2026 20:21:51.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:51.999 * 8909 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:51.999 * Background saving started by pid 77
+77:C 03 Oct 2026 20:21:51.999 * DB saved on disk
+1:M 03 Oct 2026 20:21:51.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:51.999 # Connection with client id=367 addr=10.0.3.5:58640 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:51.999 # Connection with client id=371 addr=10.0.3.5:52083 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:51.999 # Connection with client id=316 addr=10.0.3.5:50976 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:51.999 * Accepted 10.0.3.5:54771
+1:M 03 Oct 2026 20:21:52.333 # Connection with client id=430 addr=10.0.3.5:56045 lost: Connection reset by peer
+1:M 03 Oct 2026 20:21:53.643 * Accepted 10.0.3.5:58208
+1:M 03 Oct 2026 20:21:54.139 * Accepted 10.0.3.5:53022
+1:M 03 Oct 2026 20:21:54.284 * Accepted 10.0.3.5:52279
+1:M 03 Oct 2026 20:21:54.999 * Accepted 10.0.3.5:54313
+1:M 03 Oct 2026 20:21:55.299 * 827 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:56.863 * 8825 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:56.863 * Background saving started by pid 109
+109:C 03 Oct 2026 20:21:56.863 * DB saved on disk
+1:M 03 Oct 2026 20:21:56.863 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:56.999 * Accepted 10.0.3.5:53610
+1:M 03 Oct 2026 20:21:56.999 * Accepted 10.0.3.5:51803
+1:M 03 Oct 2026 20:21:57.439 * 656 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:57.792 * 8638 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:57.792 * Background saving started by pid 70
+70:C 03 Oct 2026 20:21:57.792 * DB saved on disk
+1:M 03 Oct 2026 20:21:57.792 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:57.868 * 4762 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:57.868 * Background saving started by pid 116
+116:C 03 Oct 2026 20:21:57.868 * DB saved on disk
+1:M 03 Oct 2026 20:21:57.868 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:58.231 * Accepted 10.0.3.5:50655
+1:M 03 Oct 2026 20:21:58.328 * Accepted 10.0.3.5:50186
+1:M 03 Oct 2026 20:21:58.818 * 3500 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:21:58.818 * Background saving started by pid 72
+72:C 03 Oct 2026 20:21:58.818 * DB saved on disk
+1:M 03 Oct 2026 20:21:58.818 * Background saving terminated with success
+1:M 03 Oct 2026 20:21:58.853 * Accepted 10.0.3.5:50527
+1:M 03 Oct 2026 20:21:58.877 * Accepted 10.0.3.5:55931
+1:M 03 Oct 2026 20:21:58.914 * 859 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:21:58.995 * 446 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:00.129 # Connection with client id=333 addr=10.0.3.5:53708 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:00.558 # Connection with client id=332 addr=10.0.3.5:52974 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:00.999 * Accepted 10.0.3.5:55099
+1:M 03 Oct 2026 20:22:00.999 # Connection with client id=428 addr=10.0.3.5:56915 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:01.129 * 849 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:01.265 * Accepted 10.0.3.5:55670
+1:M 03 Oct 2026 20:22:01.324 * 372 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:01.990 * 5962 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:01.990 * Background saving started by pid 99
+99:C 03 Oct 2026 20:22:01.990 * DB saved on disk
+1:M 03 Oct 2026 20:22:01.990 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:02.191 # Connection with client id=357 addr=10.0.3.5:57052 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:03.208 * 2591 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:03.208 * Background saving started by pid 70
+70:C 03 Oct 2026 20:22:03.208 * DB saved on disk
+1:M 03 Oct 2026 20:22:03.208 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:03.456 # Connection with client id=410 addr=10.0.3.5:57203 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:03.999 * Accepted 10.0.3.5:52675
+1:M 03 Oct 2026 20:22:04.156 * Accepted 10.0.3.5:54737
+1:M 03 Oct 2026 20:22:04.324 * Accepted 10.0.3.5:54955
+1:M 03 Oct 2026 20:22:04.337 # Connection with client id=445 addr=10.0.3.5:50758 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:04.692 * Accepted 10.0.3.5:52231
+1:M 03 Oct 2026 20:22:04.701 * 536 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:04.847 * 206 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:04.847 * Background saving started by pid 100
+100:C 03 Oct 2026 20:22:04.847 * DB saved on disk
+1:M 03 Oct 2026 20:22:04.847 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:05.101 # Connection with client id=377 addr=10.0.3.5:54144 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:05.522 * 697 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:05.673 * Accepted 10.0.3.5:57761
+1:M 03 Oct 2026 20:22:05.953 * 623 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:05.999 * 462 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:05.999 * 2663 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:05.999 * Background saving started by pid 86
+86:C 03 Oct 2026 20:22:05.999 * DB saved on disk
+1:M 03 Oct 2026 20:22:05.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:06.134 * 313 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:06.284 * 5615 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:06.284 * Background saving started by pid 75
+75:C 03 Oct 2026 20:22:06.284 * DB saved on disk
+1:M 03 Oct 2026 20:22:06.284 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:06.986 * Accepted 10.0.3.5:54804
+1:M 03 Oct 2026 20:22:07.121 * 555 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:07.456 * 507 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:07.999 * 147 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:08.552 * 2454 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:08.552 * Background saving started by pid 126
+126:C 03 Oct 2026 20:22:08.552 * DB saved on disk
+1:M 03 Oct 2026 20:22:08.552 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:08.749 * Accepted 10.0.3.5:51222
+1:M 03 Oct 2026 20:22:09.368 * 7435 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:09.368 * Background saving started by pid 98
+98:C 03 Oct 2026 20:22:09.368 * DB saved on disk
+1:M 03 Oct 2026 20:22:09.368 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:10.091 * 5472 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:10.091 * Background saving started by pid 96
+96:C 03 Oct 2026 20:22:10.091 * DB saved on disk
+1:M 03 Oct 2026 20:22:10.091 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:10.330 * Accepted 10.0.3.5:52647
+1:M 03 Oct 2026 20:22:10.509 # Connection with client id=429 addr=10.0.3.5:52590 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:11.083 * 1783 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:11.083 * Background saving started by pid 76
+76:C 03 Oct 2026 20:22:11.083 * DB saved on disk
+1:M 03 Oct 2026 20:22:11.083 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:11.350 * Accepted 10.0.3.5:52186
+1:M 03 Oct 2026 20:22:11.401 * Accepted 10.0.3.5:51516
+1:M 03 Oct 2026 20:22:11.608 * 6488 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:11.608 * Background saving started by pid 90
+90:C 03 Oct 2026 20:22:11.608 * DB saved on disk
+1:M 03 Oct 2026 20:22:11.608 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:11.687 # Connection with client id=365 addr=10.0.3.5:55780 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:11.999 * 376 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:13.140 * Accepted 10.0.3.5:56342
+1:M 03 Oct 2026 20:22:13.301 * 315 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:13.326 * Accepted 10.0.3.5:53275
+1:M 03 Oct 2026 20:22:13.411 * 6396 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:13.411 * Background saving started by pid 99
+99:C 03 Oct 2026 20:22:13.411 * DB saved on disk
+1:M 03 Oct 2026 20:22:13.411 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:14.541 * 469 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:14.999 * 604 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:15.402 * Accepted 10.0.3.5:51308
+1:M 03 Oct 2026 20:22:15.899 * Accepted 10.0.3.5:53625
+1:M 03 Oct 2026 20:22:16.663 * 2704 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:16.663 * Background saving started by pid 107
+107:C 03 Oct 2026 20:22:16.663 * DB saved on disk
+1:M 03 Oct 2026 20:22:16.663 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:18.295 * 503 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:22:18.785 * Accepted 10.0.3.5:54220
+1:M 03 Oct 2026 20:22:18.896 * Accepted 10.0.3.5:51431
+1:M 03 Oct 2026 20:22:18.999 * Accepted 10.0.3.5:54996
+1:M 03 Oct 2026 20:22:18.999 * Accepted 10.0.3.5:53498
+1:M 03 Oct 2026 20:22:19.978 * 5268 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:19.978 * Background saving started by pid 99
+99:C 03 Oct 2026 20:22:19.978 * DB saved on disk
+1:M 03 Oct 2026 20:22:19.978 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:20.075 * Accepted 10.0.3.5:54962
+1:M 03 Oct 2026 20:22:20.122 # Connection with client id=373 addr=10.0.3.5:54858 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:20.183 * Accepted 10.0.3.5:58133
+1:M 03 Oct 2026 20:22:20.825 * Accepted 10.0.3.5:52895
+1:M 03 Oct 2026 20:22:21.031 * Accepted 10.0.3.5:55093
+1:M 03 Oct 2026 20:22:21.999 * Accepted 10.0.3.5:53498
+1:M 03 Oct 2026 20:22:22.664 * Accepted 10.0.3.5:51948
+1:M 03 Oct 2026 20:22:22.864 # Connection with client id=451 addr=10.0.3.5:50557 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:23.709 # Connection with client id=344 addr=10.0.3.5:50392 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:24.332 * Accepted 10.0.3.5:53583
+1:M 03 Oct 2026 20:22:24.492 * Accepted 10.0.3.5:55416
+1:M 03 Oct 2026 20:22:24.566 # Connection with client id=343 addr=10.0.3.5:51525 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:24.896 # Connection with client id=423 addr=10.0.3.5:51774 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:25.263 * 3568 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:25.263 * Background saving started by pid 62
+62:C 03 Oct 2026 20:22:25.263 * DB saved on disk
+1:M 03 Oct 2026 20:22:25.263 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:25.562 # Connection with client id=358 addr=10.0.3.5:55184 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:25.999 * Accepted 10.0.3.5:54288
+1:M 03 Oct 2026 20:22:25.999 # Connection with client id=307 addr=10.0.3.5:55114 lost: Connection reset by peer
+1:M 03 Oct 2026 20:22:26.302 * 516 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:26.302 * Background saving started by pid 128
+128:C 03 Oct 2026 20:22:26.302 * DB saved on disk
+1:M 03 Oct 2026 20:22:26.302 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:26.417 * 5593 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:22:26.417 * Background saving started by pid 79
+79:C 03 Oct 2026 20:22:26.417 * DB saved on disk
+1:M 03 Oct 2026 20:22:26.417 * Background saving terminated with success
+1:M 03 Oct 2026 20:22:26.999 * Accepted 10.0.3.5:55383
+1:M 03 Oct 2026 20:30:15.197 * 1094 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:15.197 * Background saving started by pid 93
+93:C 03 Oct 2026 20:30:15.197 * DB saved on disk
+1:M 03 Oct 2026 20:30:15.197 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:15.423 * Accepted 10.0.3.5:54224
+1:M 03 Oct 2026 20:30:15.542 * Accepted 10.0.3.5:50751
+1:M 03 Oct 2026 20:30:16.130 # Connection with client id=396 addr=10.0.3.5:57629 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:16.538 * 545 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:16.999 * Accepted 10.0.3.5:51836
+1:M 03 Oct 2026 20:30:17.999 * Accepted 10.0.3.5:57437
+1:M 03 Oct 2026 20:30:18.122 * 518 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:18.471 * 875 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:18.849 # Connection with client id=477 addr=10.0.3.5:53777 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:18.999 * 587 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:19.184 # Connection with client id=455 addr=10.0.3.5:57987 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:19.339 * Accepted 10.0.3.5:55731
+1:M 03 Oct 2026 20:30:20.037 * Accepted 10.0.3.5:58191
+1:M 03 Oct 2026 20:30:20.181 # Connection with client id=462 addr=10.0.3.5:54272 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:20.233 * Accepted 10.0.3.5:51560
+1:M 03 Oct 2026 20:30:20.729 * 6609 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:20.729 * Background saving started by pid 73
+73:C 03 Oct 2026 20:30:20.729 * DB saved on disk
+1:M 03 Oct 2026 20:30:20.729 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:21.312 * 105 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:21.415 * Accepted 10.0.3.5:57765
+1:M 03 Oct 2026 20:30:21.720 * 525 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:22.317 # Connection with client id=315 addr=10.0.3.5:53144 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:22.984 # Connection with client id=496 addr=10.0.3.5:51008 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:23.815 * 595 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:24.344 * 34 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:24.389 * 1518 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:24.389 * Background saving started by pid 75
+75:C 03 Oct 2026 20:30:24.389 * DB saved on disk
+1:M 03 Oct 2026 20:30:24.389 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:25.462 # Connection with client id=453 addr=10.0.3.5:54441 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:25.538 * Accepted 10.0.3.5:54480
+1:M 03 Oct 2026 20:30:25.915 * Accepted 10.0.3.5:58467
+1:M 03 Oct 2026 20:30:26.302 * 1388 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:26.302 * Background saving started by pid 88
+88:C 03 Oct 2026 20:30:26.302 * DB saved on disk
+1:M 03 Oct 2026 20:30:26.302 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:26.999 * Accepted 10.0.3.5:54735
+1:M 03 Oct 2026 20:30:26.999 * Accepted 10.0.3.5:57804
+1:M 03 Oct 2026 20:30:27.871 * Accepted 10.0.3.5:52937
+1:M 03 Oct 2026 20:30:27.999 * Accepted 10.0.3.5:52354
+1:M 03 Oct 2026 20:30:28.242 # Connection with client id=396 addr=10.0.3.5:54270 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:28.865 * Accepted 10.0.3.5:57630
+1:M 03 Oct 2026 20:30:28.999 * 2083 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:28.999 * Background saving started by pid 61
+61:C 03 Oct 2026 20:30:28.999 * DB saved on disk
+1:M 03 Oct 2026 20:30:28.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:29.441 # Connection with client id=399 addr=10.0.3.5:54562 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:29.654 * Accepted 10.0.3.5:57074
+1:M 03 Oct 2026 20:30:29.848 * 739 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:29.999 * Accepted 10.0.3.5:55354
+1:M 03 Oct 2026 20:30:30.060 * Accepted 10.0.3.5:50279
+1:M 03 Oct 2026 20:30:30.387 * Accepted 10.0.3.5:50302
+1:M 03 Oct 2026 20:30:30.952 * Accepted 10.0.3.5:57716
+1:M 03 Oct 2026 20:30:30.999 * Accepted 10.0.3.5:51717
+1:M 03 Oct 2026 20:30:30.999 * Accepted 10.0.3.5:57368
+1:M 03 Oct 2026 20:30:31.439 * 525 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:31.536 * 3226 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:31.536 * Background saving started by pid 120
+120:C 03 Oct 2026 20:30:31.536 * DB saved on disk
+1:M 03 Oct 2026 20:30:31.536 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:31.661 * Accepted 10.0.3.5:56971
+1:M 03 Oct 2026 20:30:31.999 * Accepted 10.0.3.5:56297
+1:M 03 Oct 2026 20:30:32.224 * 6306 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:32.224 * Background saving started by pid 131
+131:C 03 Oct 2026 20:30:32.224 * DB saved on disk
+1:M 03 Oct 2026 20:30:32.224 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:32.579 # Connection with client id=498 addr=10.0.3.5:51748 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:32.723 * 113 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:32.908 * Accepted 10.0.3.5:53946
+1:M 03 Oct 2026 20:30:33.494 * Accepted 10.0.3.5:56604
+1:M 03 Oct 2026 20:30:34.204 * Accepted 10.0.3.5:50509
+1:M 03 Oct 2026 20:30:34.555 * 646 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:34.946 * 5288 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:34.946 * Background saving started by pid 92
+92:C 03 Oct 2026 20:30:34.946 * DB saved on disk
+1:M 03 Oct 2026 20:30:34.946 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:34.954 * Accepted 10.0.3.5:56600
+1:M 03 Oct 2026 20:30:35.262 * 641 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:35.943 * 496 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:35.999 * Accepted 10.0.3.5:58944
+1:M 03 Oct 2026 20:30:35.999 * Accepted 10.0.3.5:53031
+1:M 03 Oct 2026 20:30:36.518 * Accepted 10.0.3.5:57748
+1:M 03 Oct 2026 20:30:36.802 * Accepted 10.0.3.5:58467
+1:M 03 Oct 2026 20:30:36.914 * 637 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:37.322 * Accepted 10.0.3.5:54203
+1:M 03 Oct 2026 20:30:37.489 * 5181 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:37.489 * Background saving started by pid 83
+83:C 03 Oct 2026 20:30:37.489 * DB saved on disk
+1:M 03 Oct 2026 20:30:37.489 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:37.626 * Accepted 10.0.3.5:54773
+1:M 03 Oct 2026 20:30:38.318 * 6696 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:38.318 * Background saving started by pid 83
+83:C 03 Oct 2026 20:30:38.318 * DB saved on disk
+1:M 03 Oct 2026 20:30:38.318 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:38.440 * 3476 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:38.440 * Background saving started by pid 66
+66:C 03 Oct 2026 20:30:38.440 * DB saved on disk
+1:M 03 Oct 2026 20:30:38.440 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:38.852 # Connection with client id=478 addr=10.0.3.5:51241 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:39.809 * Accepted 10.0.3.5:58276
+1:M 03 Oct 2026 20:30:40.310 * 5152 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:40.310 * Background saving started by pid 136
+136:C 03 Oct 2026 20:30:40.310 * DB saved on disk
+1:M 03 Oct 2026 20:30:40.310 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:40.546 * 241 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:40.751 * Accepted 10.0.3.5:50298
+1:M 03 Oct 2026 20:30:41.473 * Accepted 10.0.3.5:54376
+1:M 03 Oct 2026 20:30:41.999 * Accepted 10.0.3.5:57044
+1:M 03 Oct 2026 20:30:41.999 # Connection with client id=316 addr=10.0.3.5:53186 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:42.461 * Accepted 10.0.3.5:54952
+1:M 03 Oct 2026 20:30:42.575 * 450 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:43.124 * 1808 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:43.124 * Background saving started by pid 138
+138:C 03 Oct 2026 20:30:43.124 * DB saved on disk
+1:M 03 Oct 2026 20:30:43.124 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:43.959 * 774 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:43.999 * Accepted 10.0.3.5:56166
+1:M 03 Oct 2026 20:30:44.229 * 7015 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:44.229 * Background saving started by pid 82
+82:C 03 Oct 2026 20:30:44.229 * DB saved on disk
+1:M 03 Oct 2026 20:30:44.229 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:44.302 * 821 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:44.302 * Background saving started by pid 76
+76:C 03 Oct 2026 20:30:44.302 * DB saved on disk
+1:M 03 Oct 2026 20:30:44.302 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:44.538 # Connection with client id=488 addr=10.0.3.5:51378 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:44.949 * 7361 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:44.949 * Background saving started by pid 72
+72:C 03 Oct 2026 20:30:44.949 * DB saved on disk
+1:M 03 Oct 2026 20:30:44.949 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:44.999 * Accepted 10.0.3.5:57995
+1:M 03 Oct 2026 20:30:44.999 * 4299 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:44.999 * Background saving started by pid 107
+107:C 03 Oct 2026 20:30:44.999 * DB saved on disk
+1:M 03 Oct 2026 20:30:44.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:45.400 * 7684 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:45.400 * Background saving started by pid 90
+90:C 03 Oct 2026 20:30:45.400 * DB saved on disk
+1:M 03 Oct 2026 20:30:45.400 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:45.766 * 1578 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:45.766 * Background saving started by pid 117
+117:C 03 Oct 2026 20:30:45.766 * DB saved on disk
+1:M 03 Oct 2026 20:30:45.766 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:45.880 # Connection with client id=391 addr=10.0.3.5:53714 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:45.999 * Accepted 10.0.3.5:54851
+1:M 03 Oct 2026 20:30:46.319 * Accepted 10.0.3.5:52750
+1:M 03 Oct 2026 20:30:46.579 * 2551 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:46.579 * Background saving started by pid 97
+97:C 03 Oct 2026 20:30:46.579 * DB saved on disk
+1:M 03 Oct 2026 20:30:46.579 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:46.801 * Accepted 10.0.3.5:50100
+1:M 03 Oct 2026 20:30:48.093 * Accepted 10.0.3.5:55415
+1:M 03 Oct 2026 20:30:48.436 * 232 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:48.999 * Accepted 10.0.3.5:53021
+1:M 03 Oct 2026 20:30:49.565 # Connection with client id=462 addr=10.0.3.5:52683 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:49.999 # Connection with client id=380 addr=10.0.3.5:51400 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:49.999 * Accepted 10.0.3.5:58072
+1:M 03 Oct 2026 20:30:50.999 * Accepted 10.0.3.5:50620
+1:M 03 Oct 2026 20:30:50.999 * Accepted 10.0.3.5:52528
+1:M 03 Oct 2026 20:30:50.999 # Connection with client id=348 addr=10.0.3.5:57579 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:51.668 * Accepted 10.0.3.5:52068
+1:M 03 Oct 2026 20:30:51.999 * 5680 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:51.999 * Background saving started by pid 74
+74:C 03 Oct 2026 20:30:51.999 * DB saved on disk
+1:M 03 Oct 2026 20:30:51.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:51.999 * Accepted 10.0.3.5:51137
+1:M 03 Oct 2026 20:30:52.076 * Accepted 10.0.3.5:50017
+1:M 03 Oct 2026 20:30:52.349 * Accepted 10.0.3.5:55110
+1:M 03 Oct 2026 20:30:52.588 * Accepted 10.0.3.5:55892
+1:M 03 Oct 2026 20:30:52.999 * Accepted 10.0.3.5:53631
+1:M 03 Oct 2026 20:30:53.054 * Accepted 10.0.3.5:52165
+1:M 03 Oct 2026 20:30:53.125 * 256 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:53.760 * 444 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:53.871 # Connection with client id=473 addr=10.0.3.5:55004 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:53.999 * 287 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:30:54.327 * Accepted 10.0.3.5:51977
+1:M 03 Oct 2026 20:30:54.479 # Connection with client id=359 addr=10.0.3.5:58373 lost: Connection reset by peer
+1:M 03 Oct 2026 20:30:54.735 * Accepted 10.0.3.5:50411
+1:M 03 Oct 2026 20:30:54.999 * 7259 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:54.999 * Background saving started by pid 104
+104:C 03 Oct 2026 20:30:54.999 * DB saved on disk
+1:M 03 Oct 2026 20:30:54.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:54.999 * Accepted 10.0.3.5:54006
+1:M 03 Oct 2026 20:30:55.318 * Accepted 10.0.3.5:53008
+1:M 03 Oct 2026 20:30:55.355 * 5955 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:55.355 * Background saving started by pid 80
+80:C 03 Oct 2026 20:30:55.355 * DB saved on disk
+1:M 03 Oct 2026 20:30:55.355 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:55.520 * Accepted 10.0.3.5:53794
+1:M 03 Oct 2026 20:30:55.999 * 1586 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:55.999 * Background saving started by pid 107
+107:C 03 Oct 2026 20:30:55.999 * DB saved on disk
+1:M 03 Oct 2026 20:30:55.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:56.999 * Accepted 10.0.3.5:53627
+1:M 03 Oct 2026 20:30:56.999 * Accepted 10.0.3.5:51879
+1:M 03 Oct 2026 20:30:57.628 * Accepted 10.0.3.5:57096
+1:M 03 Oct 2026 20:30:57.642 * Accepted 10.0.3.5:51227
+1:M 03 Oct 2026 20:30:57.774 * 8456 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:57.774 * Background saving started by pid 64
+64:C 03 Oct 2026 20:30:57.774 * DB saved on disk
+1:M 03 Oct 2026 20:30:57.774 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:57.999 * Accepted 10.0.3.5:50316
+1:M 03 Oct 2026 20:30:58.672 * Accepted 10.0.3.5:53940
+1:M 03 Oct 2026 20:30:58.741 * 6498 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:30:58.741 * Background saving started by pid 61
+61:C 03 Oct 2026 20:30:58.741 * DB saved on disk
+1:M 03 Oct 2026 20:30:58.741 * Background saving terminated with success
+1:M 03 Oct 2026 20:30:59.117 * Accepted 10.0.3.5:51195
+1:M 03 Oct 2026 20:30:59.578 * Accepted 10.0.3.5:52487
+1:M 03 Oct 2026 20:31:00.909 * Accepted 10.0.3.5:54742
+1:M 03 Oct 2026 20:31:01.999 * Accepted 10.0.3.5:55897
+1:M 03 Oct 2026 20:31:01.999 * 171 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:02.202 * 8771 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:02.202 * Background saving started by pid 67
+67:C 03 Oct 2026 20:31:02.202 * DB saved on disk
+1:M 03 Oct 2026 20:31:02.202 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:02.999 * Accepted 10.0.3.5:51800
+1:M 03 Oct 2026 20:31:03.343 * 5411 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:03.343 * Background saving started by pid 132
+132:C 03 Oct 2026 20:31:03.343 * DB saved on disk
+1:M 03 Oct 2026 20:31:03.343 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:04.117 # Connection with client id=369 addr=10.0.3.5:50205 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:04.628 * Accepted 10.0.3.5:52168
+1:M 03 Oct 2026 20:31:04.859 # Connection with client id=476 addr=10.0.3.5:52467 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:05.999 * Accepted 10.0.3.5:51925
+1:M 03 Oct 2026 20:31:06.072 * 2298 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:06.072 * Background saving started by pid 112
+112:C 03 Oct 2026 20:31:06.072 * DB saved on disk
+1:M 03 Oct 2026 20:31:06.072 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:06.086 * Accepted 10.0.3.5:56897
+1:M 03 Oct 2026 20:31:07.064 * Accepted 10.0.3.5:52253
+1:M 03 Oct 2026 20:31:07.117 # Connection with client id=347 addr=10.0.3.5:51586 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:07.980 * Accepted 10.0.3.5:51435
+1:M 03 Oct 2026 20:31:07.999 * 165 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:07.999 * Background saving started by pid 92
+92:C 03 Oct 2026 20:31:07.999 * DB saved on disk
+1:M 03 Oct 2026 20:31:07.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:09.232 * 5781 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:09.232 * Background saving started by pid 127
+127:C 03 Oct 2026 20:31:09.232 * DB saved on disk
+1:M 03 Oct 2026 20:31:09.232 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:09.999 * Accepted 10.0.3.5:56224
+1:M 03 Oct 2026 20:31:09.999 * Accepted 10.0.3.5:50663
+1:M 03 Oct 2026 20:31:10.195 * Accepted 10.0.3.5:53376
+1:M 03 Oct 2026 20:31:10.282 * Accepted 10.0.3.5:50290
+1:M 03 Oct 2026 20:31:10.406 * Accepted 10.0.3.5:55683
+1:M 03 Oct 2026 20:31:10.811 * Accepted 10.0.3.5:53856
+1:M 03 Oct 2026 20:31:11.114 * Accepted 10.0.3.5:50543
+1:M 03 Oct 2026 20:31:11.353 * Accepted 10.0.3.5:50222
+1:M 03 Oct 2026 20:31:12.131 * 840 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:13.212 * Accepted 10.0.3.5:54334
+1:M 03 Oct 2026 20:31:13.422 * 7605 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:13.422 * Background saving started by pid 89
+89:C 03 Oct 2026 20:31:13.422 * DB saved on disk
+1:M 03 Oct 2026 20:31:13.422 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:13.866 * 1890 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:13.866 * Background saving started by pid 106
+106:C 03 Oct 2026 20:31:13.866 * DB saved on disk
+1:M 03 Oct 2026 20:31:13.866 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:14.101 # Connection with client id=419 addr=10.0.3.5:58794 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:14.122 * 8395 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:14.122 * Background saving started by pid 70
+70:C 03 Oct 2026 20:31:14.122 * DB saved on disk
+1:M 03 Oct 2026 20:31:14.122 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:14.504 * 5491 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:14.504 * Background saving started by pid 92
+92:C 03 Oct 2026 20:31:14.504 * DB saved on disk
+1:M 03 Oct 2026 20:31:14.504 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:14.965 * 3961 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:14.965 * Background saving started by pid 103
+103:C 03 Oct 2026 20:31:14.965 * DB saved on disk
+1:M 03 Oct 2026 20:31:14.965 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:15.958 # Connection with client id=302 addr=10.0.3.5:58814 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:15.999 * 368 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:15.999 * 914 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:15.999 * Background saving started by pid 124
+124:C 03 Oct 2026 20:31:15.999 * DB saved on disk
+1:M 03 Oct 2026 20:31:15.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:16.499 * Accepted 10.0.3.5:57666
+1:M 03 Oct 2026 20:31:16.532 * 566 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:16.532 * Background saving started by pid 119
+119:C 03 Oct 2026 20:31:16.532 * DB saved on disk
+1:M 03 Oct 2026 20:31:16.532 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:16.684 * 3285 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:16.684 * Background saving started by pid 117
+117:C 03 Oct 2026 20:31:16.684 * DB saved on disk
+1:M 03 Oct 2026 20:31:16.684 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:16.950 * Accepted 10.0.3.5:53262
+1:M 03 Oct 2026 20:31:18.097 # Connection with client id=319 addr=10.0.3.5:50094 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:18.999 # Connection with client id=438 addr=10.0.3.5:54162 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:19.411 * 339 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:19.689 * 20 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:19.732 * Accepted 10.0.3.5:58485
+1:M 03 Oct 2026 20:31:20.203 # Connection with client id=479 addr=10.0.3.5:51292 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:20.999 * Accepted 10.0.3.5:55847
+1:M 03 Oct 2026 20:31:21.426 * 3090 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:21.426 * Background saving started by pid 115
+115:C 03 Oct 2026 20:31:21.426 * DB saved on disk
+1:M 03 Oct 2026 20:31:21.426 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:21.608 * 41 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:21.999 # Connection with client id=421 addr=10.0.3.5:58580 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:21.999 * Accepted 10.0.3.5:51323
+1:M 03 Oct 2026 20:31:22.999 * 7386 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:22.999 * Background saving started by pid 132
+132:C 03 Oct 2026 20:31:22.999 * DB saved on disk
+1:M 03 Oct 2026 20:31:22.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:23.999 * 553 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:23.999 * Accepted 10.0.3.5:50163
+1:M 03 Oct 2026 20:31:24.249 * 142 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:24.593 * 5263 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:24.593 * Background saving started by pid 103
+103:C 03 Oct 2026 20:31:24.593 * DB saved on disk
+1:M 03 Oct 2026 20:31:24.593 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:24.866 * Accepted 10.0.3.5:55673
+1:M 03 Oct 2026 20:31:25.236 * 7424 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:25.236 * Background saving started by pid 80
+80:C 03 Oct 2026 20:31:25.236 * DB saved on disk
+1:M 03 Oct 2026 20:31:25.236 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:25.293 * Accepted 10.0.3.5:55608
+1:M 03 Oct 2026 20:31:25.385 * Accepted 10.0.3.5:51497
+1:M 03 Oct 2026 20:31:25.999 * 4563 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:25.999 * Background saving started by pid 73
+73:C 03 Oct 2026 20:31:25.999 * DB saved on disk
+1:M 03 Oct 2026 20:31:25.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:26.710 # Connection with client id=446 addr=10.0.3.5:54246 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:27.630 # Connection with client id=388 addr=10.0.3.5:57075 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:28.076 * 2911 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:28.076 * Background saving started by pid 129
+129:C 03 Oct 2026 20:31:28.076 * DB saved on disk
+1:M 03 Oct 2026 20:31:28.076 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:28.232 * Accepted 10.0.3.5:52105
+1:M 03 Oct 2026 20:31:28.797 # Connection with client id=483 addr=10.0.3.5:52901 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:28.999 * Accepted 10.0.3.5:58972
+1:M 03 Oct 2026 20:31:29.325 * Accepted 10.0.3.5:50233
+1:M 03 Oct 2026 20:31:29.823 * Accepted 10.0.3.5:56197
+1:M 03 Oct 2026 20:31:29.999 * 4839 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:29.999 * Background saving started by pid 135
+135:C 03 Oct 2026 20:31:29.999 * DB saved on disk
+1:M 03 Oct 2026 20:31:29.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:30.231 # Connection with client id=450 addr=10.0.3.5:55974 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:30.427 * Accepted 10.0.3.5:53866
+1:M 03 Oct 2026 20:31:30.639 * 4666 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:30.639 * Background saving started by pid 133
+133:C 03 Oct 2026 20:31:30.639 * DB saved on disk
+1:M 03 Oct 2026 20:31:30.639 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:30.999 * 649 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:30.999 # Connection with client id=435 addr=10.0.3.5:55473 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:31.930 * 775 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:31.999 * 844 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:31.999 * Background saving started by pid 78
+78:C 03 Oct 2026 20:31:31.999 * DB saved on disk
+1:M 03 Oct 2026 20:31:31.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:32.557 * Accepted 10.0.3.5:58910
+1:M 03 Oct 2026 20:31:33.307 * 254 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:33.999 # Connection with client id=474 addr=10.0.3.5:50484 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:33.999 * 8021 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:33.999 * Background saving started by pid 136
+136:C 03 Oct 2026 20:31:33.999 * DB saved on disk
+1:M 03 Oct 2026 20:31:33.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:34.055 * 72 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:35.669 * 7318 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:35.669 * Background saving started by pid 81
+81:C 03 Oct 2026 20:31:35.669 * DB saved on disk
+1:M 03 Oct 2026 20:31:35.669 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:37.447 * Accepted 10.0.3.5:50902
+1:M 03 Oct 2026 20:31:37.493 # Connection with client id=470 addr=10.0.3.5:56269 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:37.532 * 8183 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:37.532 * Background saving started by pid 103
+103:C 03 Oct 2026 20:31:37.532 * DB saved on disk
+1:M 03 Oct 2026 20:31:37.532 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:37.578 * Accepted 10.0.3.5:54209
+1:M 03 Oct 2026 20:31:37.928 * 616 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:37.999 * Accepted 10.0.3.5:50277
+1:M 03 Oct 2026 20:31:38.180 * 265 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:39.372 # Connection with client id=386 addr=10.0.3.5:54860 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:39.579 * Accepted 10.0.3.5:58209
+1:M 03 Oct 2026 20:31:40.441 # Connection with client id=497 addr=10.0.3.5:56164 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:40.647 * Accepted 10.0.3.5:58000
+1:M 03 Oct 2026 20:31:40.746 * 392 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:40.746 * Background saving started by pid 133
+133:C 03 Oct 2026 20:31:40.746 * DB saved on disk
+1:M 03 Oct 2026 20:31:40.746 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:40.970 * 5781 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:40.970 * Background saving started by pid 119
+119:C 03 Oct 2026 20:31:40.970 * DB saved on disk
+1:M 03 Oct 2026 20:31:40.970 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:40.991 * Accepted 10.0.3.5:57683
+1:M 03 Oct 2026 20:31:41.749 * 3031 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:41.749 * Background saving started by pid 62
+62:C 03 Oct 2026 20:31:41.749 * DB saved on disk
+1:M 03 Oct 2026 20:31:41.749 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:41.999 * 158 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:42.300 * 652 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:42.537 * Accepted 10.0.3.5:54976
+1:M 03 Oct 2026 20:31:42.836 # Connection with client id=360 addr=10.0.3.5:54353 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:42.999 * Accepted 10.0.3.5:53964
+1:M 03 Oct 2026 20:31:42.999 * Accepted 10.0.3.5:50217
+1:M 03 Oct 2026 20:31:43.173 * 4782 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:43.173 * Background saving started by pid 69
+69:C 03 Oct 2026 20:31:43.173 * DB saved on disk
+1:M 03 Oct 2026 20:31:43.173 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:43.308 * Accepted 10.0.3.5:55510
+1:M 03 Oct 2026 20:31:43.966 * 498 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:43.966 * Background saving started by pid 122
+122:C 03 Oct 2026 20:31:43.966 * DB saved on disk
+1:M 03 Oct 2026 20:31:43.966 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:43.999 * Accepted 10.0.3.5:54282
+1:M 03 Oct 2026 20:31:43.999 * 820 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:44.122 * 365 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:44.284 * 385 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:44.999 * Accepted 10.0.3.5:50268
+1:M 03 Oct 2026 20:31:45.249 * Accepted 10.0.3.5:55729
+1:M 03 Oct 2026 20:31:45.977 * Accepted 10.0.3.5:52936
+1:M 03 Oct 2026 20:31:45.999 * Accepted 10.0.3.5:50644
+1:M 03 Oct 2026 20:31:46.395 # Connection with client id=353 addr=10.0.3.5:52401 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:47.269 * 252 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:47.736 * Accepted 10.0.3.5:52843
+1:M 03 Oct 2026 20:31:47.918 * 4866 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:47.918 * Background saving started by pid 121
+121:C 03 Oct 2026 20:31:47.918 * DB saved on disk
+1:M 03 Oct 2026 20:31:47.918 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:48.423 * 871 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:48.476 * Accepted 10.0.3.5:55585
+1:M 03 Oct 2026 20:31:48.924 # Connection with client id=473 addr=10.0.3.5:58523 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:49.165 * 3215 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:49.165 * Background saving started by pid 108
+108:C 03 Oct 2026 20:31:49.165 * DB saved on disk
+1:M 03 Oct 2026 20:31:49.165 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:49.999 # Connection with client id=464 addr=10.0.3.5:50934 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:49.999 * Accepted 10.0.3.5:52504
+1:M 03 Oct 2026 20:31:50.834 * 8847 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:50.834 * Background saving started by pid 107
+107:C 03 Oct 2026 20:31:50.834 * DB saved on disk
+1:M 03 Oct 2026 20:31:50.834 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:50.999 * Accepted 10.0.3.5:52947
+1:M 03 Oct 2026 20:31:51.624 * Accepted 10.0.3.5:53000
+1:M 03 Oct 2026 20:31:51.795 * 245 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:51.999 * Accepted 10.0.3.5:51024
+1:M 03 Oct 2026 20:31:52.136 * Accepted 10.0.3.5:52040
+1:M 03 Oct 2026 20:31:52.696 # Connection with client id=380 addr=10.0.3.5:54571 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:52.726 * Accepted 10.0.3.5:55782
+1:M 03 Oct 2026 20:31:52.780 * Accepted 10.0.3.5:52067
+1:M 03 Oct 2026 20:31:52.999 * 7509 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:52.999 * Background saving started by pid 92
+92:C 03 Oct 2026 20:31:52.999 * DB saved on disk
+1:M 03 Oct 2026 20:31:52.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:53.417 * 3820 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:53.417 * Background saving started by pid 98
+98:C 03 Oct 2026 20:31:53.417 * DB saved on disk
+1:M 03 Oct 2026 20:31:53.417 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:54.212 * Accepted 10.0.3.5:54080
+1:M 03 Oct 2026 20:31:54.999 # Connection with client id=386 addr=10.0.3.5:55464 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:54.999 * 2465 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:54.999 * Background saving started by pid 73
+73:C 03 Oct 2026 20:31:54.999 * DB saved on disk
+1:M 03 Oct 2026 20:31:54.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:55.999 # Connection with client id=370 addr=10.0.3.5:58846 lost: Connection reset by peer
+1:M 03 Oct 2026 20:31:56.447 * 3662 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:31:56.447 * Background saving started by pid 69
+69:C 03 Oct 2026 20:31:56.447 * DB saved on disk
+1:M 03 Oct 2026 20:31:56.447 * Background saving terminated with success
+1:M 03 Oct 2026 20:31:56.645 * Accepted 10.0.3.5:52104
+1:M 03 Oct 2026 20:31:57.121 * Accepted 10.0.3.5:54217
+1:M 03 Oct 2026 20:31:57.255 * 457 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:31:59.324 * Accepted 10.0.3.5:50475
+1:M 03 Oct 2026 20:31:59.884 * Accepted 10.0.3.5:53780
+1:M 03 Oct 2026 20:32:00.814 * 2116 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:32:00.814 * Background saving started by pid 126
+126:C 03 Oct 2026 20:32:00.814 * DB saved on disk
+1:M 03 Oct 2026 20:32:00.814 * Background saving terminated with success
+1:M 03 Oct 2026 20:32:01.395 * Accepted 10.0.3.5:54336
+1:M 03 Oct 2026 20:32:01.629 * Accepted 10.0.3.5:57232
+1:M 03 Oct 2026 20:32:01.767 * Accepted 10.0.3.5:53518
+1:M 03 Oct 2026 20:32:02.999 * 7764 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:32:02.999 * Background saving started by pid 127
+127:C 03 Oct 2026 20:32:02.999 * DB saved on disk
+1:M 03 Oct 2026 20:32:02.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:32:02.999 * 3111 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:32:02.999 * Background saving started by pid 108
+108:C 03 Oct 2026 20:32:02.999 * DB saved on disk
+1:M 03 Oct 2026 20:32:02.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:32:03.869 * 253 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:32:03.999 * Accepted 10.0.3.5:55903
+1:M 03 Oct 2026 20:32:04.309 * Accepted 10.0.3.5:54513
+1:M 03 Oct 2026 20:32:04.394 # Connection with client id=430 addr=10.0.3.5:54136 lost: Connection reset by peer
+1:M 03 Oct 2026 20:32:04.530 # Connection with client id=465 addr=10.0.3.5:57871 lost: Connection reset by peer
+1:M 03 Oct 2026 20:32:04.602 * 83 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:32:04.999 * 4897 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:32:04.999 * Background saving started by pid 130
+130:C 03 Oct 2026 20:32:04.999 * DB saved on disk
+1:M 03 Oct 2026 20:32:04.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:32:04.999 * 6696 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:32:04.999 * Background saving started by pid 103
+103:C 03 Oct 2026 20:32:04.999 * DB saved on disk
+1:M 03 Oct 2026 20:32:04.999 * Background saving terminated with success
+1:M 03 Oct 2026 20:32:05.813 * 2538 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:32:05.813 * Background saving started by pid 133
+133:C 03 Oct 2026 20:32:05.813 * DB saved on disk
+1:M 03 Oct 2026 20:32:05.813 * Background saving terminated with success
+1:M 03 Oct 2026 20:32:07.013 # Connection with client id=310 addr=10.0.3.5:53842 lost: Connection reset by peer
+1:M 03 Oct 2026 20:32:07.089 * Accepted 10.0.3.5:54754
+1:M 03 Oct 2026 20:32:07.206 * 5659 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:32:07.206 * Background saving started by pid 112
+112:C 03 Oct 2026 20:32:07.206 * DB saved on disk
+1:M 03 Oct 2026 20:32:07.206 * Background saving terminated with success
+1:M 03 Oct 2026 20:32:07.472 # Connection with client id=306 addr=10.0.3.5:50867 lost: Connection reset by peer
+1:M 03 Oct 2026 20:32:07.584 # Connection with client id=344 addr=10.0.3.5:51220 lost: Connection reset by peer
+1:M 03 Oct 2026 20:32:07.752 # Connection with client id=494 addr=10.0.3.5:54626 lost: Connection reset by peer
+1:M 03 Oct 2026 20:32:08.361 * 8940 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:32:08.361 * Background saving started by pid 100
+100:C 03 Oct 2026 20:32:08.361 * DB saved on disk
+1:M 03 Oct 2026 20:32:08.361 * Background saving terminated with success
+1:M 03 Oct 2026 20:32:08.802 * Accepted 10.0.3.5:52950
+1:M 03 Oct 2026 20:32:08.876 * 5638 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:32:08.876 * Background saving started by pid 112
+112:C 03 Oct 2026 20:32:08.876 * DB saved on disk
+1:M 03 Oct 2026 20:32:08.876 * Background saving terminated with success
+1:M 03 Oct 2026 20:32:09.191 * Accepted 10.0.3.5:51173
+1:M 03 Oct 2026 20:32:10.664 * Accepted 10.0.3.5:55054
+1:M 03 Oct 2026 20:32:10.999 * Accepted 10.0.3.5:57211
+1:M 03 Oct 2026 20:32:11.258 * Accepted 10.0.3.5:50270
+1:M 03 Oct 2026 20:32:11.314 * 2087 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:32:11.314 * Background saving started by pid 82
+82:C 03 Oct 2026 20:32:11.314 * DB saved on disk
+1:M 03 Oct 2026 20:32:11.314 * Background saving terminated with success
+1:M 03 Oct 2026 20:32:12.108 * Accepted 10.0.3.5:55904
+1:M 03 Oct 2026 20:32:12.186 * Accepted 10.0.3.5:50039
+1:M 03 Oct 2026 20:32:13.578 * 2059 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:32:13.578 * Background saving started by pid 116
+116:C 03 Oct 2026 20:32:13.578 * DB saved on disk
+1:M 03 Oct 2026 20:32:13.578 * Background saving terminated with success
+1:M 03 Oct 2026 20:32:13.798 * Accepted 10.0.3.5:53772
+1:M 03 Oct 2026 20:32:13.896 # Connection with client id=464 addr=10.0.3.5:51566 lost: Connection reset by peer
+1:M 03 Oct 2026 20:32:13.920 * 781 changes in 60 seconds. Saving...
+1:M 03 Oct 2026 20:32:13.999 * Accepted 10.0.3.5:53146
+1:M 03 Oct 2026 20:32:14.030 * 5141 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:32:14.030 * Background saving started by pid 128
+128:C 03 Oct 2026 20:32:14.030 * DB saved on disk
+1:M 03 Oct 2026 20:32:14.030 * Background saving terminated with success
+1:M 03 Oct 2026 20:32:14.596 * 634 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:32:14.596 * Background saving started by pid 112
+112:C 03 Oct 2026 20:32:14.596 * DB saved on disk
+1:M 03 Oct 2026 20:32:14.596 * Background saving terminated with success
+1:M 03 Oct 2026 20:32:14.784 * 6429 changes in 300 seconds. Saving...
+1:M 03 Oct 2026 20:32:14.784 * Background saving started by pid 64
+64:C 03 Oct 2026 20:32:14.784 * DB saved on disk
+1:M 03 Oct 2026 20:32:14.784 * Background saving terminated with success
+1:M 03 Oct 2026 20:32:14.834 * Accepted 10.0.3.5:53333
+1:M 03 Oct 2026 20:32:14.999 * Accepted 10.0.3.5:52725
