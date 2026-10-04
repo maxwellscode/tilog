@@ -22,5 +22,5 @@ The first public version.
 - Level coloring for common formats (Java, logfmt, JSON, nginx, klog, ...), configurable in TOML;
   `NO_COLOR` is honored. Mouse selection and copy.
 - A manual page (`man/tilog.1`), which the program carries: `tilog --print-man`.
-- A small binary (2.5 MB) with bounded memory: lines are cut at 64 KiB, a source holds at most
+- A small binary (about 3 MB) with bounded memory: lines are cut at 64 KiB, a source holds at most
   32 MiB of text, and the screen is only redrawn when something changed.

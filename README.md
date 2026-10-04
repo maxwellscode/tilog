@@ -99,7 +99,7 @@ suite reproduce most of it.
 
 | | |
 |---|---|
-| Binary | 2.5 MB, no runtime |
+| Binary | about 3 MB (2.6 MB on macOS, 3.3 MB for the static Linux build), no runtime |
 | First log line on screen | about 12 ms after start, for a 10 KB file and a 1.1 GB file alike (it opens at the end) |
 | Idle | 0.1 % CPU with one file, 0.3 % with nine sources: nothing is redrawn when nothing changed |
 | Memory | 16 MB with a 1.1 GB file open, 21 MB with nine sources, 15 MB after 5 million lines through a pipe |
