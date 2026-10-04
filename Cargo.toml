@@ -25,3 +25,9 @@ unsafe_code = "warn"
 [lints.clippy]
 all = { level = "warn", priority = -1 }
 undocumented_unsafe_blocks = "deny"
+
+# A small, fast binary for release builds: link-time optimization, one codegen unit, no symbols.
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
