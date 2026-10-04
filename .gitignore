@@ -7,3 +7,6 @@
 *.swp
 *~
 .DS_Store
+
+# Release archives made by scripts/package.sh
+/dist
