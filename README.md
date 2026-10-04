@@ -17,6 +17,16 @@ server. If you know `less`, you already know most of it.
 - **Not a log platform:** no storage, indexing, alerting, dashboards or query language. For
   that, use a tool built for it (lnav for format parsing and SQL, or a hosted service).
 
+## Install
+
+tilog is not on crates.io yet. From a checkout:
+
+```sh
+cargo install --path .
+```
+
+It needs Rust 1.88 or newer, and runs on Linux and macOS (see [Platforms](#platforms)).
+
 ## Usage
 
 ```sh
@@ -88,16 +98,10 @@ Set `NO_COLOR=1` for a screen without color (reverse video marks what color mark
 Linux and macOS. On Windows, use WSL: the Linux build runs there unchanged. A native Windows
 build is not supported yet (process handling and file identity use Unix APIs).
 
-## Development
+## Contributing
 
-```sh
-cargo test
-cargo clippy --all-targets -- -D warnings
-cargo fmt --all --check
-```
-
-The code is organised by topic; each module starts with a `//!` comment saying what it is for.
-`src/tile/` is one window, `src/app/` is the application (keys, drawing, commands).
+See [CONTRIBUTING.md](CONTRIBUTING.md): how to build and test, what belongs in tilog and what
+does not, and a dev container for Linux. Changes are listed in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
