@@ -16,6 +16,10 @@ const MATCH_CAPACITY: usize = 50_000;
 /// unbounded memory.
 const MAX_ENTRY_LINES: usize = 5_000;
 
+/// The same for the text of one entry: lines of up to 64 KiB each could otherwise add up to
+/// hundreds of megabytes before the line limit is reached.
+const MAX_ENTRY_BYTES: usize = 4 * 1024 * 1024;
+
 /// How long without a new line before the last entry counts as complete.
 const IDLE_RELEASE: Duration = Duration::from_millis(150);
 
@@ -36,6 +40,8 @@ pub struct StreamFilterView {
     rows: RingBuffer,
     /// The entry being collected: its lines, and whether it matches so far.
     entry: Vec<String>,
+    /// Bytes of text in `entry`.
+    entry_bytes: usize,
     state: EntryMatch,
     last_line: Instant,
     entries: usize,
@@ -59,6 +65,7 @@ impl StreamFilterView {
             prefix_cols,
             rows: RingBuffer::with_origin(MATCH_CAPACITY, 0),
             entry: Vec::new(),
+            entry_bytes: 0,
             last_line: Instant::now(),
             entries: 0,
             next_source_seq: first_source_seq,
@@ -81,13 +88,16 @@ impl StreamFilterView {
         let text = after_chars(line, self.prefix_cols);
         // A line either starts a new entry (completing the previous one) or continues it.
         let starts = self.rule.starts_entry(text.as_bytes());
-        if !self.entry.is_empty() && (starts || self.entry.len() >= MAX_ENTRY_LINES) {
+        let too_big =
+            self.entry.len() >= MAX_ENTRY_LINES || self.entry_bytes + line.len() > MAX_ENTRY_BYTES;
+        if !self.entry.is_empty() && (starts || too_big) {
             self.finish();
         }
         if self.entry.is_empty() {
             self.state.clear();
         }
         self.state.feed(&self.filter, text.as_bytes());
+        self.entry_bytes += line.len();
         self.entry.push(line.to_string());
         self.next_source_seq += 1;
         self.last_line = Instant::now();
@@ -109,6 +119,7 @@ impl StreamFilterView {
                 self.rows.push(first_source + i as u64, line);
             }
             self.entries += 1;
+            self.entry_bytes = 0;
             // Entries whose first row has been pushed out are gone.
             while self
                 .starts
@@ -119,6 +130,7 @@ impl StreamFilterView {
             }
         } else {
             self.entry.clear();
+            self.entry_bytes = 0;
         }
     }
 }

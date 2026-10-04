@@ -12,6 +12,7 @@ mod highlight;
 mod history;
 mod input;
 mod layout;
+mod line;
 mod lines;
 mod merge;
 mod pipe;

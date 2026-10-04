@@ -6,6 +6,11 @@ use crate::lines::Lines;
 /// first one get smaller numbers, and a `u64` can't go below zero.
 const ORIGIN: u64 = 1 << 40;
 
+/// The most text one buffer holds, in bytes, however many lines that is. Lines are cut at
+/// `line::MAX_LINE_BYTES`, but thousands of long ones would still add up. The oldest lines go
+/// first, as when the line limit is reached.
+const BYTE_BUDGET: usize = 32 * 1024 * 1024;
+
 /// A line and where it starts in the file, so older lines can be located on disk.
 struct Line {
     offset: u64,
@@ -35,6 +40,8 @@ pub struct RingBuffer {
     /// When the file was replaced (log rotation): the sequence number the first line of the new
     /// file got. Lines before it come from a file that is no longer at the path.
     rotated_at: Option<u64>,
+    /// Bytes of text held (see `BYTE_BUDGET`).
+    bytes: usize,
 }
 
 impl RingBuffer {
@@ -53,6 +60,7 @@ impl RingBuffer {
             floor: 0,
             floor_pending: false,
             rotated_at: None,
+            bytes: 0,
         }
     }
 
@@ -65,8 +73,13 @@ impl RingBuffer {
         while self.lines.len() >= self.capacity {
             self.evict_front();
         }
+        self.bytes += text.len();
         self.lines.push_back(Line { offset, text });
         self.received += 1;
+        // Keep at least the newest line, however long.
+        while self.bytes > BYTE_BUDGET && self.lines.len() > 1 {
+            self.evict_front();
+        }
     }
 
     /// Changes how many lines fit. Shrinking evicts the oldest lines at once.
@@ -78,7 +91,9 @@ impl RingBuffer {
     }
 
     fn evict_front(&mut self) {
-        self.lines.pop_front(); // the evicted String is dropped (freed) right here
+        if let Some(line) = self.lines.pop_front() {
+            self.bytes -= line.text.len(); // and the String is dropped (freed) right here
+        }
         self.first_seq += 1;
     }
 
@@ -86,6 +101,11 @@ impl RingBuffer {
     /// Sequence numbers of the existing lines don't change.
     pub fn prepend(&mut self, older: Vec<(u64, String)>) {
         for (offset, text) in older.into_iter().rev() {
+            // History is not allowed to push the buffer over its budget.
+            if self.bytes + text.len() > BYTE_BUDGET {
+                break;
+            }
+            self.bytes += text.len();
             self.lines.push_front(Line { offset, text });
             self.first_seq -= 1;
         }
@@ -96,6 +116,7 @@ impl RingBuffer {
     pub fn clear(&mut self) {
         self.first_seq = self.end_seq();
         self.lines.clear();
+        self.bytes = 0;
         self.floor_pending = true;
     }
 
@@ -335,5 +356,23 @@ mod tests {
         assert_eq!(buf.seq_of_line(1), buf.first_seq());
         assert_eq!(buf.seq_of_line(0), buf.first_seq());
         assert_eq!(buf.seq_of_line(11), buf.first_seq() + 10);
+    }
+
+    #[test]
+    fn the_buffer_holds_at_most_its_byte_budget_of_text() {
+        let mut buf = buffer(1_000_000);
+        let line = "z".repeat(1024 * 1024);
+        for i in 0..100 {
+            buf.push(i, line.clone());
+        }
+        // 100 lines of 1 MiB would be 100 MiB; the budget keeps only the newest ones.
+        assert!(buf.len() <= 32, "{} lines held", buf.len());
+        assert!(buf.len() >= 30);
+        assert_eq!(buf.end_seq(), 100, "sequence numbers go on counting");
+
+        // One line over the budget is still kept: the newest line is never dropped.
+        let mut big = buffer(10);
+        big.push(0, "q".repeat(40 * 1024 * 1024));
+        assert_eq!(big.len(), 1);
     }
 }

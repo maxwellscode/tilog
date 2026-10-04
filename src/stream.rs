@@ -5,7 +5,7 @@
 //! command's whole process group right away, so closing a tile or quitting never leaves an
 //! `ssh` or `kubectl` running in the background.
 
-use std::io::{BufRead, BufReader, Read};
+use std::io::{BufReader, Read};
 use std::os::unix::process::CommandExt;
 use std::process::{Child, Command, Stdio};
 use std::sync::atomic::{AtomicBool, Ordering};
@@ -14,8 +14,9 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::{Duration, Instant};
 
+use crate::line::CappedLine;
 use crate::spec::{CommandSpec, Restart};
-use crate::tail::{CHANNEL_BOUND, Status, TailMsg, trim_eol};
+use crate::tail::{CHANNEL_BOUND, Status, TailMsg};
 
 /// The wait before restarting doubles each time, up to this many seconds.
 const MAX_BACKOFF_SECS: u64 = 30;
@@ -234,12 +235,17 @@ fn run_once(
     let stderr_reader = child.stderr.take().map(|stderr| {
         thread::spawn(move || {
             let mut last = String::new();
-            for line in BufReader::new(stderr).lines().map_while(Result::ok) {
-                if !line.trim().is_empty() {
-                    last = line;
+            let (mut reader, mut line) = (BufReader::new(stderr), CappedLine::new());
+            loop {
+                line.clear();
+                if !matches!(line.read_from(&mut reader), Ok(read) if read > 0) {
+                    return last;
+                }
+                let text = line.to_text();
+                if !text.trim().is_empty() {
+                    last = text;
                 }
             }
-            last
         })
     });
     // Held until this function returns: closing it is how the remote side learns we are gone.
@@ -262,17 +268,17 @@ fn run_once(
     }
 
     let mut reader = BufReader::new(stdout);
-    let mut buf = Vec::new();
+    let mut line = CappedLine::new();
     // With stderr merged into the output, the tool's own error message (docker's "No such
     // container") is among the lines. The last one explains a failed exit.
     let merged = spec.merges_stderr();
     let mut last_output = String::new();
     loop {
-        buf.clear();
-        match reader.read_until(b'\n', &mut buf) {
+        line.clear();
+        match line.read_from(&mut reader) {
             Ok(0) | Err(_) => break,
             Ok(_) => {
-                let text = String::from_utf8_lossy(trim_eol(&buf)).into_owned();
+                let text = line.to_text();
                 if merged && !text.trim().is_empty() {
                     last_output.clone_from(&text);
                 }

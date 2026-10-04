@@ -520,3 +520,24 @@ fn the_main_tile_of_a_stream_shows_a_seq_and_says_when_it_is_gone() {
         "a command has no file to read"
     );
 }
+#[test]
+fn a_huge_line_is_cut_and_the_lines_after_it_are_still_found() {
+    let path = std::env::temp_dir().join(format!("tilog-tile-huge-{}.log", std::process::id()));
+    let mut content = String::from("first\n");
+    content.push_str(&"x".repeat(20_000_000)); // one 20 MB line
+    content.push_str("\nlast\n");
+    std::fs::write(&path, &content).unwrap();
+    let mut tile = Tile::source(path.to_str().unwrap(), 100).unwrap();
+    wait_for_lines(&mut tile, 3);
+
+    let rows = tile.visible(10);
+    assert_eq!(rows[0], "first");
+    assert!(
+        rows[1].starts_with("xxxx") && rows[1].ends_with("bytes cut]"),
+        "cut: {}",
+        rows[1].len()
+    );
+    assert!(rows[1].len() < 70_000);
+    assert_eq!(rows[2], "last");
+    std::fs::remove_file(&path).unwrap();
+}

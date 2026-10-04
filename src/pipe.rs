@@ -11,11 +11,8 @@ use std::thread;
 
 use anyhow::{Result, bail};
 
-use crate::tail::{Status, TailMsg, trim_eol};
-
-/// How many lines may wait for the UI before the reader slows down (and, through the pipe, the
-/// program that writes to it). The same limit the other sources use.
-const CHANNEL_BOUND: usize = 4096;
+use crate::line::CappedLine;
+use crate::tail::{CHANNEL_BOUND, Status, TailMsg};
 
 /// There is only one standard input, so it can be a source only once.
 static TAKEN: AtomicBool = AtomicBool::new(false);
@@ -36,13 +33,13 @@ pub fn spawn() -> Result<Receiver<TailMsg>> {
 /// Sends every line of `input`, then says the input ended. A last line without a newline is a
 /// line too: a pipe has nothing more to wait for, unlike a file that is still being written.
 fn read_lines(mut input: impl BufRead, tx: &SyncSender<TailMsg>) {
-    let (mut offset, mut buf) = (0u64, Vec::new());
+    let (mut offset, mut line) = (0u64, CappedLine::new());
     let why = loop {
-        buf.clear();
-        match input.read_until(b'\n', &mut buf) {
+        line.clear();
+        match line.read_from(&mut input) {
             Ok(0) => break "input closed".to_string(),
             Ok(read) => {
-                let text = String::from_utf8_lossy(trim_eol(&buf)).into_owned();
+                let text = line.to_text();
                 if tx.send(TailMsg::Line { offset, text }).is_err() {
                     return; // the UI is gone
                 }

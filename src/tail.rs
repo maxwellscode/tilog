@@ -1,11 +1,12 @@
 use std::fs::{self, File, Metadata};
-use std::io::{self, BufRead, BufReader, Seek, SeekFrom};
+use std::io::{self, BufReader, Seek, SeekFrom};
 use std::os::unix::fs::MetadataExt;
 use std::path::{Path, PathBuf};
 use std::sync::mpsc::{self, Receiver, SyncSender};
 use std::thread;
 use std::time::Duration;
 
+use crate::line::CappedLine;
 use anyhow::{Context, Result};
 use notify::{RecursiveMode, Watcher};
 
@@ -23,7 +24,7 @@ const QUICK_POLL: Duration = Duration::from_millis(150);
 /// How many messages a thread may have queued for the UI before it has to wait.
 /// A bounded channel gives *backpressure*: reading a huge file can never flood memory faster
 /// than the UI consumes it.
-pub const CHANNEL_BOUND: usize = 4096;
+pub const CHANNEL_BOUND: usize = 1024;
 
 /// What a following thread does with the lines it reads. The thread loop is the same for every
 /// consumer; the sink decides what happens to each line. (Roughly a Java interface with a
@@ -135,14 +136,14 @@ fn follow(
     reader.seek(SeekFrom::Start(start))?;
     let mut pos: u64 = start; // where we have read up to
     let mut line_start: u64 = start; // where the line currently being assembled began
-    let mut buf: Vec<u8> = Vec::new(); // the line currently being assembled
+    let mut line = CappedLine::new(); // the line currently being assembled
     // Set once the old file has been seen to be replaced and given its last moment.
     let mut grace_given = false;
 
     loop {
-        // Appends bytes up to and including '\n' to `buf`. Returns 0 at end of file.
+        // Adds bytes up to and including '\n' to the line. Returns 0 at end of file.
         // We read raw bytes rather than a `String`, because log files are not always valid UTF-8.
-        let n = reader.read_until(b'\n', &mut buf)?;
+        let n = line.read_from(&mut reader)?;
 
         if n == 0 {
             if !sink.caught_up() {
@@ -155,7 +156,7 @@ fn follow(
                 reader.seek(SeekFrom::Start(0))?;
                 pos = 0;
                 line_start = 0;
-                buf.clear();
+                line.clear();
                 if !sink.reset() {
                     return Ok(());
                 }
@@ -177,7 +178,7 @@ fn follow(
                         reader = BufReader::new(replacement);
                         pos = 0;
                         line_start = 0;
-                        buf.clear();
+                        line.clear();
                         grace_given = false;
                         if !sink.reset() {
                             return Ok(());
@@ -205,9 +206,9 @@ fn follow(
         grace_given = false; // the old file is still being written: it is not done yet
 
         // The writer may be in the middle of a line. Only emit complete lines.
-        if buf.ends_with(b"\n") {
-            let keep_going = sink.line(line_start, trim_eol(&buf));
-            buf.clear();
+        if line.is_complete() {
+            let keep_going = sink.line(line_start, &line.text());
+            line.clear();
             line_start = pos;
             if !keep_going {
                 return Ok(());

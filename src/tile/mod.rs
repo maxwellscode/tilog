@@ -256,9 +256,14 @@ impl Tile {
                     *live_capacity + HISTORY_MAX
                 });
 
+                // Report "more may be waiting" whenever something was taken in, not only after a
+                // full batch: the channel is smaller than a batch, and the UI must come straight
+                // back for the next chunk instead of idling.
+                let mut taken = 0;
                 for _ in 0..MAX_LINES_PER_PUMP {
                     match rx.try_recv() {
                         Ok(TailMsg::Line { offset, text }) => {
+                            taken += 1;
                             if let Some(fresh) = fresh.as_deref_mut() {
                                 fresh.push(text.clone());
                             }
@@ -266,7 +271,7 @@ impl Tile {
                         }
                         Ok(TailMsg::Rotated) => lines.rotated(),
                         Ok(TailMsg::Status(status)) => *current = Some(status),
-                        Err(_) => return false,
+                        Err(_) => return taken > 0,
                     }
                 }
                 true

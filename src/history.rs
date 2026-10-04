@@ -4,9 +4,9 @@
 //! All offsets are byte offsets. A "line" is whatever ends in `\n`.
 
 use std::fs::File;
-use std::io::{self, BufRead, BufReader, Read, Seek, SeekFrom};
+use std::io::{self, BufReader, Read, Seek, SeekFrom};
 
-use crate::tail::trim_eol;
+use crate::line::CappedLine;
 
 /// Bytes read per step while walking backwards.
 const CHUNK: u64 = 64 * 1024;
@@ -46,20 +46,21 @@ pub fn start_of_last_lines(file: &mut File, end: u64, n: usize) -> io::Result<u6
 
 /// The complete lines in `start..end` (both at line boundaries), each with its byte offset.
 pub fn read_lines(file: &mut File, start: u64, end: u64) -> io::Result<Vec<(u64, String)>> {
-    let mut bytes = vec![0u8; end.saturating_sub(start) as usize];
     file.seek(SeekFrom::Start(start))?;
-    file.read_exact(&mut bytes)?;
-
-    let mut lines = Vec::new();
-    let mut line_start = 0;
-    for (i, byte) in bytes.iter().enumerate() {
-        if *byte == b'\n' {
-            let text = String::from_utf8_lossy(trim_eol(&bytes[line_start..i])).into_owned();
-            lines.push((start + line_start as u64, text));
-            line_start = i + 1;
+    // Read through a limit, so the range is never held in memory as a whole: a line of many
+    // megabytes is cut as it is read (see `CappedLine`).
+    let mut reader = BufReader::new(file.take(end.saturating_sub(start)));
+    let (mut lines, mut offset) = (Vec::new(), start);
+    let mut line = CappedLine::new();
+    loop {
+        line.clear();
+        let read = line.read_from(&mut reader)?;
+        if read == 0 || !line.is_complete() {
+            return Ok(lines); // a last line without its `\n` is not a line yet
         }
+        lines.push((offset, line.to_text()));
+        offset += read as u64;
     }
-    Ok(lines)
 }
 
 /// Up to `n` complete lines starting at byte offset `start` (the start of a line), each with its
@@ -72,14 +73,14 @@ pub fn read_from(path: &str, start: u64, n: usize) -> io::Result<(Vec<(u64, Stri
 
     let mut lines = Vec::new();
     let mut offset = start;
-    let mut buf = Vec::new();
+    let mut line = CappedLine::new();
     while lines.len() < n {
-        buf.clear();
-        let read = reader.read_until(b'\n', &mut buf)?;
-        if read == 0 || !buf.ends_with(b"\n") {
+        line.clear();
+        let read = line.read_from(&mut reader)?;
+        if read == 0 || !line.is_complete() {
             break;
         }
-        lines.push((offset, String::from_utf8_lossy(trim_eol(&buf)).into_owned()));
+        lines.push((offset, line.to_text()));
         offset += read as u64;
     }
     Ok((lines, offset))
@@ -164,8 +165,8 @@ fn probe(
     // The byte before `from` tells whether `from` is the start of a line; if not, skip the rest
     // of this one.
     let mut offset = from.saturating_sub(1);
-    let mut buf = Vec::new();
-    let read = reader.read_until(b'\n', &mut buf)?;
+    let mut line = CappedLine::new();
+    let read = line.read_from(&mut reader)?;
     offset += read as u64;
     if from == 0 {
         offset = 0;
@@ -175,12 +176,12 @@ fn probe(
         if offset >= limit {
             break;
         }
-        buf.clear();
-        let read = reader.read_until(b'\n', &mut buf)?;
-        if read == 0 || !buf.ends_with(b"\n") {
+        line.clear();
+        let read = line.read_from(&mut reader)?;
+        if read == 0 || !line.is_complete() {
             break;
         }
-        if let Some(time) = time_of(&String::from_utf8_lossy(trim_eol(&buf))) {
+        if let Some(time) = time_of(&line.to_text()) {
             return Ok(Some((offset, time)));
         }
         offset += read as u64;

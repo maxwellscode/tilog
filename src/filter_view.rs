@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{BufRead, BufReader, Seek, SeekFrom};
+use std::io::{BufReader, Seek, SeekFrom};
 use std::mem;
 use std::sync::mpsc::{self, Receiver, SyncSender};
 use std::time::{Duration, Instant};
@@ -8,6 +8,7 @@ use anyhow::Result;
 
 use crate::filter::{EntryMatch, Filter};
 use crate::group::GroupRule;
+use crate::line::CappedLine;
 use crate::lines::Lines;
 use crate::tail::{self, CHANNEL_BOUND, LineSink};
 
@@ -21,6 +22,11 @@ const MAX_MESSAGES_PER_PUMP: usize = 64;
 /// Measured in time, not in wake-ups: watching a busy directory wakes the scanner often.
 const ENTRY_QUIET: Duration = Duration::from_millis(140);
 
+/// The most matching entries a file filter keeps (16 bytes each: 64 MB). A filter that matches
+/// nearly every line of a huge file would otherwise grow with the file. The ones found first
+/// are kept; the title says when there were more.
+const MAX_MATCHES: usize = 4_000_000;
+
 /// What the scanner thread tells the UI.
 pub enum ScanMsg {
     /// Matching entries, in file order: where each starts (byte offset) and how many lines it has.
@@ -29,6 +35,8 @@ pub enum ScanMsg {
     Reset,
     /// The scanner has read to the end of the file (and keeps following it).
     CaughtUp,
+    /// More entries match than are kept: the rest is dropped.
+    Limit,
 }
 
 /// The entry being read right now. Its lines are not kept, only where it began and how long it is.
@@ -47,6 +55,11 @@ struct FilterSink {
     state: EntryMatch,
     /// When an end of file was first reached while an entry was pending.
     held_since: Option<Instant>,
+    /// Entries reported so far, and the most that are (see `MAX_MATCHES`).
+    reported: usize,
+    limit: usize,
+    /// The UI was told that the limit was reached.
+    limit_told: bool,
     batch: Vec<(u64, u32)>,
     tx: SyncSender<ScanMsg>,
 }
@@ -58,6 +71,12 @@ impl FilterSink {
             return true;
         };
         if self.state.is_match() {
+            if self.reported >= self.limit {
+                // Over the limit: say so once, keep nothing more.
+                let first_time = !mem::replace(&mut self.limit_told, true);
+                return !first_time || self.tx.send(ScanMsg::Limit).is_ok();
+            }
+            self.reported += 1;
             self.batch.push((entry.offset, entry.lines));
             if self.batch.len() >= BATCH {
                 return self.flush();
@@ -103,6 +122,8 @@ impl LineSink for FilterSink {
         self.pending = None;
         self.held_since = None;
         self.batch.clear();
+        self.reported = 0;
+        self.limit_told = false;
         self.tx.send(ScanMsg::Reset).is_ok()
     }
 
@@ -160,11 +181,17 @@ pub struct FilterView {
     /// The match `n` / `N` stopped at last, as an index into `entries`.
     current: Option<usize>,
     scanning: bool,
+    /// More entries matched than `MAX_MATCHES`: only the first ones are here.
+    limited: bool,
     rx: Receiver<ScanMsg>,
 }
 
 impl FilterView {
     pub fn start(path: &str, filter: Filter, rule: GroupRule) -> Result<Self> {
+        Self::start_limited(path, filter, rule, MAX_MATCHES)
+    }
+
+    fn start_limited(path: &str, filter: Filter, rule: GroupRule, limit: usize) -> Result<Self> {
         let (tx, rx) = mpsc::sync_channel(CHANNEL_BOUND);
         let sink = FilterSink {
             state: filter.start_entry(),
@@ -173,6 +200,9 @@ impl FilterView {
             pending: None,
             held_since: None,
             batch: Vec::new(),
+            reported: 0,
+            limit,
+            limit_told: false,
             tx,
         };
         tail::follow_file(path, sink)?;
@@ -183,6 +213,7 @@ impl FilterView {
             total_rows: 0,
             current: None,
             scanning: true,
+            limited: false,
             rx,
         })
     }
@@ -196,6 +227,11 @@ impl FilterView {
         self.entries.len()
     }
 
+    /// Did more entries match than are kept?
+    pub fn is_limited(&self) -> bool {
+        self.limited
+    }
+
     /// True until the scanner has read the existing file to its end.
     pub fn is_scanning(&self) -> bool {
         self.scanning
@@ -203,9 +239,11 @@ impl FilterView {
 
     /// Takes in what the scanner thread has sent. Returns `true` if more may be waiting.
     pub fn pump(&mut self) -> bool {
+        let mut taken = 0;
         for _ in 0..MAX_MESSAGES_PER_PUMP {
             match self.rx.try_recv() {
                 Ok(ScanMsg::Matches(found)) => {
+                    taken += 1;
                     for (offset, lines) in found {
                         self.entries.push(Entry {
                             offset,
@@ -219,9 +257,11 @@ impl FilterView {
                     self.total_rows = 0;
                     self.current = None;
                     self.scanning = true;
+                    self.limited = false;
                 }
                 Ok(ScanMsg::CaughtUp) => self.scanning = false,
-                Err(_) => return false, // nothing left (or the thread has ended)
+                Ok(ScanMsg::Limit) => self.limited = true,
+                Err(_) => return taken > 0, // nothing left (or the thread has ended)
             }
         }
         true
@@ -342,7 +382,7 @@ impl Lines for FilterView {
             return vec!["<cannot open file>".to_string(); count.min(1)];
         };
         let mut reader = BufReader::new(file);
-        let mut buf = Vec::new();
+        let mut line = CappedLine::new();
         let mut rows = Vec::with_capacity(count);
 
         // Entries are not next to each other in the file (the ones in between didn't match),
@@ -353,11 +393,11 @@ impl Lines for FilterView {
                 break;
             }
             for row in 0..self.rows_of(index) {
-                buf.clear();
-                match reader.read_until(b'\n', &mut buf) {
+                line.clear();
+                match line.read_from(&mut reader) {
                     Ok(0) => break, // the file got shorter underneath us
                     Ok(_) if row < skip => {}
-                    Ok(_) => rows.push(String::from_utf8_lossy(tail::trim_eol(&buf)).into_owned()),
+                    Ok(_) => rows.push(line.to_text()),
                     Err(e) => {
                         rows.push(format!("<read error: {e}>"));
                         break 'entries;
@@ -535,6 +575,25 @@ mod tests {
         pump_until(&mut view, |v| v.len() == 2 && !v.is_scanning());
         assert_eq!(view.range(2, 10), ["SEVERE b", "\tat two"]);
 
+        std::fs::remove_file(&path).unwrap();
+    }
+
+    #[test]
+    fn a_filter_keeps_at_most_its_limit_of_matches_and_says_so() {
+        let content: String = (0..50).map(|i| format!("hit {i}\nother {i}\n")).collect();
+        let path = temp_log("limit", &content);
+        let filter = Filter::new(None, "hit", false, false).unwrap();
+        let mut view =
+            FilterView::start_limited(path.to_str().unwrap(), filter, GroupRule::Off, 10).unwrap();
+
+        pump_until(&mut view, |v| v.is_limited() && !v.is_scanning());
+        assert_eq!(
+            view.len(),
+            10,
+            "the first ten are kept, the other forty are not"
+        );
+        assert_eq!(view.range(0, 1), ["hit 0"]);
+        assert_eq!(view.range(9, 1), ["hit 9"]);
         std::fs::remove_file(&path).unwrap();
     }
 }

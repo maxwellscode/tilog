@@ -66,6 +66,8 @@ impl Tile {
             Content::Filter(view) => {
                 let scanning = if view.is_scanning() {
                     " · scanning…"
+                } else if view.is_limited() {
+                    " · first matches only: narrow the filter"
                 } else {
                     ""
                 };
