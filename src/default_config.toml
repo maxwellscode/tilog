@@ -170,8 +170,10 @@ italic = true
 
 # Named sources: `tilog prod-api` (or `/add prod-api`) opens them, so a team can share this file.
 # `spec` is a file path, or one of:
-#   ssh:[user@]host:/path/to/log     tail -F over ssh (keys or the ssh agent only: tilog never
-#                                    asks for a password)
+#   ssh:[user@]host:/path/to/log     tail -F over ssh (a key or the ssh agent; if the login is
+#                                    refused, ssh asks its question in the source's tile)
+#   ssh:[user@]host:docker:container docker logs -f on that host, over ssh
+#   ssh:[user@]host:kube:[ns/]pod    kubectl logs -f on that host, over ssh
 #   docker:container                 docker logs -f
 #   kube:pod | kube:namespace/pod | kube:namespace/pod/container     kubectl logs -f
 #   cmd:any command                  anything that prints lines, e.g. cmd:journalctl -fu app

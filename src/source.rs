@@ -3,7 +3,7 @@ use std::mem;
 use std::path::Path;
 use std::sync::atomic::{AtomicU64, Ordering};
 
-use anyhow::{Result, bail};
+use anyhow::{Context, Result, bail};
 
 use crate::filter::{Filter, FilterSpec};
 use crate::group::GroupRule;
@@ -83,6 +83,10 @@ impl Source {
                 (Tile::source(path, MAX_LINES)?, name)
             }
             SourceSpec::Command(command) => {
+                // A missing compressed file is reported now, like a missing plain one.
+                if let Some(path) = command.gzip_path() {
+                    fs::metadata(path).with_context(|| format!("cannot open {path}"))?;
+                }
                 (Tile::stream(command.clone(), MAX_LINES), command.name())
             }
             SourceSpec::Stdin => (Tile::stdin(MAX_LINES)?, "stdin".to_string()),

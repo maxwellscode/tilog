@@ -147,7 +147,7 @@ pub(in crate::app) fn help_lines(inner_width: usize) -> Vec<Line<'static>> {
     }
     lines.push(Line::raw(""));
     for note in [
-        "Sources: a file, ssh:host:/path, docker:name, kube:pod, cmd:command.",
+        "Sources: a file, ssh:host:/path, docker:name, kube:pod, ssh:host:docker:name, ssh:host:kube:pod, cmd:command.",
         "Colors and named sources: ~/.config/tilog/config.toml (tilog --print-config).",
     ] {
         lines.extend(

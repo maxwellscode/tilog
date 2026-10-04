@@ -121,7 +121,7 @@ pub static SPECS: &[Spec] = &[
     Spec {
         names: &["add", "a"],
         usage: ":add <path>",
-        help: "Add a source: file, ssh:host:/path, docker:name, kube:pod, cmd:..., or a named one",
+        help: "Add a source: file, ssh:host:/path, docker:name, kube:pod, ssh:host:docker:name, cmd:..., or a named one",
         // Rejoined with single spaces, so a path with spaces still works.
         build: |args| (!args.is_empty()).then(|| Command::Add(args.join(" "))),
     },

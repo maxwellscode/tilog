@@ -23,7 +23,8 @@ pub fn usage() -> String {
         "{NAME} v{VERSION}\n{DESCRIPTION}\n\n\
          USAGE:\n    {NAME} [OPTIONS] [SOURCE]...\n\n\
          SOURCE is a file, a name from the config, or:\n    \
-         ssh:[user@]host:/path   docker:container   kube:[namespace/]pod[/container]   cmd:COMMAND\n\n\
+         ssh:[user@]host:/path   docker:container   kube:[namespace/]pod[/container]   cmd:COMMAND\n    \
+         ssh:[user@]host:docker:container   ssh:[user@]host:kube:[namespace/]pod[/container]\n\n\
          Standard input is read when something is piped in (or with `-`):\n    \
          kubectl logs -f pod | {NAME}\n\n\
          OPTIONS:\n    \
