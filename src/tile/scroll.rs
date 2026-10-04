@@ -1,19 +1,21 @@
 //! Moving the view of a tile: up, down, sideways, to a line.
 
+use super::frozen::Bounded;
 use super::{Content, Tile};
+use crate::lines::Lines;
 
 impl Tile {
     /// For a vertical scrollbar: how many positions the view can take (`total`), and which
     /// one it is at. `height` is the number of visible rows. `None` if everything fits.
     pub fn vertical_extent(&self, height: usize) -> Option<(usize, usize)> {
-        let lines = self.content.lines();
+        let lines = Bounded::of(&self.content, self.frozen_end);
         let total = usize::try_from(lines.end_seq() - lines.first_seq()).ok()?;
         if total <= height {
             return None;
         }
         let position = usize::try_from(
             self.view
-                .top(lines, height)
+                .top(&lines, height)
                 .saturating_sub(lines.first_seq()),
         )
         .ok()?;
@@ -44,23 +46,26 @@ impl Tile {
 
     // `self.view` (mutable) and `self.content` (shared) are different fields, so borrowing
     // both at once is fine.
+
     pub fn scroll_up(&mut self, height: usize, n: u64) {
         // About to scroll past the oldest loaded line: fetch older ones from disk first.
-        let lines = self.content.lines();
+        let lines = Bounded::of(&self.content, self.frozen_end);
         if self
             .view
-            .top(lines, height)
+            .top(&lines, height)
             .saturating_sub(lines.first_seq())
             < n
         {
             self.load_older();
         }
-        self.view.scroll_up(self.content.lines(), height, n);
+        self.view
+            .scroll_up(&Bounded::of(&self.content, self.frozen_end), height, n);
     }
 
     pub fn scroll_down(&mut self, height: usize, n: u64) {
         self.extend_window(height, n);
-        self.view.scroll_down(self.content.lines(), height, n);
+        self.view
+            .scroll_down(&Bounded::of(&self.content, self.frozen_end), height, n);
         if self.view.is_following() {
             self.leave_window(); // scrolled down to the end of the file: back to the live view
         }
@@ -75,13 +80,15 @@ impl Tile {
     }
 
     pub fn jump_to_start(&mut self) {
-        self.view.jump_to_start(self.content.lines());
+        self.view
+            .jump_to_start(&Bounded::of(&self.content, self.frozen_end));
     }
 
     /// Stops following, with the view where it is now.
     pub fn pause(&mut self) {
         let height = self.shown_height.get();
-        self.view.scroll_up(self.content.lines(), height, 0);
+        self.view
+            .scroll_up(&Bounded::of(&self.content, self.frozen_end), height, 0);
     }
 
     pub fn jump_to_end(&mut self) {
@@ -108,9 +115,18 @@ impl Tile {
         }
     }
 
+    /// A frozen view (see `frozen`) is cut off at the end the lines had. Showing a line beyond
+    /// that end lets go of the freeze: the line must be visible.
+    pub(super) fn reveal(&mut self, seq: u64) {
+        if self.frozen_end.is_some_and(|end| seq >= end) {
+            self.frozen_end = None;
+        }
+    }
+
     /// Scrolls to `row`, a third of the way down so there is context above it (as a search
     /// does), and marks it.
     pub(super) fn show_row(&mut self, row: u64, height: usize) {
+        self.reveal(row);
         self.marked = Some(row..row + 1);
         self.view.jump_to(row.saturating_sub(height as u64 / 3));
     }

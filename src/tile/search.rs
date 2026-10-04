@@ -7,6 +7,7 @@ use crate::highlight::Highlight;
 use crate::lines::Lines;
 use crate::severity;
 
+use super::frozen::Bounded;
 use super::{Content, Tile};
 
 /// Where a search starts, relative to the view.
@@ -59,7 +60,8 @@ impl Tile {
         height: usize,
         direction: Find,
     ) -> Option<bool> {
-        let lines = self.content.lines();
+        let bounded = Bounded::of(&self.content, self.frozen_end);
+        let lines: &dyn Lines = &bounded;
         let (first, end) = (lines.first_seq(), lines.end_seq());
         let top = self.view.top(lines, height);
         let following = self.view.is_following();
@@ -161,7 +163,9 @@ impl Tile {
             _ => return None,
         };
         let last = first + rows as u64;
-        let top = self.view.top(self.content.lines(), height);
+        let top = self
+            .view
+            .top(&Bounded::of(&self.content, self.frozen_end), height);
         if first < top || last > top + height as u64 {
             self.view.jump_to(first.saturating_sub(height as u64 / 3));
         }

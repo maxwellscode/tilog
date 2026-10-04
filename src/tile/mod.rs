@@ -5,6 +5,7 @@
 //! file that is not its live end), `title`, and `content` (where the lines come from).
 
 mod content;
+mod frozen;
 mod scroll;
 mod search;
 #[cfg(test)]
@@ -39,6 +40,7 @@ use crate::viewport::Viewport;
 pub use search::{Find, Link};
 
 use content::Content;
+use frozen::Bounded;
 use window::HISTORY_MAX;
 
 /// Per UI tick, take at most this many lines from the main source, so a huge file being
@@ -69,6 +71,8 @@ pub struct Tile {
     /// How many rows the tile was last drawn with, so `pause` can freeze the view without
     /// being told the size of the screen.
     shown_height: Cell<usize>,
+    /// While the view is not following: the end the lines had when it stopped (see `frozen`).
+    frozen_end: Option<u64>,
 }
 
 impl Tile {
@@ -81,6 +85,7 @@ impl Tile {
             error_row: None,
             marked: None,
             shown_height: Cell::new(DEFAULT_HEIGHT),
+            frozen_end: None,
         }
     }
 
@@ -242,6 +247,13 @@ impl Tile {
     /// to its stream filters.
     pub fn pump_collecting(&mut self, mut fresh: Option<&mut Vec<String>>) -> bool {
         let following = self.view.is_following();
+        // A view that stopped following keeps the lines it has: freeze them before taking in
+        // what arrived since, and let go once it follows again.
+        if following {
+            self.frozen_end = None;
+        } else if self.frozen_end.is_none() {
+            self.frozen_end = Some(self.content.lines().end_seq());
+        }
         match &mut self.content {
             Content::Source {
                 live_capacity,
@@ -310,8 +322,8 @@ impl Tile {
     /// The text rows to draw in a tile `height` rows tall, made safe to draw.
     pub fn visible(&self, height: usize) -> Vec<String> {
         self.shown_height.set(height.max(1));
-        let lines = self.content.lines();
-        let rows = lines.range(self.view.top(lines, height), height);
+        let lines = Bounded::of(&self.content, self.frozen_end);
+        let rows = lines.range(self.view.top(&lines, height), height);
         rows.iter().map(|row| printable(row)).collect()
     }
 
@@ -356,22 +368,21 @@ impl Tile {
 
     /// Sequence number of the first line on screen, for a tile `height` rows tall.
     pub fn top_seq(&self, height: usize) -> u64 {
-        self.view.top(self.content.lines(), height)
+        self.view
+            .top(&Bounded::of(&self.content, self.frozen_end), height)
     }
 
     /// Sequence number of the newest line, if there is any.
     pub fn last_seq(&self) -> Option<u64> {
-        let lines = self.content.lines();
+        let lines = Bounded::of(&self.content, self.frozen_end);
         (lines.end_seq() > lines.first_seq()).then(|| lines.end_seq() - 1)
     }
 
     /// The text of lines `from_seq` to `to_seq` (inclusive), as it is shown.
     pub fn text_between(&self, from_seq: u64, to_seq: u64) -> Vec<String> {
         let count = usize::try_from(to_seq.saturating_sub(from_seq) + 1).unwrap_or(usize::MAX);
-        let rows = self
-            .content
-            .lines()
-            .range(from_seq, count.min(MAX_COPY_ROWS));
+        let rows =
+            Bounded::of(&self.content, self.frozen_end).range(from_seq, count.min(MAX_COPY_ROWS));
         rows.iter().map(|row| printable(row)).collect()
     }
 

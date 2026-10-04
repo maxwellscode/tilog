@@ -178,6 +178,7 @@ impl Tile {
             *window = Some(loaded);
         }
         let Some(seq) = seq else { return false };
+        self.reveal(seq);
         self.marked = Some(seq..seq + rows as u64);
         self.view.jump_to(seq.saturating_sub(height as u64 / 3));
         true

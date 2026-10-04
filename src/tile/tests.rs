@@ -520,6 +520,7 @@ fn the_main_tile_of_a_stream_shows_a_seq_and_says_when_it_is_gone() {
         "a command has no file to read"
     );
 }
+
 #[test]
 fn a_huge_line_is_cut_and_the_lines_after_it_are_still_found() {
     let path = std::env::temp_dir().join(format!("tilog-tile-huge-{}.log", std::process::id()));
@@ -539,5 +540,71 @@ fn a_huge_line_is_cut_and_the_lines_after_it_are_still_found() {
     );
     assert!(rows[1].len() < 70_000);
     assert_eq!(rows[2], "last");
+    std::fs::remove_file(&path).unwrap();
+}
+
+#[test]
+fn a_paused_view_does_not_show_lines_that_arrive_after_the_pause() {
+    use std::io::Write;
+    // Fewer lines than the window is tall: new lines would land inside it.
+    let path = std::env::temp_dir().join(format!("tilog-tile-frozen-{}.log", std::process::id()));
+    std::fs::write(&path, "one\ntwo\nthree\n").unwrap();
+    let mut tile = Tile::source(path.to_str().unwrap(), 100).unwrap();
+    wait_for_lines(&mut tile, 3);
+    assert_eq!(tile.visible(10), ["one", "two", "three"]);
+
+    tile.pause();
+    tile.pump(); // the pause takes hold with the next round of the loop
+    let mut file = std::fs::OpenOptions::new()
+        .append(true)
+        .open(&path)
+        .unwrap();
+    file.write_all(b"four\nfive\n").unwrap();
+    wait_for_lines(&mut tile, 5);
+    assert_eq!(tile.total_lines(), 5, "the new lines were collected");
+    assert_eq!(
+        tile.visible(10),
+        ["one", "two", "three"],
+        "but the paused view stays as it was"
+    );
+    assert_eq!(
+        tile.vertical_extent(2),
+        Some((2, 0)),
+        "and so does its scrollbar"
+    );
+
+    // Following again brings them in.
+    tile.jump_to_end();
+    tile.pump();
+    assert_eq!(tile.visible(10), ["one", "two", "three", "four", "five"]);
+    std::fs::remove_file(&path).unwrap();
+}
+
+#[test]
+fn scrolling_down_to_the_end_of_a_paused_view_resumes_following() {
+    use std::io::Write;
+    let (path, _) = numbered_file("frozenscroll", 30);
+    let mut tile = Tile::source(&path, 100).unwrap();
+    wait_for_lines(&mut tile, 30);
+    tile.visible(10);
+    tile.scroll_up(10, 5);
+    tile.pump();
+    let mut file = std::fs::OpenOptions::new()
+        .append(true)
+        .open(&path)
+        .unwrap();
+    file.write_all(b"line 00030\nline 00031\n").unwrap();
+    wait_for_lines(&mut tile, 32);
+    assert!(
+        tile.visible(10)
+            .iter()
+            .all(|row| row.as_str() < "line 00030")
+    );
+
+    // The bottom of the frozen lines is as far as the view goes down; past it, it follows.
+    tile.scroll_down(10, 50);
+    assert!(tile.is_following());
+    tile.pump();
+    assert_eq!(tile.visible(10).last().unwrap(), "line 00031");
     std::fs::remove_file(&path).unwrap();
 }
