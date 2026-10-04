@@ -58,6 +58,8 @@ pub struct Source {
     /// Lines per second over the last sampling interval, and the line count at its start.
     rate: f64,
     last_total: u64,
+    /// Has the rate been sampled once? (See `update_rate`.)
+    rate_started: bool,
 }
 
 impl Source {
@@ -166,6 +168,7 @@ impl Source {
             fresh: Vec::new(),
             rate: 0.0,
             last_total: 0,
+            rate_started: false,
         }
     }
 
@@ -279,7 +282,14 @@ impl Source {
     /// Called about once a second with the seconds since the previous call.
     pub fn update_rate(&mut self, seconds: f64) {
         let total = self.main().total_lines();
-        self.rate = total.saturating_sub(self.last_total) as f64 / seconds;
+        // The first sample would count the lines read when the source was opened (the backlog
+        // of a file) as if they were written during that second, so it only sets the baseline.
+        self.rate = if self.rate_started {
+            total.saturating_sub(self.last_total) as f64 / seconds
+        } else {
+            0.0
+        };
+        self.rate_started = true;
         self.last_total = total;
     }
 

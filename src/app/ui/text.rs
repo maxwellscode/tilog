@@ -36,6 +36,21 @@ pub(super) fn ellipsize_end(text: &str, max: usize) -> String {
     format!("{head}…")
 }
 
+/// Lines per second as short as it can be read at a glance: `0/s`, `3.2/s`, `85/s`, `1.5k/s`.
+pub(super) fn rate_text(rate: f64) -> String {
+    if rate < 0.05 {
+        "0/s".to_string()
+    } else if rate < 10.0 {
+        format!("{rate:.1}/s")
+    } else if rate < 1000.0 {
+        format!("{rate:.0}/s")
+    } else if rate < 1_000_000.0 {
+        format!("{:.1}k/s", rate / 1000.0)
+    } else {
+        format!("{:.1}M/s", rate / 1_000_000.0)
+    }
+}
+
 /// `text` broken into lines of at most `width` characters, at spaces. A word longer than a line
 /// is cut. Always at least one line.
 pub(super) fn wrap_words(text: &str, width: usize) -> Vec<String> {
@@ -84,6 +99,16 @@ mod tests {
                 .iter()
                 .all(|l| l.chars().count() <= 5)
         );
+    }
+
+    #[test]
+    fn rates_are_short() {
+        assert_eq!(rate_text(0.0), "0/s");
+        assert_eq!(rate_text(0.04), "0/s");
+        assert_eq!(rate_text(3.24), "3.2/s");
+        assert_eq!(rate_text(85.4), "85/s");
+        assert_eq!(rate_text(1500.0), "1.5k/s");
+        assert_eq!(rate_text(3_787_894.3), "3.8M/s");
     }
 
     #[test]

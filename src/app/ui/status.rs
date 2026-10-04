@@ -1,6 +1,6 @@
 //! The bottom line: the prompt, or a message and the stats.
 
-use super::text::{ellipsize_end, thousands};
+use super::text::{ellipsize_end, rate_text, thousands};
 use crate::app::App;
 use crate::source::Source;
 use crate::tile::Tile;
@@ -23,17 +23,18 @@ impl App {
                 let lines: u64 = self.sources.iter().map(|s| s.main().total_lines()).sum();
                 let rate: f64 = self.sources.iter().map(Source::rate).sum();
                 format!(
-                    "{session}{} sources · {} lines · {rate:.1}/s",
+                    "{session}{} sources · {} lines · {}",
                     self.sources.len(),
-                    thousands(lines)
+                    thousands(lines),
+                    rate_text(rate)
                 )
             }
             Some(source) => {
                 let main = source.main();
                 let mut text = format!(
-                    "{session}{} lines · {:.1}/s · {} filters",
+                    "{session}{} lines · {} · {} filters",
                     thousands(main.total_lines()),
-                    source.rate(),
+                    rate_text(source.rate()),
                     source.tiles().len() - 1,
                 );
                 // If a filter tile is focused, its match count too.

@@ -8,10 +8,13 @@ use crate::source::Source;
 use crate::timestamp;
 use ratatui::Frame;
 use ratatui::layout::Rect;
-use ratatui::style::{Style, Stylize};
+use ratatui::style::Style;
 use ratatui::text::Line;
 use ratatui::text::Span;
 use std::ops::Range;
+
+/// The overview's tab, as it is drawn, for measuring.
+const OVERVIEW_TAB: &str = " 0: Overview ";
 
 /// Columns kept free at the right end of the tab bar for the clock (`19:23:13 UTC`) and a gap.
 pub(super) const CLOCK_RESERVE: usize = 15;
@@ -23,11 +26,10 @@ impl App {
         let active = self.tab.checked_sub(1);
         let names: Vec<&str> = self.sources.iter().map(Source::name).collect();
         let digits = if self.sources.len() >= 10 { 2 } else { 1 }; // "10: merged"
-        let overview_width =
-            " Overview ".chars().count() + 1 + if self.sources.is_empty() { 0 } else { 2 };
+        let overview_width = OVERVIEW_TAB.chars().count() + 1;
 
         // The labels of the source tabs for a brand of this width: the line, minus the brand, the
-        // overview tab (with its divider) and the clock is what they may use. Returns whether
+        // overview tab and the clock is what they may use. Returns whether
         // the names had to be shortened at all.
         let fit = |brand: &str| -> (Vec<String>, bool) {
             let room = usize::from(width)
@@ -58,18 +60,32 @@ impl App {
 
         let brand_width = brand.chars().count() + 2;
         let mut x = u16::try_from(brand_width).unwrap_or(u16::MAX);
-        let mut spans = vec![Span::from(brand).bold().cyan(), Span::raw("  ")];
+        // Without color, the name is bold: in the terminal's own text color, that is the plainest
+        // way to make it stand out without a background.
+        let brand_style = if self.no_color {
+            Style::new().bold()
+        } else {
+            Style::new().bold().cyan()
+        };
+        // The version is only a reference: grayed out, so the name is what the eye finds. (A
+        // terminal has one size of text, so gray and dim is all that can make it smaller.)
+        let version_style = if self.no_color {
+            Style::new().dim()
+        } else {
+            Style::new().dark_gray()
+        };
+        let mut spans = vec![Span::styled(NAME, brand_style)];
+        if let Some(version) = brand.strip_prefix(NAME).filter(|rest| !rest.is_empty()) {
+            spans.push(Span::styled(version.to_string(), version_style));
+        }
+        spans.push(Span::raw("  "));
         let mut ranges = Vec::new();
 
         let labels = std::iter::once("Overview".to_string()).chain(fitted);
         for (index, label) in labels.enumerate() {
-            // Sources are numbered like the keys that open them (`1`, `2`, ...) and like the
-            // numbers `:merge 1 2` takes. The overview is the home tab and needs none.
-            let text = if index == 0 {
-                format!(" {label} ")
-            } else {
-                format!(" {index}: {label} ")
-            };
+            // Tabs are numbered like the keys that open them: `0` is the overview, `1`, `2`, ...
+            // the sources (the numbers `:merge 1 2` takes).
+            let text = format!(" {index}: {label} ");
             let width = u16::try_from(text.chars().count()).unwrap_or(u16::MAX);
             let style = if index == self.tab {
                 Style::new().black().on_cyan().bold()
@@ -80,12 +96,6 @@ impl App {
             spans.push(Span::raw(" "));
             ranges.push(x..x.saturating_add(width));
             x = x.saturating_add(width + 1);
-
-            // A bar after the overview sets it apart: it is the home tab, the others are sources.
-            if index == 0 && !self.sources.is_empty() {
-                spans.push(Span::styled("│ ", Style::new().dark_gray()));
-                x = x.saturating_add(2);
-            }
         }
         (Line::from(spans), ranges)
     }
@@ -191,7 +201,34 @@ mod tests {
     use super::*;
 
     #[test]
-    fn the_overview_tab_is_set_apart_and_clicks_still_find_the_right_tab() {
+    fn the_version_is_grayed_out_next_to_the_name() {
+        let app = App::new();
+        let spans = app.tab_bar(120).0.spans;
+        assert_eq!(spans[0].content, "tilog");
+        assert_eq!(spans[1].content, format!(" v{VERSION}"));
+        assert_eq!(spans[1].style.fg, Some(ratatui::style::Color::DarkGray));
+        assert_ne!(spans[0].style.fg, spans[1].style.fg);
+    }
+
+    #[test]
+    fn without_color_the_name_is_bold_text() {
+        let mut app = App::new();
+        let brand = |app: &App| app.tab_bar(120).0.spans[0].style;
+        assert_eq!(brand(&app).fg, Some(ratatui::style::Color::Cyan));
+        app.no_color = true;
+        let style = brand(&app);
+        assert!(style.add_modifier.contains(ratatui::style::Modifier::BOLD));
+        assert!(
+            !style
+                .add_modifier
+                .contains(ratatui::style::Modifier::REVERSED),
+            "no white background"
+        );
+        assert_eq!(style.fg, None);
+    }
+
+    #[test]
+    fn clicks_find_the_right_tab_and_the_gaps_between_tabs_are_no_tab() {
         let dir = std::env::temp_dir().join(format!("tilog-tabs-test-{}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
         let mut app = App::new();
@@ -207,34 +244,29 @@ mod tests {
             .iter()
             .map(|span| span.content.as_ref())
             .collect();
-        let bar = usize::from(ranges[0].end) + 1; // the column right after "Overview" and its space
-        assert_eq!(
-            text.chars().nth(bar),
-            Some('│'),
-            "a divider follows the overview: {text:?}"
+        assert!(
+            !text.contains('│'),
+            "no divider after the overview: {text:?}"
         );
 
-        // Every tab is found by clicking anywhere on its label, the divider is no tab, and the
-        // sources after it are not shifted off their labels.
+        // Every tab is found by clicking anywhere on its label, the space between two tabs is
+        // no tab, and the tabs are not shifted off their labels.
         assert_eq!(ranges.len(), 3);
         for (index, range) in ranges.iter().enumerate() {
             assert_eq!(app.tab_at(range.start, 120), Some(index));
             assert_eq!(app.tab_at(range.end - 1, 120), Some(index));
         }
-        assert_eq!(app.tab_at(u16::try_from(bar).unwrap(), 120), None);
+        assert_eq!(app.tab_at(ranges[0].end, 120), None);
         let label_at = |range: &std::ops::Range<u16>| -> String {
             text.chars()
                 .skip(usize::from(range.start))
                 .take(usize::from(range.end - range.start))
                 .collect()
         };
-        assert_eq!(label_at(&ranges[0]).trim(), "Overview");
+        assert_eq!(label_at(&ranges[0]).trim(), "0: Overview");
         assert_eq!(label_at(&ranges[1]).trim(), "1: one.log");
         assert_eq!(label_at(&ranges[2]).trim(), "2: two.log");
 
-        // With no sources there is nothing to set it apart from.
-        let (empty, _) = App::new().tab_bar(120);
-        assert!(!empty.spans.iter().any(|span| span.content.contains('│')));
         std::fs::remove_dir_all(&dir).unwrap();
     }
 
@@ -366,15 +398,15 @@ mod tests {
         assert!(roomy.contains("tilog v0.1.0") && roomy.contains("1: checkout_service.log"));
 
         // These three names need exactly 79 columns, the version and the rest of the bar take
-        // 42: 121 columns fit it all.
-        let just_fits = text(121);
+        // 43: 122 columns fit it all.
+        let just_fits = text(122);
         assert!(
             just_fits.contains("tilog v0.1.0") && !just_fits.contains('…'),
             "{just_fits:?}"
         );
 
         // One column less: the version goes (7 columns), and the names stay whole.
-        let drop_version = text(120);
+        let drop_version = text(121);
         assert!(!drop_version.contains("v0.1.0"), "{drop_version:?}");
         assert!(drop_version.starts_with("tilog  "), "{drop_version:?}");
         for name in [
