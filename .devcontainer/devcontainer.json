@@ -1,0 +1,19 @@
+{
+  "name": "tilog",
+  "build": { "dockerfile": "Dockerfile" },
+  "postCreateCommand": "rustup component add clippy rustfmt && cargo fetch --locked",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml",
+        "vadimcn.vscode-lldb"
+      ],
+      "settings": {
+        "rust-analyzer.check.command": "clippy",
+        "editor.formatOnSave": true,
+        "[rust]": { "editor.defaultFormatter": "rust-lang.rust-analyzer" }
+      }
+    }
+  }
+}
