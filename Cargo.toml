@@ -2,7 +2,7 @@
 name = "tilog"
 version = "0.1.0"
 edition = "2024"
-description = "A tiling TUI for real-time log monitoring, with per-tile filters"
+description = "tig for logs: a small, fast, read-only TUI for live deployment logs and production error checks"
 readme = "README.md"
 license = "MIT"
 keywords = ["logs", "tui", "tail", "monitoring"]
