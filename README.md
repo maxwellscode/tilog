@@ -6,6 +6,8 @@ and for checking production errors afterwards.
 It feels like `less` and `tail`, works with no configuration, and never changes a log or a
 server. If you know `less`, you already know most of it.
 
+![tilog following four logs, filtering one for ERROR, and stepping through the matches](docs/demo.gif)
+
 - **Live:** watch the logs of several VMs, containers and pods side by side during a deployment.
 - **Review:** open the logs, jump between errors, filter, and save what you found.
 - **A source** is a file, standard input, or any command that prints lines, so SSH, Docker,
@@ -31,6 +33,8 @@ Keys follow `less`: `j k Space b g G` scroll, `/` searches, `&` filters, `:` run
 (`:add`, `:merge`, `:save`, ...), `?` shows all keys, `1`-`9` open a source, `q` goes back.
 In a filter pane, `n` / `N` step through its matches and the main pane shows each one in
 its place in the file.
+
+![A filter on ERROR next to the log it was made from: the main pane shows the match in its place](docs/screenshot-filter.png)
 
 Colors and named sources live in `~/.config/tilog/config.toml`
 (`tilog --print-config` prints the defaults). Example logs and a live writer for trying
