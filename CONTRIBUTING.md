@@ -34,6 +34,10 @@ A change that affects the screen or the keyboard should be tried in a real termi
 server of your own (`tmux -L name`) so that yours is not touched. `docs/demo/make_demo.py` does
 exactly that and makes the GIF in the README (it needs Pillow and a monospace font).
 
+The manual page, `man/tilog.1`, is written by hand and built into the program (`tilog --print-man`).
+A test checks that it lists every command and option, so a new one fails the build until the page
+says something about it. Check the page with `mandoc -T lint -W warning man/tilog.1`.
+
 A change that touches reading, buffers or drawing should keep the numbers in the README's
 *Small and fast* section true: re-measure with a release build.
 

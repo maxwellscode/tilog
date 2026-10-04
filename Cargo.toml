@@ -6,6 +6,8 @@ description = "tig for logs: a small, fast, read-only TUI for live deployment lo
 readme = "README.md"
 rust-version = "1.88" # let chains
 license = "MIT"
+repository = "https://github.com/maxwellscode/tilog"
+homepage = "https://maxwellscode.github.io/tilog/"
 keywords = ["logs", "tui", "tail", "monitoring"]
 categories = ["command-line-utilities"]
 # The example logs are large and only the tests read them: they are not part of the package.
