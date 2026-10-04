@@ -4,9 +4,12 @@ version = "0.1.0"
 edition = "2024"
 description = "tig for logs: a small, fast, read-only TUI for live deployment logs and production error checks"
 readme = "README.md"
+rust-version = "1.88" # let chains
 license = "MIT"
 keywords = ["logs", "tui", "tail", "monitoring"]
 categories = ["command-line-utilities"]
+# The example logs are large and only the tests read them: they are not part of the package.
+exclude = ["/examples", "/docs", "/.github", "/.devcontainer"]
 
 [dependencies]
 anyhow = "1.0.104"
