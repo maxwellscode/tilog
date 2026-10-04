@@ -15,6 +15,8 @@ mod window;
 mod write;
 
 use std::cell::Cell;
+use std::collections::hash_map::DefaultHasher;
+use std::hash::{Hash, Hasher};
 use std::ops::Range;
 use std::time::Instant;
 
@@ -320,6 +322,22 @@ impl Tile {
             Content::Filter(view) => view.end_seq(),
             Content::StreamFilter(view) => view.end_seq(),
         }
+    }
+
+    /// A number that changes whenever something shown by the tile changed without a key press:
+    /// lines arrived, matches were found, a scan finished, a command changed state. The app
+    /// redraws only when this (or the clock, or an input event) changed, so an idle screen
+    /// costs no work.
+    pub fn activity(&self) -> u64 {
+        let mut hasher = DefaultHasher::new();
+        self.total_lines().hash(&mut hasher);
+        self.matches().hash(&mut hasher);
+        match &self.content {
+            Content::Source { status, .. } => status.hash(&mut hasher),
+            Content::Filter(view) => view.is_scanning().hash(&mut hasher),
+            Content::StreamFilter(_) | Content::Merged { .. } => {}
+        }
+        hasher.finish()
     }
 
     /// Number of matching entries, for filter tiles.

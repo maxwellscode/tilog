@@ -239,7 +239,7 @@ pub enum TailMsg {
 }
 
 /// Where a command source (ssh, docker, kubectl, ...) is in its life.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Hash)]
 pub enum Status {
     Connecting,
     Connected,

@@ -26,6 +26,7 @@ use crate::select::Selection;
 use crate::source::Source;
 use crate::theme::Theme;
 use crate::tile::Tile;
+use crate::timestamp;
 use anyhow::Result;
 use crossterm::event;
 use crossterm::event::{Event, KeyEventKind};
@@ -81,6 +82,26 @@ pub enum Added {
     New,
     /// It was open already, as the source at this position; no second one was made.
     Existing(usize),
+}
+
+/// What the last drawn screen was made from, to tell when it is out of date: the sources'
+/// activity, and the second (the clock, the rates and the retry countdowns change once a second).
+#[derive(Default, PartialEq)]
+struct Drawn {
+    activity: u64,
+    second: i64,
+}
+
+impl Drawn {
+    fn of(app: &App) -> Self {
+        Self {
+            activity: app
+                .sources
+                .iter()
+                .fold(0u64, |sum, source| sum.rotate_left(11) ^ source.activity()),
+            second: timestamp::now_ms().div_euclid(1000),
+        }
+    }
 }
 
 /// What kind of argument Tab completes for a command.
@@ -190,14 +211,25 @@ impl App {
 
     /// `mut self`: we own the App and may modify it. We still consume it, as before.
     pub fn run(mut self, terminal: &mut DefaultTerminal) -> Result<()> {
+        // What the screen showed last time: nothing is drawn again until something changes.
+        // Redrawing costs more than everything else the program does while idle.
+        let mut drawn = Drawn::default();
+        let mut input_seen = true;
         while !self.quit {
             // Take in what the background threads delivered. While there is a backlog (a big
             // file being loaded), don't idle: come straight back for the next chunk.
             let busy = self.pump_sources();
             self.sample_rates();
-            self.expire_notice(Instant::now());
+            input_seen |= self.expire_notice(Instant::now());
 
-            terminal.draw(|frame| self.render(frame))?;
+            let now = Drawn::of(&self);
+            if input_seen || now != drawn {
+                terminal.draw(|frame| {
+                    self.render(frame);
+                })?;
+                drawn = now;
+                input_seen = false;
+            }
 
             // Otherwise wait for input at most 100 ms, then loop again to check for new data.
             let timeout = if busy {
@@ -213,6 +245,8 @@ impl App {
                     Event::Mouse(mouse) => self.on_mouse(mouse, &areas),
                     _ => {}
                 }
+                // Any input, a resize included, may have changed the screen.
+                input_seen = true;
             }
         }
         Ok(())
@@ -358,14 +392,16 @@ impl App {
 
     // `impl Into<String>` accepts both `&str` and `String` arguments.
     /// Takes the message off the status line once it has been there long enough.
-    fn expire_notice(&mut self, now: Instant) {
-        if self
+    /// Returns `true` if the message was taken off, so the screen needs drawing again.
+    fn expire_notice(&mut self, now: Instant) -> bool {
+        let expired = self
             .notice
             .as_ref()
-            .is_some_and(|notice| notice.is_expired(now))
-        {
+            .is_some_and(|notice| notice.is_expired(now));
+        if expired {
             self.notice = None;
         }
+        expired
     }
 
     fn info(&mut self, text: impl Into<String>) {

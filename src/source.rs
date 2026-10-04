@@ -264,6 +264,14 @@ impl Source {
     }
 
     /// Lines per second received during the last sampling interval.
+    /// Changes whenever anything in this source's tiles changed on its own (see
+    /// `Tile::activity`).
+    pub fn activity(&self) -> u64 {
+        self.tiles
+            .iter()
+            .fold(0u64, |sum, tile| sum.rotate_left(7) ^ tile.activity())
+    }
+
     pub fn rate(&self) -> f64 {
         self.rate
     }
