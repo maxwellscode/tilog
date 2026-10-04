@@ -177,6 +177,8 @@ pub struct App {
     help_scroll: usize,
     quit: bool,
     last_sample: Instant,
+    /// `NO_COLOR` is set: the screen is drawn without color (see `ui::mono`).
+    no_color: bool,
 }
 
 impl App {
@@ -201,6 +203,7 @@ impl App {
             help_scroll: 0,
             quit: false,
             last_sample: Instant::now(),
+            no_color: ui::mono::requested(),
         }
     }
 
@@ -226,6 +229,9 @@ impl App {
             if input_seen || now != drawn {
                 terminal.draw(|frame| {
                     self.render(frame);
+                    if self.no_color {
+                        ui::mono::strip_colors(frame.buffer_mut());
+                    }
                 })?;
                 drawn = now;
                 input_seen = false;

@@ -1,6 +1,7 @@
 //! Drawing. Nothing here changes the app: every function takes `&self` and only reads.
 
 mod help;
+pub(in crate::app) mod mono;
 mod popups;
 mod status;
 mod tab_bar;

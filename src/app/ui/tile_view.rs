@@ -98,10 +98,23 @@ impl App {
         } else if tile.is_following() {
             Span::styled(" FOLLOW ", Style::new().black().on_green().bold())
         } else {
-            Span::styled(" PAUSED ", Style::new().yellow())
+            // Without color, PAUSED is reverse video like FOLLOW: both are as easy to spot.
+            let style = if self.no_color {
+                Style::new().bold().reversed()
+            } else {
+                Style::new().yellow()
+            };
+            Span::styled(" PAUSED ", style)
         };
+        // Which tile is selected is also shown without color: bold border against a dim one.
         let border = if selected {
-            Style::new().cyan()
+            if self.no_color {
+                Style::new().bold()
+            } else {
+                Style::new().cyan()
+            }
+        } else if self.no_color {
+            Style::new().dim()
         } else {
             Style::new().dark_gray()
         };
