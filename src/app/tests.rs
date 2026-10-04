@@ -486,3 +486,47 @@ fn a_search_in_a_file_filter_pane_also_moves_the_main_pane() {
     );
     std::fs::remove_dir_all(&dir).unwrap();
 }
+
+#[test]
+fn picking_a_command_with_optional_arguments_from_the_menu_waits_for_them() {
+    let mut app = App::new();
+    app.add_path(&logs("menuwait", 1).1[0]).unwrap();
+    app.tab = 1;
+    let areas = app.areas(Rect::new(0, 0, 120, 30));
+    let key = |app: &mut App, code: KeyCode| {
+        app.on_key(KeyEvent::new(code, KeyModifiers::NONE), &areas);
+    };
+    let type_text = |app: &mut App, text: &str| {
+        for ch in text.chars() {
+            key(app, KeyCode::Char(ch));
+        }
+    };
+
+    // `follow [all]`: Enter on the menu entry puts the command in the prompt and waits, so
+    // `all` can still be typed.
+    key(&mut app, KeyCode::Char(':'));
+    type_text(&mut app, "follow");
+    key(&mut app, KeyCode::Enter);
+    assert!(app.prompt.is_some(), "the prompt is still open");
+    assert_eq!(app.input.text(), "follow ");
+    assert!(app.notice.is_none(), "nothing ran yet");
+    type_text(&mut app, "all");
+    key(&mut app, KeyCode::Enter);
+    assert!(app.prompt.is_none());
+    assert!(
+        info_text(&app).contains("following everywhere"),
+        "{}",
+        info_text(&app)
+    );
+
+    // A command without arguments still runs at once.
+    key(&mut app, KeyCode::Char(':'));
+    type_text(&mut app, "top");
+    key(&mut app, KeyCode::Enter);
+    assert!(app.prompt.is_none());
+    assert!(
+        info_text(&app).contains("first line"),
+        "{}",
+        info_text(&app)
+    );
+}

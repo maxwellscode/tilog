@@ -116,7 +116,9 @@ impl App {
     /// Enter on a menu entry: run it, unless it can't run without arguments, then wait for them.
     pub(super) fn complete_and_run(&mut self, spec: &Spec, height: usize) {
         self.complete(spec);
-        if !spec.requires_args() {
+        // A command that takes arguments, even optional ones (`follow [all]`), waits for them:
+        // Enter again runs it as it is.
+        if !spec.takes_args() {
             self.submit_prompt(Prompt::Command, height);
         }
     }

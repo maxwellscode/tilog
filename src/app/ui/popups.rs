@@ -49,7 +49,7 @@ impl App {
             })
             .collect();
 
-        let hint = Line::from(" ↑↓ select · Tab complete · Enter run · Esc cancel ").dark_gray();
+        let hint = Line::from(" ↑↓ select · Tab complete · Enter choose · Esc cancel ").dark_gray();
         let list = List::new(rows)
             .block(Block::bordered().title(" Commands ").title_bottom(hint))
             .highlight_style(Style::new().bg(Color::DarkGray).bold());

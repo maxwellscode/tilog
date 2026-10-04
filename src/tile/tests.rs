@@ -544,6 +544,55 @@ fn a_huge_line_is_cut_and_the_lines_after_it_are_still_found() {
 }
 
 #[test]
+fn stepping_in_a_long_filter_starts_from_where_the_pane_was_scrolled_to() {
+    let (path, offsets) = numbered_file("longfilter", 200);
+    let filter = Filter::new(None, "line", false, false).unwrap(); // every line is an entry
+    let mut tile = Tile::filtered(&path, filter, GroupRule::default()).unwrap();
+    let deadline = Instant::now() + Duration::from_secs(3);
+    while tile.matches() != Some(200) {
+        assert!(Instant::now() < deadline, "matches never arrived");
+        tile.pump();
+        std::thread::sleep(Duration::from_millis(10));
+    }
+    tile.visible(10);
+
+    // A new filter pane follows the end, so stepping starts from the top of what is shown.
+    assert_eq!(
+        tile.step_match(true, 10).unwrap().at,
+        Link::Offset(offsets[190])
+    );
+    // From the start of the pane, stepping goes one entry at a time.
+    tile.jump_to_start();
+    assert_eq!(
+        tile.step_match(true, 10).unwrap().at,
+        Link::Offset(offsets[0])
+    );
+    assert_eq!(
+        tile.step_match(true, 10).unwrap().at,
+        Link::Offset(offsets[1])
+    );
+
+    // Scroll far down (a page at a time, as a person would), then step: it continues from the
+    // top of the view, not from entry 1.
+    tile.scroll_down(10, 120);
+    let top = tile.top_seq(10) as usize;
+    assert_eq!(top, 120);
+    let step = tile.step_match(true, 10).unwrap();
+    assert_eq!(
+        step.at,
+        Link::Offset(offsets[top]),
+        "the first entry at the top of the view"
+    );
+    assert_eq!(step.index, top);
+    // `N` from a scrolled view goes to the entry before the top.
+    tile.scroll_down(10, 30);
+    let top = tile.top_seq(10) as usize;
+    let back = tile.step_match(false, 10).unwrap();
+    assert_eq!(back.index, top - 1);
+    std::fs::remove_file(&path).unwrap();
+}
+
+#[test]
 fn a_paused_view_does_not_show_lines_that_arrive_after_the_pause() {
     use std::io::Write;
     // Fewer lines than the window is tall: new lines would land inside it.

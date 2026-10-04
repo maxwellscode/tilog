@@ -64,7 +64,7 @@ const KEYS: &[(&str, &str)] = &[
     ),
     (
         "n N",
-        "next / previous search match; in a filter pane its entries (or the search hits, if a search is on), shown in the main pane",
+        "next / previous search match; in a filter pane its entries (or the search hits, if a search is on), shown in the main pane. Scroll the pane first to start near the one you want",
     ),
     (
         "] [",
@@ -76,7 +76,7 @@ const KEYS: &[(&str, &str)] = &[
     ),
     (
         ":",
-        "run a command (menu appears, Tab completes, Enter runs)",
+        "run a command (a menu appears: Tab or Enter picks one, then Enter runs it)",
     ),
     ("Tab Shift+Tab", "select the next / previous window"),
     (

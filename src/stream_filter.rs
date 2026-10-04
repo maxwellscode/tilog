@@ -149,6 +149,11 @@ impl StreamFilterView {
         Some(stepped)
     }
 
+    /// Forgets the entry `n` / `N` stopped at: the next step starts from the view again.
+    pub fn forget_current(&mut self) {
+        self.current = None;
+    }
+
     /// The entry `n` / `N` is at, as its position among the kept ones.
     pub fn current_index(&self) -> Option<usize> {
         let row = self.current?;

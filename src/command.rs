@@ -109,12 +109,6 @@ impl Spec {
     pub fn takes_args(&self) -> bool {
         self.usage.contains(['<', '['])
     }
-
-    /// Whether the command can't run without arguments: picking it from the menu should wait
-    /// for them instead of running it right away.
-    pub fn requires_args(&self) -> bool {
-        self.usage.contains('<')
-    }
 }
 
 pub static SPECS: &[Spec] = &[
@@ -496,9 +490,10 @@ mod tests {
         assert!(
             spec("save").takes_args() && spec("load").takes_args() && !spec("quit").takes_args()
         );
-        // Only required arguments make the menu wait; `/save` and `/group` run as they are.
-        assert!(spec("load").requires_args() && spec("filter").requires_args());
-        assert!(!spec("save").requires_args() && !spec("group").requires_args());
+        assert!(
+            spec("follow").takes_args() && spec("pause").takes_args(),
+            "optional `[all]`"
+        );
     }
 
     #[test]

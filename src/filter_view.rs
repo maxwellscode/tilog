@@ -303,6 +303,11 @@ impl FilterView {
         self.entries[index].first_row
     }
 
+    /// Forgets the match `n` / `N` stopped at: the next step starts from the view again.
+    pub fn forget_current(&mut self) {
+        self.current = None;
+    }
+
     /// The match `n` / `N` is at, if any, as its position among all matches.
     pub fn current_index(&self) -> Option<usize> {
         self.current

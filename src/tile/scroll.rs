@@ -46,8 +46,19 @@ impl Tile {
 
     // `self.view` (mutable) and `self.content` (shared) are different fields, so borrowing
     // both at once is fine.
+    /// A filter's `n` / `N` continue from the entry they stopped at. Once the pane is scrolled
+    /// that is no longer where you are: they start again from the top of the view, as `n` in
+    /// `less` does. So to get near an entry in a long filter, scroll there, then step.
+    fn forget_step(&mut self) {
+        match &mut self.content {
+            Content::Filter(view) => view.forget_current(),
+            Content::StreamFilter(view) => view.forget_current(),
+            _ => {}
+        }
+    }
 
     pub fn scroll_up(&mut self, height: usize, n: u64) {
+        self.forget_step();
         // About to scroll past the oldest loaded line: fetch older ones from disk first.
         let lines = Bounded::of(&self.content, self.frozen_end);
         if self
@@ -63,6 +74,7 @@ impl Tile {
     }
 
     pub fn scroll_down(&mut self, height: usize, n: u64) {
+        self.forget_step();
         self.extend_window(height, n);
         self.view
             .scroll_down(&Bounded::of(&self.content, self.frozen_end), height, n);
@@ -80,6 +92,7 @@ impl Tile {
     }
 
     pub fn jump_to_start(&mut self) {
+        self.forget_step();
         self.view
             .jump_to_start(&Bounded::of(&self.content, self.frozen_end));
     }
@@ -92,6 +105,7 @@ impl Tile {
     }
 
     pub fn jump_to_end(&mut self) {
+        self.forget_step();
         self.leave_window();
         self.marked = None;
         self.view.jump_to_end();
@@ -100,6 +114,7 @@ impl Tile {
     /// 1-based line number, as users count: of the part of the file first loaded for the main
     /// tile (its end, for a big file), of the matches for a filter tile.
     pub fn jump_to_line(&mut self, line: u64) {
+        self.forget_step();
         let seq = match &self.content {
             Content::Source { lines, .. } | Content::Merged { lines, .. } => {
                 lines.seq_of_line(line)

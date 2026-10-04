@@ -56,7 +56,7 @@ impl App {
                 .tile_ref(self.target_index())
                 .is_some_and(Tile::is_filter);
         if in_filter {
-            return "n/N step through matches · Tab, G: main pane back to live · ? help · q back"
+            return "scroll, then n/N step from there · Tab, G: main pane back to live · ? help · q back"
                 .to_string();
         }
         if self.current_source().is_some() {
