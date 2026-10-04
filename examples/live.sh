@@ -3,24 +3,28 @@
 # Writes new, realistic log lines into the example logs while you watch, to try tilog's
 # real-time features: following, filters, search, :merge, stack traces arriving live.
 #
-#   examples/live.sh 30                  run for 30 seconds
+#   examples/live.sh 30                  run for 30 seconds (writes to a copy, see below)
 #   examples/live.sh 60 --rate 10        ... about 10 lines per second (default 4)
 #   examples/live.sh 30 --only nginx     only files whose name contains "nginx"
 #   examples/live.sh 30 --restore        cut the files back to their old size when done
+#   examples/live.sh 30 --dir /tmp/logs  write to this directory instead
 #   examples/live.sh                     run until Ctrl+C
 #   timeout 30s examples/live.sh         the same with `timeout` (Linux; `brew install coreutils`)
 #
 # Every line has the format of the example it is written to, with the current time in UTC.
 # Entries that span several lines (stack traces, SQL) are written in one piece.
 #
-# Without --restore the example files keep what was written. Run with --restore if you want
-# them as they were (the repository's tests read them).
+# The lines go to a copy of the example logs, in $TMPDIR/tilog-live (made on the first run), so
+# the logs in the repository stay as they are: the tests read them. The copy keeps what was
+# written; delete the directory to start over, or use --restore to cut the files back to their
+# size at the start of each run. `--dir examples` writes into the repository's own logs.
 
 set -u
 export LC_ALL=C # month names and number formats must not depend on the user's locale
 
 HERE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-DIR=$HERE
+DIR=${TMPDIR:-/tmp}/tilog-live
+DIR=${DIR//\/\//\/} # TMPDIR may end in a slash
 DURATION=0
 RATE=4
 ONLY=""
@@ -351,6 +355,16 @@ generator_for() {
 
 # ---- the files ------------------------------------------------------------------------------
 
+# With --dir, a directory that has no logs yet gets copies of the examples, so that a place
+# that can be written to is one command away (the examples themselves stay as they are).
+if [ "$DIR" != "$HERE" ] && ! ls "$DIR"/*.log >/dev/null 2>&1; then
+  mkdir -p "$DIR" && cp "$HERE"/example_*.log "$DIR"/ || {
+    echo "cannot copy the example logs to $DIR" >&2
+    exit 1
+  }
+  echo "copied the example logs to $DIR"
+fi
+
 FILES=(); GENERATORS=(); SIZES=(); WRITTEN=()
 for file in "$DIR"/*.log; do
   [ -f "$file" ] || continue
@@ -365,6 +379,17 @@ if [ ${#FILES[@]} -eq 0 ]; then
   echo "no example logs to write to in $DIR${ONLY:+ matching \"$ONLY\"}" >&2
   exit 1
 fi
+
+# Say so once, before starting, if a file cannot be written to: a read-only mount (a Lima VM
+# mounts the home directory that way), a locked file. Not once per line.
+for file in "${FILES[@]}"; do
+  if [ ! -w "$file" ]; then
+    echo "cannot write to $file" >&2
+    echo "(a read-only file system? In a Lima VM the home directory is read-only.)" >&2
+    echo "Write copies somewhere else instead:  $0 ${DURATION:-0} --dir /tmp/tilog-logs" >&2
+    exit 1
+  fi
+done
 
 finish() {
   trap - INT TERM EXIT
@@ -389,8 +414,10 @@ trap finish INT TERM EXIT
 
 if [ "$DURATION" -gt 0 ]; then
   echo "writing to ${#FILES[@]} example logs in $DIR, about $RATE lines/s, for ${DURATION}s (Ctrl+C stops early)"
+  echo "watch them with:  tilog $DIR/*.log"
 else
   echo "writing to ${#FILES[@]} example logs in $DIR, about $RATE lines/s, until Ctrl+C"
+  echo "watch them with:  tilog $DIR/*.log"
 fi
 
 # ---- the loop -------------------------------------------------------------------------------

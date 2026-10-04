@@ -41,15 +41,16 @@ Things to try:
 
 ## Watching logs grow: `live.sh`
 
-`examples/live.sh` appends new, correctly formatted lines (current UTC time) to the example logs, so you can try tilog's real-time features: following, filters that fill up, `:merge`, a stack trace arriving while you watch.
+`examples/live.sh` appends new, correctly formatted lines (current UTC time) to a copy of the example logs, so you can try tilog's real-time features: following, filters that fill up, `:merge`, a stack trace arriving while you watch.
 
 ```
 examples/live.sh 30                run for 30 seconds
 examples/live.sh 60 --rate 10      about 10 lines per second (default 4)
 examples/live.sh 30 --only nginx   only files whose name contains "nginx"
 examples/live.sh 30 --restore      cut the files back to their old size at the end
+examples/live.sh 30 --dir /tmp/x   write to another directory
 examples/live.sh                   run until Ctrl+C
 timeout 30s examples/live.sh       the same, with `timeout` (Linux, or `brew install coreutils`)
 ```
 
-Start it in one terminal and `tilog examples/*.log` in another. Without `--restore` the example files keep the new lines (tilog's tests read them, and they stay valid either way); with it, the files end byte-for-byte as they were, and tilog shows the "file got shorter" reset when that happens.
+Start it in one terminal and `tilog` on the copies in another; the script prints the command, `tilog $TMPDIR/tilog-live/*.log`. The repository's own logs are not touched (the tests read them): the copy is made on the first run and keeps what was written, so delete the directory to start over. With `--restore` the files end byte-for-byte as they were at the start of the run, and tilog shows the "file got shorter" reset when that happens.
