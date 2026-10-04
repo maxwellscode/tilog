@@ -1,0 +1,266 @@
+.TH TILOG 1 "October 4, 2026" "tilog 0.1.0" "User Commands"
+.SH NAME
+tilog \- a small, fast, read-only terminal viewer for live logs
+.SH SYNOPSIS
+.B tilog
+[\fIOPTIONS\fR] [\fISOURCE\fR...]
+.br
+.I command
+|
+.B tilog
+.SH DESCRIPTION
+.B tilog
+is \fBtig\fR for logs: a terminal viewer for watching logs during a deployment and for
+checking production errors afterwards. It feels like
+.BR less (1)
+and
+.BR tail (1),
+needs no configuration, and only reads: it never changes a log or a server, and installs nothing
+on remote hosts.
+.PP
+Every source gets a tab. The overview (tab 0) shows all sources side by side and follows them
+live. A filter opens a second tile next to a source, with the entries that match, and stepping
+through the filter shows each match in its place in the source.
+.PP
+A source is a file, standard input, or any command that prints lines, so SSH, Docker, Kubernetes
+and
+.BR journalctl (1)
+work like a local file. A command that ends or loses its connection is started again with
+a growing delay, and only what was missed is asked for.
+.SH SOURCES
+.TP
+.I path
+A file. It is opened at its end, so a file of any size opens at once, and followed. Older lines
+are read when scrolling up. Log rotation (a renamed or truncated file) is followed. A path
+ending in \fB.gz\fR is unpacked with
+.BR gzip (1).
+.TP
+.B \-
+Standard input. This is the default when something is piped in and no other source is given.
+.TP
+\fBssh:\fR[\fIuser\fR@]\fIhost\fR:\fI/path\fR
+.BR tail (1)
+\-F on a remote host, over
+.BR ssh (1).
+.TP
+\fBssh:\fR[\fIuser\fR@]\fIhost\fR:\fBdocker:\fIcontainer\fR
+.B docker logs \-f
+on a remote host.
+.TP
+\fBssh:\fR[\fIuser\fR@]\fIhost\fR:\fBkube:\fR[\fInamespace\fR/]\fIpod\fR[/\fIcontainer\fR]
+.B kubectl logs \-f
+run on a remote host.
+.TP
+\fBdocker:\fIcontainer\fR
+.B docker logs \-f
+of a local container.
+.TP
+\fBkube:\fR[\fInamespace\fR/]\fIpod\fR[/\fIcontainer\fR]
+.B kubectl logs \-f
+(also \fBk8s:\fR).
+.TP
+\fBcmd:\fIcommand\fR
+Any command that prints lines, for example \fBcmd:journalctl \-fu app\fR.
+.TP
+.I name
+A name from the configuration file.
+.PP
+At most nine sources are open at once; the merged timeline is extra.
+.SH OPTIONS
+.TP
+\fB\-s\fR, \fB\-\-session\fR \fINAME\fR
+Load a saved session (see \fB:save\fR).
+.TP
+\fB\-c\fR, \fB\-\-command\fR \fICMD\fR
+Follow the output of a command; the same as the source \fBcmd:\fICMD\fR.
+.TP
+.B \-\-print\-config
+Print the built-in configuration (the colors) as a starting point for your own.
+.TP
+.B \-\-print\-man
+Print this manual page. To install it for the current user:
+.RS
+.PP
+.EX
+tilog \-\-print\-man > ~/.local/share/man/man1/tilog.1
+.EE
+.RE
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print a short help.
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+Print the version.
+.SH KEYS
+The keys are those of
+.BR less (1)
+where there is one. Press \fB?\fR in tilog for the list that belongs to the version in use.
+.TP
+\fBj k\fR, \fB\(ua \(da\fR
+Scroll one line. Enter also scrolls down in a tab.
+.TP
+\fBSpace b\fR
+Page down and up (also \fBf\fR, PageDown, PageUp).
+.TP
+\fBd u\fR
+Half a page down and up.
+.TP
+\fBg G\fR
+First line, and last line with following (also Home, End and \fBF\fR).
+.TP
+\fBh l\fR, \fB\(<- \(->\fR
+Scroll sideways.
+.TP
+\fB/\fItext\fR
+Search: mark the text in every window and jump to the first match. A pattern without capital
+letters ignores case.
+.TP
+\fBn N\fR
+Next and previous search match. In a filter pane: the next and previous entry of the filter (or
+search hit, if a search is on), shown in the main pane. After scrolling the pane they start
+from the top of what is shown.
+.TP
+\fB] [\fR
+Next and previous error line (\fBERROR\fR, \fBlevel=error\fR, \fB[crit]\fR, HTTP 5xx, ...).
+.TP
+\fB&\fItext\fR
+Filter: open a tile with the matching entries. An entry is a line with the lines that belong
+to it, such as a stack trace.
+.TP
+.B :
+Run a command. A menu lists them; Tab or Enter picks one, and Enter runs it.
+.TP
+\fBTab\fR, \fBShift+Tab\fR
+Select the next and previous window.
+.TP
+.B Enter
+On the overview, open the selected source in its tab.
+.TP
+\fB0\fR\-\fB9\fR, \fBAlt+\(<- \(->\fR
+Switch tabs. 0 is the overview.
+.TP
+.B m
+Jump to the merged timeline.
+.TP
+.B Esc
+Clear the search; then go back to the overview.
+.TP
+.B q
+Back to the overview; on the overview, quit. Ctrl+C always quits.
+.TP
+mouse
+A click selects a window or a tab, dragging selects text and copies it, the wheel scrolls.
+.SH COMMANDS
+Commands are typed after \fB:\fR. A command that takes arguments waits for them when it is picked
+from the menu.
+.TP
+.B :help
+Show the help.
+.TP
+\fB:add\fR \fIpath\fR
+Add a source: any of the forms under \fBSOURCES\fR.
+.TP
+.B :overview
+Back to the overview of all sources.
+.TP
+\fB:filter\fR [\fB\-a\fR] [\fB\-r\fR] [\fB\-i\fR] \fItext\fR
+New tile with the entries that match. \fB\-a\fR opens it on every source, \fB\-r\fR reads the text
+as a regular expression, \fB\-i\fR ignores case.
+.TP
+\fB:highlight\fR [\fB\-r\fR] [\fB\-i\fR] [\fItext\fR]
+Mark text in every window, like a search with flags. Without text it clears the marks.
+.TP
+\fB:group\fR [\fBauto\fR|\fBoff\fR|\fIregex\fR]
+How lines form one entry: indented lines continue the one above (\fBauto\fR), none do (\fBoff\fR),
+or only lines matching the regular expression start one.
+.TP
+\fB:merge\fR [\fIsource\fR...]
+One tab with the sources interleaved by timestamp. Tab numbers or names; all by default.
+.TP
+\fB:offset\fR \fI+2h\fR|\fI\-30m\fR|\fI+90s\fR
+Shift this source's timestamps, then merge again (clock skew, time zones).
+.TP
+\fB:write\fR [\fB\-f\fR] \fIfile\fR
+Save the focused tile's lines to a file. A filter saves all its matches. \fB\-f\fR replaces an
+existing file.
+.TP
+.B :close
+Close the focused tile (a main tile closes its source).
+.TP
+\fB:save\fR [\fIname\fR], \fB:load\fR \fIname\fR, \fB:sessions\fR
+Save, restore and list sessions: which sources are open, their filters, and the tab.
+.TP
+.B :reload
+Reload the configuration without restarting.
+.TP
+\fB:follow\fR [\fBall\fR], \fB:pause\fR [\fBall\fR]
+Follow the newest line, or stop where you are, in the focused tile or in every tile. A paused
+view shows the lines it had; what arrives meanwhile appears when following resumes.
+.TP
+.B :top
+Jump to the first line.
+.TP
+\fB:goto\fR \fIline\fR|\fItime\fR
+Jump to a line number, or to a time such as \fB08:16\fR or \fB2026\-10\-03 08:16:50\fR. The line at
+or after that time is shown.
+.TP
+.B :clear
+In a source tab, close all filter tiles. On the overview, empty the selected view.
+.TP
+.B :quit
+Exit.
+.SH SSH LOGINS
+A host that accepts your key or your agent just works. If a login is refused, \fBssh\fR may ask
+its question (a password, a passphrase, a one-time code, an unknown host key) and the question
+appears in the tile of that source, where it is answered; Enter sends the answer and Esc gives up.
+The answer is kept in memory only, so that a dropped connection reconnects by itself. A wrong
+answer is not tried again, so that the host is not hammered with failed logins. Questions need
+OpenSSH 8.4 or later.
+.SH FILES
+.TP
+.I ~/.config/tilog/config.toml
+Colors, and named sources. \fBtilog \-\-print\-config\fR prints the defaults. The directory is
+.I $XDG_CONFIG_HOME/tilog
+if that is set.
+.TP
+.I ~/.config/tilog/sessions/NAME.toml
+Saved sessions.
+.SH ENVIRONMENT
+.TP
+.B NO_COLOR
+If set and not empty, no colors are used: what a color marked becomes reverse video or bold.
+.TP
+.B XDG_CONFIG_HOME
+Where the configuration directory is.
+.SH EXAMPLES
+Two files and a container, side by side:
+.PP
+.EX
+tilog app.log nginx.log docker:api
+.EE
+.PP
+Docker and Kubernetes on other hosts, over ssh:
+.PP
+.EX
+tilog ssh:web1:docker:api ssh:bastion:kube:shop/web\-0
+.EE
+.PP
+Whatever another program prints:
+.PP
+.EX
+kubectl logs \-f web\-0 | tilog
+.EE
+.PP
+A compressed log from last week:
+.PP
+.EX
+tilog app.log.2.gz
+.EE
+.SH SEE ALSO
+.BR less (1),
+.BR tail (1),
+.BR tig (1),
+.BR lnav (1),
+.BR ssh (1)
+.SH BUGS
+Report them at https://github.com/maxwellscode/tilog/issues.

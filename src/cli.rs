@@ -16,7 +16,11 @@ pub enum Cli {
     Help,
     Version,
     PrintConfig,
+    PrintMan,
 }
+
+/// The manual page, as it is in `man/tilog.1`.
+pub const MAN_PAGE: &str = include_str!("../man/tilog.1");
 
 pub fn usage() -> String {
     format!(
@@ -32,7 +36,8 @@ pub fn usage() -> String {
          -c, --command <CMD>   Follow the output of a command (same as cmd:CMD)\n    \
          -h, --help            Print this help\n    \
          -V, --version         Print the version\n    \
-         --print-config        Print the built-in configuration (colors) as a starting point\n\n\
+         --print-config        Print the built-in configuration (colors) as a starting point\n    \
+         --print-man           Print the manual page (save it as tilog.1 in a man1 directory)\n\n\
          CONFIG:\n    ~/.config/tilog/config.toml  (try: {NAME} --print-config > that file)"
     )
 }
@@ -47,6 +52,7 @@ pub fn parse(args: impl IntoIterator<Item = String>) -> Result<Cli> {
             "-h" | "--help" => return Ok(Cli::Help),
             "-V" | "--version" => return Ok(Cli::Version),
             "--print-config" => return Ok(Cli::PrintConfig),
+            "--print-man" => return Ok(Cli::PrintMan),
             "-c" | "--command" => match args.next() {
                 Some(command) => paths.push(format!("cmd:{command}")),
                 None => bail!("{arg} needs a command"),
@@ -121,9 +127,56 @@ mod tests {
     fn parses_flags_and_errors() {
         assert_eq!(parse_strs(&["-V"]).unwrap(), Cli::Version);
         assert_eq!(parse_strs(&["--print-config"]).unwrap(), Cli::PrintConfig);
+        assert_eq!(parse_strs(&["--print-man"]).unwrap(), Cli::PrintMan);
         assert_eq!(parse_strs(&["x.log", "--help"]).unwrap(), Cli::Help);
         assert!(parse_strs(&["--session"]).is_err());
         assert!(parse_strs(&["--bogus"]).is_err());
+    }
+
+    /// The manual page is written by hand, so this keeps it from falling behind the program.
+    #[test]
+    fn the_manual_page_matches_the_program() {
+        let man = MAN_PAGE
+            .replace("\\-", "-")
+            .replace("\\fB", "")
+            .replace("\\fI", "")
+            .replace("\\fR", "");
+        let title = MAN_PAGE.lines().next().unwrap();
+        assert!(
+            title.contains(&format!("tilog {VERSION}")),
+            "the version in {title}"
+        );
+
+        for spec in crate::command::SPECS {
+            assert!(
+                man.contains(&format!(":{}", spec.name())),
+                "no :{} in the man page",
+                spec.name()
+            );
+        }
+        let options = [
+            "-s",
+            "--session",
+            "-c",
+            "--command",
+            "--print-config",
+            "--print-man",
+        ];
+        for option in options.iter().chain(&["-h", "--help", "-V", "--version"]) {
+            assert!(man.contains(option), "no {option} in the man page");
+            assert!(usage().contains(option), "no {option} in --help");
+        }
+        for source in [
+            "ssh:",
+            "docker:",
+            "kube:",
+            "cmd:",
+            ".gz",
+            "NO_COLOR",
+            "~/.config/tilog",
+        ] {
+            assert!(man.contains(source), "no {source} in the man page");
+        }
     }
 
     #[test]

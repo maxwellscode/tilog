@@ -70,6 +70,7 @@ fn main() -> Result<()> {
         Cli::Help => println!("{}", cli::usage()),
         Cli::Version => println!("{NAME} {VERSION}"),
         Cli::PrintConfig => print!("{}", config::DEFAULT_CONFIG),
+        Cli::PrintMan => print!("{}", cli::MAN_PAGE),
         Cli::Run { session, paths } => {
             let mut app = App::new();
             // The config first: named sources must be known before paths are opened. A problem
