@@ -22,13 +22,24 @@ server. If you know `less`, you already know most of it.
 
 ## Install
 
-tilog is not on crates.io yet. From a checkout:
+**A release archive**, from the [releases page](https://github.com/maxwellscode/tilog/releases):
+Linux (x86_64 and aarch64, static, so any distribution) and macOS (Intel and Apple silicon).
+Unpack it and put `tilog` on your `PATH`; the archive also holds the manual page, in `man/`.
 
 ```sh
-cargo install --path .
+tar xzf tilog-0.1.0-x86_64-unknown-linux-musl.tar.gz
+install -m 755 tilog-0.1.0-x86_64-unknown-linux-musl/tilog ~/.local/bin/
 ```
 
-It needs Rust 1.88 or newer, and runs on Linux and macOS (see [Platforms](#platforms)).
+Check the download against `SHA256SUMS` from the same page (`shasum -a 256 -c SHA256SUMS --ignore-missing`).
+
+**From source**, with Rust 1.88 or newer. tilog is not on crates.io yet:
+
+```sh
+cargo install --git https://github.com/maxwellscode/tilog
+```
+
+It runs on Linux and macOS (see [Platforms](#platforms)).
 
 The manual page is built in, so that it can be installed with a cargo-installed binary too:
 

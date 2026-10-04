@@ -46,6 +46,21 @@ A change that touches reading, buffers or drawing should keep the numbers in the
 `.devcontainer/` has a Linux environment with Rust, tmux and ssh for VS Code and GitHub
 Codespaces. Open the folder in a container and run the commands above.
 
+## Releasing
+
+Releases are made by `.github/workflows/release.yml` when a tag is pushed. It builds static Linux
+binaries (x86_64 and aarch64, musl) and macOS binaries (Intel and Apple silicon), runs the tests
+for the Linux and Apple silicon ones, and attaches the archives and `SHA256SUMS` to a GitHub release.
+
+1. Set the new version in `Cargo.toml`, in the first line of `man/tilog.1`, and date the entry in
+   `CHANGELOG.md`. `cargo test` fails until the manual page and the version agree.
+2. Make sure CI is green, then try the workflow with a pre-release: `git tag v0.2.0-rc.1 && git push
+   origin v0.2.0-rc.1`. A tag with a `-` is published as a pre-release; delete it afterwards.
+3. Tag the release itself: `git tag v0.2.0 && git push origin v0.2.0`. The workflow refuses a tag that
+   does not belong to the version in `Cargo.toml`.
+
+`scripts/package.sh <target>` makes the same archive from a local build.
+
 ## Code
 
 - The code is organised by topic. Each module starts with a `//!` comment saying what it is for;
