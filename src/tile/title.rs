@@ -27,6 +27,7 @@ impl Tile {
                 lines,
                 status,
                 window,
+                asking,
                 ..
             } => {
                 // Older lines exist on disk. Scrolling up loads them, up to a limit.
@@ -41,6 +42,7 @@ impl Tile {
                 };
                 // A command's state comes first: when it is not running, that matters most.
                 let state = match status {
+                    _ if asking.is_some() => " · waiting for your answer".to_string(),
                     None | Some(Status::Connected) => String::new(),
                     Some(Status::Connecting) => " · connecting…".to_string(),
                     Some(Status::Retrying { in_secs, why }) => {

@@ -14,6 +14,7 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::{Duration, Instant};
 
+use crate::askpass::{Remembered, Server};
 use crate::line::CappedLine;
 use crate::spec::{CommandSpec, Restart};
 use crate::tail::{CHANNEL_BOUND, Status, TailMsg};
@@ -96,6 +97,50 @@ pub fn spawn(spec: CommandSpec, initial_lines: usize) -> (Receiver<TailMsg>, Str
     (rx, guard)
 }
 
+/// Why an ssh login will not be tried again.
+struct Refusal {
+    /// For the title: short, and about what to do.
+    short: String,
+    /// For the log: the whole story, one line each.
+    explanation: Vec<String>,
+}
+
+/// If `why` (the end of ssh's error message) says that logging in cannot work without the user
+/// doing something, what to tell them. This is only asked after ssh was allowed to ask its
+/// questions (a password, a host key) and the answer did not work or was not given: trying
+/// again would only add failed logins to the host's log.
+fn ssh_refusal(why: &str, host: &str) -> Option<Refusal> {
+    if why.contains("Permission denied") {
+        return Some(Refusal {
+            short: "login refused (wrong password or no key)".to_string(),
+            explanation: vec![
+                format!("── ssh to {host} was refused: {why}"),
+                "   tilog asked for the password here, once, and does not try again, so the host \
+                 is not hammered with failed logins."
+                    .to_string(),
+                format!(
+                    "   A key is easier (ssh-copy-id {host}, ssh-add). Add the source again to \
+                     try another password. ──"
+                ),
+            ],
+        });
+    }
+    if why.contains("Host key verification failed")
+        || why.contains("HOST IDENTIFICATION HAS CHANGED")
+    {
+        return Some(Refusal {
+            short: format!("host key not trusted: ssh {host} once"),
+            explanation: vec![
+                format!("── ssh to {host}: the host key is not trusted: {why}"),
+                format!(
+                    "   Run `ssh {host}` once to check it and accept it, then add the source again. ──"
+                ),
+            ],
+        });
+    }
+    None
+}
+
 /// How one run of the command ended.
 enum Outcome {
     /// Stopped by the guard, or the UI is gone. Nothing more to do.
@@ -116,6 +161,10 @@ fn supervise(
     let send_status = |status: Status| tx.send(TailMsg::Status(status)).is_ok();
     let mut backoff = Backoff::new();
     let mut gone_since: Option<Instant> = None;
+    // Does an ssh login get to ask questions? Not at first: a host with a key just logs in. Only
+    // a refused login turns it on, and then it stays on for the reconnects.
+    let mut asking = false;
+    let remembered = Remembered::default();
 
     while !stop.load(Ordering::SeqCst) {
         if !send_status(Status::Connecting) {
@@ -124,7 +173,15 @@ fn supervise(
         let since = gone_since.map(|moment| moment.elapsed() + SINCE_MARGIN);
         let started = Instant::now();
 
-        let (success, why) = match run_once(spec, initial_lines, since, tx, stop, slot) {
+        let (success, why) = match run_once(
+            spec,
+            initial_lines,
+            since,
+            asking.then_some(&remembered),
+            tx,
+            stop,
+            slot,
+        ) {
             Outcome::Stopped => return,
             Outcome::CannotStart(why) => {
                 send_status(Status::Ended { why });
@@ -133,9 +190,30 @@ fn supervise(
             Outcome::Ended { success, why } => (success, why),
         };
 
-        if success && spec.restart() == Restart::OnFailure {
+        // Some failures do not go away by trying again, and trying again is harmful: a refused
+        // login repeated every few seconds is what makes `fail2ban` lock an address out.
+        if let Some(host) = spec.ssh_host()
+            && let Some(refusal) = ssh_refusal(&why, host)
+        {
+            if !asking {
+                // So far ssh was told never to ask. Now it may: the question appears in the
+                // tile, and the answer is typed there.
+                asking = true;
+                continue;
+            }
+            for text in refusal.explanation {
+                let _ = tx.send(TailMsg::Line { offset: 0, text });
+            }
+            send_status(Status::Ended { why: refusal.short });
+            return;
+        }
+
+        // A command that is done stays done; a failure of one that is not restarted is shown as
+        // it is, with the explanation the tool printed.
+        let restart = spec.restart();
+        if (success && restart == Restart::OnFailure) || restart == Restart::Never {
             send_status(Status::Ended {
-                why: "finished".to_string(),
+                why: if success { "finished".to_string() } else { why },
             });
             return;
         }
@@ -188,14 +266,42 @@ fn run_once(
     spec: &CommandSpec,
     initial_lines: usize,
     since: Option<Duration>,
+    // Where to remember a password, if ssh may ask questions this time.
+    asking: Option<&Remembered>,
     tx: &SyncSender<TailMsg>,
     stop: &AtomicBool,
     slot: &Mutex<Option<Child>>,
 ) -> Outcome {
-    let argv = spec.argv(initial_lines, since);
+    let argv = spec.argv_with(initial_lines, since, asking.is_some());
     let mut command = Command::new(&argv[0]);
-    // Its own process group: see `kill_group`.
-    command.args(&argv[1..]).process_group(0);
+    command.args(&argv[1..]);
+    // Answers arrive while the command runs; the server for them lives as long as this run.
+    let mut _answers = None;
+    if let Some(remembered) = asking {
+        match Server::start(tx.clone(), remembered.clone()) {
+            Ok(server) => {
+                command.envs(server.env());
+                _answers = Some(server);
+            }
+            Err(e) => {
+                return Outcome::CannotStart(format!("cannot prepare the login question: {e}"));
+            }
+        }
+        // A session of its own, so without a terminal: ssh must ask the helper, not read the
+        // answer from the terminal the screen is drawn on. (It is also its own process group,
+        // which is what `kill_group` needs.)
+        #[allow(unsafe_code)]
+        // SAFETY: `setsid` is async-signal-safe, which is all `pre_exec` asks of its closure.
+        unsafe {
+            command.pre_exec(|| {
+                libc::setsid();
+                Ok(())
+            });
+        }
+    } else {
+        // Its own process group: see `kill_group`.
+        command.process_group(0);
+    }
     command.stdin(if spec.keeps_stdin_open() {
         Stdio::piped()
     } else {
@@ -342,6 +448,7 @@ mod tests {
             TailMsg::Status(Status::Connected) => "connected".to_string(),
             TailMsg::Status(Status::Retrying { why, .. }) => format!("retrying:{why}"),
             TailMsg::Status(Status::Ended { why }) => format!("ended:{why}"),
+            TailMsg::Ask(ask) => format!("ask:{}", ask.prompt),
         }
     }
 
@@ -510,5 +617,23 @@ mod tests {
         assert!(!alive(&helper), "so must the helper it started");
         let _ = std::fs::remove_file(&pid_file);
         let _ = std::fs::remove_file(&helper_file);
+    }
+
+    #[test]
+    fn a_refused_login_or_an_untrusted_host_is_not_retried_but_a_lost_connection_is() {
+        let refused =
+            ssh_refusal("exit 255: Permission denied (publickey,password).", "web1").unwrap();
+        assert!(refused.short.starts_with("login refused"));
+        assert!(refused.short.chars().count() <= 44, "fits the title");
+        let story = refused.explanation.join(" ");
+        assert!(story.contains("ssh-copy-id web1") && story.contains("once"));
+
+        let host_key = ssh_refusal("exit 255: Host key verification failed.", "web1").unwrap();
+        assert!(host_key.short.contains("ssh web1"));
+
+        // A dropped connection or an unreachable host may come back: those are retried.
+        assert!(ssh_refusal("exit 255: Connection timed out", "web1").is_none());
+        assert!(ssh_refusal("exit 255: Could not resolve hostname web1", "web1").is_none());
+        assert!(ssh_refusal("exit 255: Connection refused", "web1").is_none());
     }
 }

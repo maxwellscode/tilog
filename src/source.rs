@@ -60,6 +60,8 @@ pub struct Source {
     last_total: u64,
     /// Has the rate been sampled once? (See `update_rate`.)
     rate_started: bool,
+    /// The app knows about the question that is open (see `question_is_new`).
+    question_noted: bool,
 }
 
 impl Source {
@@ -169,6 +171,7 @@ impl Source {
             rate: 0.0,
             last_total: 0,
             rate_started: false,
+            question_noted: false,
         }
     }
 
@@ -185,6 +188,19 @@ impl Source {
     /// container however often it is typed.
     pub fn identity_of(text: &str) -> Result<String> {
         Ok(identity_of_spec(&SourceSpec::parse(text)?, 0))
+    }
+
+    /// Is a question from `ssh` waiting for an answer in this source's tile?
+    pub fn is_asking(&self) -> bool {
+        self.tiles[0].is_asking()
+    }
+
+    /// `true` once for each new question, so the app can take notice of it.
+    pub fn question_is_new(&mut self) -> bool {
+        let asking = self.is_asking();
+        let new = asking && !self.question_noted;
+        self.question_noted = asking;
+        new
     }
 
     /// Is this standard input? It can't be saved in a session or reopened: there is one pipe,

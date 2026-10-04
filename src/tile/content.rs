@@ -10,6 +10,7 @@ use crate::stream::StreamGuard;
 use crate::stream_filter::StreamFilterView;
 use crate::tail::{Status, TailMsg};
 
+use super::login::Asking;
 use super::window::HistoryWindow;
 
 /// Where a tile's lines come from. The set of kinds is closed (we know them all), so an
@@ -29,6 +30,8 @@ pub(super) enum Content {
         _guard: Option<StreamGuard>,
         /// When set, this is what is shown instead of `lines` (see `HistoryWindow`).
         window: Option<HistoryWindow>,
+        /// A question `ssh` is waiting to have answered (see `login`).
+        asking: Option<Asking>,
     },
     /// A filtered tile of a file: the whole file, as an index of byte offsets.
     Filter(FilterView),

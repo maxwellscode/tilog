@@ -33,6 +33,36 @@ impl Prompt {
 }
 
 impl App {
+    /// While a source of the overview (or the tab that is open) asks `ssh`'s question, typing
+    /// answers it: Enter sends, Esc gives up. Tab, Ctrl+C and the Alt keys still work, so another
+    /// tile can be chosen or the program left. Returns whether the key was used.
+    fn answer_question(&mut self, key: KeyEvent) -> bool {
+        let Some(index) = self.asking_index() else {
+            return false;
+        };
+        let ctrl = key.modifiers.contains(KeyModifiers::CONTROL);
+        let alt = key.modifiers.contains(KeyModifiers::ALT);
+        let leaves = ctrl && key.code == KeyCode::Char('c');
+        if alt || leaves || matches!(key.code, KeyCode::Tab | KeyCode::BackTab) {
+            return false;
+        }
+        let Some(tile) = self
+            .sources
+            .get_mut(index)
+            .and_then(|source| source.tile_mut(0))
+        else {
+            return false;
+        };
+        match key.code {
+            KeyCode::Enter => tile.submit_answer(),
+            KeyCode::Esc => tile.cancel_answer(),
+            KeyCode::Backspace => tile.erase_char(),
+            KeyCode::Char(c) if !ctrl => tile.type_char(c),
+            _ => {}
+        }
+        true
+    }
+
     pub(super) fn on_key(&mut self, key: KeyEvent, areas: &Areas) {
         if self.show_help {
             self.on_help_key(key, areas);
@@ -40,6 +70,9 @@ impl App {
         }
         self.notice = None;
         self.selection = None;
+        if self.prompt.is_none() && self.answer_question(key) {
+            return;
+        }
 
         let target = self.target_index();
         let (height, width) = (areas.tile_height(target), areas.tile_width(target));

@@ -17,6 +17,41 @@ use ratatui::widgets::ScrollbarOrientation;
 use ratatui::widgets::ScrollbarState;
 
 impl App {
+    /// A question `ssh` is asking is drawn at the bottom of the tile, as in a terminal: the
+    /// question, and what has been typed after it on the same row. The log stays above it.
+    fn with_question<'a>(
+        &self,
+        tile: &Tile,
+        mut text: Vec<Line<'a>>,
+        height: usize,
+    ) -> Vec<Line<'a>> {
+        let Some(question) = tile.question() else {
+            return text;
+        };
+        if height == 0 {
+            return text;
+        }
+        // As many lines of the question as fit; the last one carries the answer.
+        let lines: Vec<&str> = question.prompt.trim_end_matches('\n').lines().collect();
+        let lines = &lines[lines.len().saturating_sub(height)..];
+        let asked = if self.no_color {
+            Style::new().bold()
+        } else {
+            Style::new().yellow().bold()
+        };
+        text.truncate(height - lines.len().min(height));
+        let (last, earlier) = lines.split_last().unwrap_or((&"", &[]));
+        for line in earlier {
+            text.push(Line::from(Span::styled((*line).to_string(), asked)));
+        }
+        text.push(Line::from(vec![
+            Span::styled((*last).to_string(), asked),
+            Span::raw(question.shown),
+            Span::styled(" ", Style::new().reversed()),
+        ]));
+        text
+    }
+
     pub(super) fn render_tile(
         &self,
         frame: &mut Frame,
@@ -90,6 +125,7 @@ impl App {
                 }
             })
             .collect();
+        let text = self.with_question(tile, text, height);
 
         // Whether the view follows the newest line sits in the top right corner, where the eye
         // looks for it: bright when following, plain when paused.
@@ -170,4 +206,73 @@ impl App {
     }
 
     // ---- the status line ---------------------------------------------------------------
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::askpass::{Ask, Kind};
+    use crate::source::Source;
+
+    fn plain(line: &Line) -> String {
+        line.spans
+            .iter()
+            .map(|span| span.content.as_ref())
+            .collect()
+    }
+
+    #[test]
+    fn the_question_sits_at_the_bottom_with_the_answer_after_it_and_the_log_above() {
+        let app = App::new();
+        let mut source = Source::fake_stdin();
+        let tile = source.tile_mut(0).unwrap();
+        let (ask, _answers) = Ask::for_test("deploy@web1's password: ", Kind::Secret);
+        tile.ask_for_test(ask);
+        for c in "abc".chars() {
+            tile.type_char(c);
+        }
+
+        let log = vec![
+            Line::from("first"),
+            Line::from("second"),
+            Line::from("third"),
+        ];
+        let shown = app.with_question(source.main(), log, 4);
+        let rows: Vec<String> = shown.iter().map(plain).collect();
+        assert_eq!(
+            rows,
+            ["first", "second", "third", "deploy@web1's password: ••• "]
+        );
+
+        // In a tile only three rows tall the log gives way: the question always shows.
+        let shown = app.with_question(
+            source.main(),
+            vec![Line::from("a"), Line::from("b"), Line::from("c")],
+            2,
+        );
+        assert_eq!(shown.len(), 2);
+        assert!(plain(&shown[1]).starts_with("deploy@web1's password: "));
+    }
+
+    #[test]
+    fn a_long_question_shows_its_last_lines_and_keeps_the_answer_on_the_last() {
+        let app = App::new();
+        let mut source = Source::fake_stdin();
+        let tile = source.tile_mut(0).unwrap();
+        let text = "The authenticity of host 'web1' can't be established.\nED25519 key fingerprint is SHA256:abc.\nContinue (yes/no)? ";
+        let (ask, _answers) = Ask::for_test(text, Kind::Confirm);
+        tile.ask_for_test(ask);
+        tile.type_char('y');
+
+        let shown = app.with_question(source.main(), Vec::new(), 10);
+        let rows: Vec<String> = shown.iter().map(plain).collect();
+        assert_eq!(rows.len(), 3);
+        assert!(rows[0].starts_with("The authenticity"));
+        assert_eq!(rows[2], "Continue (yes/no)? y ", "typed in the open");
+
+        // Not enough room for all of it: the end of the question is what is kept.
+        let shown = app.with_question(source.main(), Vec::new(), 2);
+        assert!(plain(&shown[0]).starts_with("ED25519"));
+        assert!(plain(&shown[1]).starts_with("Continue"));
+    }
 }

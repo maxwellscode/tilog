@@ -278,6 +278,7 @@ impl App {
             source.merge_in(&fresh);
             busy |= source.pump();
         }
+        self.note_questions();
         busy
     }
 
@@ -338,6 +339,38 @@ impl App {
         match self.tab.checked_sub(1) {
             Some(source) => self.sources.get(source)?.tiles().get(index),
             None => self.sources.get(index).map(Source::main),
+        }
+    }
+
+    /// The source whose question gets the keys: the one of the tab that is open, or the selected
+    /// one on the overview, if it is asking.
+    fn asking_index(&self) -> Option<usize> {
+        let index = self.tab.checked_sub(1).unwrap_or(self.selected);
+        self.sources
+            .get(index)
+            .filter(|source| source.is_asking())
+            .map(|_| index)
+    }
+
+    /// A source started asking a question: on the overview its tile is selected (unless
+    /// another one is being answered), from another tab there is a message.
+    fn note_questions(&mut self) {
+        for index in 0..self.sources.len() {
+            if !self.sources[index].question_is_new() {
+                continue;
+            }
+            if self.tab == 0 {
+                if !self
+                    .sources
+                    .get(self.selected)
+                    .is_some_and(Source::is_asking)
+                {
+                    self.selected = index;
+                }
+            } else if self.tab != index + 1 {
+                let name = self.sources[index].name().to_string();
+                self.info(format!("{name} asks to log in: see the overview"));
+            }
         }
     }
 

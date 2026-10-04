@@ -530,3 +530,51 @@ fn picking_a_command_with_optional_arguments_from_the_menu_waits_for_them() {
         info_text(&app)
     );
 }
+
+#[test]
+fn typing_answers_the_question_of_the_selected_tile_on_the_overview() {
+    use crate::askpass::{Ask, Kind};
+    let mut app = App::new();
+    let (_dir, paths) = logs("askkeys", 1);
+    app.add_path(&paths[0]).unwrap();
+    app.sources.push(Source::fake_stdin());
+    app.selected = 1;
+    let (ask, answers) = Ask::for_test("deploy@web1's password: ", Kind::Secret);
+    app.sources[1].tile_mut(0).unwrap().ask_for_test(ask);
+    let areas = app.areas(Rect::new(0, 0, 120, 30));
+    let key = |app: &mut App, code: KeyCode| {
+        app.on_key(KeyEvent::new(code, KeyModifiers::NONE), &areas);
+    };
+
+    // The keys go to the question, even the ones that mean something otherwise.
+    assert!(
+        app.hint().contains("asks: type the answer"),
+        "{}",
+        app.hint()
+    );
+    for c in "q:1&?".chars() {
+        key(&mut app, KeyCode::Char(c));
+    }
+    key(&mut app, KeyCode::Backspace);
+    assert!(!app.quit && app.tab == 0 && app.prompt.is_none() && !app.show_help);
+    key(&mut app, KeyCode::Enter);
+    assert_eq!(answers.recv().unwrap().as_deref(), Some("q:1&"));
+
+    // Esc gives up the next question.
+    let (ask, answers) = Ask::for_test("password: ", Kind::Secret);
+    app.sources[1].tile_mut(0).unwrap().ask_for_test(ask);
+    key(&mut app, KeyCode::Esc);
+    assert_eq!(answers.recv().unwrap(), None);
+
+    // A question in a tile that is not selected is left alone: Tab chooses between them.
+    let (ask, answers) = Ask::for_test("password: ", Kind::Secret);
+    app.sources[1].tile_mut(0).unwrap().ask_for_test(ask);
+    key(&mut app, KeyCode::Tab);
+    assert_eq!(app.selected, 0, "Tab still moves the selection");
+    key(&mut app, KeyCode::Char('x'));
+    assert!(
+        answers.try_recv().is_err(),
+        "x was not typed into the other tile"
+    );
+    assert!(app.sources[1].is_asking());
+}

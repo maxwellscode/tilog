@@ -47,7 +47,13 @@ impl App {
     }
 
     /// What the status line says when nothing else does: the keys that matter here.
-    pub(super) fn hint(&self) -> String {
+    pub(in crate::app) fn hint(&self) -> String {
+        if let Some(index) = self.asking_index() {
+            return format!(
+                "{} asks: type the answer · Enter sends · Esc gives up · Tab next tile",
+                self.sources[index].name()
+            );
+        }
         if let Some(highlight) = &self.highlight {
             return format!("“{}” · n/N next/previous · Esc clears", highlight.label());
         }

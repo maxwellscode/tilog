@@ -657,3 +657,41 @@ fn scrolling_down_to_the_end_of_a_paused_view_resumes_following() {
     assert_eq!(tile.visible(10).last().unwrap(), "line 00031");
     std::fs::remove_file(&path).unwrap();
 }
+
+#[test]
+fn a_question_is_answered_by_typing_and_a_secret_is_not_shown() {
+    use crate::askpass::{Ask, Kind};
+    let (path, _) = numbered_file("ask", 3);
+    let mut tile = Tile::source(&path, 100).unwrap();
+    assert!(!tile.is_asking() && tile.question().is_none());
+
+    let (ask, answers) = Ask::for_test("deploy@web1's password: ", Kind::Secret);
+    tile.ask_for_test(ask);
+    assert!(tile.is_asking());
+    for c in "s3cr".chars() {
+        tile.type_char(c);
+    }
+    tile.erase_char();
+    tile.type_char('e');
+    tile.type_char('t');
+    let question = tile.question().unwrap();
+    assert_eq!(question.prompt, "deploy@web1's password: ");
+    assert_eq!(question.shown, "•••••", "five typed, none of them shown");
+
+    tile.submit_answer();
+    assert!(!tile.is_asking());
+    assert_eq!(answers.recv().unwrap().as_deref(), Some("s3cet"));
+    assert!(tile.title("x").find("waiting").is_none());
+
+    // A yes/no question is typed in the open; Esc gives up.
+    let (ask, answers) = Ask::for_test("Continue connecting (yes/no)? ", Kind::Confirm);
+    tile.ask_for_test(ask);
+    for c in "ye".chars() {
+        tile.type_char(c);
+    }
+    assert_eq!(tile.question().unwrap().shown, "ye");
+    assert!(tile.title("x").contains("waiting for your answer"));
+    tile.cancel_answer();
+    assert_eq!(answers.recv().unwrap(), None);
+    std::fs::remove_file(&path).unwrap();
+}

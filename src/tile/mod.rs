@@ -6,6 +6,7 @@
 
 mod content;
 mod frozen;
+mod login;
 mod scroll;
 mod search;
 #[cfg(test)]
@@ -41,6 +42,7 @@ pub use search::{Find, Link};
 
 use content::Content;
 use frozen::Bounded;
+use login::Asking;
 use window::HISTORY_MAX;
 
 /// Per UI tick, take at most this many lines from the main source, so a huge file being
@@ -105,6 +107,7 @@ impl Tile {
             status: None,
             _guard: None,
             window: None,
+            asking: None,
         };
         Ok(Self::new(content))
     }
@@ -121,6 +124,7 @@ impl Tile {
             status: Some(Status::Connecting),
             _guard: Some(guard),
             window: None,
+            asking: None,
         };
         Self::new(content)
     }
@@ -136,6 +140,7 @@ impl Tile {
             status: Some(Status::Connected),
             _guard: None,
             window: None,
+            asking: None,
         };
         Ok(Self::new(content))
     }
@@ -260,6 +265,7 @@ impl Tile {
                 lines,
                 rx,
                 status: current,
+                asking,
                 ..
             } => {
                 // Older lines loaded by scrolling up are kept only while the view is paused.
@@ -285,6 +291,13 @@ impl Tile {
                         }
                         Ok(TailMsg::Rotated) => lines.rotated(),
                         Ok(TailMsg::Status(status)) => *current = Some(status),
+                        Ok(TailMsg::Ask(ask)) => {
+                            taken += 1;
+                            // Only one question is open at a time; a newer one replaces it.
+                            if let Some(old) = asking.replace(Asking::new(ask)) {
+                                old.cancel();
+                            }
+                        }
                         Err(_) => return taken > 0,
                     }
                 }
@@ -344,6 +357,7 @@ impl Tile {
         let mut hasher = DefaultHasher::new();
         self.total_lines().hash(&mut hasher);
         self.matches().hash(&mut hasher);
+        self.is_asking().hash(&mut hasher);
         match &self.content {
             Content::Source { status, .. } => status.hash(&mut hasher),
             Content::Filter(view) => view.is_scanning().hash(&mut hasher),

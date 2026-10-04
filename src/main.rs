@@ -1,4 +1,5 @@
 mod app;
+mod askpass;
 mod buffer;
 mod cli;
 mod clipboard;
@@ -61,6 +62,10 @@ impl Drop for MouseCapture {
 }
 
 fn main() -> Result<()> {
+    // `ssh` starts tilog as its helper to ask a question: see `askpass`.
+    if env::var_os(askpass::ENV_SOCKET).is_some() {
+        std::process::exit(askpass::run_helper());
+    }
     match cli::parse(env::args().skip(1))? {
         Cli::Help => println!("{}", cli::usage()),
         Cli::Version => println!("{NAME} {VERSION}"),

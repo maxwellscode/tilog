@@ -57,10 +57,13 @@ pub enum Restart {
     Always,
     /// Only after a failure. A command that finishes successfully is simply done.
     OnFailure,
+    /// Never: whatever it did, it is done. A file that is read once has nothing to wait for.
+    Never,
 }
 
 impl SourceSpec {
-    /// Anything that isn't `ssh:`, `docker:`, `kube:`/`k8s:` or `cmd:` is a file path.
+    /// Anything that isn't `ssh:`, `docker:`, `kube:`/`k8s:` or `cmd:` is a file path (or a
+    /// compressed one, `.gz`).
     pub fn parse(text: &str) -> Result<Self> {
         let text = text.trim();
         if text == "-" {
@@ -202,29 +205,24 @@ impl CommandSpec {
     /// long the connection was gone, so docker and kubectl replay only what was missed (plus a
     /// small margin, so a few lines may repeat but none are lost). ssh and plain commands can't
     /// do that, so after a restart they continue from now and the gap stays a gap.
+    #[cfg(test)]
     pub fn argv(&self, initial_lines: usize, since: Option<Duration>) -> Vec<String> {
+        self.argv_with(initial_lines, since, false)
+    }
+
+    /// Like `argv`. With `asking`, an ssh login may ask questions (a password, a host key)
+    /// instead of failing: the caller must have a way to answer them (see `askpass`).
+    pub fn argv_with(
+        &self,
+        initial_lines: usize,
+        since: Option<Duration>,
+        asking: bool,
+    ) -> Vec<String> {
         let words = |items: &[&str]| items.iter().map(|s| s.to_string()).collect::<Vec<_>>();
         match &self.kind {
             Kind::Ssh { host, path } => {
                 let lines = if since.is_some() { 0 } else { initial_lines };
-                // -T: no terminal. BatchMode: never ask for a password or a passphrase, that
-                // question would be drawn into the middle of the screen. The keepalives make a
-                // dead connection fail in about 45 s instead of hanging.
-                let mut argv = words(&[
-                    "ssh",
-                    "-T",
-                    "-o",
-                    "BatchMode=yes",
-                    "-o",
-                    "ConnectTimeout=10",
-                    "-o",
-                    "ServerAliveInterval=15",
-                    "-o",
-                    "ServerAliveCountMax=3",
-                ]);
-                argv.push(host.clone());
-                argv.push(remote_tail_command(path, lines));
-                argv
+                ssh_argv(host, asking, remote_tail_command(path, lines))
             }
             Kind::Docker { container } => {
                 let mut argv = words(&["docker", "logs", "-f"]);
@@ -274,6 +272,14 @@ impl CommandSpec {
         )
     }
 
+    /// The host of an ssh source.
+    pub fn ssh_host(&self) -> Option<&str> {
+        match &self.kind {
+            Kind::Ssh { host, .. } => Some(host),
+            _ => None,
+        }
+    }
+
     /// Keep the command's stdin open (and empty) while it runs. See `remote_tail_command`.
     pub fn keeps_stdin_open(&self) -> bool {
         matches!(self.kind, Kind::Ssh { .. })
@@ -301,6 +307,37 @@ impl CommandSpec {
 /// connection is gone (without a terminal nothing tells it to stop until it next writes).
 /// So `tail` is started in the background and a `cat` waits on stdin: when the connection
 /// closes, stdin ends, `cat` returns and the `tail` is killed.
+/// `ssh` with the options every source of ours uses, running `remote_command` on `host`.
+///
+/// `-T`: no terminal. `BatchMode`: never ask for a password or a passphrase on the terminal the
+/// screen is drawn on (with `asking`, the question goes to tilog instead: see `askpass`). The
+/// keepalives make a dead connection fail in about 45 s instead of hanging.
+fn ssh_argv(host: &str, asking: bool, remote_command: String) -> Vec<String> {
+    let batch = if asking {
+        "BatchMode=no"
+    } else {
+        "BatchMode=yes"
+    };
+    let mut argv: Vec<String> = [
+        "ssh",
+        "-T",
+        "-o",
+        batch,
+        "-o",
+        "ConnectTimeout=10",
+        "-o",
+        "ServerAliveInterval=15",
+        "-o",
+        "ServerAliveCountMax=3",
+    ]
+    .iter()
+    .map(|word| (*word).to_string())
+    .collect();
+    argv.push(host.to_string());
+    argv.push(remote_command);
+    argv
+}
+
 fn remote_tail_command(path: &str, lines: usize) -> String {
     let script = format!(
         "tail -n {lines} -F {} & p=$!; cat >/dev/null; kill $p",

@@ -6,6 +6,7 @@ use std::sync::mpsc::{self, Receiver, SyncSender};
 use std::thread;
 use std::time::Duration;
 
+use crate::askpass::Ask;
 use crate::line::CappedLine;
 use anyhow::{Context, Result};
 use notify::{RecursiveMode, Watcher};
@@ -227,6 +228,7 @@ pub fn trim_eol(line: &[u8]) -> &[u8] {
 }
 
 /// What the following thread of the main tile tells the UI.
+#[derive(Debug)]
 pub enum TailMsg {
     /// A complete line, and the byte offset it starts at. (Lines of a command have no file
     /// offset; theirs is 0.)
@@ -236,6 +238,8 @@ pub enum TailMsg {
     Rotated,
     /// The state of a command source's process (files have none).
     Status(Status),
+    /// The command asks a question (`ssh` wants a password): to be answered in the tile.
+    Ask(Ask),
 }
 
 /// Where a command source (ssh, docker, kubectl, ...) is in its life.
@@ -370,6 +374,7 @@ mod tests {
             TailMsg::Line { text, .. } => format!("line:{text}"),
             TailMsg::Rotated => "rotated".to_string(),
             TailMsg::Status(_) => "status".to_string(),
+            TailMsg::Ask(_) => "ask".to_string(),
         }
     }
 
