@@ -699,7 +699,7 @@ mod tests {
         let script = dir.join(tool);
         std::fs::write(
             &script,
-            "#!/bin/sh\nfor a in \"$@\"; do echo \"$a\"; done\n",
+            "#!/bin/sh\nfor a in \"$@\"; do printf '%s\\n' \"$a\"; done\n",
         )
         .unwrap();
         std::fs::set_permissions(&script, std::fs::Permissions::from_mode(0o755)).unwrap();
