@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tilog: tig for logs</title>
+<meta name="description" content="A small, fast, read-only terminal viewer for live logs during a deployment and for checking production errors afterwards. Written in Rust.">
+<meta property="og:title" content="tilog: tig for logs">
+<meta property="og:description" content="A small, fast, read-only terminal viewer for live logs during a deployment and for checking production errors afterwards. Written in Rust.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://maxwellscode.github.io/tilog/">
+<meta property="og:image" content="https://maxwellscode.github.io/tilog/screenshot-filter.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1c1e26; --muted: #5d6270; --line: #dfe2ea; --card: #f5f6fa;
+    --accent: #1c6fd1; --code-bg: #1e1e2e; --code-fg: #cdd6f4; --code-dim: #6c7086;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14151c; --fg: #e6e8f0; --muted: #9aa0b4; --line: #2a2d3a; --card: #1b1d27;
+      --accent: #7db4ff; --code-bg: #0e0f15;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg); line-height: 1.6;
+    font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  a { color: var(--accent); }
+  main, header > div, footer > div { max-width: 62rem; margin: 0 auto; padding: 0 1.25rem; }
+  header { padding: 4rem 0 2rem; text-align: center; }
+  h1 { font-size: clamp(2.4rem, 7vw, 3.6rem); margin: 0 0 .4rem; letter-spacing: -.02em; }
+  h1 span { color: var(--muted); font-weight: 400; }
+  .lead { font-size: 1.2rem; color: var(--muted); max-width: 40rem; margin: 0 auto 1.6rem; }
+  .buttons a {
+    display: inline-block; margin: .25rem; padding: .6rem 1.1rem; border-radius: .5rem;
+    border: 1px solid var(--line); text-decoration: none; font-weight: 600; color: var(--fg);
+  }
+  .buttons a.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .demo { display: block; width: 100%; max-width: 58rem; margin: 2rem auto 0; border-radius: .7rem;
+          border: 1px solid var(--line); }
+  h2 { margin: 3.2rem 0 1rem; font-size: 1.6rem; letter-spacing: -.01em; }
+  .cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: .7rem; padding: 1rem 1.2rem; }
+  .card h3 { margin: 0 0 .3rem; font-size: 1.05rem; }
+  .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+  pre, code { font: .92rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  pre { background: var(--code-bg); color: var(--code-fg); padding: 1rem 1.2rem; border-radius: .6rem;
+        overflow-x: auto; }
+  pre .c { color: var(--code-dim); }
+  :not(pre) > code { background: var(--card); border: 1px solid var(--line); border-radius: .3rem; padding: .05rem .35rem; }
+  table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+  th, td { text-align: left; padding: .45rem .7rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+  .shot { width: 100%; border-radius: .7rem; border: 1px solid var(--line); margin-top: 1rem; }
+  .figure p { color: var(--muted); margin: .5rem 0 0; font-size: .95rem; }
+  footer { margin-top: 4rem; padding: 2rem 0 3rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .92rem; }
+  footer a { margin-right: 1rem; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>tilog <span>: tig for logs</span></h1>
+    <p class="lead">A small, fast, read-only terminal viewer for live logs during a deployment and for
+      checking production errors afterwards. Written in Rust.</p>
+    <p class="buttons">
+      <a class="primary" href="#install">Install</a>
+      <a href="https://github.com/maxwellscode/tilog">GitHub</a>
+      <a href="https://github.com/maxwellscode/tilog/blob/main/CHANGELOG.md">Changelog</a>
+    </p>
+    <img class="demo" src="demo.gif" width="932" height="626"
+         alt="tilog following four logs, filtering one for ERROR, and stepping through the matches">
+  </div>
+</header>
+
+<main>
+  <div class="cards">
+    <div class="card"><h3>Feels like less and tail</h3>
+      <p><code>j k Space b g G / n N</code> work as you expect. No configuration, a hint line and a command
+      menu always say what is possible, and the mouse works.</p></div>
+    <div class="card"><h3>Live during a deployment</h3>
+      <p>Files, <code>ssh</code>, Docker, Kubernetes and any command, side by side, reconnecting by
+      themselves. Pipe anything in with <code>| tilog</code>.</p></div>
+    <div class="card"><h3>Review what went wrong</h3>
+      <p>Filter any source into its own tile, step through the matches with <code>n</code>,
+      jump between errors with <code>]</code>, and save what you found with <code>:write</code>.</p></div>
+    <div class="card"><h3>Read-only, small, bounded</h3>
+      <p>It never changes a log or a server and installs nothing remotely. A 2.5 MB binary, a
+      multi-gigabyte file opens at its end, and memory stays bounded.</p></div>
+  </div>
+
+  <h2 id="install">Install</h2>
+  <pre>cargo install --git https://github.com/maxwellscode/tilog   <span class="c"># needs Rust 1.88 or newer</span>
+tilog --print-man &gt; ~/.local/share/man/man1/tilog.1          <span class="c"># the manual page, if you want it</span></pre>
+  <p>Linux and macOS. On Windows, use WSL. Not on crates.io yet.</p>
+
+  <h2>Usage</h2>
+<pre>tilog app.log nginx.log                      <span class="c"># local files</span>
+tilog ssh:deploy@web1:/var/log/app.log       <span class="c"># a remote file, over ssh</span>
+tilog docker:api kube:prod/web-0             <span class="c"># containers and pods</span>
+tilog ssh:web1:docker:api                    <span class="c"># docker on another host</span>
+kubectl logs -f web-0 | tilog                <span class="c"># anything piped in</span>
+tilog app.log.2.gz                           <span class="c"># compressed logs</span></pre>
+
+  <div class="figure">
+    <img class="shot" src="screenshot-filter.png" width="932" height="626"
+         alt="A filter on ERROR next to the log it was made from: the main pane shows the match in its place">
+    <p>A filter next to its log: <code>n</code> steps through the matches, and the main pane shows each
+    one in its place, with the lines around it.</p>
+  </div>
+
+  <h2>The keys that matter</h2>
+  <table>
+    <tr><th>Key</th><th></th></tr>
+    <tr><td><code>/text</code>, <code>n N</code></td><td>search, next and previous match</td></tr>
+    <tr><td><code>&amp;text</code></td><td>open a filter tile with the matching entries (a stack trace stays whole)</td></tr>
+    <tr><td><code>] [</code></td><td>next and previous error line</td></tr>
+    <tr><td><code>:</code></td><td>commands: <code>:merge</code>, <code>:goto 08:16</code>, <code>:write</code>, <code>:save</code>, <code>:pause all</code> ...</td></tr>
+    <tr><td><code>0</code>&ndash;<code>9</code>, <code>Tab</code></td><td>overview, sources, tiles</td></tr>
+    <tr><td><code>?</code></td><td>all keys and commands</td></tr>
+  </table>
+
+  <h2>What it is not</h2>
+  <p>tilog is not a log platform: no storage, indexing, alerting, dashboards or query language. For
+  format parsing and SQL, use <a href="https://lnav.org">lnav</a>; for the rest, a hosted service. It is
+  the small tool you open on a terminal, the way you would open <code>tig</code> on a repository.</p>
+</main>
+
+<footer>
+  <div>
+    <a href="https://github.com/maxwellscode/tilog">Source</a>
+    <a href="https://github.com/maxwellscode/tilog/issues">Issues</a>
+    <a href="https://github.com/maxwellscode/tilog/blob/main/CONTRIBUTING.md">Contributing</a>
+    <a href="https://github.com/maxwellscode/tilog/blob/main/LICENSE">MIT license</a>
+  </div>
+</footer>
+</body>
+</html>
