@@ -1,0 +1,9 @@
+# Text files use LF everywhere.
+* text=auto eol=lf
+
+# The example logs are test fixtures and demo data, not code: leave them out of diffs and of
+# the language statistics.
+examples/*.log -diff linguist-generated=true
+
+*.gif binary
+*.png binary

@@ -1,2 +1,9 @@
+# Build output
 /target
+
+# Editors and operating systems
+.vscode/
+.idea/
+*.swp
+*~
 .DS_Store
