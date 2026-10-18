@@ -25,6 +25,12 @@ cargo fmt --all
 ```
 
 All of them must pass; CI runs the same on Linux and macOS. The minimum Rust version is 1.88.
+CI also runs `cargo deny check` (security advisories, licenses, crate sources; see `deny.toml`),
+and every Monday as well, so that a new advisory shows up without a push.
+
+`cargo test` includes end-to-end tests (`tests/e2e.rs`) that run the real binary in a
+pseudo-terminal, and randomized tests of every parser (`src/robustness.rs`); for a long run of
+those: `TILOG_FUZZ_ROUNDS=1000000 cargo test --release robustness`.
 
 The tests read the logs in `examples/`, so keep them as they are. To watch tilog with logs that
 grow, run `examples/live.sh` (it writes to a copy, see [`examples/README.md`](examples/README.md)).

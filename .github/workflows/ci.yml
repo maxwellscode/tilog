@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Weekly as well: a new Rust release or a new security advisory shows up without a push.
+  schedule:
+    - cron: "17 6 * * 1"
 
 permissions:
   contents: read
@@ -39,3 +42,10 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.88
       - uses: Swatinem/rust-cache@v2
       - run: cargo build --locked
+
+  # Known vulnerabilities, licenses and where crates come from (see deny.toml).
+  deny:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: EmbarkStudios/cargo-deny-action@v2
