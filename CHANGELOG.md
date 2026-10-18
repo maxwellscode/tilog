@@ -15,6 +15,8 @@ The first public version.
 - Tabs per source and an overview; a merged timeline of several sources by timestamp; saved sessions.
 - A filter tile per source, live and file-backed, with whole entries for stack traces; `n` / `N`
   step through its matches and the main pane shows each one in its place in the file.
+- Prompt history: Up and Down (or Ctrl+P and Ctrl+N) bring back earlier searches, filters and
+  commands.
 - Exclude filters: `&!text` or `:filter -v text` keep the entries without the text.
 - Colors and other terminal escape sequences in the logs are removed as lines are read.
 - Search with highlight, `]` / `[` between error lines, `:goto` a line or a time, `:write` lines to

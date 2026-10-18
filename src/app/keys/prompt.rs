@@ -18,6 +18,7 @@ impl App {
         self.prompt = Some(prompt);
         self.input.clear();
         self.menu_selected = 0;
+        self.recall.stop();
     }
 
     pub(super) fn close_prompt(&mut self) {
@@ -36,6 +37,9 @@ impl App {
         match key.code {
             KeyCode::Char('c') if ctrl => self.quit = true,
             KeyCode::Esc => self.close_prompt(),
+            // What was typed before: Ctrl+P and Ctrl+N always, as in a shell.
+            KeyCode::Char('p') if ctrl => self.recall_older(prompt),
+            KeyCode::Char('n') if ctrl => self.recall_newer(prompt),
             // Backspace on an empty prompt leaves it, like in `vim` and `less`.
             KeyCode::Backspace if self.input.is_empty() => self.close_prompt(),
 
@@ -53,12 +57,32 @@ impl App {
             KeyCode::Tab if self.completion_context().is_some() => self.complete_argument(),
             KeyCode::Enter if menu_open => self.complete_and_run(menu[selected], height),
             KeyCode::Enter => self.submit_prompt(prompt, height),
+            // Up and Down too, when no menu or box of matches uses them.
+            KeyCode::Up => self.recall_older(prompt),
+            KeyCode::Down => self.recall_newer(prompt),
 
             // Everything else is text editing.
             _ => {
+                self.recall.stop();
                 self.input.handle_key(key);
                 self.menu_selected = 0; // the list may have changed, start at the top again
             }
+        }
+    }
+
+    /// Puts the entry before the one shown into the prompt.
+    fn recall_older(&mut self, prompt: Prompt) {
+        if let Some(text) = self.recall.older(prompt, &self.input.text()) {
+            self.input.set(&text);
+            self.menu_selected = 0;
+        }
+    }
+
+    /// Puts the entry after the one shown (or what was typed) into the prompt.
+    fn recall_newer(&mut self, prompt: Prompt) {
+        if let Some(text) = self.recall.newer(prompt) {
+            self.input.set(&text);
+            self.menu_selected = 0;
         }
     }
 
@@ -67,6 +91,7 @@ impl App {
         let text = self.input.take();
         self.prompt = None;
         let text = text.trim();
+        self.recall.remember(prompt, text);
 
         match prompt {
             Prompt::Search if text.is_empty() => {

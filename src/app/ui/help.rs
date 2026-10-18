@@ -78,6 +78,10 @@ const KEYS: &[(&str, &str)] = &[
         ":",
         "run a command (a menu appears: Tab or Enter picks one, then Enter runs it)",
     ),
+    (
+        "↑ ↓ Ctrl+P N",
+        "in a prompt: earlier searches, filters and commands",
+    ),
     ("Tab Shift+Tab", "select the next / previous window"),
     (
         "Enter",

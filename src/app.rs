@@ -9,6 +9,7 @@
 mod areas;
 mod commands;
 mod keys;
+mod recall;
 mod selection;
 mod sources;
 #[cfg(test)]
@@ -17,6 +18,7 @@ mod ui;
 
 use self::areas::Areas;
 use self::keys::Prompt;
+use self::recall::Recall;
 use crate::config::NamedSource;
 use crate::highlight::Highlight;
 use crate::input::InputBox;
@@ -157,6 +159,8 @@ pub struct App {
     input: InputBox,
     /// Highlighted row of the command menu (see `menu_items`).
     menu_selected: usize,
+    /// What was typed at the prompts before (Up and Down recall it).
+    recall: Recall,
     /// Matches listed after a Tab press on an ambiguous argument.
     candidates: Candidates,
     notice: Option<Notice>,
@@ -191,6 +195,7 @@ impl App {
             prompt: None,
             input: InputBox::default(),
             menu_selected: 0,
+            recall: Recall::default(),
             candidates: Candidates::default(),
             notice: None,
             theme: Theme::builtin(),

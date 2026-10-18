@@ -578,3 +578,46 @@ fn typing_answers_the_question_of_the_selected_tile_on_the_overview() {
     );
     assert!(app.sources[1].is_asking());
 }
+
+#[test]
+fn earlier_searches_and_commands_come_back_with_up_and_down() {
+    let mut app = App::new();
+    app.add_path(&logs("recall", 1).1[0]).unwrap();
+    app.tab = 1;
+    let areas = app.areas(Rect::new(0, 0, 120, 30));
+    let key = |app: &mut App, code: KeyCode, modifiers: KeyModifiers| {
+        app.on_key(KeyEvent::new(code, modifiers), &areas);
+    };
+    let type_line = |app: &mut App, text: &str| {
+        for ch in text.chars() {
+            key(app, KeyCode::Char(ch), KeyModifiers::NONE);
+        }
+        key(app, KeyCode::Enter, KeyModifiers::NONE);
+    };
+
+    type_line(&mut app, "/ERROR");
+    type_line(&mut app, "/timeout");
+    key(&mut app, KeyCode::Char('/'), KeyModifiers::NONE);
+    key(&mut app, KeyCode::Char('x'), KeyModifiers::NONE); // typed, then left for the history
+    key(&mut app, KeyCode::Up, KeyModifiers::NONE);
+    assert_eq!(app.input.text(), "timeout");
+    key(&mut app, KeyCode::Up, KeyModifiers::NONE);
+    assert_eq!(app.input.text(), "ERROR");
+    key(&mut app, KeyCode::Down, KeyModifiers::NONE);
+    key(&mut app, KeyCode::Down, KeyModifiers::NONE);
+    assert_eq!(
+        app.input.text(),
+        "x",
+        "what was typed comes back after the newest"
+    );
+    key(&mut app, KeyCode::Esc, KeyModifiers::NONE);
+
+    // At `:` the arrows belong to the menu; Ctrl+P still reaches the history.
+    type_line(&mut app, ":top");
+    key(&mut app, KeyCode::Char(':'), KeyModifiers::NONE);
+    key(&mut app, KeyCode::Char('p'), KeyModifiers::CONTROL);
+    assert_eq!(app.input.text(), "top");
+    // Searches and commands are kept apart.
+    key(&mut app, KeyCode::Char('p'), KeyModifiers::CONTROL);
+    assert_eq!(app.input.text(), "top", "there is no older command");
+}
