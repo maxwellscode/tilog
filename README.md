@@ -61,7 +61,7 @@ kubectl logs -f web-0 | tilog                # anything piped in (or `tilog -`)
 tilog app.log.2.gz                           # compressed logs are unpacked with gzip
 ```
 
-Keys follow `less`: `j k Space b g G` scroll, `/` searches, `&` filters, `:` runs a command
+Keys follow `less`: `j k Space b g G` scroll, `/` searches, `&` filters (`&!` leaves out), `:` runs a command
 (`:add`, `:merge`, `:save`, ...), `?` shows all keys, `1`-`9` open a source, `q` goes back.
 In a filter pane, `n` / `N` step through its matches and the main pane shows each one in
 its place in the file.

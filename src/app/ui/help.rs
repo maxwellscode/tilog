@@ -72,7 +72,7 @@ const KEYS: &[(&str, &str)] = &[
     ),
     (
         "&text",
-        "filter: open a tile with the matching entries (-r regex, -i ignore case)",
+        "filter: open a tile with the matching entries (-r regex, -i ignore case); &!text keeps the entries without it",
     ),
     (
         ":",

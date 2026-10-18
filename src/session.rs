@@ -147,6 +147,7 @@ mod tests {
                                 pattern: "SEVERE".into(),
                                 regex: false,
                                 ignore_case: false,
+                                exclude: false,
                             }],
                         },
                         FilterTile {
@@ -155,11 +156,13 @@ mod tests {
                                     pattern: "SEVERE".into(),
                                     regex: false,
                                     ignore_case: false,
+                                    exclude: false,
                                 },
                                 FilterSpec {
                                     pattern: r"order \d+".into(),
                                     regex: true,
                                     ignore_case: true,
+                                    exclude: false,
                                 },
                             ],
                         },

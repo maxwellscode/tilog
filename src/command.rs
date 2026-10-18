@@ -7,6 +7,7 @@
 
 use std::fmt;
 
+use crate::filter::FilterSpec;
 use crate::merge;
 use crate::when::When;
 
@@ -32,9 +33,7 @@ pub enum Command {
     GotoTime(When),
     /// A variant can also have named fields, like a struct.
     Filter {
-        pattern: String,
-        regex: bool,
-        ignore_case: bool,
+        spec: FilterSpec,
         /// Open it on every source, not just the current one.
         all: bool,
     },
@@ -133,15 +132,24 @@ pub static SPECS: &[Spec] = &[
     },
     Spec {
         names: &["filter"],
-        usage: ":filter [-a] [-r] [-i] <text>",
-        help: "New tile with the lines matching text (-a on every source, -r regex, -i ignore case)",
+        usage: ":filter [-a] [-r] [-i] [-v] <text>",
+        help: "New tile with the entries matching text (-a on every source, -r regex, -i ignore case, -v or !text: without it)",
         build: |args| {
             let (flags, rest) = split_flags(args);
             // Words were split on whitespace, so runs of spaces in the pattern collapse to one.
-            (!rest.is_empty()).then(|| Command::Filter {
-                pattern: rest.join(" "),
-                regex: flags.regex,
-                ignore_case: flags.ignore_case,
+            let text = rest.join(" ");
+            // `!text` (as in less's `&!`) is the same as `-v text`.
+            let (exclude, pattern) = match text.strip_prefix('!') {
+                Some(after) => (true, after.trim_start().to_string()),
+                None => (flags.exclude, text),
+            };
+            (!pattern.is_empty()).then_some(Command::Filter {
+                spec: FilterSpec {
+                    pattern,
+                    regex: flags.regex,
+                    ignore_case: flags.ignore_case,
+                    exclude: exclude || flags.exclude,
+                },
                 all: flags.all,
             })
         },
@@ -154,7 +162,7 @@ pub static SPECS: &[Spec] = &[
             let (flags, rest) = split_flags(args);
             let pattern = (!rest.is_empty()).then(|| rest.join(" "));
             // Every window is highlighted anyway, so `-a` has nothing to add.
-            (!flags.all).then_some(Command::Highlight {
+            (!flags.all && !flags.exclude).then_some(Command::Highlight {
                 pattern,
                 regex: flags.regex,
                 ignore_case: flags.ignore_case,
@@ -302,6 +310,7 @@ fn split_flags<'a, 'b>(args: &'a [&'b str]) -> (Flags, &'a [&'b str]) {
             "-r" => flags.regex = true,
             "-i" => flags.ignore_case = true,
             "-a" => flags.all = true,
+            "-v" => flags.exclude = true,
             _ => break,
         }
         rest = tail;
@@ -309,12 +318,13 @@ fn split_flags<'a, 'b>(args: &'a [&'b str]) -> (Flags, &'a [&'b str]) {
     (flags, rest)
 }
 
-/// The `-r -i -a` flags in front of a pattern.
+/// The `-r -i -a -v` flags in front of a pattern.
 #[derive(Default)]
 struct Flags {
     regex: bool,
     ignore_case: bool,
     all: bool,
+    exclude: bool,
 }
 
 /// Width of the column that lists the usages: the longest one and two spaces, so that every
@@ -410,13 +420,40 @@ mod tests {
     }
 
     #[test]
+    fn a_filter_can_leave_out_what_it_matches() {
+        let exclude = |text: &str| match parse(text) {
+            Ok(Command::Filter { spec, .. }) => (spec.exclude, spec.pattern),
+            other => panic!("{other:?}"),
+        };
+        assert_eq!(
+            exclude("/filter -v healthcheck"),
+            (true, "healthcheck".to_string())
+        );
+        assert_eq!(
+            exclude("/filter !healthcheck"),
+            (true, "healthcheck".to_string())
+        );
+        assert_eq!(
+            exclude("/filter ! GET /health"),
+            (true, "GET /health".to_string())
+        );
+        assert_eq!(exclude("/filter -a -v x"), (true, "x".to_string()));
+        assert_eq!(exclude("/filter a!b"), (false, "a!b".to_string()));
+        assert!(parse("/filter !").is_err(), "nothing left to leave out");
+        assert!(parse("/highlight -v x").is_err());
+    }
+
+    #[test]
     fn filter_and_pause_take_the_all_option() {
         assert_eq!(
             parse("/filter -a -i boom"),
             Ok(Command::Filter {
-                pattern: "boom".into(),
-                regex: false,
-                ignore_case: true,
+                spec: FilterSpec {
+                    pattern: "boom".into(),
+                    regex: false,
+                    ignore_case: true,
+                    exclude: false,
+                },
                 all: true
             })
         );
@@ -563,9 +600,12 @@ mod tests {
     fn parses_filter_flags_and_pattern() {
         let filter = |pattern: &str, regex, ignore_case| {
             Ok(Command::Filter {
-                pattern: pattern.into(),
-                regex,
-                ignore_case,
+                spec: FilterSpec {
+                    pattern: pattern.into(),
+                    regex,
+                    ignore_case,
+                    exclude: false,
+                },
                 all: false,
             })
         };
@@ -580,11 +620,11 @@ mod tests {
         );
         assert_eq!(
             parse("/filter"),
-            Err(ParseError::Usage(":filter [-a] [-r] [-i] <text>"))
+            Err(ParseError::Usage(":filter [-a] [-r] [-i] [-v] <text>"))
         );
         assert_eq!(
             parse("/filter -r"),
-            Err(ParseError::Usage(":filter [-a] [-r] [-i] <text>"))
+            Err(ParseError::Usage(":filter [-a] [-r] [-i] [-v] <text>"))
         );
     }
 

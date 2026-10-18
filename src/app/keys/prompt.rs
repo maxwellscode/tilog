@@ -89,8 +89,10 @@ impl App {
         let text = self.input.text();
         let live = matches!(self.prompt, Some(Prompt::Search | Prompt::Filter))
             && !text.is_empty()
-            // A filter may start with flags (`-r`), which are not part of the text.
-            && !text.starts_with('-');
+            // A filter may start with flags (`-r`), which are not part of the text, and `&!text`
+            // is what will be left out: nothing to mark.
+            && !text.starts_with('-')
+            && !text.starts_with('!');
         self.preview = live.then(|| Highlight::literal(&text));
     }
 

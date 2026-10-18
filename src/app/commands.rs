@@ -4,6 +4,7 @@ use super::{Added, App, NO_SOURCE};
 use crate::command;
 use crate::command::Command;
 use crate::completion;
+use crate::filter::FilterSpec;
 use crate::group::GroupRule;
 use crate::highlight::Highlight;
 use crate::merge::describe_offset;
@@ -76,18 +77,8 @@ impl App {
             Command::Write { path, force } => self.write(&path, force),
             Command::GotoTime(when) => self.goto_time(&when),
             Command::Clear => self.clear(),
-            Command::Filter {
-                pattern,
-                regex,
-                ignore_case,
-                all: true,
-            } => self.filter_everywhere(&pattern, regex, ignore_case),
-            Command::Filter {
-                pattern,
-                regex,
-                ignore_case,
-                all: false,
-            } => {
+            Command::Filter { spec, all: true } => self.filter_everywhere(&spec),
+            Command::Filter { spec, all: false } => {
                 // Filters live in a source's tab. From the overview, go to the selected
                 // source first, then filter there.
                 if self.tab == 0 {
@@ -100,7 +91,7 @@ impl App {
                 let Some(source) = self.current_source_mut() else {
                     return;
                 };
-                let result = source.open_filter(&pattern, regex, ignore_case);
+                let result = source.open_filter(&spec);
                 match result {
                     Ok(()) => self.info("new filter tile (Tab switches tiles, :close closes)"),
                     Err(err) => self.error(format!("{err:#}")),
@@ -185,10 +176,10 @@ impl App {
 
     /// `:filter -a`: the same new filter tile on every source, each from its whole log. The
     /// view stays where it is; the tiles are there when you open the sources.
-    pub(super) fn filter_everywhere(&mut self, pattern: &str, regex: bool, ignore_case: bool) {
+    pub(super) fn filter_everywhere(&mut self, spec: &FilterSpec) {
         let (mut opened, mut failed) = (0, None);
         for source in self.sources.iter_mut().filter(|source| !source.is_merged()) {
-            match source.open_root_filter(pattern, regex, ignore_case) {
+            match source.open_root_filter(spec) {
                 Ok(()) => opened += 1,
                 Err(err) => failed = failed.or(Some(format!("{err:#}"))),
             }

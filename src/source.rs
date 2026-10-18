@@ -381,20 +381,15 @@ impl Source {
 
     /// Forks the focused tile: the new tile shows what the focused tile's filter matches
     /// (nothing to inherit when forking the main tile) *and* the new pattern.
-    pub fn open_filter(&mut self, pattern: &str, regex: bool, ignore_case: bool) -> Result<()> {
+    pub fn open_filter(&mut self, spec: &FilterSpec) -> Result<()> {
         let parent = self.tiles[self.focus].filter();
-        let filter = Filter::new(parent, pattern, regex, ignore_case)?;
+        let filter = Filter::with_spec(parent, spec)?;
         self.push_filter(filter)
     }
 
     /// Like `open_filter`, but always from the whole log, whatever tile is focused.
-    pub fn open_root_filter(
-        &mut self,
-        pattern: &str,
-        regex: bool,
-        ignore_case: bool,
-    ) -> Result<()> {
-        self.push_filter(Filter::new(None, pattern, regex, ignore_case)?)
+    pub fn open_root_filter(&mut self, spec: &FilterSpec) -> Result<()> {
+        self.push_filter(Filter::with_spec(None, spec)?)
     }
 
     /// Adds a tile for `filter` and focuses it.
@@ -489,6 +484,15 @@ fn identity_of_spec(spec: &SourceSpec, id: u64) -> String {
 mod tests {
     use super::*;
 
+    fn spec(pattern: &str, regex: bool, ignore_case: bool) -> FilterSpec {
+        FilterSpec {
+            pattern: pattern.into(),
+            regex,
+            ignore_case,
+            exclude: false,
+        }
+    }
+
     #[test]
     fn forks_and_closes_filter_tiles() {
         let path =
@@ -502,9 +506,9 @@ mod tests {
             "the main tile can't be closed on its own"
         );
 
-        source.open_filter("SEVERE", false, false).unwrap();
+        source.open_filter(&spec("SEVERE", false, false)).unwrap();
         assert_eq!((source.tiles().len(), source.focus()), (2, 1));
-        assert!(source.open_filter("(", true, false).is_err());
+        assert!(source.open_filter(&spec("(", true, false)).is_err());
 
         source.cycle_focus(1);
         assert_eq!(source.focus(), 0);
@@ -523,8 +527,8 @@ mod tests {
         std::fs::write(&path, "INFO a\nSEVERE b\n").unwrap();
 
         let mut source = Source::open(path.to_str().unwrap()).unwrap();
-        source.open_filter("SEVERE", false, false).unwrap();
-        source.open_filter("b", false, true).unwrap();
+        source.open_filter(&spec("SEVERE", false, false)).unwrap();
+        source.open_filter(&spec("b", false, true)).unwrap();
 
         // Save and restore: same filter chains, same focus.
         let state = source.to_state();

@@ -125,7 +125,8 @@ Next and previous error line (\fBERROR\fR, \fBlevel=error\fR, \fB[crit]\fR, HTTP
 .TP
 \fB&\fItext\fR
 Filter: open a tile with the matching entries. An entry is a line with the lines that belong
-to it, such as a stack trace.
+to it, such as a stack trace. \fB&!\fItext\fR keeps the entries without the text instead, like
+\fBgrep \-v\fR.
 .TP
 .B :
 Run a command. A menu lists them; Tab or Enter picks one, and Enter runs it.
@@ -163,9 +164,10 @@ Add a source: any of the forms under \fBSOURCES\fR.
 .B :overview
 Back to the overview of all sources.
 .TP
-\fB:filter\fR [\fB\-a\fR] [\fB\-r\fR] [\fB\-i\fR] \fItext\fR
+\fB:filter\fR [\fB\-a\fR] [\fB\-r\fR] [\fB\-i\fR] [\fB\-v\fR] \fItext\fR
 New tile with the entries that match. \fB\-a\fR opens it on every source, \fB\-r\fR reads the text
-as a regular expression, \fB\-i\fR ignores case.
+as a regular expression, \fB\-i\fR ignores case, and \fB\-v\fR (or a text starting with \fB!\fR)
+keeps the entries that do not match. A filter opened in a filter tile narrows it down further.
 .TP
 \fB:highlight\fR [\fB\-r\fR] [\fB\-i\fR] [\fItext\fR]
 Mark text in every window, like a search with flags. Without text it clears the marks.
