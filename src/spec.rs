@@ -264,8 +264,8 @@ impl CommandSpec {
     ///
     /// The first start asks for the last `initial_lines` lines. A *restart* passes `since`, how
     /// long the connection was gone, so docker and kubectl replay only what was missed (plus a
-    /// small margin, so a few lines may repeat but none are lost). ssh and plain commands can't
-    /// do that, so after a restart they continue from now and the gap stays a gap.
+    /// small margin, so none are lost; the repeats are left out by `overlap`). ssh and plain
+    /// commands can't do that, so after a restart they continue from now and the gap stays a gap.
     #[cfg(test)]
     pub fn argv(&self, initial_lines: usize, since: Option<Duration>) -> Vec<String> {
         self.argv_with(initial_lines, since, false)
@@ -364,6 +364,18 @@ impl CommandSpec {
     /// Keep the command's stdin open (and empty) while it runs. See `remote_tail_command`.
     pub fn keeps_stdin_open(&self) -> bool {
         matches!(self.kind, Kind::Ssh { .. } | Kind::Remote { .. })
+    }
+
+    /// Whether a restart replays what was missed (`--since`, see `argv`), so that its first
+    /// lines may repeat what was already shown.
+    pub fn replays_since(&self) -> bool {
+        match &self.kind {
+            Kind::Docker { .. } | Kind::Kube { .. } => true,
+            Kind::Remote { inner, .. } => {
+                matches!(**inner, Kind::Docker { .. } | Kind::Kube { .. })
+            }
+            _ => false,
+        }
     }
 
     pub fn restart(&self) -> Restart {
@@ -599,6 +611,9 @@ mod tests {
         assert!(!command("kube:p").merges_stderr());
         assert!(command("ssh:h:/p").keeps_stdin_open());
         assert!(!command("docker:api").keeps_stdin_open());
+        assert!(command("docker:api").replays_since() && command("kube:p").replays_since());
+        assert!(command("ssh:h:kube:p").replays_since());
+        assert!(!command("ssh:h:/p").replays_since() && !command("cmd:true").replays_since());
         assert_eq!(command("ssh:h:/p").restart(), Restart::Always);
         assert_eq!(command("cmd:true").restart(), Restart::OnFailure);
     }

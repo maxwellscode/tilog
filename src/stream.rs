@@ -6,7 +6,7 @@
 //! `ssh` or `kubectl` running in the background.
 
 use std::io::{BufReader, PipeReader, Read};
-use std::os::unix::process::CommandExt;
+use std::os::unix::process::{CommandExt, ExitStatusExt};
 use std::process::{Child, ChildStderr, Command, ExitStatus, Stdio};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{self, Receiver, SyncSender};
@@ -16,6 +16,7 @@ use std::time::{Duration, Instant};
 
 use crate::askpass::{Remembered, Server};
 use crate::line::CappedLine;
+use crate::overlap::Overlap;
 use crate::spec::{CommandSpec, Restart};
 use crate::tail::{CHANNEL_BOUND, Status, TailMsg};
 
@@ -53,16 +54,22 @@ impl Backoff {
 
 /// Owned by the tile. Dropping it stops the source.
 pub struct StreamGuard {
-    stop: Arc<AtomicBool>,
-    child: Arc<Mutex<Option<Child>>>,
+    shared: Arc<Shared>,
+}
+
+/// What the guard and the supervisor thread share: whether to stop, and the running command,
+/// so that the guard can kill it from the outside.
+struct Shared {
+    stop: AtomicBool,
+    child: Mutex<Option<Child>>,
 }
 
 impl Drop for StreamGuard {
     fn drop(&mut self) {
-        self.stop.store(true, Ordering::SeqCst);
+        self.shared.stop.store(true, Ordering::SeqCst);
         // Kill now, on this thread. Waiting for the supervisor would not do: when the program
         // exits, its threads are cut off before they get to clean up.
-        if let Ok(mut slot) = self.child.lock()
+        if let Ok(mut slot) = self.shared.child.lock()
             && let Some(child) = slot.as_mut()
         {
             kill_group(child);
@@ -87,13 +94,14 @@ fn kill_group(child: &mut Child) {
 /// Starts supervising `spec`. Lines and status changes arrive on the returned channel.
 pub fn spawn(spec: CommandSpec, initial_lines: usize) -> (Receiver<TailMsg>, StreamGuard) {
     let (tx, rx) = mpsc::sync_channel(CHANNEL_BOUND);
-    let stop = Arc::new(AtomicBool::new(false));
-    let child = Arc::new(Mutex::new(None));
+    let shared = Arc::new(Shared {
+        stop: AtomicBool::new(false),
+        child: Mutex::new(None),
+    });
     let guard = StreamGuard {
-        stop: stop.clone(),
-        child: child.clone(),
+        shared: shared.clone(),
     };
-    thread::spawn(move || supervise(&spec, initial_lines, &tx, &stop, &child));
+    thread::spawn(move || supervise(&spec, initial_lines, &tx, &shared));
     (rx, guard)
 }
 
@@ -151,13 +159,8 @@ enum Outcome {
     Ended { success: bool, why: String },
 }
 
-fn supervise(
-    spec: &CommandSpec,
-    initial_lines: usize,
-    tx: &SyncSender<TailMsg>,
-    stop: &AtomicBool,
-    slot: &Mutex<Option<Child>>,
-) {
+fn supervise(spec: &CommandSpec, initial_lines: usize, tx: &SyncSender<TailMsg>, shared: &Shared) {
+    let stop = &shared.stop;
     let send_status = |status: Status| tx.send(TailMsg::Status(status)).is_ok();
     let mut backoff = Backoff::new();
     let mut gone_since: Option<Instant> = None;
@@ -165,12 +168,16 @@ fn supervise(
     // a refused login turns it on, and then it stays on for the reconnects.
     let mut asking = false;
     let remembered = Remembered::default();
+    let mut overlap = Overlap::default();
 
     while !stop.load(Ordering::SeqCst) {
         if !send_status(Status::Connecting) {
             return;
         }
         let since = gone_since.map(|moment| moment.elapsed() + SINCE_MARGIN);
+        if since.is_some() && spec.replays_since() {
+            overlap.reconnected();
+        }
         let started = Instant::now();
 
         let (success, why) = match run_once(
@@ -179,8 +186,8 @@ fn supervise(
             since,
             asking.then_some(&remembered),
             tx,
-            stop,
-            slot,
+            shared,
+            &mut overlap,
         ) {
             Outcome::Stopped => return,
             Outcome::CannotStart(why) => {
@@ -233,7 +240,8 @@ fn supervise(
                 return;
             }
         }
-        // A marker in the log itself, so a gap (or a few repeated lines) is not a mystery.
+        // A marker in the log itself, so a gap is not a mystery. (Lines sent again after it are
+        // left out: see `overlap`.)
         let marker = format!("── connection lost ({why}), reconnecting ──");
         if tx
             .send(TailMsg::Line {
@@ -269,9 +277,11 @@ fn run_once(
     // Where to remember a password, if ssh may ask questions this time.
     asking: Option<&Remembered>,
     tx: &SyncSender<TailMsg>,
-    stop: &AtomicBool,
-    slot: &Mutex<Option<Child>>,
+    shared: &Shared,
+    // Leaves out what a reconnected command sends again.
+    overlap: &mut Overlap,
 ) -> Outcome {
+    let (stop, slot) = (&shared.stop, &shared.child);
     // `_answers`: the questions of ssh are answered while the command runs, so the server for
     // them lives as long as this run.
     let (mut command, _answers, merged_reader) =
@@ -315,7 +325,7 @@ fn run_once(
     }
 
     let merged = spec.merges_stderr();
-    let Some(last_output) = forward_output(stdout, tx, merged) else {
+    let Some(last_output) = forward_output(stdout, tx, merged, overlap) else {
         return Outcome::Stopped; // the guard is dropping us anyway
     };
 
@@ -444,20 +454,26 @@ fn forward_output(
     output: Box<dyn Read + Send>,
     tx: &SyncSender<TailMsg>,
     merged: bool,
+    overlap: &mut Overlap,
 ) -> Option<String> {
     let mut reader = BufReader::new(output);
     let mut line = CappedLine::new();
     let mut last_output = String::new();
+    let send = |lines: Vec<String>| {
+        lines
+            .into_iter()
+            .all(|text| tx.send(TailMsg::Line { offset: 0, text }).is_ok())
+    };
     loop {
         line.clear();
         match line.read_from(&mut reader) {
-            Ok(0) | Err(_) => return Some(last_output),
+            Ok(0) | Err(_) => return send(overlap.flush()).then_some(last_output),
             Ok(_) => {
                 let text = line.to_text();
                 if merged && !text.trim().is_empty() {
                     last_output.clone_from(&text);
                 }
-                if tx.send(TailMsg::Line { offset: 0, text }).is_err() {
+                if !send(overlap.take(text)) {
                     return None;
                 }
             }
@@ -472,7 +488,7 @@ fn explain_exit(
     last_stderr: &str,
     last_output: &str,
 ) -> (bool, String) {
-    let (success, why) = match status {
+    let (success, why) = match &status {
         Some(Ok(status)) => (
             status.success(),
             status
@@ -484,9 +500,15 @@ fn explain_exit(
         Some(Err(e)) => (false, format!("cannot wait for the command: {e}")),
         None => (false, "the command vanished".to_string()),
     };
+    // Ended by a signal (or by a tool that exits 128 + the signal when it gets one, as docker
+    // does): it was stopped, and its last line of output is a log line, not the reason.
+    let signalled = match status {
+        Some(Ok(status)) => status.signal().is_some() || status.code().is_some_and(|c| c > 128),
+        _ => false,
+    };
     let why = if !last_stderr.is_empty() {
         format!("{why}: {last_stderr}")
-    } else if !success && !last_output.is_empty() {
+    } else if !success && !signalled && !last_output.is_empty() {
         format!("{why}: {last_output}")
     } else {
         why
@@ -500,6 +522,26 @@ mod tests {
     use crate::spec::SourceSpec;
 
     const WAIT: Duration = Duration::from_secs(5);
+
+    #[test]
+    fn a_stopped_command_is_not_explained_by_its_last_log_line() {
+        let exited = |raw: i32| Some(Ok(ExitStatus::from_raw(raw)));
+        let log_line = "2026-10-18T19:15:32Z INFO tick 119";
+        // A failure: the tool's last words say why (docker's "No such container").
+        assert_eq!(
+            explain_exit(exited(1 << 8), "", "Error: No such container: api"),
+            (false, "exit 1: Error: No such container: api".to_string())
+        );
+        // docker exits 143 when it gets SIGTERM; killed by a signal is the same story.
+        assert_eq!(
+            explain_exit(exited(143 << 8), "", log_line),
+            (false, "exit 143".to_string())
+        );
+        assert_eq!(
+            explain_exit(exited(libc::SIGTERM), "", log_line),
+            (false, "killed by a signal".to_string())
+        );
+    }
 
     fn raw(command: &str) -> CommandSpec {
         match SourceSpec::parse(&format!("cmd:{command}")).unwrap() {

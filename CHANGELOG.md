@@ -23,7 +23,9 @@ The first public version.
 - Colors and other terminal escape sequences in the logs are removed as lines are read.
 - Search with highlight, `]` / `[` between error lines, `:goto` a line or a time, `:write` lines to
   a file, `:pause` and `:follow` for one tile or all.
-- Reconnect with backoff for dropped commands, log rotation, a source limit of nine.
+- Reconnect with backoff for dropped commands; docker and kubectl catch up on what was missed,
+  without repeating lines. Log rotation (also `copytruncate`), a source limit of nine.
+- A closed terminal or `kill` stops the commands tilog started, as `q` does.
 - SSH login questions (password, passphrase, code, host key) answered in the tile of the source.
 - Level coloring for common formats (Java, logfmt, JSON, nginx, klog, ...), configurable in TOML;
   `NO_COLOR` is honored. Mouse selection and copy.

@@ -16,6 +16,7 @@ mod layout;
 mod line;
 mod lines;
 mod merge;
+mod overlap;
 mod pipe;
 mod select;
 mod session;
