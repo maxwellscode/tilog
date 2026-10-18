@@ -36,3 +36,6 @@ undocumented_unsafe_blocks = "deny"
 lto = true
 codegen-units = 1
 strip = true
+
+[dev-dependencies]
+vt100 = "0.17.0"
