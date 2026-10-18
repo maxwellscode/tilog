@@ -231,6 +231,29 @@ pub(crate) fn expand_home(dir: &str) -> PathBuf {
     }
 }
 
+/// The folder a path completion lists, as it is shown above the matches: absolute, with the home
+/// directory written `~` (`""` is the current directory, `../x/` is resolved).
+pub(crate) fn folder_of(partial: &str) -> String {
+    let dir = expand_home(&partial[..partial.rfind('/').map_or(0, |slash| slash + 1)]);
+    let dir = fs::canonicalize(&dir)
+        .or_else(|_| std::path::absolute(&dir))
+        .unwrap_or(dir);
+    with_tilde(&dir)
+}
+
+/// `path` with the home directory written `~`: `/Users/ana/logs` becomes `~/logs`.
+pub(crate) fn with_tilde(path: &Path) -> String {
+    let home = env::var_os("HOME").map(PathBuf::from);
+    match home
+        .as_deref()
+        .and_then(|home| path.strip_prefix(home).ok())
+    {
+        Some(rest) if rest.as_os_str().is_empty() => "~".to_string(),
+        Some(rest) => format!("~/{}", rest.display()),
+        None => path.display().to_string(),
+    }
+}
+
 /// The longest string all `names` start with.
 fn common_prefix(names: &[String]) -> String {
     let Some(first) = names.first() else {
@@ -355,6 +378,27 @@ Host \"quoted\"
         // Empty: everything.
         assert_eq!(complete_ssh("", &hosts).unwrap().candidates.len(), 4);
         assert!(complete_ssh("zzz", &hosts).is_none());
+    }
+
+    #[test]
+    fn the_folder_of_a_path_completion_is_absolute_and_resolved() {
+        let base = env::temp_dir().join(format!("tilog-folder-{}", std::process::id()));
+        fs::create_dir_all(base.join("logs")).unwrap();
+        let real = fs::canonicalize(&base).unwrap();
+        let inside = format!("{}/logs/../logs/ap", base.display());
+        assert_eq!(folder_of(&inside), with_tilde(&real.join("logs")));
+        // Nothing typed yet: the folder is the current directory.
+        let here = fs::canonicalize(env::current_dir().unwrap()).unwrap();
+        assert_eq!(folder_of("ap"), with_tilde(&here));
+        fs::remove_dir_all(&base).unwrap();
+    }
+
+    #[test]
+    fn the_home_directory_is_written_as_a_tilde() {
+        let home = PathBuf::from(env::var_os("HOME").unwrap());
+        assert_eq!(with_tilde(&home), "~");
+        assert_eq!(with_tilde(&home.join("logs/app")), "~/logs/app");
+        assert_eq!(with_tilde(Path::new("/var/log")), "/var/log");
     }
 
     #[test]

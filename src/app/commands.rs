@@ -126,11 +126,7 @@ impl App {
                     self.error(format!("{err:#}"));
                 }
             }
-            Command::Sessions => match session::list() {
-                Ok(names) if names.is_empty() => self.info("no saved sessions (use :save <name>)"),
-                Ok(names) => self.info(format!("sessions: {}", names.join(", "))),
-                Err(err) => self.error(format!("{err:#}")),
-            },
+            Command::Sessions => self.sessions(),
         }
     }
 
@@ -335,6 +331,21 @@ impl App {
         };
         match message {
             Ok(text) => self.info(text),
+            Err(err) => self.error(format!("{err:#}")),
+        }
+    }
+
+    /// `:sessions`: the saved sessions, and the folder they are in.
+    pub(super) fn sessions(&mut self) {
+        let folder = match session::dir() {
+            Ok(dir) => completion::with_tilde(&dir),
+            Err(err) => return self.error(format!("{err:#}")),
+        };
+        match session::list() {
+            Ok(names) if names.is_empty() => {
+                self.info(format!("no saved sessions in {folder} (use :save <name>)"));
+            }
+            Ok(names) => self.info(format!("sessions in {folder}: {}", names.join(", "))),
             Err(err) => self.error(format!("{err:#}")),
         }
     }

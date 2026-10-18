@@ -183,13 +183,20 @@ impl App {
             return;
         };
 
-        // What the completion is, and what stands before and after a chosen match.
-        let (completion, base, suffix) = match kind {
+        // What the completion is, what stands before and after a chosen match, and the folder
+        // the matches are in.
+        let (completion, base, suffix, folder) = match kind {
             ArgKind::Path => {
                 // A match is a file name; the directory in front of it stays.
                 let directory_end = partial.rfind('/').map_or(0, |slash| slash + 1);
                 let base = format!("{head}{}", &partial[..directory_end]);
-                (completion::complete_path(&partial), base, String::new())
+                let folder = completion::folder_of(&partial);
+                (
+                    completion::complete_path(&partial),
+                    base,
+                    String::new(),
+                    Some(folder),
+                )
             }
             ArgKind::Session => {
                 let names = session::list().unwrap_or_default();
@@ -197,6 +204,7 @@ impl App {
                     completion::complete_from(&partial, &names),
                     head.clone(),
                     String::new(),
+                    session::dir().ok().map(|dir| completion::with_tilde(&dir)),
                 )
             }
             ArgKind::Ssh => {
@@ -210,7 +218,7 @@ impl App {
                     done.text = format!("ssh:{}", done.text);
                     done
                 });
-                (completed, base, ":".to_string())
+                (completed, base, ":".to_string(), None)
             }
         };
 
@@ -224,6 +232,7 @@ impl App {
                     selected: 0,
                     base,
                     suffix,
+                    folder,
                 };
             }
         }

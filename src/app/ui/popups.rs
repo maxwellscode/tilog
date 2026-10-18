@@ -1,6 +1,6 @@
 //! The boxes that open above the status line: the command menu and the matches of Tab.
 
-use super::text::ellipsize_end;
+use super::text::{ellipsize_end, ellipsize_start};
 use crate::app::{App, Areas, BORDER_ROWS};
 use crate::command;
 use ratatui::Frame;
@@ -77,8 +77,15 @@ impl App {
 
         let hint =
             Line::from(" ↑↓ select · Tab or Enter insert · keep typing to narrow ").dark_gray();
+        let mut block = Block::bordered().title(" Matches ").title_bottom(hint);
+        // The folder the matches are in sits on the right, cut at its start if it is long.
+        if let Some(folder) = &candidates.folder {
+            let room = usize::from(area.width).saturating_sub(" Matches ".len() + 6);
+            let folder = format!(" {} ", ellipsize_start(folder, room.saturating_sub(2)));
+            block = block.title_top(Line::from(folder).dark_gray().right_aligned());
+        }
         let list = List::new(rows)
-            .block(Block::bordered().title(" Matches ").title_bottom(hint))
+            .block(block)
             .highlight_style(Style::new().bg(Color::DarkGray).bold());
         // The list scrolls to keep the highlighted row visible when there are more than fit.
         let selected = candidates.selected.min(candidates.items.len() - 1);

@@ -140,6 +140,8 @@ struct Candidates {
     /// The prompt text in front of the part a match replaces (`add logs/`), and after it.
     base: String,
     suffix: String,
+    /// Where the matches are, shown above them: the folder of a path or of the sessions.
+    folder: Option<String>,
 }
 
 impl Candidates {
