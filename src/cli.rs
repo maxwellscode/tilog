@@ -38,7 +38,10 @@ pub fn usage() -> String {
          -V, --version         Print the version\n    \
          --print-config        Print the built-in configuration (colors) as a starting point\n    \
          --print-man           Print the manual page (save it as tilog.1 in a man1 directory)\n\n\
-         CONFIG:\n    ~/.config/tilog/config.toml  (try: {NAME} --print-config > that file)"
+         CONFIG:\n    ~/.config/tilog/config.toml  (try: {NAME} --print-config > that file)\n\n\
+         ENVIRONMENT:\n    \
+         NO_COLOR=1             No colors\n    \
+         TILOG_LOG=FILE         Write what happens (connects, errors) to FILE, for bug reports"
     )
 }
 
@@ -173,6 +176,7 @@ mod tests {
             "cmd:",
             ".gz",
             "NO_COLOR",
+            "TILOG_LOG",
             "~/.config/tilog",
         ] {
             assert!(man.contains(source), "no {source} in the man page");

@@ -121,6 +121,12 @@ Set `NO_COLOR=1` for a screen without color (reverse video marks what color mark
 Linux and macOS. On Windows, use WSL: the Linux build runs there unchanged. A native Windows
 build is not supported yet (process handling and file identity use Unix APIs).
 
+## When something goes wrong
+
+Start tilog with `TILOG_LOG=/tmp/tilog.log tilog ...` and it writes down what happens: sources
+starting and ending (and why), reconnects, rotations, errors and crashes. It never holds log
+lines or passwords. Please attach it to a [bug report](https://github.com/maxwellscode/tilog/issues).
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md): how to build and test, what belongs in tilog and what

@@ -695,3 +695,50 @@ fn a_question_is_answered_by_typing_and_a_secret_is_not_shown() {
     assert_eq!(answers.recv().unwrap(), None);
     std::fs::remove_file(&path).unwrap();
 }
+
+/// A main tile fed by a channel of the test's own.
+fn tile_fed_by(
+    rx: std::sync::mpsc::Receiver<crate::tail::TailMsg>,
+    status: Option<Status>,
+) -> Tile {
+    Tile::new(Content::Source(SourceContent {
+        path: None,
+        live_capacity: 100,
+        lines: crate::buffer::RingBuffer::new(100),
+        rx,
+        status,
+        _guard: None,
+        window: None,
+        asking: None,
+    }))
+}
+
+#[test]
+fn a_reader_that_vanishes_without_a_word_says_so_in_the_title() {
+    let (tx, rx) = std::sync::mpsc::sync_channel(8);
+    let mut tile = tile_fed_by(rx, None);
+    tx.send(crate::tail::TailMsg::Line {
+        offset: 0,
+        text: "last words".into(),
+    })
+    .unwrap();
+    drop(tx); // as when its thread panics
+    tile.pump();
+    let lines = tile.content.lines();
+    assert_eq!(lines.end_seq() - lines.first_seq(), 1, "what came is kept");
+    let title = tile.title("app.log");
+    assert!(title.contains("ended: stopped by a bug"), "{title}");
+}
+
+#[test]
+fn a_reader_that_ended_properly_keeps_its_reason() {
+    let (tx, rx) = std::sync::mpsc::sync_channel(8);
+    let mut tile = tile_fed_by(rx, Some(Status::Connected));
+    tx.send(crate::tail::TailMsg::Status(Status::Ended {
+        why: "input closed".into(),
+    }))
+    .unwrap();
+    drop(tx);
+    tile.pump();
+    assert!(tile.title("stdin").contains("ended: input closed"));
+}

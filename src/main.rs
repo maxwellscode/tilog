@@ -6,6 +6,7 @@ mod clipboard;
 mod command;
 mod completion;
 mod config;
+mod diag;
 mod filter;
 mod filter_view;
 mod group;
@@ -84,6 +85,8 @@ fn main() -> Result<()> {
                      (to save lines to a file, use :write inside tilog)"
                 );
             }
+            diag::init();
+            diag::log(&format!("{NAME} {VERSION} started"));
             signals::install();
             let mut app = App::new();
             // The config first: named sources must be known before paths are opened. A problem
@@ -125,14 +128,17 @@ fn main() -> Result<()> {
             }
 
             let result = ratatui::run(|terminal| {
+                diag::install_panic_hook();
                 let _mouse = MouseCapture::enable()?; // dropped when this closure ends
                 app.run(terminal)
             });
             // Ended by a signal: the terminal may be gone, so whatever failed while letting go
             // of it doesn't matter. The exit status says which signal it was, as a shell does.
             if let Some(signal) = signals::received() {
+                diag::log(&format!("ended by signal {signal}"));
                 std::process::exit(128 + signal);
             }
+            diag::log("ended");
             result?;
         }
     }

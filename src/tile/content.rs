@@ -1,8 +1,9 @@
 //! Where a tile's lines come from.
 
-use std::sync::mpsc::Receiver;
+use std::sync::mpsc::{Receiver, TryRecvError};
 
 use crate::buffer::RingBuffer;
+use crate::diag;
 use crate::filter_view::FilterView;
 use crate::lines::Lines;
 use crate::merge::Merger;
@@ -96,7 +97,16 @@ impl SourceContent {
                         old.cancel();
                     }
                 }
-                Err(_) => return taken > 0,
+                Err(TryRecvError::Empty) => return taken > 0,
+                // The reader is gone without saying why: it panicked (see `diag`).
+                Err(TryRecvError::Disconnected) => {
+                    if !matches!(self.status, Some(Status::Ended { .. })) {
+                        self.status = Some(Status::Ended {
+                            why: format!("stopped by a bug: please report it at {}", diag::ISSUES),
+                        });
+                    }
+                    return taken > 0;
+                }
             }
         }
         true

@@ -463,8 +463,10 @@ impl App {
     }
 
     fn error(&mut self, text: impl Into<String>) {
+        let text = text.into();
+        crate::diag::log(&format!("error shown: {text}"));
         self.notice = Some(Notice {
-            text: text.into(),
+            text,
             is_error: true,
             since: Instant::now(),
         });

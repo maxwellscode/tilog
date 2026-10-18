@@ -47,6 +47,9 @@ pub trait LineSink: Send + 'static {
         true
     }
 
+    /// Reading failed (the disk, a lost mount): nothing more will come.
+    fn failed(&mut self, _why: String) {}
+
     /// Return `true` while something is waiting on a short delay, e.g. a multi-line entry that
     /// is probably complete but can't be known to be until a moment passes without new lines.
     fn wants_quick_recheck(&self) -> bool {
@@ -108,8 +111,11 @@ pub fn follow_file_from(path: &str, start: u64, sink: impl LineSink) -> Result<(
         // alive until the end of this closure. (`let _ = watcher;` would drop it at once.)
         let _watcher = watcher;
 
-        // Ignoring the result is deliberate for now: if reading fails the thread just ends.
-        let _ = follow(file, &path, start, &mut sink, &wake_rx);
+        if let Err(e) = follow(file, &path, start, &mut sink, &wake_rx) {
+            let why = format!("cannot read {}: {e}", path.display());
+            crate::diag::log(&why);
+            sink.failed(why);
+        }
     });
 
     Ok(())
@@ -154,6 +160,10 @@ fn follow(
             // End of file: nothing new yet. Has the file been truncated (got shorter)?
             let open_file = reader.get_ref().metadata()?;
             if open_file.len() < pos {
+                crate::diag::log(&format!(
+                    "{} got shorter: read from its start",
+                    path.display()
+                ));
                 start_over(&mut reader, &mut pos, &mut line_start, &mut line)?;
                 if !sink.reset() {
                     return Ok(());
@@ -173,6 +183,10 @@ fn follow(
                         continue;
                     }
                     if let Ok(replacement) = File::open(path) {
+                        crate::diag::log(&format!(
+                            "{} was rotated: on to the new file",
+                            path.display()
+                        ));
                         reader = BufReader::new(replacement);
                         pos = 0;
                         line_start = 0;
@@ -202,6 +216,10 @@ fn follow(
             // be longer than before by the time we look, so its length tells nothing. What was
             // read last is no longer there, though.
             if bytes_before(reader.get_ref(), pos) != seen {
+                crate::diag::log(&format!(
+                    "{} was rewritten: read from its start",
+                    path.display()
+                ));
                 start_over(&mut reader, &mut pos, &mut line_start, &mut line)?;
                 if !sink.reset() {
                     return Ok(());
@@ -305,6 +323,10 @@ impl LineSink for MessageSink {
 
     fn reset(&mut self) -> bool {
         self.tx.send(TailMsg::Rotated).is_ok()
+    }
+
+    fn failed(&mut self, why: String) {
+        let _ = self.tx.send(TailMsg::Status(Status::Ended { why }));
     }
 }
 

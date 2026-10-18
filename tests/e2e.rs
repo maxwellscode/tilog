@@ -379,6 +379,50 @@ fn even_kill_9_leaves_no_ssh_behind_on_linux() {
 }
 
 #[test]
+fn tilog_log_records_what_happened_but_no_log_lines() {
+    let scratch = Scratch::new("diag");
+    let script = scratch.path("failing.sh");
+    fs::write(
+        &script,
+        "#!/bin/sh\necho private-log-line\necho broken >&2\nexit 3\n",
+    )
+    .unwrap();
+    fs::set_permissions(&script, fs::Permissions::from_mode(0o755)).unwrap();
+    let log = scratch.path("diag.log");
+    let source = format!("cmd:{}", script.display());
+    let mut tilog = Tilog::start_with(
+        &scratch,
+        &[&source],
+        &[("TILOG_LOG", log.to_str().unwrap())],
+    );
+    tilog.wait_for("private-log-line");
+    tilog.wait_for("retry in");
+    tilog.keys("q");
+    assert_eq!(tilog.wait_exit().code(), Some(0));
+
+    let text = fs::read_to_string(&log).unwrap();
+    for expected in [
+        "tilog 0.1.0 started",
+        ": starting",
+        "ended: exit 3: broken",
+        "trying again in",
+    ] {
+        assert!(
+            text.contains(expected),
+            "{expected:?} missing from:\n{text}"
+        );
+    }
+    assert!(
+        text.trim_end().ends_with("] ended"),
+        "the end is noted:\n{text}"
+    );
+    assert!(
+        !text.contains("private-log-line"),
+        "no log lines in it:\n{text}"
+    );
+}
+
+#[test]
 fn output_into_a_pipe_is_refused_with_a_plain_message() {
     let scratch = Scratch::new("pipe");
     fs::write(scratch.path("app.log"), "x\n").unwrap();

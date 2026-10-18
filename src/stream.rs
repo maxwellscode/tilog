@@ -15,6 +15,7 @@ use std::thread;
 use std::time::{Duration, Instant};
 
 use crate::askpass::{Remembered, Server};
+use crate::diag;
 use crate::line::CappedLine;
 use crate::overlap::Overlap;
 use crate::spec::{CommandSpec, Restart};
@@ -164,6 +165,8 @@ enum Outcome {
 fn supervise(spec: &CommandSpec, initial_lines: usize, tx: &SyncSender<TailMsg>, shared: &Shared) {
     let stop = &shared.stop;
     let send_status = |status: Status| tx.send(TailMsg::Status(status)).is_ok();
+    let name = spec.describe();
+    let note = |what: &str| diag::log(&format!("{name}: {what}"));
     let mut backoff = Backoff::new();
     let mut gone_since: Option<Instant> = None;
     // Does an ssh login get to ask questions? Not at first: a host with a key just logs in. Only
@@ -177,6 +180,10 @@ fn supervise(spec: &CommandSpec, initial_lines: usize, tx: &SyncSender<TailMsg>,
             return;
         }
         let since = gone_since.map(|moment| moment.elapsed() + SINCE_MARGIN);
+        note(&match since {
+            Some(since) => format!("starting again, catching up {}s", since.as_secs()),
+            None => "starting".to_string(),
+        });
         if since.is_some() && spec.replays_since() {
             overlap.reconnected();
         }
@@ -191,13 +198,18 @@ fn supervise(spec: &CommandSpec, initial_lines: usize, tx: &SyncSender<TailMsg>,
             shared,
             &mut overlap,
         ) {
-            Outcome::Stopped => return,
+            Outcome::Stopped => return note("stopped"),
             Outcome::CannotStart(why) => {
+                note(&format!("cannot start: {why}"));
                 send_status(Status::Ended { why });
                 return;
             }
-            Outcome::Ended { success, why } => (success, why),
+            Outcome::Ended { success, why } => {
+                note(&format!("ended: {why}"));
+                (success, why)
+            }
             Outcome::GaveUp => {
+                note("login given up");
                 let text = "── login given up: add the source again to log in ──".to_string();
                 let _ = tx.send(TailMsg::Line { offset: 0, text });
                 send_status(Status::Ended {
@@ -218,6 +230,7 @@ fn supervise(spec: &CommandSpec, initial_lines: usize, tx: &SyncSender<TailMsg>,
                 asking = true;
                 continue;
             }
+            note(&format!("not logging in again: {}", refusal.short));
             for text in refusal.explanation {
                 let _ = tx.send(TailMsg::Line { offset: 0, text });
             }
@@ -237,6 +250,7 @@ fn supervise(spec: &CommandSpec, initial_lines: usize, tx: &SyncSender<TailMsg>,
 
         // Wait, then start again.
         let delay = backoff.next_delay(started.elapsed());
+        note(&format!("trying again in {delay}s"));
         gone_since = Some(Instant::now());
 
         for remaining in (1..=delay).rev() {
