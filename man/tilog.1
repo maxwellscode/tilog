@@ -238,6 +238,15 @@ If set and not empty, no colors are used: what a color marked becomes reverse vi
 .TP
 .B XDG_CONFIG_HOME
 Where the configuration directory is.
+.SH EXIT STATUS
+0 after
+.B q
+or
+.BR :quit ;
+1 if a source or the session given on the command line cannot be opened;
+128 plus the signal number when ended by SIGHUP, SIGTERM or SIGINT (a closed terminal,
+.BR kill ).
+In every case the commands tilog started (ssh, docker, kubectl) are stopped first.
 .SH EXAMPLES
 Two files and a container, side by side:
 .PP

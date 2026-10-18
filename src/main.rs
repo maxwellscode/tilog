@@ -20,6 +20,7 @@ mod pipe;
 mod select;
 mod session;
 mod severity;
+mod signals;
 mod source;
 mod spec;
 mod stream;
@@ -80,6 +81,7 @@ fn main() -> Result<()> {
                      (to save lines to a file, use :write inside tilog)"
                 );
             }
+            signals::install();
             let mut app = App::new();
             // The config first: named sources must be known before paths are opened. A problem
             // in it is shown at the end, so the messages of the steps below don't hide it.
@@ -119,10 +121,16 @@ fn main() -> Result<()> {
                 app.show_error(&format!("config: {err:#}"));
             }
 
-            ratatui::run(|terminal| {
+            let result = ratatui::run(|terminal| {
                 let _mouse = MouseCapture::enable()?; // dropped when this closure ends
                 app.run(terminal)
-            })?;
+            });
+            // Ended by a signal: the terminal may be gone, so whatever failed while letting go
+            // of it doesn't matter. The exit status says which signal it was, as a shell does.
+            if let Some(signal) = signals::received() {
+                std::process::exit(128 + signal);
+            }
+            result?;
         }
     }
     Ok(())

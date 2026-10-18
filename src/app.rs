@@ -227,7 +227,9 @@ impl App {
         // Redrawing costs more than everything else the program does while idle.
         let mut drawn = Drawn::default();
         let mut input_seen = true;
-        while !self.quit {
+        // A closed terminal or a `kill` ends the loop too, so the sources are dropped and
+        // their commands stopped, as after `q`.
+        while !self.quit && !crate::signals::stop_requested() {
             // Take in what the background threads delivered. While there is a backlog (a big
             // file being loaded), don't idle: come straight back for the next chunk.
             let busy = self.pump_sources();

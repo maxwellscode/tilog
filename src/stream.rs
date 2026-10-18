@@ -369,6 +369,7 @@ fn prepare(
         // Its own process group: see `kill_group`.
         command.process_group(0);
     }
+    die_with_us(&mut command);
     command.stdin(if spec.keeps_stdin_open() {
         Stdio::piped()
     } else {
@@ -389,6 +390,31 @@ fn prepare(
     }
     Ok((command, answers, merged_reader))
 }
+
+/// On Linux the kernel kills the command if tilog dies without cleaning up (`kill -9`, a crash):
+/// the one way out that `Drop` and the signal handlers in `signals` can't cover. (It fires when
+/// the *thread* that started the command ends; that thread reads the command until it is gone.)
+/// Elsewhere there is no such thing, and the command ends at its next write into the closed pipe.
+#[cfg(target_os = "linux")]
+fn die_with_us(command: &mut Command) {
+    let parent = std::process::id();
+    #[allow(unsafe_code)]
+    // SAFETY: `prctl`, `getppid` and `_exit` are async-signal-safe, which is all `pre_exec`
+    // asks of its closure.
+    unsafe {
+        command.pre_exec(move || {
+            libc::prctl(libc::PR_SET_PDEATHSIG, libc::SIGKILL);
+            // tilog may have died before the line above: then nobody is reading anyway.
+            if u32::try_from(libc::getppid()).ok() != Some(parent) {
+                libc::_exit(1);
+            }
+            Ok(())
+        });
+    }
+}
+
+#[cfg(not(target_os = "linux"))]
+fn die_with_us(_: &mut Command) {}
 
 /// Reads `stderr` to its end on a thread of its own, keeping only the last line that is not
 /// blank: the one that explains why a command failed.
