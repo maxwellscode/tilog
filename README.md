@@ -106,6 +106,7 @@ suite reproduce most of it.
 | Memory | 16 MB with a 1.1 GB file open, 21 MB with nine sources, 15 MB after 5 million lines through a pipe |
 | Throughput | 5 million lines (490 MB) through a pipe in 3.2 s |
 | Filter over a 1.1 GB file | 2.5 million matches found in about a second, 16 bytes per match |
+| One hour under load (Linux VM, static build) | 13 million lines at 5,000 a second, the file rotated every minute (rename and `copytruncate` in turn), a filter and a live pod beside it: every line arrived, 7 to 8 MB of memory, 7 % of one core, no growth in threads or open files |
 
 Memory stays bounded whatever the input:
 
