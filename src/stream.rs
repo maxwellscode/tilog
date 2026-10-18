@@ -394,7 +394,9 @@ fn prepare(
 /// On Linux the kernel kills the command if tilog dies without cleaning up (`kill -9`, a crash):
 /// the one way out that `Drop` and the signal handlers in `signals` can't cover. (It fires when
 /// the *thread* that started the command ends; that thread reads the command until it is gone.)
-/// Elsewhere there is no such thing, and the command ends at its next write into the closed pipe.
+/// It reaches the command tilog starts, which is `ssh`, `docker` or `kubectl` itself; what a
+/// `cmd:` shell starts in turn, and every command on other systems, ends at its next write into
+/// the closed pipe instead.
 #[cfg(target_os = "linux")]
 fn die_with_us(command: &mut Command) {
     let parent = std::process::id();

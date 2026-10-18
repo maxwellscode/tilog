@@ -68,6 +68,10 @@ struct Tilog {
 
 impl Tilog {
     fn start(scratch: &Scratch, args: &[&str]) -> Self {
+        Self::start_with(scratch, args, &[])
+    }
+
+    fn start_with(scratch: &Scratch, args: &[&str], env: &[(&str, &str)]) -> Self {
         let (master, slave) = open_pty();
         let slave_copy = |fd: &OwnedFd| Stdio::from(fd.try_clone().unwrap());
         let mut command = Command::new(env!("CARGO_BIN_EXE_tilog"));
@@ -77,6 +81,7 @@ impl Tilog {
             .env("XDG_CONFIG_HOME", scratch.path("config"))
             .env("TERM", "xterm-256color")
             .env_remove("NO_COLOR")
+            .envs(env.iter().copied())
             .stdin(slave_copy(&slave))
             .stdout(slave_copy(&slave))
             .stderr(slave_copy(&slave));
@@ -353,14 +358,18 @@ fn a_closed_terminal_or_kill_stops_the_commands_too() {
     }
 }
 
-/// Only Linux can promise this: the kernel kills the command when its parent dies.
+/// Only Linux can promise this: the kernel kills the command when its parent dies. It is the
+/// command tilog starts itself (here `ssh`, a stand-in on `PATH`); see `die_with_us`.
 #[cfg(target_os = "linux")]
 #[test]
-fn even_kill_9_leaves_no_command_behind_on_linux() {
+fn even_kill_9_leaves_no_ssh_behind_on_linux() {
     let scratch = Scratch::new("kill-9");
     let (script, pid_file) = scratch.quiet_command();
-    let source = format!("cmd:{}", script.display());
-    let mut tilog = Tilog::start(&scratch, &[&source]);
+    let bin = scratch.path("bin");
+    fs::create_dir_all(&bin).unwrap();
+    fs::rename(&script, bin.join("ssh")).unwrap();
+    let path = format!("{}:{}", bin.display(), std::env::var("PATH").unwrap());
+    let mut tilog = Tilog::start_with(&scratch, &["ssh:web1:/var/log/app.log"], &[("PATH", &path)]);
     tilog.wait_for("quiet-command-started");
     let pid = pid_in(&pid_file);
 
