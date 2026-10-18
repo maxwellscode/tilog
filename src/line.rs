@@ -5,6 +5,10 @@
 //! only the first `MAX_LINE_BYTES` bytes of a line are kept; the rest is read and thrown away,
 //! and the line ends with a note saying how much was cut. Byte offsets stay exact: they count
 //! what is in the file, not what was kept.
+//!
+//! Terminal escape sequences (the colors of `docker logs`, `kubectl logs` or a Spring app) are
+//! taken out here too, so that searching, filtering, reading timestamps and tilog's own coloring
+//! all see the text as a person reads it, not `\x1b[32mINFO\x1b[0m`.
 
 use std::borrow::Cow;
 use std::io::{self, BufRead};
@@ -70,13 +74,14 @@ impl CappedLine {
         self.complete
     }
 
-    /// The text of the line: without its line ending, and with a note at the end if it was cut.
+    /// The text of the line: without its line ending and its escape sequences, and with a note at
+    /// the end if it was cut.
     pub fn text(&self) -> Cow<'_, [u8]> {
-        let text = trim_eol(&self.bytes);
+        let text = strip_escapes(trim_eol(&self.bytes));
         if self.cut == 0 {
-            return Cow::Borrowed(text);
+            return text;
         }
-        let mut owned = text.to_vec();
+        let mut owned = text.into_owned();
         owned.extend_from_slice(format!(" … [{} bytes cut]", self.cut).as_bytes());
         Cow::Owned(owned)
     }
@@ -85,6 +90,57 @@ impl CappedLine {
     pub fn to_text(&self) -> String {
         String::from_utf8_lossy(&self.text()).into_owned()
     }
+}
+
+/// The escape character that starts a terminal escape sequence.
+const ESC: u8 = 0x1b;
+
+/// `text` without its terminal escape sequences: colors and cursor movements (`ESC [ ... m`),
+/// titles and links (`ESC ] ... BEL` or `ESC ] ... ESC \\`), and the short two-byte ones. Text
+/// without an escape character is returned as it is, without a copy.
+pub fn strip_escapes(text: &[u8]) -> Cow<'_, [u8]> {
+    if !text.contains(&ESC) {
+        return Cow::Borrowed(text);
+    }
+    let mut out = Vec::with_capacity(text.len());
+    let mut i = 0;
+    while i < text.len() {
+        if text[i] != ESC {
+            out.push(text[i]);
+            i += 1;
+            continue;
+        }
+        i += 1; // the ESC itself
+        match text.get(i) {
+            // CSI: parameters and intermediates, up to a final byte in 0x40..=0x7e.
+            Some(b'[') => {
+                i += 1;
+                while i < text.len() && !(0x40..=0x7e).contains(&text[i]) {
+                    i += 1;
+                }
+                i += 1;
+            }
+            // OSC: up to BEL, or up to the string terminator ESC \.
+            Some(b']') => {
+                i += 1;
+                while i < text.len() {
+                    if text[i] == 0x07 {
+                        i += 1;
+                        break;
+                    }
+                    if text[i] == ESC && text.get(i + 1) == Some(&b'\\') {
+                        i += 2;
+                        break;
+                    }
+                    i += 1;
+                }
+            }
+            // Any other escape is two bytes long (`ESC c`, `ESC 7`, ...).
+            Some(_) => i += 1,
+            None => {}
+        }
+    }
+    Cow::Owned(out)
 }
 
 #[cfg(test)]
@@ -146,6 +202,42 @@ mod tests {
             .unwrap();
         assert!(line.is_complete());
         assert_eq!(line.to_text(), "abcde … [7 bytes cut]");
+    }
+
+    #[test]
+    fn colors_and_other_escape_sequences_are_taken_out() {
+        let strip = |text: &[u8]| String::from_utf8(strip_escapes(text).into_owned()).unwrap();
+        // Colors, as docker, kubectl and Spring Boot write them.
+        assert_eq!(
+            strip(b"\x1b[32mINFO\x1b[0m started \x1b[1;31mERROR\x1b[m"),
+            "INFO started ERROR"
+        );
+        assert_eq!(
+            strip(b"\x1b[38;5;208morange\x1b[39m \x1b[48;2;1;2;3mrgb\x1b[0m"),
+            "orange rgb"
+        );
+        // A link and a window title (OSC), ended by ESC \\ and by BEL.
+        assert_eq!(
+            strip(b"see \x1b]8;;https://x.org\x1b\\here\x1b]8;;\x1b\\ now"),
+            "see here now"
+        );
+        assert_eq!(strip(b"\x1b]0;title\x07text"), "text");
+        // Two-byte escapes, and an escape cut off at the end of the line.
+        assert_eq!(strip(b"\x1bcreset\x1b7saved"), "resetsaved");
+        assert_eq!(strip(b"cut \x1b[3"), "cut ");
+        assert_eq!(strip(b"lone \x1b"), "lone ");
+        // Text without escapes is not copied.
+        assert!(matches!(strip_escapes(b"plain text"), Cow::Borrowed(_)));
+    }
+
+    #[test]
+    fn a_line_read_from_a_log_comes_out_without_its_colors() {
+        let lines = read_all(b"\x1b[33mWARN\x1b[0m slow\n", 100);
+        assert_eq!(
+            lines,
+            [(19, "WARN slow".to_string())],
+            "the offset still counts every byte"
+        );
     }
 
     #[test]
