@@ -5,9 +5,9 @@
 //! command's whole process group right away, so closing a tile or quitting never leaves an
 //! `ssh` or `kubectl` running in the background.
 
-use std::io::{BufReader, Read};
+use std::io::{BufReader, PipeReader, Read};
 use std::os::unix::process::CommandExt;
-use std::process::{Child, Command, Stdio};
+use std::process::{Child, ChildStderr, Command, ExitStatus, Stdio};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{self, Receiver, SyncSender};
 use std::sync::{Arc, Mutex};
@@ -272,21 +272,88 @@ fn run_once(
     stop: &AtomicBool,
     slot: &Mutex<Option<Child>>,
 ) -> Outcome {
+    // `_answers`: the questions of ssh are answered while the command runs, so the server for
+    // them lives as long as this run.
+    let (mut command, _answers, merged_reader) =
+        match prepare(spec, initial_lines, since, asking, tx) {
+            Ok(prepared) => prepared,
+            Err(why) => return Outcome::CannotStart(why),
+        };
+    let mut child = match command.spawn() {
+        Ok(child) => child,
+        Err(e) => {
+            let program = command.get_program().to_string_lossy().into_owned();
+            return Outcome::CannotStart(format!("cannot start {program}: {e}"));
+        }
+    };
+    // `command` still holds our copies of the pipe's write end. Dropping it lets the reader see
+    // the end of the output once the child is gone.
+    drop(command);
+
+    let stdout: Box<dyn Read + Send> = match merged_reader {
+        Some(reader) => Box::new(reader),
+        None => Box::new(child.stdout.take().expect("stdout was piped")),
+    };
+    let stderr_reader = child.stderr.take().map(last_line_of);
+    // Held until this function returns: closing it is how the remote side learns we are gone.
+    let _stdin = child.stdin.take();
+
+    // Hand the child to the guard, so it can kill it from the outside.
+    if let Ok(mut held) = slot.lock() {
+        *held = Some(child);
+    }
+    if stop.load(Ordering::SeqCst) {
+        if let Ok(mut held) = slot.lock()
+            && let Some(child) = held.as_mut()
+        {
+            kill_group(child);
+        }
+        return Outcome::Stopped;
+    }
+    if tx.send(TailMsg::Status(Status::Connected)).is_err() {
+        return Outcome::Stopped;
+    }
+
+    let merged = spec.merges_stderr();
+    let Some(last_output) = forward_output(stdout, tx, merged) else {
+        return Outcome::Stopped; // the guard is dropping us anyway
+    };
+
+    // The output ended. Reap the process and find out why.
+    let child = slot.lock().ok().and_then(|mut held| held.take());
+    let status = child.map(|mut child| child.wait());
+    if stop.load(Ordering::SeqCst) {
+        return Outcome::Stopped;
+    }
+    let last_stderr = stderr_reader
+        .and_then(|handle| handle.join().ok())
+        .unwrap_or_default();
+    // With stderr merged into the output, the tool's own error message (docker's "No such
+    // container") is among the lines: the last one explains a failed exit.
+    let last_output = if merged { last_output } else { String::new() };
+    let (success, why) = explain_exit(status, &last_stderr, &last_output);
+    Outcome::Ended { success, why }
+}
+
+/// The command of one run, ready to be started: arguments, process group or session, and the
+/// wiring of its input and output. With `asking`, ssh may ask questions, and the server that
+/// answers them comes back too. With merged output, so does the end of the pipe to read.
+fn prepare(
+    spec: &CommandSpec,
+    initial_lines: usize,
+    since: Option<Duration>,
+    asking: Option<&Remembered>,
+    tx: &SyncSender<TailMsg>,
+) -> Result<(Command, Option<Server>, Option<PipeReader>), String> {
     let argv = spec.argv_with(initial_lines, since, asking.is_some());
     let mut command = Command::new(&argv[0]);
     command.args(&argv[1..]);
-    // Answers arrive while the command runs; the server for them lives as long as this run.
-    let mut _answers = None;
+    let mut answers = None;
     if let Some(remembered) = asking {
-        match Server::start(tx.clone(), remembered.clone()) {
-            Ok(server) => {
-                command.envs(server.env());
-                _answers = Some(server);
-            }
-            Err(e) => {
-                return Outcome::CannotStart(format!("cannot prepare the login question: {e}"));
-            }
-        }
+        let server = Server::start(tx.clone(), remembered.clone())
+            .map_err(|e| format!("cannot prepare the login question: {e}"))?;
+        command.envs(server.env());
+        answers = Some(server);
         // A session of its own, so without a terminal: ssh must ask the helper, not read the
         // answer from the terminal the screen is drawn on. (It is also its own process group,
         // which is what `kill_group` needs.)
@@ -312,100 +379,72 @@ fn run_once(
     // is only read for the last line, which explains a failure.
     let mut merged_reader = None;
     if spec.merges_stderr() {
-        let (reader, writer) = match std::io::pipe() {
-            Ok(pipe) => pipe,
-            Err(e) => return Outcome::CannotStart(format!("cannot create a pipe: {e}")),
-        };
-        let writer_copy = match writer.try_clone() {
-            Ok(copy) => copy,
-            Err(e) => return Outcome::CannotStart(format!("cannot create a pipe: {e}")),
-        };
+        let pipe_error = |e: std::io::Error| format!("cannot create a pipe: {e}");
+        let (reader, writer) = std::io::pipe().map_err(pipe_error)?;
+        let writer_copy = writer.try_clone().map_err(pipe_error)?;
         command.stdout(writer_copy).stderr(writer);
         merged_reader = Some(reader);
     } else {
         command.stdout(Stdio::piped()).stderr(Stdio::piped());
     }
+    Ok((command, answers, merged_reader))
+}
 
-    let mut child = match command.spawn() {
-        Ok(child) => child,
-        Err(e) => return Outcome::CannotStart(format!("cannot start {}: {e}", argv[0])),
-    };
-    // `command` still holds our copies of the pipe's write end. Dropping it lets the reader see
-    // the end of the output once the child is gone.
-    drop(command);
-
-    let stdout: Box<dyn Read + Send> = match merged_reader {
-        Some(reader) => Box::new(reader),
-        None => Box::new(child.stdout.take().expect("stdout was piped")),
-    };
-    let stderr_reader = child.stderr.take().map(|stderr| {
-        thread::spawn(move || {
-            let mut last = String::new();
-            let (mut reader, mut line) = (BufReader::new(stderr), CappedLine::new());
-            loop {
-                line.clear();
-                if !matches!(line.read_from(&mut reader), Ok(read) if read > 0) {
-                    return last;
-                }
-                let text = line.to_text();
-                if !text.trim().is_empty() {
-                    last = text;
-                }
+/// Reads `stderr` to its end on a thread of its own, keeping only the last line that is not
+/// blank: the one that explains why a command failed.
+fn last_line_of(stderr: ChildStderr) -> thread::JoinHandle<String> {
+    thread::spawn(move || {
+        let mut last = String::new();
+        let (mut reader, mut line) = (BufReader::new(stderr), CappedLine::new());
+        loop {
+            line.clear();
+            if !matches!(line.read_from(&mut reader), Ok(read) if read > 0) {
+                return last;
             }
-        })
-    });
-    // Held until this function returns: closing it is how the remote side learns we are gone.
-    let _stdin = child.stdin.take();
-
-    // Hand the child to the guard, so it can kill it from the outside.
-    if let Ok(mut held) = slot.lock() {
-        *held = Some(child);
-    }
-    if stop.load(Ordering::SeqCst) {
-        if let Ok(mut held) = slot.lock()
-            && let Some(child) = held.as_mut()
-        {
-            kill_group(child);
+            let text = line.to_text();
+            if !text.trim().is_empty() {
+                last = text;
+            }
         }
-        return Outcome::Stopped;
-    }
-    if tx.send(TailMsg::Status(Status::Connected)).is_err() {
-        return Outcome::Stopped;
-    }
+    })
+}
 
-    let mut reader = BufReader::new(stdout);
+/// Sends every line of the command's output to the screen, until the output ends. Returns the
+/// last line that is not blank (with `merged` output, it may explain a failure), or `None` if
+/// the screen is gone.
+fn forward_output(
+    output: Box<dyn Read + Send>,
+    tx: &SyncSender<TailMsg>,
+    merged: bool,
+) -> Option<String> {
+    let mut reader = BufReader::new(output);
     let mut line = CappedLine::new();
-    // With stderr merged into the output, the tool's own error message (docker's "No such
-    // container") is among the lines. The last one explains a failed exit.
-    let merged = spec.merges_stderr();
     let mut last_output = String::new();
     loop {
         line.clear();
         match line.read_from(&mut reader) {
-            Ok(0) | Err(_) => break,
+            Ok(0) | Err(_) => return Some(last_output),
             Ok(_) => {
                 let text = line.to_text();
                 if merged && !text.trim().is_empty() {
                     last_output.clone_from(&text);
                 }
                 if tx.send(TailMsg::Line { offset: 0, text }).is_err() {
-                    return Outcome::Stopped; // the guard is dropping us anyway
+                    return None;
                 }
             }
         }
     }
+}
 
-    // The output ended. Reap the process and find out why.
-    let child = slot.lock().ok().and_then(|mut held| held.take());
-    let status = child.map(|mut child| child.wait());
-    if stop.load(Ordering::SeqCst) {
-        return Outcome::Stopped;
-    }
-    let last_stderr = stderr_reader
-        .and_then(|handle| handle.join().ok())
-        .unwrap_or_default();
-
-    let (success, mut why) = match status {
+/// Whether the command succeeded, and why it ended: its exit status, followed by the last line
+/// it wrote to stderr, or else by the last line of its (merged) output.
+fn explain_exit(
+    status: Option<std::io::Result<ExitStatus>>,
+    last_stderr: &str,
+    last_output: &str,
+) -> (bool, String) {
+    let (success, why) = match status {
         Some(Ok(status)) => (
             status.success(),
             status
@@ -417,12 +456,14 @@ fn run_once(
         Some(Err(e)) => (false, format!("cannot wait for the command: {e}")),
         None => (false, "the command vanished".to_string()),
     };
-    if !last_stderr.is_empty() {
-        why = format!("{why}: {last_stderr}");
-    } else if merged && !success && !last_output.is_empty() {
-        why = format!("{why}: {last_output}");
-    }
-    Outcome::Ended { success, why }
+    let why = if !last_stderr.is_empty() {
+        format!("{why}: {last_stderr}")
+    } else if !success && !last_output.is_empty() {
+        format!("{why}: {last_output}")
+    } else {
+        why
+    };
+    (success, why)
 }
 
 #[cfg(test)]
