@@ -169,7 +169,8 @@ impl App {
             Some(Ok(landed)) => {
                 self.info(format!("jumped to {}", timestamp::utc_clock(landed.time)));
             }
-            Some(Err(why)) => self.error(why),
+            // `{:#}` prints the whole chain: "cannot read app.log: No such file or directory".
+            Some(Err(err)) => self.error(format!("{err:#}")),
             None => self.error(NO_SOURCE),
         }
     }

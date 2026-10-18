@@ -359,10 +359,10 @@ fn goto_time_works_in_a_filter_and_says_when_there_are_no_times() {
         0,
         0,
     );
-    assert_eq!(
-        stream.jump_to_time(&When::parse("08:00").unwrap()),
-        Err("no timestamps in this tile".to_string())
-    );
+    let err = stream
+        .jump_to_time(&When::parse("08:00").unwrap())
+        .unwrap_err();
+    assert_eq!(err.to_string(), "no timestamps in this tile");
     std::fs::remove_file(&path).unwrap();
 }
 

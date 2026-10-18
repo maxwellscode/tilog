@@ -2,6 +2,8 @@
 
 use std::fs;
 
+use anyhow::{Context, Result, bail};
+
 use crate::history::{self, TimeFound};
 use crate::timestamp;
 use crate::when::When;
@@ -29,7 +31,7 @@ impl Tile {
     /// Shows the first line at or after `when`, marked, with context above it. The tile does not
     /// need a line at exactly that time. A file is searched on disk (so lines that are not
     /// loaded are found too); anything else is searched in the rows it holds.
-    pub fn jump_to_time(&mut self, when: &When) -> Result<Landed, String> {
+    pub fn jump_to_time(&mut self, when: &When) -> Result<Landed> {
         let now = timestamp::now_ms();
         let height = self.shown_height.get();
         if let Content::Source(SourceContent {
@@ -51,36 +53,31 @@ impl Tile {
         when: &When,
         now: i64,
         height: usize,
-    ) -> Result<Landed, String> {
-        let io_error = |e: std::io::Error| format!("cannot read {path}: {e}");
-        let len = fs::metadata(path).map_err(io_error)?.len();
-        let tail = history::read_before(path, len, floor, NEWEST_ROWS).map_err(io_error)?;
+    ) -> Result<Landed> {
+        let cannot_read = || format!("cannot read {path}");
+        let len = fs::metadata(path).with_context(cannot_read)?.len();
+        let tail = history::read_before(path, len, floor, NEWEST_ROWS).with_context(cannot_read)?;
         let newest = tail
             .iter()
             .rev()
             .find_map(|(_, text)| timestamp::parse(text, now))
-            .ok_or("no timestamps in this log")?;
+            .context("no timestamps in this log")?;
         let target = when.resolve(newest);
 
         let found = history::find_time(path, floor, target, |line| timestamp::parse(line, now))
-            .map_err(io_error)?;
+            .with_context(cannot_read)?;
         let (offset, time, past_end) = match found {
             TimeFound::At { offset, time } => (offset, time, false),
             TimeFound::AfterEnd { offset, time } => (offset, time, true),
-            TimeFound::None => return Err("no timestamps in this log".to_string()),
+            TimeFound::None => bail!("no timestamps in this log"),
         };
         if !self.show_offset(offset, 1, height) {
-            return Err("cannot show that line".to_string());
+            bail!("cannot show that line");
         }
         Ok(Landed { time, past_end })
     }
 
-    fn jump_to_time_in_rows(
-        &mut self,
-        when: &When,
-        now: i64,
-        height: usize,
-    ) -> Result<Landed, String> {
+    fn jump_to_time_in_rows(&mut self, when: &When, now: i64, height: usize) -> Result<Landed> {
         let skip = self.label_cols();
         let lines = self.content.lines();
         let (first, end) = (lines.first_seq(), lines.end_seq());
@@ -94,7 +91,7 @@ impl Tile {
             .iter()
             .rev()
             .find_map(|row| time_of(row))
-            .ok_or("no timestamps in this tile")?;
+            .context("no timestamps in this tile")?;
         let target = when.resolve(newest);
 
         let (mut seq, mut last) = (first, None);
@@ -109,7 +106,7 @@ impl Tile {
             }
             seq += rows.len().max(1) as u64;
         }
-        let (row, time) = last.ok_or("no timestamps in this tile")?;
+        let (row, time) = last.context("no timestamps in this tile")?;
         Ok(self.land_on(row, time, true, height))
     }
 
