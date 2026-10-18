@@ -3,7 +3,7 @@
 [![CI](https://github.com/maxwellscode/tilog/actions/workflows/ci.yml/badge.svg)](https://github.com/maxwellscode/tilog/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-**`tig` for logs:** a small, fast, read-only terminal viewer for live logs during a deployment
+A small, fast, read-only terminal viewer for live logs during a deployment
 and for checking production errors afterwards. Written in Rust. [Homepage](https://maxwellscode.github.io/tilog/).
 
 It feels like `less` and `tail`, works with no configuration, and never changes a log or a

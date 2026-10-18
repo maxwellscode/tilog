@@ -1,6 +1,6 @@
 # Contributing to tilog
 
-tilog is **`tig` for logs**: a small, fast, read-only terminal viewer for live logs during a
+tilog: a small, fast, read-only terminal viewer for live logs during a
 deployment and for checking production errors afterwards. Changes are welcome when they fit that;
 please open an issue first for anything bigger than a fix.
 

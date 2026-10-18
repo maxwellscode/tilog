@@ -2,7 +2,7 @@
 name = "tilog"
 version = "0.1.0"
 edition = "2024"
-description = "tig for logs: a small, fast, read-only TUI for live deployment logs and production error checks"
+description = "A small, fast, read-only TUI for live deployment logs and production error checks"
 readme = "README.md"
 rust-version = "1.88" # let chains
 license = "MIT"
