@@ -18,6 +18,8 @@ mod lines;
 mod merge;
 mod overlap;
 mod pipe;
+#[cfg(test)]
+mod robustness;
 mod select;
 mod session;
 mod severity;
