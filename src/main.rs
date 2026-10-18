@@ -34,7 +34,7 @@ mod when;
 use std::env;
 use std::io::{self, IsTerminal};
 
-use anyhow::Result;
+use anyhow::{Result, bail};
 use crossterm::event::{DisableMouseCapture, EnableMouseCapture};
 use crossterm::execute;
 
@@ -72,6 +72,14 @@ fn main() -> Result<()> {
         Cli::PrintConfig => print!("{}", config::DEFAULT_CONFIG),
         Cli::PrintMan => print!("{}", cli::MAN_PAGE),
         Cli::Run { session, paths } => {
+            // A screen can only be drawn on a terminal. Said plainly, instead of failing deep in
+            // the terminal setup (and writing its escape codes into a pipe).
+            if !io::stdout().is_terminal() {
+                bail!(
+                    "tilog draws a screen, so its output must be a terminal \
+                     (to save lines to a file, use :write inside tilog)"
+                );
+            }
             let mut app = App::new();
             // The config first: named sources must be known before paths are opened. A problem
             // in it is shown at the end, so the messages of the steps below don't hide it.
