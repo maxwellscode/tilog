@@ -7,6 +7,7 @@ use crate::buffer::RingBuffer;
 use crate::history;
 use crate::lines::Lines;
 
+use super::content::SourceContent;
 use super::search::Link;
 use super::{Content, Tile};
 
@@ -52,13 +53,13 @@ fn load_window(path: &str, offset: u64, floor: u64) -> Option<HistoryWindow> {
 impl Tile {
     /// Reads a chunk of older lines from disk and puts it in front of the loaded ones.
     pub(super) fn load_older(&mut self) {
-        let Content::Source {
+        let Content::Source(SourceContent {
             path: Some(path),
             live_capacity,
             lines,
             window,
             ..
-        } = &mut self.content
+        }) = &mut self.content
         else {
             return; // a filter, or a command: there is no older part of a file to read
         };
@@ -92,11 +93,11 @@ impl Tile {
 
     /// In a history window: reads on from disk when the view is about to pass its last line.
     pub(super) fn extend_window(&mut self, height: usize, n: u64) {
-        let Content::Source {
+        let Content::Source(SourceContent {
             path: Some(path),
             window: Some(window),
             ..
-        } = &mut self.content
+        }) = &mut self.content
         else {
             return;
         };
@@ -114,7 +115,7 @@ impl Tile {
 
     /// Drops the history window (and what was marked in it): the tile shows the live end again.
     pub(super) fn leave_window(&mut self) {
-        if let Content::Source { window, .. } = &mut self.content
+        if let Content::Source(SourceContent { window, .. }) = &mut self.content
             && window.take().is_some()
         {
             self.marked = None;
@@ -125,10 +126,10 @@ impl Tile {
     pub fn is_history_view(&self) -> bool {
         matches!(
             self.content,
-            Content::Source {
+            Content::Source(SourceContent {
                 window: Some(_),
                 ..
-            }
+            })
         )
     }
 
@@ -157,12 +158,12 @@ impl Tile {
     /// context above it, and marks it. Uses the loaded lines when it is among them, otherwise
     /// reads that stretch of the file from disk into a window. `false` if there is no file.
     pub fn show_offset(&mut self, offset: u64, rows: usize, height: usize) -> bool {
-        let Content::Source {
+        let Content::Source(SourceContent {
             path: Some(path),
             lines,
             window,
             ..
-        } = &mut self.content
+        }) = &mut self.content
         else {
             return false;
         };

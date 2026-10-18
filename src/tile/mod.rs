@@ -35,19 +35,13 @@ use crate::pipe;
 use crate::spec::CommandSpec;
 use crate::stream;
 use crate::stream_filter::StreamFilterView;
-use crate::tail::{self, Status, TailMsg};
+use crate::tail::{self, Status};
 use crate::viewport::Viewport;
 
 pub use search::{Find, Link};
 
-use content::Content;
+use content::{Content, SourceContent};
 use frozen::Bounded;
-use login::Asking;
-use window::HISTORY_MAX;
-
-/// Per UI tick, take at most this many lines from the main source, so a huge file being
-/// loaded can't freeze the UI.
-const MAX_LINES_PER_PUMP: usize = 4096;
 
 /// The height assumed for a tile that has not been drawn yet.
 const DEFAULT_HEIGHT: usize = 20;
@@ -99,7 +93,7 @@ impl Tile {
         let start =
             history::tail_start(path, capacity).with_context(|| format!("cannot open {path}"))?;
         let rx = tail::spawn(path, start)?;
-        let content = Content::Source {
+        let content = Content::Source(SourceContent {
             path: Some(path.to_string()),
             live_capacity: capacity,
             lines: RingBuffer::new(capacity),
@@ -108,7 +102,7 @@ impl Tile {
             _guard: None,
             window: None,
             asking: None,
-        };
+        });
         Ok(Self::new(content))
     }
 
@@ -116,7 +110,7 @@ impl Tile {
     /// `capacity` lines, and restarts it when it drops.
     pub fn stream(spec: CommandSpec, capacity: usize) -> Self {
         let (rx, guard) = stream::spawn(spec, capacity);
-        let content = Content::Source {
+        let content = Content::Source(SourceContent {
             path: None,
             live_capacity: capacity,
             lines: RingBuffer::new(capacity),
@@ -125,14 +119,14 @@ impl Tile {
             _guard: Some(guard),
             window: None,
             asking: None,
-        };
+        });
         Self::new(content)
     }
 
     /// The main tile of standard input: keeps the newest `capacity` lines. Fails if stdin is a
     /// terminal, or is already a source.
     pub fn stdin(capacity: usize) -> Result<Self> {
-        let content = Content::Source {
+        let content = Content::Source(SourceContent {
             path: None,
             live_capacity: capacity,
             lines: RingBuffer::new(capacity),
@@ -141,7 +135,7 @@ impl Tile {
             _guard: None,
             window: None,
             asking: None,
-        };
+        });
         Ok(Self::new(content))
     }
 
@@ -209,7 +203,7 @@ impl Tile {
     /// Puts lines into the buffer of a main tile as if they had arrived from the source.
     #[cfg(test)]
     pub fn push_for_test(&mut self, lines: &[String]) {
-        if let Content::Source { lines: buffer, .. } = &mut self.content {
+        if let Content::Source(SourceContent { lines: buffer, .. }) = &mut self.content {
             for line in lines {
                 buffer.push(0, line.clone());
             }
@@ -260,49 +254,7 @@ impl Tile {
             self.frozen_end = Some(self.content.lines().end_seq());
         }
         match &mut self.content {
-            Content::Source {
-                live_capacity,
-                lines,
-                rx,
-                status: current,
-                asking,
-                ..
-            } => {
-                // Older lines loaded by scrolling up are kept only while the view is paused.
-                // Following the file again shrinks the buffer back to its live size.
-                lines.set_capacity(if following {
-                    *live_capacity
-                } else {
-                    *live_capacity + HISTORY_MAX
-                });
-
-                // Report "more may be waiting" whenever something was taken in, not only after a
-                // full batch: the channel is smaller than a batch, and the UI must come straight
-                // back for the next chunk instead of idling.
-                let mut taken = 0;
-                for _ in 0..MAX_LINES_PER_PUMP {
-                    match rx.try_recv() {
-                        Ok(TailMsg::Line { offset, text }) => {
-                            taken += 1;
-                            if let Some(fresh) = fresh.as_deref_mut() {
-                                fresh.push(text.clone());
-                            }
-                            lines.push(offset, text);
-                        }
-                        Ok(TailMsg::Rotated) => lines.rotated(),
-                        Ok(TailMsg::Status(status)) => *current = Some(status),
-                        Ok(TailMsg::Ask(ask)) => {
-                            taken += 1;
-                            // Only one question is open at a time; a newer one replaces it.
-                            if let Some(old) = asking.replace(Asking::new(ask)) {
-                                old.cancel();
-                            }
-                        }
-                        Err(_) => return taken > 0,
-                    }
-                }
-                true
-            }
+            Content::Source(source) => source.pump(following, fresh),
             Content::Filter(view) => view.pump(),
             Content::StreamFilter(view) => {
                 view.tick();
@@ -326,7 +278,7 @@ impl Tile {
     /// The filter of a filtered tile, `None` for the main tile.
     pub fn filter(&self) -> Option<&Filter> {
         match &self.content {
-            Content::Source { .. } | Content::Merged { .. } => None,
+            Content::Source(SourceContent { .. }) | Content::Merged { .. } => None,
             Content::Filter(view) => Some(view.filter()),
             Content::StreamFilter(view) => Some(view.filter()),
         }
@@ -343,7 +295,9 @@ impl Tile {
     /// Lines received from the file since tilog started (for a filter tile: rows shown).
     pub fn total_lines(&self) -> u64 {
         match &self.content {
-            Content::Source { lines, .. } | Content::Merged { lines, .. } => lines.received(),
+            Content::Source(SourceContent { lines, .. }) | Content::Merged { lines, .. } => {
+                lines.received()
+            }
             Content::Filter(view) => view.end_seq(),
             Content::StreamFilter(view) => view.end_seq(),
         }
@@ -359,7 +313,7 @@ impl Tile {
         self.matches().hash(&mut hasher);
         self.is_asking().hash(&mut hasher);
         match &self.content {
-            Content::Source { status, .. } => status.hash(&mut hasher),
+            Content::Source(SourceContent { status, .. }) => status.hash(&mut hasher),
             Content::Filter(view) => view.is_scanning().hash(&mut hasher),
             Content::StreamFilter(_) | Content::Merged { .. } => {}
         }
@@ -369,7 +323,7 @@ impl Tile {
     /// Number of matching entries, for filter tiles.
     pub fn matches(&self) -> Option<usize> {
         match &self.content {
-            Content::Source { .. } | Content::Merged { .. } => None,
+            Content::Source(SourceContent { .. }) | Content::Merged { .. } => None,
             Content::Filter(view) => Some(view.len()),
             Content::StreamFilter(view) => Some(view.len()),
         }
@@ -403,7 +357,7 @@ impl Tile {
     /// Empties the tile. Only the main tile can be cleared; returns `false` otherwise.
     pub fn clear(&mut self) -> bool {
         match &mut self.content {
-            Content::Source { lines, window, .. } => {
+            Content::Source(SourceContent { lines, window, .. }) => {
                 *window = None;
                 lines.clear();
                 self.marked = None;

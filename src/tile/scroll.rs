@@ -1,5 +1,6 @@
 //! Moving the view of a tile: up, down, sideways, to a line.
 
+use super::content::SourceContent;
 use super::frozen::Bounded;
 use super::{Content, Tile};
 use crate::lines::Lines;
@@ -116,7 +117,7 @@ impl Tile {
     pub fn jump_to_line(&mut self, line: u64) {
         self.forget_step();
         let seq = match &self.content {
-            Content::Source { lines, .. } | Content::Merged { lines, .. } => {
+            Content::Source(SourceContent { lines, .. }) | Content::Merged { lines, .. } => {
                 lines.seq_of_line(line)
             }
             Content::Filter(_) | Content::StreamFilter(_) => line.saturating_sub(1),

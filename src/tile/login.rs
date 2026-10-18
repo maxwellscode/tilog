@@ -2,6 +2,7 @@
 
 use crate::askpass::{Ask, Kind};
 
+use super::content::SourceContent;
 use super::{Content, Tile};
 
 /// The question being asked and what has been typed so far.
@@ -36,19 +37,19 @@ impl Tile {
     pub fn is_asking(&self) -> bool {
         matches!(
             self.content,
-            Content::Source {
+            Content::Source(SourceContent {
                 asking: Some(_),
                 ..
-            }
+            })
         )
     }
 
     /// The question to draw, if there is one.
     pub fn question(&self) -> Option<Question<'_>> {
-        let Content::Source {
+        let Content::Source(SourceContent {
             asking: Some(asking),
             ..
-        } = &self.content
+        }) = &self.content
         else {
             return None;
         };
@@ -66,10 +67,10 @@ impl Tile {
 
     fn typed_mut(&mut self) -> Option<&mut String> {
         match &mut self.content {
-            Content::Source {
+            Content::Source(SourceContent {
                 asking: Some(asking),
                 ..
-            } => Some(&mut asking.typed),
+            }) => Some(&mut asking.typed),
             _ => None,
         }
     }
@@ -88,7 +89,7 @@ impl Tile {
 
     /// Sends what was typed to `ssh` and closes the question.
     pub fn submit_answer(&mut self) {
-        if let Content::Source { asking, .. } = &mut self.content
+        if let Content::Source(SourceContent { asking, .. }) = &mut self.content
             && let Some(Asking { ask, typed }) = asking.take()
         {
             ask.answer(Some(typed));
@@ -97,7 +98,7 @@ impl Tile {
 
     /// Closes the question without an answer: the login fails.
     pub fn cancel_answer(&mut self) {
-        if let Content::Source { asking, .. } = &mut self.content
+        if let Content::Source(SourceContent { asking, .. }) = &mut self.content
             && let Some(Asking { ask, .. }) = asking.take()
         {
             ask.answer(None);
@@ -107,7 +108,7 @@ impl Tile {
     /// Puts a question in the tile as if `ssh` had asked it.
     #[cfg(test)]
     pub fn ask_for_test(&mut self, ask: Ask) {
-        if let Content::Source { asking, .. } = &mut self.content {
+        if let Content::Source(SourceContent { asking, .. }) = &mut self.content {
             *asking = Some(Asking::new(ask));
         }
     }

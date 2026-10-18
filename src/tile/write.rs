@@ -4,6 +4,7 @@ use std::fs::OpenOptions;
 use std::io::{self, BufWriter, Write};
 use std::path::Path;
 
+use super::content::SourceContent;
 use super::{Content, Tile};
 
 /// Rows fetched per step, so a filter over a huge file is read in pieces.
@@ -48,7 +49,9 @@ impl Tile {
     /// what is in memory too, but there is nothing more to get.
     pub fn holds_whole_log(&self) -> bool {
         match &self.content {
-            Content::Source { lines, window, .. } => window.is_none() && !lines.has_older(),
+            Content::Source(SourceContent { lines, window, .. }) => {
+                window.is_none() && !lines.has_older()
+            }
             _ => true,
         }
     }

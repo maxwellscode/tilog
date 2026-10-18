@@ -8,7 +8,7 @@
 
 use crate::lines::Lines;
 
-use super::content::Content;
+use super::content::{Content, SourceContent};
 
 /// The lines of a tile as the view sees them: all of them, or only those up to `end`.
 pub(super) struct Bounded<'a> {
@@ -22,9 +22,9 @@ impl<'a> Bounded<'a> {
     /// refer to, so it is never cut.
     pub(super) fn of(content: &'a Content, frozen_end: Option<u64>) -> Self {
         let end = match content {
-            Content::Source {
+            Content::Source(SourceContent {
                 window: Some(_), ..
-            } => None,
+            }) => None,
             _ => frozen_end,
         };
         Self {

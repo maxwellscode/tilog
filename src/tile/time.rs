@@ -6,6 +6,7 @@ use crate::history::{self, TimeFound};
 use crate::timestamp;
 use crate::when::When;
 
+use super::content::SourceContent;
 use super::{Content, Tile};
 
 /// Rows read per step while scanning, and the most rows a scan looks at.
@@ -31,11 +32,11 @@ impl Tile {
     pub fn jump_to_time(&mut self, when: &When) -> Result<Landed, String> {
         let now = timestamp::now_ms();
         let height = self.shown_height.get();
-        if let Content::Source {
+        if let Content::Source(SourceContent {
             path: Some(path),
             lines,
             ..
-        } = &self.content
+        }) = &self.content
         {
             let (path, floor) = (path.clone(), lines.floor());
             return self.jump_to_time_in_file(&path, floor, when, now, height);

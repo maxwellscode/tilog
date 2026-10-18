@@ -2,6 +2,7 @@
 
 use crate::tail::Status;
 
+use super::content::SourceContent;
 use super::window::HISTORY_MAX;
 use super::{Content, Tile};
 
@@ -22,14 +23,14 @@ impl Tile {
     /// `name` labels a main tile (the source's name or path); filter tiles describe themselves.
     pub fn title(&self, name: &str) -> String {
         match &self.content {
-            Content::Source {
+            Content::Source(SourceContent {
                 live_capacity,
                 lines,
                 status,
                 window,
                 asking,
                 ..
-            } => {
+            }) => {
                 // Older lines exist on disk. Scrolling up loads them, up to a limit.
                 let more = match (
                     lines.has_older(),
