@@ -1,6 +1,6 @@
 use std::fs::{self, File, Metadata};
 use std::io::{self, BufReader, Seek, SeekFrom};
-use std::os::unix::fs::MetadataExt;
+use std::os::unix::fs::{FileExt, MetadataExt};
 use std::path::{Path, PathBuf};
 use std::sync::mpsc::{self, Receiver, SyncSender};
 use std::thread;
@@ -154,10 +154,7 @@ fn follow(
             // End of file: nothing new yet. Has the file been truncated (got shorter)?
             let open_file = reader.get_ref().metadata()?;
             if open_file.len() < pos {
-                reader.seek(SeekFrom::Start(0))?;
-                pos = 0;
-                line_start = 0;
-                line.clear();
+                start_over(&mut reader, &mut pos, &mut line_start, &mut line)?;
                 if !sink.reset() {
                     return Ok(());
                 }
@@ -197,9 +194,19 @@ fn follow(
             } else {
                 FALLBACK_POLL
             };
+            let seen = bytes_before(reader.get_ref(), pos);
             let _ = wake_rx.recv_timeout(timeout);
             // Several changes may have queued several wake-ups; one read pass handles them all.
             while wake_rx.try_recv().is_ok() {}
+            // Truncated and written again at once (`copytruncate`, `> app.log`), the file may
+            // be longer than before by the time we look, so its length tells nothing. What was
+            // read last is no longer there, though.
+            if bytes_before(reader.get_ref(), pos) != seen {
+                start_over(&mut reader, &mut pos, &mut line_start, &mut line)?;
+                if !sink.reset() {
+                    return Ok(());
+                }
+            }
             continue;
         }
 
@@ -216,6 +223,32 @@ fn follow(
             }
         }
     }
+}
+
+/// How many bytes before the read position are compared to notice a rewritten file.
+const RECHECKED_BYTES: u64 = 64;
+
+/// The last bytes before `pos` (at most `RECHECKED_BYTES`), or `None` if the file no longer
+/// reaches that far. Read in place, so the reader's position stays where it is.
+fn bytes_before(file: &File, pos: u64) -> Option<Vec<u8>> {
+    let from = pos.saturating_sub(RECHECKED_BYTES);
+    let mut bytes = vec![0; usize::try_from(pos - from).ok()?];
+    file.read_exact_at(&mut bytes, from).ok()?;
+    Some(bytes)
+}
+
+/// Back to the start of the file, as after a truncation.
+fn start_over(
+    reader: &mut BufReader<File>,
+    pos: &mut u64,
+    line_start: &mut u64,
+    line: &mut CappedLine,
+) -> io::Result<()> {
+    reader.seek(SeekFrom::Start(0))?;
+    *pos = 0;
+    *line_start = 0;
+    line.clear();
+    Ok(())
 }
 
 /// `line` without its trailing `\n` / `\r\n`. Returns a sub-slice: no copy.
@@ -356,6 +389,28 @@ mod tests {
             TailMsg::Rotated
         ));
         assert_eq!(next_line(&rx), (0, "new".to_string()));
+        std::fs::remove_file(&path).unwrap();
+    }
+
+    #[test]
+    fn a_file_truncated_and_written_longer_at_once_is_read_from_the_start() {
+        let path =
+            std::env::temp_dir().join(format!("tilog-tail-rewrite-{}.log", std::process::id()));
+        std::fs::write(&path, "short\n").unwrap();
+        let rx = spawn(path.to_str().unwrap(), 0).unwrap();
+        next_line(&rx);
+
+        // Longer than before by the time it is looked at: the length alone can't tell.
+        std::fs::write(&path, "a much longer first line\n").unwrap();
+        assert!(matches!(
+            rx.recv_timeout(Duration::from_secs(3)).unwrap(),
+            TailMsg::Rotated
+        ));
+        assert_eq!(
+            next_line(&rx),
+            (0, "a much longer first line".to_string()),
+            "the whole line, not its end"
+        );
         std::fs::remove_file(&path).unwrap();
     }
 
