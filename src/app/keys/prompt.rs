@@ -15,23 +15,23 @@ const MAX_CANDIDATES: usize = 300;
 
 impl App {
     pub(super) fn open_prompt(&mut self, prompt: Prompt) {
-        self.prompt = Some(prompt);
-        self.input.clear();
-        self.menu_selected = 0;
-        self.recall.stop();
+        self.prompt.open = Some(prompt);
+        self.prompt.input.clear();
+        self.prompt.menu_selected = 0;
+        self.prompt.recall.stop();
     }
 
     pub(super) fn close_prompt(&mut self) {
-        self.prompt = None;
-        self.input.clear();
+        self.prompt.open = None;
+        self.prompt.input.clear();
     }
 
     pub(super) fn on_prompt_key(&mut self, prompt: Prompt, key: KeyEvent, height: usize) {
         // The items are `&'static`, so this Vec does not borrow `self`.
         let menu = self.menu_items();
         let menu_open = !menu.is_empty();
-        let matches_open = !self.candidates.is_empty();
-        let selected = self.menu_selected.min(menu.len().saturating_sub(1));
+        let matches_open = !self.prompt.candidates.is_empty();
+        let selected = self.prompt.menu_selected.min(menu.len().saturating_sub(1));
         let ctrl = key.modifiers.contains(KeyModifiers::CONTROL);
 
         match key.code {
@@ -41,17 +41,17 @@ impl App {
             KeyCode::Char('p') if ctrl => self.recall_older(prompt),
             KeyCode::Char('n') if ctrl => self.recall_newer(prompt),
             // Backspace on an empty prompt leaves it, like in `vim` and `less`.
-            KeyCode::Backspace if self.input.is_empty() => self.close_prompt(),
+            KeyCode::Backspace if self.prompt.input.is_empty() => self.close_prompt(),
 
             // The box of matches after Tab on an argument: arrows choose, Tab or Enter insert.
-            KeyCode::Up if matches_open => self.candidates.step(-1),
-            KeyCode::Down if matches_open => self.candidates.step(1),
+            KeyCode::Up if matches_open => self.prompt.candidates.step(-1),
+            KeyCode::Down if matches_open => self.prompt.candidates.step(1),
             KeyCode::Tab | KeyCode::Enter if matches_open => self.insert_candidate(),
 
             KeyCode::Up if menu_open => {
-                self.menu_selected = (selected + menu.len() - 1) % menu.len();
+                self.prompt.menu_selected = (selected + menu.len() - 1) % menu.len();
             }
-            KeyCode::Down if menu_open => self.menu_selected = (selected + 1) % menu.len(),
+            KeyCode::Down if menu_open => self.prompt.menu_selected = (selected + 1) % menu.len(),
             KeyCode::Tab if menu_open => self.complete(menu[selected]),
             // Tab after `add ` or `load `: complete the path or session name.
             KeyCode::Tab if self.completion_context().is_some() => self.complete_argument(),
@@ -63,35 +63,35 @@ impl App {
 
             // Everything else is text editing.
             _ => {
-                self.recall.stop();
-                self.input.handle_key(key);
-                self.menu_selected = 0; // the list may have changed, start at the top again
+                self.prompt.recall.stop();
+                self.prompt.input.handle_key(key);
+                self.prompt.menu_selected = 0; // the list may have changed, start at the top again
             }
         }
     }
 
     /// Puts the entry before the one shown into the prompt.
     fn recall_older(&mut self, prompt: Prompt) {
-        if let Some(text) = self.recall.older(prompt, &self.input.text()) {
-            self.input.set(&text);
-            self.menu_selected = 0;
+        if let Some(text) = self.prompt.recall.older(prompt, &self.prompt.input.text()) {
+            self.prompt.input.set(&text);
+            self.prompt.menu_selected = 0;
         }
     }
 
     /// Puts the entry after the one shown (or what was typed) into the prompt.
     fn recall_newer(&mut self, prompt: Prompt) {
-        if let Some(text) = self.recall.newer(prompt) {
-            self.input.set(&text);
-            self.menu_selected = 0;
+        if let Some(text) = self.prompt.recall.newer(prompt) {
+            self.prompt.input.set(&text);
+            self.prompt.menu_selected = 0;
         }
     }
 
     /// Enter: close the prompt and do what it was for.
     pub(super) fn submit_prompt(&mut self, prompt: Prompt, height: usize) {
-        let text = self.input.take();
-        self.prompt = None;
+        let text = self.prompt.input.take();
+        self.prompt.open = None;
         let text = text.trim();
-        self.recall.remember(prompt, text);
+        self.prompt.recall.remember(prompt, text);
 
         match prompt {
             Prompt::Search if text.is_empty() => {
@@ -111,23 +111,23 @@ impl App {
 
     /// While a search or filter is being typed, its text is marked live in every window.
     pub(in crate::app) fn refresh_preview(&mut self) {
-        let text = self.input.text();
-        let live = matches!(self.prompt, Some(Prompt::Search | Prompt::Filter))
+        let text = self.prompt.input.text();
+        let live = matches!(self.prompt.open, Some(Prompt::Search | Prompt::Filter))
             && !text.is_empty()
             // A filter may start with flags (`-r`), which are not part of the text, and `&!text`
             // is what will be left out: nothing to mark.
             && !text.starts_with('-')
             && !text.starts_with('!');
-        self.preview = live.then(|| Highlight::literal(&text));
+        self.prompt.preview = live.then(|| Highlight::literal(&text));
     }
 
     /// Commands to offer in the menu: shown while a command prompt holds a partial name,
     /// and gone as soon as a space starts the arguments.
     pub(in crate::app) fn menu_items(&self) -> Vec<&'static Spec> {
-        if self.prompt != Some(Prompt::Command) {
+        if self.prompt.open != Some(Prompt::Command) {
             return Vec::new();
         }
-        let text = self.input.text();
+        let text = self.prompt.input.text();
         if text.contains(char::is_whitespace) {
             return Vec::new();
         }
@@ -137,7 +137,7 @@ impl App {
     /// Tab: write the command's name into the prompt (plus a space if it takes arguments).
     pub(super) fn complete(&mut self, spec: &Spec) {
         let space = if spec.takes_args() { " " } else { "" };
-        self.input.set(&format!("{}{space}", spec.name()));
+        self.prompt.input.set(&format!("{}{space}", spec.name()));
     }
 
     /// Enter on a menu entry: run it, unless it can't run without arguments, then wait for them.
@@ -153,10 +153,10 @@ impl App {
     /// If the prompt holds `add <partial>` (or `load`, `save`): what kind of argument it is,
     /// the text up to the argument (`add `), and the argument typed so far.
     pub(super) fn completion_context(&self) -> Option<(ArgKind, String, String)> {
-        if self.prompt != Some(Prompt::Command) {
+        if self.prompt.open != Some(Prompt::Command) {
             return None;
         }
-        let text = self.input.text();
+        let text = self.prompt.input.text();
         let split = text.find(char::is_whitespace)?;
         let partial = text[split..].trim_start();
         let kind = match text[..split].to_lowercase().as_str() {
@@ -178,7 +178,7 @@ impl App {
     /// Tab on an argument, like a shell: complete as far as it is unambiguous, and list the
     /// choices if several remain. Then the arrows choose one, and Tab or Enter put it in.
     pub(super) fn complete_argument(&mut self) {
-        self.candidates.clear();
+        self.prompt.candidates.clear();
         let Some((kind, head, partial)) = self.completion_context() else {
             return;
         };
@@ -215,11 +215,11 @@ impl App {
         };
 
         if let Some(done) = completion {
-            self.input.set(&format!("{head}{}", done.text));
+            self.prompt.input.set(&format!("{head}{}", done.text));
             if done.candidates.len() > 1 {
                 let mut items = done.candidates;
                 items.truncate(MAX_CANDIDATES);
-                self.candidates = Candidates {
+                self.prompt.candidates = Candidates {
                     items,
                     selected: 0,
                     base,
@@ -231,9 +231,9 @@ impl App {
 
     /// Puts the highlighted match into the prompt and closes the box.
     pub(super) fn insert_candidate(&mut self) {
-        if let Some(text) = self.candidates.chosen_text() {
-            self.input.set(&text);
+        if let Some(text) = self.prompt.candidates.chosen_text() {
+            self.prompt.input.set(&text);
         }
-        self.candidates.clear();
+        self.prompt.candidates.clear();
     }
 }

@@ -507,12 +507,12 @@ fn picking_a_command_with_optional_arguments_from_the_menu_waits_for_them() {
     key(&mut app, KeyCode::Char(':'));
     type_text(&mut app, "follow");
     key(&mut app, KeyCode::Enter);
-    assert!(app.prompt.is_some(), "the prompt is still open");
-    assert_eq!(app.input.text(), "follow ");
+    assert!(app.prompt.open.is_some(), "the prompt is still open");
+    assert_eq!(app.prompt.input.text(), "follow ");
     assert!(app.notice.is_none(), "nothing ran yet");
     type_text(&mut app, "all");
     key(&mut app, KeyCode::Enter);
-    assert!(app.prompt.is_none());
+    assert!(app.prompt.open.is_none());
     assert!(
         info_text(&app).contains("following everywhere"),
         "{}",
@@ -523,7 +523,7 @@ fn picking_a_command_with_optional_arguments_from_the_menu_waits_for_them() {
     key(&mut app, KeyCode::Char(':'));
     type_text(&mut app, "top");
     key(&mut app, KeyCode::Enter);
-    assert!(app.prompt.is_none());
+    assert!(app.prompt.open.is_none());
     assert!(
         info_text(&app).contains("first line"),
         "{}",
@@ -556,7 +556,7 @@ fn typing_answers_the_question_of_the_selected_tile_on_the_overview() {
         key(&mut app, KeyCode::Char(c));
     }
     key(&mut app, KeyCode::Backspace);
-    assert!(!app.quit && app.tab == 0 && app.prompt.is_none() && !app.show_help);
+    assert!(!app.quit && app.tab == 0 && app.prompt.open.is_none() && !app.show_help);
     key(&mut app, KeyCode::Enter);
     assert_eq!(answers.recv().unwrap().as_deref(), Some("q:1&"));
 
@@ -600,13 +600,13 @@ fn earlier_searches_and_commands_come_back_with_up_and_down() {
     key(&mut app, KeyCode::Char('/'), KeyModifiers::NONE);
     key(&mut app, KeyCode::Char('x'), KeyModifiers::NONE); // typed, then left for the history
     key(&mut app, KeyCode::Up, KeyModifiers::NONE);
-    assert_eq!(app.input.text(), "timeout");
+    assert_eq!(app.prompt.input.text(), "timeout");
     key(&mut app, KeyCode::Up, KeyModifiers::NONE);
-    assert_eq!(app.input.text(), "ERROR");
+    assert_eq!(app.prompt.input.text(), "ERROR");
     key(&mut app, KeyCode::Down, KeyModifiers::NONE);
     key(&mut app, KeyCode::Down, KeyModifiers::NONE);
     assert_eq!(
-        app.input.text(),
+        app.prompt.input.text(),
         "x",
         "what was typed comes back after the newest"
     );
@@ -616,8 +616,8 @@ fn earlier_searches_and_commands_come_back_with_up_and_down() {
     type_line(&mut app, ":top");
     key(&mut app, KeyCode::Char(':'), KeyModifiers::NONE);
     key(&mut app, KeyCode::Char('p'), KeyModifiers::CONTROL);
-    assert_eq!(app.input.text(), "top");
+    assert_eq!(app.prompt.input.text(), "top");
     // Searches and commands are kept apart.
     key(&mut app, KeyCode::Char('p'), KeyModifiers::CONTROL);
-    assert_eq!(app.input.text(), "top", "there is no older command");
+    assert_eq!(app.prompt.input.text(), "top", "there is no older command");
 }

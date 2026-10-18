@@ -75,12 +75,19 @@ impl App {
     /// One line, like the bottom line of `less`: the open prompt, or a message (left) and the
     /// stats (right).
     pub(super) fn render_status(&self, frame: &mut Frame, area: Rect) {
-        if let Some(prompt) = self.prompt {
+        if let Some(prompt) = self.prompt.open {
             // The text may be longer than the line: show the part around the cursor.
             let room = usize::from(area.width).saturating_sub(1).max(1);
-            let cursor = self.input.cursor();
+            let cursor = self.prompt.input.cursor();
             let offset = (cursor + 1).saturating_sub(room);
-            let text: String = self.input.text().chars().skip(offset).take(room).collect();
+            let text: String = self
+                .prompt
+                .input
+                .text()
+                .chars()
+                .skip(offset)
+                .take(room)
+                .collect();
 
             let line = Line::from(vec![
                 Span::from(prompt.prefix().to_string()).cyan().bold(),

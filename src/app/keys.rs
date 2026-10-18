@@ -70,20 +70,20 @@ impl App {
         }
         self.notice = None;
         self.selection = None;
-        if self.prompt.is_none() && self.answer_question(key) {
+        if self.prompt.open.is_none() && self.answer_question(key) {
             return;
         }
 
         let target = self.target_index();
         let (height, width) = (areas.tile_height(target), areas.tile_width(target));
-        match self.prompt {
+        match self.prompt.open {
             Some(prompt) => self.on_prompt_key(prompt, key, height),
             None => self.on_normal_key(key, height, width, areas.tile_height(0)),
         }
         // The box of matches stays while you move through it (arrows) or press Tab again;
         // any other key, typing included, closes it.
         if !matches!(key.code, KeyCode::Tab | KeyCode::Up | KeyCode::Down) {
-            self.candidates.clear();
+            self.prompt.candidates.clear();
         }
         self.refresh_preview();
     }

@@ -106,6 +106,24 @@ impl Drawn {
     }
 }
 
+/// Everything about the prompt on the status line (`/`, `&`, `:`).
+#[derive(Default)]
+struct PromptState {
+    /// `None`: normal mode, where keys navigate. `Some`: a prompt is open on the status line
+    /// (search, filter or command) and keys edit its text.
+    open: Option<Prompt>,
+    /// The text of the open prompt.
+    input: InputBox,
+    /// Highlighted row of the command menu (see `menu_items`).
+    menu_selected: usize,
+    /// Matches listed after a Tab press on an ambiguous argument.
+    candidates: Candidates,
+    /// The text of a search or filter being typed, marked live in every window.
+    preview: Option<Highlight>,
+    /// What was typed at the prompts before (Up and Down recall it).
+    recall: Recall,
+}
+
 /// What kind of argument Tab completes for a command.
 enum ArgKind {
     Path,
@@ -152,17 +170,8 @@ pub struct App {
     tab: usize,
     /// The selected window in the overview (an index into `sources`).
     selected: usize,
-    /// `None`: normal mode, where keys navigate. `Some`: a prompt is open on the status line
-    /// (search, filter or command) and keys edit its text.
-    prompt: Option<Prompt>,
-    /// The text of the open prompt.
-    input: InputBox,
-    /// Highlighted row of the command menu (see `menu_items`).
-    menu_selected: usize,
-    /// What was typed at the prompts before (Up and Down recall it).
-    recall: Recall,
-    /// Matches listed after a Tab press on an ambiguous argument.
-    candidates: Candidates,
+    /// The prompt on the status line: whether one is open, its text, its menu and history.
+    prompt: PromptState,
     notice: Option<Notice>,
     /// How log lines are colored (from the configuration file).
     theme: Theme,
@@ -170,8 +179,6 @@ pub struct App {
     named_sources: Vec<NamedSource>,
     /// Text marked in every window until cleared (set by `/` search, or `:highlight`).
     highlight: Option<Highlight>,
-    /// The same while still typing a search or filter: marked live.
-    preview: Option<Highlight>,
     /// Name of the session last loaded or saved, so a bare `:save` knows where to write.
     session_name: Option<String>,
     /// The text being selected with the mouse, or just selected (until the next key or click).
@@ -192,16 +199,11 @@ impl App {
             sources: Vec::new(),
             tab: 0,
             selected: 0,
-            prompt: None,
-            input: InputBox::default(),
-            menu_selected: 0,
-            recall: Recall::default(),
-            candidates: Candidates::default(),
+            prompt: PromptState::default(),
             notice: None,
             theme: Theme::builtin(),
             named_sources: Vec::new(),
             highlight: None,
-            preview: None,
             session_name: None,
             selection: None,
             show_help: false,
@@ -429,7 +431,7 @@ impl App {
 
     /// What to mark right now: the text being typed, else the one kept by Enter.
     fn active_highlight(&self) -> Option<&Highlight> {
-        self.preview.as_ref().or(self.highlight.as_ref())
+        self.prompt.preview.as_ref().or(self.highlight.as_ref())
     }
 
     // ---- commands ----------------------------------------------------------------------

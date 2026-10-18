@@ -54,8 +54,8 @@ impl App {
             .block(Block::bordered().title(" Commands ").title_bottom(hint))
             .highlight_style(Style::new().bg(Color::DarkGray).bold());
         // `ListState` remembers which row is selected and scrolls the list to keep it visible.
-        let mut state =
-            ListState::default().with_selected(Some(self.menu_selected.min(items.len() - 1)));
+        let mut state = ListState::default()
+            .with_selected(Some(self.prompt.menu_selected.min(items.len() - 1)));
 
         frame.render_widget(Clear, area);
         frame.render_stateful_widget(list, area, &mut state);
@@ -64,7 +64,7 @@ impl App {
     /// The matches left after Tab on an ambiguous argument: a path, a session name or an ssh
     /// host. The arrows move the highlight; Tab or Enter put it into the prompt.
     pub(super) fn render_candidates(&self, frame: &mut Frame, areas: &Areas) {
-        let candidates = &self.candidates;
+        let candidates = &self.prompt.candidates;
         if candidates.is_empty() {
             return;
         }
