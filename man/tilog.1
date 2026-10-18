@@ -219,9 +219,10 @@ Exit.
 A host that accepts your key or your agent just works. If a login is refused, \fBssh\fR may ask
 its question (a password, a passphrase, a one-time code, an unknown host key) and the question
 appears in the tile of that source, where it is answered; Enter sends the answer and Esc gives up.
-The answer is kept in memory only, so that a dropped connection reconnects by itself. A wrong
-answer is not tried again, so that the host is not hammered with failed logins. Questions need
-OpenSSH 8.4 or later.
+The answer is kept in memory only, so that a dropped connection reconnects by itself. After a
+refusal tilog never logs in again by itself, so that the host is not hammered with failed logins;
+after a wrong password \fBssh\fR asks again, and Esc ends the login without sending anything
+more. Questions need OpenSSH 8.4 or later.
 .SH FILES
 .TP
 .I ~/.config/tilog/config.toml

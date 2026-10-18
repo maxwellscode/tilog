@@ -86,8 +86,9 @@ same works for a key's passphrase, a one-time code, and the "unknown host key, c
 
 - The answer is kept in memory only, so that a dropped connection reconnects by itself. It is
   never written to disk or to a session file.
-- A wrong answer is not retried: repeated failed logins are what locks an address out. Add the
-  source again to try another one.
+- tilog never logs in again by itself after a refusal: repeated failed logins are what locks an
+  address out. After a wrong password ssh asks again (each try is typed by you); Esc gives up at
+  once, without sending anything more. Add the source again to try once more.
 - A key is easier and safer for production hosts: `ssh-copy-id host`, or `ssh-add` for a key
   with a passphrase.
 - Questions need OpenSSH 8.4 or later (current macOS, Ubuntu 22.04 and newer).

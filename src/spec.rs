@@ -419,6 +419,10 @@ fn ssh_argv(host: &str, asking: bool, remote_command: String) -> Vec<String> {
         batch,
         "-o",
         "ConnectTimeout=10",
+        // Errors only: no "Permanently added ... to the list of known hosts" taken for the
+        // reason a connection ended. Refusals and host key problems are errors and still show.
+        "-o",
+        "LogLevel=ERROR",
         "-o",
         "ServerAliveInterval=15",
         "-o",

@@ -157,6 +157,8 @@ enum Outcome {
     CannotStart(String),
     /// It ran and ended.
     Ended { success: bool, why: String },
+    /// A login question was left unanswered (Esc): not tried again by itself.
+    GaveUp,
 }
 
 fn supervise(spec: &CommandSpec, initial_lines: usize, tx: &SyncSender<TailMsg>, shared: &Shared) {
@@ -195,6 +197,14 @@ fn supervise(spec: &CommandSpec, initial_lines: usize, tx: &SyncSender<TailMsg>,
                 return;
             }
             Outcome::Ended { success, why } => (success, why),
+            Outcome::GaveUp => {
+                let text = "── login given up: add the source again to log in ──".to_string();
+                let _ = tx.send(TailMsg::Line { offset: 0, text });
+                send_status(Status::Ended {
+                    why: "login given up".to_string(),
+                });
+                return;
+            }
         };
 
         // Some failures do not go away by trying again, and trying again is harmful: a refused
@@ -282,9 +292,9 @@ fn run_once(
     overlap: &mut Overlap,
 ) -> Outcome {
     let (stop, slot) = (&shared.stop, &shared.child);
-    // `_answers`: the questions of ssh are answered while the command runs, so the server for
+    // `answers`: the questions of ssh are answered while the command runs, so the server for
     // them lives as long as this run.
-    let (mut command, _answers, merged_reader) =
+    let (mut command, answers, merged_reader) =
         match prepare(spec, initial_lines, since, asking, tx) {
             Ok(prepared) => prepared,
             Err(why) => return Outcome::CannotStart(why),
@@ -334,6 +344,9 @@ fn run_once(
     let status = child.map(|mut child| child.wait());
     if stop.load(Ordering::SeqCst) {
         return Outcome::Stopped;
+    }
+    if answers.as_ref().is_some_and(Server::gave_up) {
+        return Outcome::GaveUp;
     }
     let last_stderr = stderr_reader
         .and_then(|handle| handle.join().ok())

@@ -112,6 +112,8 @@ pub struct Server {
     dir: PathBuf,
     token: String,
     stop: Arc<AtomicBool>,
+    /// A question was left unanswered (Esc, or no answer in time): the login is given up.
+    gave_up: Arc<AtomicBool>,
     thread: Option<JoinHandle<()>>,
 }
 
@@ -139,16 +141,24 @@ impl Server {
 
         let token = random_token();
         let stop = Arc::new(AtomicBool::new(false));
+        let gave_up = Arc::new(AtomicBool::new(false));
         let thread = {
-            let (token, stop) = (token.clone(), stop.clone());
-            thread::spawn(move || serve(&listener, &token, &tx, &remembered, &stop))
+            let (token, stop, gave_up) = (token.clone(), stop.clone(), gave_up.clone());
+            thread::spawn(move || serve(&listener, &token, &tx, &remembered, &stop, &gave_up))
         };
         Ok(Self {
             dir,
             token,
             stop,
+            gave_up,
             thread: Some(thread),
         })
+    }
+
+    /// Whether a question of this run was left unanswered, which gives the login up: it is not
+    /// tried again by itself.
+    pub fn gave_up(&self) -> bool {
+        self.gave_up.load(Ordering::SeqCst)
     }
 
     /// The environment `ssh` is started with: the helper to call, and where it asks.
@@ -206,12 +216,16 @@ fn serve(
     tx: &SyncSender<TailMsg>,
     remembered: &Remembered,
     stop: &AtomicBool,
+    gave_up: &AtomicBool,
 ) {
     let mut remembered_used = false;
     while !stop.load(Ordering::SeqCst) {
         match listener.accept() {
             Ok((stream, _)) => {
-                let _ = handle(stream, token, tx, remembered, &mut remembered_used, stop);
+                let answered = handle(stream, token, tx, remembered, &mut remembered_used, stop);
+                if matches!(answered, Ok(false)) {
+                    gave_up.store(true, Ordering::SeqCst);
+                }
             }
             Err(e) if e.kind() == io::ErrorKind::WouldBlock => {
                 thread::sleep(Duration::from_millis(30))
@@ -221,7 +235,8 @@ fn serve(
     }
 }
 
-/// One question: read it, get it answered, write the answer.
+/// One question: read it, get it answered, write the answer. `Ok(false)` if the user left it
+/// unanswered.
 fn handle(
     stream: UnixStream,
     token: &str,
@@ -229,7 +244,7 @@ fn handle(
     remembered: &Remembered,
     remembered_used: &mut bool,
     stop: &AtomicBool,
-) -> io::Result<()> {
+) -> io::Result<bool> {
     stream.set_nonblocking(false)?;
     stream.set_read_timeout(Some(Duration::from_secs(5)))?;
     let mut line = String::new();
@@ -241,10 +256,10 @@ fn handle(
     let mut parts = line.trim_end_matches('\n').splitn(3, '\t');
     let (sent_token, kind, prompt) = (parts.next(), parts.next(), parts.next());
     let (Some(sent_token), Some(kind), Some(prompt)) = (sent_token, kind, prompt) else {
-        return write_reply(&stream, None);
+        return write_reply(&stream, None).map(|()| true);
     };
     if sent_token != token {
-        return write_reply(&stream, None);
+        return write_reply(&stream, None).map(|()| true);
     }
     let (kind, prompt) = (Kind::from_code(kind), prompt.replace("\\n", "\n"));
 
@@ -254,7 +269,7 @@ fn handle(
             offset: 0,
             text: prompt,
         });
-        return write_reply(&stream, Some(String::new()));
+        return write_reply(&stream, Some(String::new())).map(|()| true);
     }
 
     // The first password question of a run is answered with the last password typed, if any:
@@ -264,7 +279,7 @@ fn handle(
         *remembered_used = true;
         let known = remembered.lock().ok().and_then(|held| held.clone());
         if let Some(password) = known {
-            return write_reply(&stream, Some(password));
+            return write_reply(&stream, Some(password)).map(|()| true);
         }
     }
 
@@ -277,7 +292,7 @@ fn handle(
         }))
         .is_err()
     {
-        return write_reply(&stream, None); // the screen is gone
+        return write_reply(&stream, None).map(|()| true); // the screen is gone
     }
     let deadline = Instant::now() + ANSWER_TIMEOUT;
     let answer = loop {
@@ -298,7 +313,8 @@ fn handle(
     {
         *held = Some(password.clone());
     }
-    write_reply(&stream, answer)
+    let answered = answer.is_some();
+    write_reply(&stream, answer).map(|()| answered)
 }
 
 /// `OK` and the answer, or `CANCEL`.
@@ -340,7 +356,17 @@ pub fn run_helper() -> i32 {
             println!("{answer}");
             0
         }
-        _ => 1,
+        Ok(None) => {
+            // Given up. A failed helper makes `ssh` send an *empty* password, one more failed
+            // login in the host's log; so the login ends here, before it can.
+            // SAFETY: `kill` and `getppid` take and return plain integers.
+            #[allow(unsafe_code)]
+            unsafe {
+                libc::kill(libc::getppid(), libc::SIGTERM);
+            }
+            1
+        }
+        Err(_) => 1,
     }
 }
 
@@ -407,9 +433,11 @@ mod tests {
     #[test]
     fn cancelling_or_closing_the_tile_answers_nothing() {
         let (server, rx, remembered) = server();
+        assert!(!server.gave_up());
         let helper = client(&server, Kind::Secret, "password: ");
         next_ask(&rx).answer(None);
         assert_eq!(helper.join().unwrap().unwrap(), None);
+        assert!(server.gave_up(), "the login is given up, not tried again");
 
         let helper = client(&server, Kind::Secret, "password: ");
         drop(next_ask(&rx)); // the tile was closed
@@ -428,6 +456,7 @@ mod tests {
         // The first question is answered from memory, without bothering the screen.
         let helper = client(&server, Kind::Secret, "password: ");
         assert_eq!(helper.join().unwrap().unwrap().as_deref(), Some("old"));
+        assert!(!server.gave_up());
         assert!(rx.try_recv().is_err());
 
         // `ssh` asks again (it was wrong): now the user is asked, and the new one is kept.
