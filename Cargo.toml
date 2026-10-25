@@ -38,4 +38,4 @@ codegen-units = 1
 strip = true
 
 [dev-dependencies]
-vt100 = "0.17.0"
+vt100 = "0.18.1"
